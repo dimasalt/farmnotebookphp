@@ -1,0 +1,48 @@
+
+/* Roboto font */
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+body {
+    font-family: "Roboto", sans-serif !important;
+    background-color: #f2f7f8;
+}
+
+/****************  Navbar Elements     **********/
+span.brand-text-name {
+    font-weight: 400;
+    font-size: 12.8px;
+    line-height: 19.2px;
+    /*color: #33b35a !important;*/
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+strong.brand-text{
+    text-transform: uppercase;
+    color: #33b35a !important;
+}
+
+a.nav-top {
+    font-weight: normal !important;
+    color: #ffffff !important;
+}
+
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link {
+    font-family: "Rubik", sans-serif;
+    color: #54667a;
+    font-size: 16px;
+}
+
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active {
+    font-size: 16px;
+    color: #33b35a !important;
+}
+
+nav.navbar .dropdown-menu a{
+    color: #54667a;
+    font-size: 16px;
+}
+
+.navbar-second {
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+}

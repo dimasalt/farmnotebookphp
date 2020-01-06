@@ -1,0 +1,22 @@
+{
+    "require": {
+        "nikic/fast-route": "^1.3",
+        "twig/twig": "^3.0"
+    },
+	 "autoload": {
+        "psr-4": {
+            "Test\\Controllers\\": "Controllers/",
+            "Test\\Helpers\\": "Helpers/",
+            "Test\\Models\\": "Models/",
+            "Test\\Libraries\\": "Libraries/",
+            "Test\\Middleware\\": "Middleware/"
+        },
+        "classmap" : [
+            "Controllers/",
+            "Helpers/",
+            "Models/",
+            "Libraries/",
+            "Middleware"
+        ]
+    }
+}

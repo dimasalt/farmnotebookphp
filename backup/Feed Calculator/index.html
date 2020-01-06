@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Feed Calculator</title>
+</head>
+<body>
+
+<div class="container" id="calculator">
+
+    <h1>Feed Calculator</h1>
+
+    <div class="row">
+        <div class="col-sm">
+            Animal start weight
+            <input type="text" v-model="an_start_weight" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            Number of animals
+            <input type="text" v-model="an_number" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            Feed ratio to body weight
+            <input type="text" v-model="an_feed_ratio" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            Projected daily weight increase
+            <input type="text" v-model="an_projected_weight_increase" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            Finish weight
+            <input type="text" v-model="an_target_weight" />
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm">
+            <input type="button" value="Calculate" v-on:click="calculate" />
+        </div>
+    </div>
+
+    <div class="row" v-show="calculator_result.length > 0">
+
+        <div class="col-sm">
+            <h3>Calculation results</h3>
+            <div class="alert alert-info">
+                Total feed required for all animals to reach the target weight is <strong>{{ parseInt(total_feed_required) }} lb</strong> of hay,
+                which is <strong>{{ parseInt(total_feed_required / 40) }}</strong> bales for average bale size of 40lb
+            </div>
+        </div>
+    </div>
+
+    <h3>Tabular results</h3>
+    <div class="row" v-show="calculator_result.length > 0">
+
+
+        <div class="col-sm">
+            <table class="table table-dark table-striped">
+                <tr>
+                    <td>Month</td>
+                    <td>Monthly Weight</td>
+                    <td>Feed per month</td>
+                    <td>Bales (40 lb bale)</td>
+                    <td>Bales for all animals (in bales)</td>
+                </tr>
+                <tr v-for="item in calculator_result">
+                    <td>{{ item.month }}</td>
+                    <td>{{ item.monthly_weight }}</td>
+                    <td>{{ item.feed_required }}</td>
+                    <td>{{ item.feed_bales }}</td>
+                    <td>{{ item.feed_bales_all }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Optional JavaScript and VueJS -->
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="js/calculatorvuejs.js" type="text/javascript"></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
