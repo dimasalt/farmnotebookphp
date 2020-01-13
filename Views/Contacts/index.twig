@@ -8,12 +8,15 @@
 
         <div class="row mb-2">
             <div class="col-12">
-                <h2 class="text-dark mb-4">Contacts<i class="far fa-plus-square btn-sm text-success ml-1 align-middle"
-                                                      data-toggle="tooltip" data-placement="top" title="Add contact"></i>
+                <h2 class="text-dark mb-4">Contacts
+                    <a href="/contacts/add">
+                        <i class="far fa-plus-square btn-sm text-success ml-1 align-middle"
+                           data-toggle="tooltip" data-placement="top" title="Add contact"></i>
+                    </a>
                 </h2>
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
-                    This page contains contact information of people and organization for quick access..
+                    This page contains contact information of people and organization for quick access.
                 </div>
             </div>
 
@@ -39,9 +42,9 @@
                         <b class="card-title text-small" style="font-size: 13px;">{{ "{{ item.name }}" }}</b>
                         <a href="#">
                             <i class="far fa-trash-alt text-small text-danger float-right" data-toggle="tooltip" data-placement="top" title="Remove contact"
-                               v-on:click="deleteContact(item.id, index)"></i>
+                               v-on:click="deleteContacModal(index)"></i>
                         </a>
-                        <a v-bind:href="'/contacts/edit/' + item.id">
+                        <a v-bind:href="'/contacts/update/' + item.id">
                             <i class="far fa-edit text-small text-warning float-right mr-1" data-toggle="tooltip" data-placement="top" title="Edit contact"></i>
                         </a>
                         <ul class="list-group list-group-flush">
@@ -56,29 +59,33 @@
             </div>
         </div>
 
-    </div>
-
-
-    <!-- Remove contact Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Remove Contact</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+        <!-- Remove contact Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            Remove "<b> {{ '{{ contact_delete.name }}' }} </b>" Contact</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to remove contact named <b>"{{ '{{ contact_delete.name }}' }}"</b> ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">
+                            <i class="fas fa-times-circle text-small mr-1"></i>Cancel</button>
+                        <button type="button" class="btn btn-danger" v-on:click="deleteContact()">
+                            <i class="far fa-trash-alt text-small mr-1"></i>Remove</button>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
+
 
 {% endblock %}
 

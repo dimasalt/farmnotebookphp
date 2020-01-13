@@ -13,7 +13,6 @@
 
 
 -- Dumping database structure for livestockmanagement
-DROP DATABASE IF EXISTS `livestockmanagement`;
 CREATE DATABASE IF NOT EXISTS `livestockmanagement` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `livestockmanagement`;
 
@@ -23,24 +22,24 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `name` varchar(100) NOT NULL,
   `address` varchar(50) DEFAULT NULL,
   `city` varchar(50) DEFAULT NULL,
-  `postal` varchar(50) DEFAULT NULL,
-  `country` varchar(50) DEFAULT NULL,
-  `province` varchar(50) DEFAULT NULL,
+  `postal` varchar(10) DEFAULT NULL,
+  `country` varchar(50) DEFAULT 'Canada',
+  `province` varchar(50) DEFAULT 'On',
   `phone` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `desc` varchar(250) DEFAULT NULL,
+  `note` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table livestockmanagement.contact: ~5 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
-INSERT INTO `contact` (`id`, `name`, `address`, `city`, `postal`, `country`, `province`, `phone`, `email`, `desc`, `created_at`) VALUES
+INSERT INTO `contact` (`id`, `name`, `address`, `city`, `postal`, `country`, `province`, `phone`, `email`, `note`, `created_at`) VALUES
 	(1, 'Little Bit Western', '372 Algonquin Boulevard W', 'Timmins', 'P4N 2S2', 'Canada', 'On', '705-268-0822', NULL, 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', '2019-04-29 21:31:35'),
 	(2, 'Northern Farm', '1496 Caribou Rd W', 'Matheson', 'P0K 1N0', 'Canada ', 'On', '647-864-2435', NULL, 'Our very own farm address', '2019-05-08 11:45:08'),
 	(3, 'Railside General Supplies', '3272 Monahan Rd', 'Val Gagne', 'P0K 1W0', 'Canada', 'On', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', '2020-01-05 07:01:53'),
 	(5, 'Northern Veterinary Hospital', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41'),
-	(10, 'dssddf', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41');
+	(21, 'DFDGFDG', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', 'dimasalt@gmail.com', 'dsfasdfas', '2020-01-05 12:08:41');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Dumping structure for table livestockmanagement.event
@@ -394,6 +393,29 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure livestockmanagement.contactGetOne
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `contactGetOne`(
+	IN `contact_id` INT
+)
+BEGIN
+
+	select contact.id, 
+			contact.name, 
+			contact.address, 
+			contact.city, 
+			contact.postal, 
+			contact.province, 
+			contact.country, 
+			contact.phone, 
+			contact.email, 
+			contact.note
+	FROM contact
+	WHERE contact.id = contact_id;
+
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure livestockmanagement.contactsGetAll
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `contactsGetAll`()
@@ -409,10 +431,41 @@ BEGIN
 			contact.country, 
 			contact.phone, 
 			contact.email, 
-			contact.desc
+			contact.note
 	FROM contact
 	ORDER BY contact.name ASC;
 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure livestockmanagement.contactUpdate
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `contactUpdate`(
+	IN `id` INT,
+	IN `contact_name` VARCHAR(100),
+	IN `address` VARCHAR(50),
+	IN `city` VARCHAR(50),
+	IN `postal` VARCHAR(10),
+	IN `country` VARCHAR(50),
+	IN `province` VARCHAR(50),
+	IN `email` VARCHAR(50),
+	IN `note` VARCHAR(250)
+
+)
+BEGIN
+
+	UPDATE contact 
+	SET contact.name = contact_name, 
+		 contact.address = address, 
+		 contact.city = city,
+		 contact.postal = postal,
+		 contact.country = country,
+		 contact.province = province,
+		 contact.phone = phone,
+		 contact.email = email,
+		 contact.note = note
+	WHERE contact.id = id;
+	
 END//
 DELIMITER ;
 

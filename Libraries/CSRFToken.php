@@ -32,8 +32,8 @@ class CSRFToken
      */
     public static function isValid($token) : bool
     {
-        if(isset($_SESSION['csrf_tocken']))
-            if(hash_equals($_SESSION['csrf_tocken'], $token))
+        if(isset($_SESSION['csrf_token']))
+            if(hash_equals($_SESSION['csrf_token'], $token))
                 return true;
             else return false;
 

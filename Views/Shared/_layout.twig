@@ -14,6 +14,8 @@
     <link rel="icon" type="image/png" href="/cow-16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="/cow-32x32.png" sizes="32x32">
 
+    {% block header_scripts %} {% endblock %}
+
 </head>
 <body>
 
@@ -45,10 +47,9 @@
 
     {% block body %}{% endblock %}
 
-
-</main>
     {% include '/Shared/_footer.twig' %}
 
+</main>
     {% block custom_scripts %} {% endblock %}
 </body>
 </html>
