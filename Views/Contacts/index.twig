@@ -13,6 +13,7 @@
                         <i class="far fa-plus-square btn-sm text-success ml-1 align-middle"
                            data-toggle="tooltip" data-placement="top" title="Add contact"></i>
                     </a>
+                 
                 </h2>
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
@@ -34,26 +35,44 @@
                 </div>
             </div>
         </div>
-
-        <div class="row">
+       
+        <div class="row">           
             <div class="col-sm-3 mt-3" v-for="(item, index) in contacts">
                 <div class="card h-100 w-100 text-white bg-secondary mb-3">
                     <div class="card-body">
-                        <b class="card-title text-small" style="font-size: 13px;">{{ "{{ item.name }}" }}</b>
-                        <a href="#">
+                        <b class="card-title text-small" style="font-size: 15px;">{{ "{{ item.name }}" }}</b>
+                        {# <a href="#">
                             <i class="far fa-trash-alt text-small text-danger float-right" data-toggle="tooltip" data-placement="top" title="Remove contact"
                                v-on:click="deleteContacModal(index)"></i>
                         </a>
                         <a v-bind:href="'/contacts/update/' + item.id">
                             <i class="far fa-edit text-small text-warning float-right mr-1" data-toggle="tooltip" data-placement="top" title="Edit contact"></i>
-                        </a>
+                        </a> #}
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item text-white bg-secondary"></li>
-                            <li class="list-group-item text-white bg-secondary">{{ "{{ item.address }}, {{ item.city }} , {{ item.province }}, {{ item.country }}, {{ item.postal }}" }}</li>
+                            <li class="list-group-item text-white bg-secondary">
+                                <a v-bind:href="item.link" target="_blank" style="color: #ffffff;">
+                                    {{ "{{ item.address }}, {{ item.city }} , {{ item.province }}, {{ item.country }}, {{ item.postal }}" }}
+                                </a>
+                            </li>
                             <li class="list-group-item text-white bg-secondary">{{ "{{ item.phone }}" }}</li>
-                            <li class="list-group-item text-white bg-secondary d-flex justify-content-end"><a href="#" class="btn btn-primary">
-                                    <i class="fas fa-info-circle mr-2"></i>More...</a></li>
+                            {# <li class="list-group-item text-white bg-secondary d-flex justify-content-end"><a href="#" class="btn btn-primary">
+                                    <i class="fas fa-info-circle mr-2"></i>More...</a>
+
+                            </li> #}                                                             
                         </ul>
+                        <div class="mt-3">
+                             <a href="#" class="float-right mr-0">
+                                <i class="far fa-trash-alt text-small text-danger float-right mr-0" data-toggle="tooltip" data-placement="top" title="Remove contact"
+                                v-on:click="deleteContacModal(index)"></i>
+                            </a>                               
+                             <a v-bind:href="'/contacts/update/' + item.id">
+                                    <i class="far fa-edit text-small text-warning float-right mr-1" data-toggle="tooltip" data-placement="top" title="Edit contact"></i>
+                            </a>     
+                              <a v-bind:href="'/contacts/view/' + item.id">
+                                    <i class="far fa-eye text-small text-info float-right mr-1" data-toggle="tooltip" data-placement="top" title="View information"></i>
+                            </a>                                              
+                        </div>
                     </div>
                 </div>
             </div>

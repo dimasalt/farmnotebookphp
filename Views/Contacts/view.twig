@@ -1,0 +1,81 @@
+{% extends "Shared/_layout.twig" %}
+
+{% block title %} View Contact {% endblock %}
+
+{%  block header_scripts %}{% endblock %}
+
+{% block body %}
+
+    <div class="container" id="contact">
+
+        <div class="row mb-2">
+            <div class="col-md-10">
+                <h2 class="text-dark mb-4">View Contact Information</h2>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
+                    Here you can view all contact information.
+                </div>
+            </div>           
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                  
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputname">Name</label>
+                        <div class="form-control" id="inputname">{{ contact.name }}</div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputphone">Phone</label>
+                        <div class="form-control" id="inputphone">{{ contact.phone }}</div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputpemail">Email</label>
+                        <div class="form-control" id="inputpemail">{{ contact.email }}</div>
+                    </div>
+                </div>
+                <div class="form-group form-row">
+                    <div class="form-group col-md-3">
+                        <label for="inputaddress">Address</label>
+                        <div class="form-control" id="inputaddress">{{ contact.address }}</div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputcity">City</label>
+                        <div class="form-control" id="inputcity">{{ contact.city }}</div>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="inputprovince">Province</label>
+                        <div class="form-control" id="inputprovince">{{ contact.province }}</div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputcountry">Country</label>
+                        <div class="form-control" id="inputcountry">{{ contact.country }}</div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputpostal">Postal</label>
+                        <div class="form-control" id="inputpostal">{{ contact.postal }}</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-10">
+                        <label for="notes">Notes</label>
+                        <div id="summernote" class="form-control">{{ contact.note }}</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-10">                        
+
+                        <a href="/contacts"  class="btn btn-warning float-right mr-2">
+                            <i class="fas fa-times-circle text-small"></i>
+                            Go Back
+                        </a>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_scripts %}{% endblock %}

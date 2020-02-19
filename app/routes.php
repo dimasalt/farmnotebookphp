@@ -12,6 +12,11 @@ $r->addRoute(['GET', 'POST'], '/contacts/update/{id}', 'FarmManagement\Controlle
 $r->addRoute(['GET', 'POST'], '/contacts/add/action', 'FarmManagement\Controllers\ContactsController:addAction');
 $r->addRoute(['GET', 'POST'], '/contacts/add', 'FarmManagement\Controllers\ContactsController:add');
 $r->addRoute('GET', '/contacts', 'FarmManagement\Controllers\ContactsController:index');
+$r->addRoute(['GET', 'POST'], '/contacts/view/{id}', 'FarmManagement\Controllers\ContactsController:view');
+
+// login page
+$r->addRoute('GET', '/login', 'FarmManagement\Controllers\LoginController:index');
+
 
 // main home page
 $r->addRoute('GET', '/', 'FarmManagement\Controllers\HomeController:index');

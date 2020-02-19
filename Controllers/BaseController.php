@@ -4,6 +4,7 @@
 namespace FarmManagement\Controllers;
 
 use FarmManagement\Libraries\Authentication;
+use FarmManagement\Middleware\RouteAccess;
 use FarmManagement\Models\UserModel;
 use Twig\Environment;
 
@@ -14,8 +15,20 @@ class BaseController
     protected array $config = [];
 
     public function __construct() {
+        //security check
+//        $actual_link = "$_SERVER[REQUEST_URI]";
+//        if(strpos($actual_link, "/contacts") !== false){
+//            header("Location: /login");
+//            die();
+//        }
+
+//        $this->user = $this->getUser();
+//        $rAccess = new RouteAccess();
+//        $rAccess->checkAccess($this->user);
+
         $this->config = include CONFIG_URL;
-        $this->user = $this->getUser();
+
+        //$this->user = $this->getUser();
         $this->view = $this->getView();
     }
 
@@ -35,6 +48,8 @@ class BaseController
         //if user logged in add it to the
             if(!is_null($this->user))
                 $this->view->addGlobal("user", $this->user);
+
+            $this->view->addGlobal("page", "$_SERVER[REQUEST_URI]");
 
         //return view
         return $this->view;
@@ -61,7 +76,7 @@ class BaseController
             {
                 $this->user->user_id = $user_details["user_id"];
                 $this->user->user_email = $user_details["email"];
-                $this->user->roles = $acLib->getUserRoles($this->user->user_id);
+                $this->user->roles = $acLib->getUserRoles($this->user->user_id);                
             }
         }
         else

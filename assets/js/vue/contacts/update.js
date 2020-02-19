@@ -45,11 +45,11 @@ var Contacts = new Vue({
 
                if(data === true){
                     self.alert.message = 'Contact has been successfully updated';
-                    self.alert.success = true;
+                    self.alert.success = true;                  
                }
                else {
                    self.alert.message = 'Ops! There has been problem updating contact...';
-                   self.alert.error = true;
+                   self.alert.error = true;                  
                }
             });
 
@@ -57,42 +57,7 @@ var Contacts = new Vue({
             });
 
 
-            // var data = { id : self.contact_delete.id};
-            // data = JSON.stringify(data);
-            //
-            // var del = $.post("/contacts/delete", data);
-            //
-            // del.done(function (data) {
-            //     data = JSON.parse(data);
-            //     //if successfully removed remove from the local javascript array
-            //     if(data == true){
-            //
-            //         self.contacts.splice(self.contact_delete.index, 1);
-            //
-            //         self.alert.success = true;
-            //         self.alert.message = 'Contact has been successfully removed.';
-            //
-            //         //put alert message on timer
-            //         setTimeout(function() {
-            //             $("#success-alert").alert('close');
-            //         }, 6000);
-            //
-            //         //finally reset contact delete
-            //         self.resetContactDelete();
-            //     }
-            //     else {
-            //         self.alert.error = true;
-            //         self.alert.message = 'Ops..., there appears to be an issue with removing this contact';
-            //
-            //         //put alert message on timer
-            //         setTimeout(function() {
-            //             $("#error-alert").alert('close');
-            //         }, 6000);
-            //     }
-            // });
-            //
-            // del.always(function () {
-            // });
+          
         },
         resetAlert: function () {
             var self = this;

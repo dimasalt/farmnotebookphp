@@ -5,6 +5,7 @@ namespace FarmManagement\Controllers;
 use FarmManagement\Helpers\ContactsHelper;
 use FarmManagement\Libraries\CSRFToken;
 
+
 class ContactsController extends BaseController
 {
     /* -----------------------------------------------------
@@ -28,7 +29,24 @@ class ContactsController extends BaseController
         echo $this->view->render('Contacts/add.twig', [
             'csrf' => CSRFToken::getToken()
         ]);
+        
     }
+
+    /*
+    *---------------------------------------------------------
+    *   View contact information
+    *----------------------------------------------------------
+    */
+   public function view($id){
+        $contHelper = new ContactsHelper();
+        $contact = $contHelper->GetOne($id);
+
+        //display the view
+        echo $this->view->render('Contacts/view.twig', [           
+            'contact' => $contact
+        ]);
+   }
+
 
     /*
     * --------------------------------------------------
@@ -57,6 +75,7 @@ class ContactsController extends BaseController
                 echo json_encode($result);
             }
             else echo json_encode(false);
+   
         }
         else echo json_encode(false);
     }

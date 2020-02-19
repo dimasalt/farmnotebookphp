@@ -30,16 +30,15 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `note` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table livestockmanagement.contact: ~5 rows (approximately)
+-- Dumping data for table livestockmanagement.contact: ~4 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `city`, `postal`, `country`, `province`, `phone`, `email`, `note`, `created_at`) VALUES
 	(1, 'Little Bit Western', '372 Algonquin Boulevard W', 'Timmins', 'P4N 2S2', 'Canada', 'On', '705-268-0822', NULL, 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', '2019-04-29 21:31:35'),
 	(2, 'Northern Farm', '1496 Caribou Rd W', 'Matheson', 'P0K 1N0', 'Canada ', 'On', '647-864-2435', NULL, 'Our very own farm address', '2019-05-08 11:45:08'),
 	(3, 'Railside General Supplies', '3272 Monahan Rd', 'Val Gagne', 'P0K 1W0', 'Canada', 'On', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', '2020-01-05 07:01:53'),
-	(5, 'Northern Veterinary Hospital', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41'),
-	(21, 'DFDGFDG', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', 'dimasalt@gmail.com', 'dsfasdfas', '2020-01-05 12:08:41');
+	(5, 'Northern Veterinary Hospital', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Dumping structure for table livestockmanagement.event
@@ -379,6 +378,28 @@ CREATE TABLE IF NOT EXISTS `user_to_role` (
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 
+-- Dumping structure for procedure livestockmanagement.contactAdd
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `contactAdd`(
+	IN `contact_name` VARCHAR(50),
+	IN `address` VARCHAR(50),
+	IN `city` VARCHAR(50),
+	IN `postal` VARCHAR(50),
+	IN `country` VARCHAR(50),
+	IN `province` VARCHAR(50),
+	IN `phone` VARCHAR(50),
+	IN `email` VARCHAR(50),
+	IN `note` VARCHAR(250)
+)
+BEGIN
+
+	INSERT INTO 
+		contact (`name`, address, city, postal, country, province, phone, email, note)
+	VALUES (contact_name, address, city, postal, country, province, phone, email, note);
+
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure livestockmanagement.contactDeleteOne
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `contactDeleteOne`(
@@ -448,8 +469,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `contactUpdate`(
 	IN `postal` VARCHAR(10),
 	IN `country` VARCHAR(50),
 	IN `province` VARCHAR(50),
+	IN `phone` VARCHAR(50),
 	IN `email` VARCHAR(50),
 	IN `note` VARCHAR(250)
+
 
 )
 BEGIN

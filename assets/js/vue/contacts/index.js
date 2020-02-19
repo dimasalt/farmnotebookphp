@@ -25,8 +25,15 @@ var Contacts = new Vue({
             var contList = $.post("/contacts/getList", data);
 
             contList.done(function (data) {
-                if(data.length > 0)
+                if(data.length > 0){
                     self.contacts = JSON.parse(data);
+
+                    for(var i = 0; i< self.contacts.length; i++){
+                        var link = self.contacts[i].address + ', ' + self.contacts[i].city + ', ' + self.contacts[i].province + ', ' + self.contacts[i].country;
+                        self.contacts[i].link = 'http://maps.google.com/maps?q=' + encodeURIComponent(link);
+                    }
+                    //JSON.parse(data);
+                }
             });
 
             contList.always(function () {

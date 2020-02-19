@@ -22,7 +22,7 @@ return [
     "from" => 'dmitri@better-life-tips.com'
 ],
 
-    "website_url" => 'membership.dev',
+    "website_url" => '',
     "app_token" => '51092c5b070f25d9c4eef87d08f3b86decad4570'
 ];
 
