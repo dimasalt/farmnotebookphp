@@ -1,12 +1,6 @@
 var Contacts = new Vue({
     el: '#contact',
-    data: {
-        alert : {
-            error : false,
-            success: false,
-            message: ''
-        }
-    },
+    data: { },
     created: function () {
     },
     methods: {
@@ -34,32 +28,23 @@ var Contacts = new Vue({
             var update = $.post('/contacts/add/action', data);
 
             //get results
-            update.done(function (data){
-
-                //clear alerts
-                self.resetAlert();
+            update.done(function (data){                
 
                 //turn result into javascript workable variable
                 data = JSON.parse(data);
 
-               if(data === true){
-                    self.alert.message = 'New contact has been successfully added';
-                    self.alert.success = true;
+               if(data === true){                   
+                    //Display a success toast, with a title
+                    toastr.success("New contact has been successfully added");                
                }
-               else {
-                   self.alert.message = 'Ops! There has been problem adding new contact...';
-                   self.alert.error = true;
+               else if(data == false) {                  
+                    // Display an error toast, with a title
+                    toastr.error("Ops! There has been problem adding new contact...");
                }
             });
 
             update.always(function (data) {
             });
-        },
-        resetAlert: function () {
-            var self = this;
-            self.alert.error = false;
-            self.alert.success = false;
-            self.alert.message = '';
         }
     }
 });

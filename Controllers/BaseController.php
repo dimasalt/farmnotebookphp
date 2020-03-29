@@ -42,7 +42,10 @@ class BaseController
         if(is_null($this->view))
         {
             $loader = new \Twig\Loader\FilesystemLoader(INC_ROOT . '/Views');
-            $this->view = new \Twig\Environment($loader, array('cache' => false));
+        $this->view = new \Twig\Environment($loader, array('cache' => false/*, 'debug' => true*/));
+
+            //for debug only
+            //$this->view->addExtension(new \Twig\Extension\DebugExtension());
         }
 
         //if user logged in add it to the

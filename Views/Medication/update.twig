@@ -1,0 +1,51 @@
+{% extends "Shared/_layout.twig" %}
+
+{% block title %} Medication Update {% endblock %}
+
+{% block body %}
+
+    <div class="container" id="medication" v-cloak>      
+        <div class="row mb-2">
+            <div class="col-12">
+                <h2 class="text-dark mb-4">Medication update</h2>            
+
+                 <div class="callout callout-info">
+                    <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
+                    This page contains medication information and usage instructions.
+                </div>
+            </div>
+
+            <div class="col-12" v-if="alert.success">
+                <div id="success-alert" class="alert alert-success" role="alert" >
+                    <i class="far fa-check-circle fa-2x mr-2 align-middle"></i>
+                    {{ '{{ alert.message }}' }}
+                </div>
+            </div>
+
+            <div class="col-12" v-if="alert.error">
+                <div id="error-alert" class="alert alert-danger" role="alert">
+                    <i class="fas fa-times-circle fa-2x mr-2 align-middle"></i>
+                    {{ '{{ alert.message }}' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block custom_scripts %}
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <script src="/assets/js/vue/medication/index.js"></script>
+
+     <script type="application/javascript">
+        $(function () {
+            // tooltips
+           // $('[data-toggle="tooltip"]').tooltip();
+
+        })
+    </script>
+{% endblock %}

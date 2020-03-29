@@ -1,8 +1,14 @@
 <?php
 
 //medication pages
+$r->addRoute(['POST', 'GET'], '/medication/view/{id}', 'FarmManagement\Controllers\MedicationController:getOne');
 $r->addRoute(['POST', 'GET'], '/medication/getList', 'FarmManagement\Controllers\MedicationController:getList');
 $r->addRoute('GET', '/medication', 'FarmManagement\Controllers\MedicationController:index');
+$r->addRoute('GET', '/medication/add', 'FarmManagement\Controllers\MedicationController:addIndex');
+$r->addRoute(['GET', 'POST'], '/medication/update/action', 'FarmManagement\Controllers\MedicationController:updateAction');
+$r->addRoute('GET', '/medication/update/{id}', 'FarmManagement\Controllers\MedicationController:update');
+
+
 
 //contacts page
 $r->addRoute(['GET', 'POST'], '/contacts/getList', 'FarmManagement\Controllers\ContactsController:getList');
@@ -13,6 +19,14 @@ $r->addRoute(['GET', 'POST'], '/contacts/add/action', 'FarmManagement\Controller
 $r->addRoute(['GET', 'POST'], '/contacts/add', 'FarmManagement\Controllers\ContactsController:add');
 $r->addRoute('GET', '/contacts', 'FarmManagement\Controllers\ContactsController:index');
 $r->addRoute(['GET', 'POST'], '/contacts/view/{id}', 'FarmManagement\Controllers\ContactsController:view');
+
+//finances pages
+$r->addRoute(['GET', 'POST'], '/finances/projects/updatestatus', 'FarmManagement\Controllers\PlanningController:projectUpdateStatus');
+$r->addRoute(['GET', 'POST'], '/finances/projects/update', 'FarmManagement\Controllers\PlanningController:updateOne');
+$r->addRoute(['GET', 'POST'], '/finances/projects/add', 'FarmManagement\Controllers\PlanningController:addNew');
+$r->addRoute(['GET', 'POST'], '/finances/projects/delete', 'FarmManagement\Controllers\PlanningController:delOne');
+$r->addRoute(['GET', 'POST'], '/finances/projects/get/all', 'FarmManagement\Controllers\PlanningController:getList');
+$r->addRoute(['GET', 'POST'], '/finances/projects', 'FarmManagement\Controllers\PlanningController:projects');
 
 // login page
 $r->addRoute('GET', '/login', 'FarmManagement\Controllers\LoginController:index');

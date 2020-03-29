@@ -2,7 +2,7 @@
 -- Host:                         localhost
 -- Server version:               10.4.11-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             10.2.0.5599
+-- HeidiSQL Version:             11.0.0.5919
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,15 +30,17 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `note` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table livestockmanagement.contact: ~4 rows (approximately)
+-- Dumping data for table livestockmanagement.contact: ~7 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `city`, `postal`, `country`, `province`, `phone`, `email`, `note`, `created_at`) VALUES
-	(1, 'Little Bit Western', '372 Algonquin Boulevard W', 'Timmins', 'P4N 2S2', 'Canada', 'On', '705-268-0822', NULL, 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', '2019-04-29 21:31:35'),
+	(1, 'Little Bit Western', '372 Algonquin Boulevard W', 'Timmins', 'P4N 2S2', 'Canada', 'On', '705-268-0822', '', 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', '2019-04-29 21:31:35'),
 	(2, 'Northern Farm', '1496 Caribou Rd W', 'Matheson', 'P0K 1N0', 'Canada ', 'On', '647-864-2435', NULL, 'Our very own farm address', '2019-05-08 11:45:08'),
 	(3, 'Railside General Supplies', '3272 Monahan Rd', 'Val Gagne', 'P0K 1W0', 'Canada', 'On', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', '2020-01-05 07:01:53'),
-	(5, 'Northern Veterinary Hospital', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41');
+	(5, 'Northern Veterinary Hospital', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41'),
+	(25, 'Northern Allied', '352 Railway St', 'Timmins', 'P4N 2P6', 'Canada', 'On', '7052645291', '', 'Metal supply company. The only one in Timmins.', '2020-02-18 23:39:43'),
+	(26, 'Mark', 'n/a', 'Matheson', 'p0k 1n0', 'Canada', 'On', '705-262-3433', '', 'Neighbour farmer. Wants to buy cattle.', '2020-02-27 10:59:32');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Dumping structure for table livestockmanagement.event
@@ -211,18 +213,40 @@ CREATE TABLE IF NOT EXISTS `medication` (
   `name` varchar(50) NOT NULL,
   `desc` varchar(550) DEFAULT NULL,
   `instruction` varchar(2000) DEFAULT NULL,
+  `img` varchar(150) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='list of medication';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='list of medication';
 
--- Dumping data for table livestockmanagement.medication: ~3 rows (approximately)
+-- Dumping data for table livestockmanagement.medication: ~6 rows (approximately)
 /*!40000 ALTER TABLE `medication` DISABLE KEYS */;
-INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `created_at`) VALUES
-	(1, 'tasvax 8', 'For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).', 'Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.', '2019-05-09 23:02:13'),
-	(2, 'Noromectin', 'Each mL contains 0.8 mg of ivermectin.\r\n\r\nTreated animals must not be slaughtered for use in food for at least 14 days after the latest treatment with this drug.', 'Dosage and Administration\r\nNoromectin should be given as a single dose treatment. Administer orally at a dose of 2.5 mL of Noromectin per 10 kg of bodyweight, with any standard drenching equipment which provides a consistent dose volume. Repeat treatment may be necessary when re-exposure to parasite infection occurs.\r\n\r\nNoromectin Drench for Sheep Caution\r\nCoughing, which usually lasts for only a few minutes, may occur in a small percentage of sheep immediately after treatment; this passing response is of no consequence.', '2019-05-09 23:04:31'),
-	(3, 'Hoof Trim', 'Trimming hoof to cattle or sheep', NULL, '2019-05-09 23:17:41'),
-	(4, 'Tetanus Toxoid', 'Anti-toxing vaccination.', 'Inject intromascularly 1cc/ml. Repeat vaccination in 3-4 weeks again', '2020-01-04 22:52:43');
+INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `created_at`) VALUES
+	(1, 'Tasvax 8', 'For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).', 'Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.', 'https://langleyanimalclinic.ca/wp-content/uploads/2019/07/Tasvax-8.jpg', '2019-05-09 23:02:13'),
+	(2, 'Noromectin', 'Each mL contains 0.8 mg of ivermectin.\r\n\r\nTreated animals must not be slaughtered for use in food for at least 14 days after the latest treatment with this drug.', 'Dosage and Administration\r\nNoromectin should be given as a single dose treatment. Administer orally at a dose of 2.5 mL of Noromectin per 10 kg of bodyweight, with any standard drenching equipment which provides a consistent dose volume. Repeat treatment may be necessary when re-exposure to parasite infection occurs.\r\n\r\nNoromectin Drench for Sheep Caution\r\nCoughing, which usually lasts for only a few minutes, may occur in a small percentage of sheep immediately after treatment; this passing response is of no consequence.', 'https://images-na.ssl-images-amazon.com/images/I/81cX3tCC0tL._AC_SY879_.jpg', '2019-05-09 23:04:31'),
+	(3, 'Hoof Trim', 'Trimming hoof to cattle or sheep', 'n/a', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS7Yos7zq_0RtsXizsweGLrvFzVJmcSn7QDiQ335Hpd95z7ojYA', '2019-05-09 23:17:41'),
+	(4, 'Tetanus Toxoid', 'Anti-toxing vaccination. Takes 2-3 weeks to take effect.', 'Inject intromascularly 1cc/ml. Repeat vaccination in 3-4 weeks again', 'https://www.valleyvet.com/swatches/40277_L_vvs_000.jpg', '2020-01-04 22:52:43'),
+	(5, 'Ivomec', 'Ivomec Pour-On for Cattle dewormer. Adminsiter 1cc for every 10kg (22lb).', 'Apply along the top line from the withers to the tail head at the rate of 1 mL per 10 kg (22 lb).', 'https://media.tractorsupply.com/is/image/TractorSupplyCompany/2207462?$456$', '2020-02-27 10:11:31'),
+	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'Administer 2 mL subcutaneously or intramuscularly. In accordance with Beef Quality Assurance guidelines, this product should be administered SC in the neck region.', 'https://cdn11.bigcommerce.com/s-kjner/images/stencil/1280x1280/products/2083/1162/BOVISHIELD_GOLD_5__55950.1382708635.jpg?c=2', '2020-03-08 21:44:04');
 /*!40000 ALTER TABLE `medication` ENABLE KEYS */;
+
+-- Dumping structure for table livestockmanagement.planning_project
+CREATE TABLE IF NOT EXISTS `planning_project` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_name` varchar(250) CHARACTER SET utf8 NOT NULL,
+  `project_price` decimal(10,0) NOT NULL DEFAULT 0,
+  `project_price_actual` decimal(10,0) NOT NULL DEFAULT 0,
+  `is_start` tinyint(4) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
+
+-- Dumping data for table livestockmanagement.planning_project: ~3 rows (approximately)
+/*!40000 ALTER TABLE `planning_project` DISABLE KEYS */;
+INSERT INTO `planning_project` (`id`, `project_name`, `project_price`, `project_price_actual`, `is_start`, `created_at`) VALUES
+	(2, 'Fence Charger', -1200, -1300, 0, '2020-03-22 16:04:18'),
+	(30, 'Ground rods, ground clamps and split bolt connectors', -100, -125, 0, '2020-03-24 21:15:48'),
+	(46, 'Starting project budget', -4640, -4640, 1, '2020-03-20 00:00:00');
+/*!40000 ALTER TABLE `planning_project` ENABLE KEYS */;
 
 -- Dumping structure for table livestockmanagement.transaction
 CREATE TABLE IF NOT EXISTS `transaction` (
@@ -380,7 +404,7 @@ CREATE TABLE IF NOT EXISTS `user_to_role` (
 
 -- Dumping structure for procedure livestockmanagement.contactAdd
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `contactAdd`(
+CREATE PROCEDURE `contactAdd`(
 	IN `contact_name` VARCHAR(50),
 	IN `address` VARCHAR(50),
 	IN `city` VARCHAR(50),
@@ -402,7 +426,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure livestockmanagement.contactDeleteOne
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `contactDeleteOne`(
+CREATE PROCEDURE `contactDeleteOne`(
 	IN `contact_id` INT
 )
 BEGIN
@@ -416,7 +440,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure livestockmanagement.contactGetOne
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `contactGetOne`(
+CREATE PROCEDURE `contactGetOne`(
 	IN `contact_id` INT
 )
 BEGIN
@@ -439,7 +463,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure livestockmanagement.contactsGetAll
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `contactsGetAll`()
+CREATE PROCEDURE `contactsGetAll`()
     COMMENT 'get various contacts information'
 BEGIN
 
@@ -461,7 +485,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure livestockmanagement.contactUpdate
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `contactUpdate`(
+CREATE PROCEDURE `contactUpdate`(
 	IN `id` INT,
 	IN `contact_name` VARCHAR(100),
 	IN `address` VARCHAR(50),
@@ -494,7 +518,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure livestockmanagement.eventAddType
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `eventAddType`(
+CREATE PROCEDURE `eventAddType`(
 	IN `ev_type_name` VARCHAR(20),
 	IN `ev_type_value` VARCHAR(25),
 	IN `ev_type_desc` VARCHAR(300)
@@ -522,7 +546,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure livestockmanagement.livestockGetAll
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `livestockGetAll`(
+CREATE PROCEDURE `livestockGetAll`(
 	IN `current_page` INT,
 	IN `records` INT,
 	IN `is_active` INT
@@ -560,7 +584,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure livestockmanagement.livestockGetTypeAll
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `livestockGetTypeAll`()
+CREATE PROCEDURE `livestockGetTypeAll`()
     COMMENT 'get flock types'
 BEGIN
 
@@ -570,20 +594,140 @@ BEGIN
 END//
 DELIMITER ;
 
--- Dumping structure for procedure livestockmanagement.medicationGetAll
+-- Dumping structure for procedure livestockmanagement.medicationDeleteOne
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `medicationGetAll`()
+CREATE PROCEDURE `medicationDeleteOne`(
+	IN `id` INT
+)
 BEGIN
 	
-	SELECT medication.id, medication.name, medication.desc, medication.instruction
+	DELETE FROM medication
+	WHERE medication.id = id;
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure livestockmanagement.medicationGetAll
+DELIMITER //
+CREATE PROCEDURE `medicationGetAll`()
+BEGIN
+	
+	SELECT medication.id, medication.name, medication.desc, medication.instruction, medication.img
 	FROM medication;
 	
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure livestockmanagement.medicationGetOne
+DELIMITER //
+CREATE PROCEDURE `medicationGetOne`(
+	IN `id` INT
+)
+BEGIN
+	
+	SELECT medication.id, medication.name, medication.desc, medication.instruction, medication.img
+	FROM medication
+	WHERE medication.id = id;
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure livestockmanagement.medicationUpdate
+DELIMITER //
+CREATE PROCEDURE `medicationUpdate`(
+	IN `id` INT,
+	IN `med_name` VARCHAR(50),
+	IN `med_desc` VARCHAR(550),
+	IN `med_instruction` VARCHAR(2000)
+)
+BEGIN
+
+	UPDATE medication
+	SET 
+		medication.name = med_name, 
+		medication.`desc` = med_desc,
+		medication.instruction = med_instruction
+	WHERE medication.id = id;	
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure livestockmanagement.projectAdd
+DELIMITER //
+CREATE PROCEDURE `projectAdd`(
+	IN `project_name` VARCHAR(250),
+	IN `project_price` DECIMAL(10,0),
+	IN `project_price_actual` DECIMAL(10,0),
+	IN `is_start` TINYINT,
+	IN `created_at` DATETIME
+)
+BEGIN
+
+	-- Removes starting budget point if that's what we're adding
+	IF is_start = 1 THEN
+		DELETE FROM planning_project
+		WHERE planning_project.is_start = 1;	
+	END IF;
+	
+
+	-- inserts new project item
+	INSERT INTO planning_project
+		(
+			planning_project.project_name, 
+			planning_project.project_price, 
+			planning_project.project_price_actual, 
+			planning_project.is_start,
+			planning_project.created_at
+		)
+	VALUES
+		(
+			project_name, 
+			project_price, 
+			project_price_actual, 
+			is_start,
+			created_at
+		);
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure livestockmanagement.projectDelOne
+DELIMITER //
+CREATE PROCEDURE `projectDelOne`(
+	IN `id` INT
+)
+    COMMENT 'removes one item from project list'
+BEGIN
+
+	DELETE FROM planning_project
+	WHERE planning_project.id = id;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure livestockmanagement.projectGetAll
+DELIMITER //
+CREATE PROCEDURE `projectGetAll`()
+    COMMENT 'Gets project list with their predicted and actual financial information'
+BEGIN
+
+	SELECT 
+		planning_project.id,
+		planning_project.project_name,
+		planning_project.project_price,
+		planning_project.project_price_actual,
+		planning_project.is_start,
+		planning_project.created_at		
+				
+	FROM 
+		planning_project;
+
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure livestockmanagement.transactionCreate
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `transactionCreate`(
+CREATE PROCEDURE `transactionCreate`(
 	IN `trans_cat_id` INT,
 	IN `trans_type_id` INT,
 	IN `trans_ammount` INT,
@@ -622,7 +766,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure livestockmanagement.transactionsGetAll
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `transactionsGetAll`()
+CREATE PROCEDURE `transactionsGetAll`()
 BEGIN
 
 	SELECT trans.trans_id, 
@@ -641,7 +785,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure livestockmanagement.userCreate
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `userCreate`(
+CREATE PROCEDURE `userCreate`(
 	IN `user_id` CHAR(16),
 	IN `username` VARCHAR(15),
 	IN `email` VARCHAR(50),

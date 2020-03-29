@@ -4,6 +4,7 @@
 
 {%  block header_scripts %}
     <link href="/assets/summernote-0.8.15/summernote-bs4.min.css" rel="stylesheet">
+    <link href="/assets/toastr/toastr.min.css"  rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -17,21 +18,7 @@
                     <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
                     Here you can update the contact information.
                 </div>
-            </div>
-
-            <div class="col-10" v-if="alert.success">
-                <div id="success-alert" class="alert alert-success" role="alert" >
-                    <i class="far fa-check-circle fa-2x mr-2 align-middle"></i>
-                    {{ '{{ alert.message }}' }}
-                </div>
-            </div>
-
-            <div class="col-10" v-if="alert.error">
-                <div id="error-alert" class="alert alert-danger" role="alert">
-                    <i class="fas fa-times-circle fa-2x mr-2 align-middle"></i>
-                    {{ '{{ alert.message }}' }}
-                </div>
-            </div>
+            </div>           
         </div>
 
         <div class="row">
@@ -107,6 +94,8 @@
 
     <!-- vue js -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="/assets/toastr/toastr.min.js"></script>
+
     <script type="application/javascript" src="/assets/js/vue/contacts/update.js"></script>
 
 

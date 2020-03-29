@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,40 +17,24 @@
     {% block header_scripts %} {% endblock %}
 
 </head>
-<body>
 
+
+<body>
 
 {% include '/Shared/_navbar.twig' %}
 
-
-{#<div class="container mt-3">#}
-{#    <div class="row">#}
-{#        <div class="col-12">#}
-{#            <!-- breadcumbs -->#}
-{#            <nav aria-label="breadcrumb">#}
-{#                <ol class="breadcrumb" style="background-color: #f2f7f8 !important;">#}
-{#                    <li class="breadcrumb-item"><a href="#" style="color: #33b35a !important">Home</a></li>#}
-{#                    <li class="breadcrumb-item"><a href="#" style="color: #33b35a !important">Library</a></li>#}
-{#                    <li class="breadcrumb-item active" aria-current="page">Data</li>#}
-{#                </ol>#}
-{#            </nav>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
-
-<main role="main" class="mt-5">
-{#    <div class="container mt-3 mb-2">#}
-{#        <div class="row flex-d justify-content-end pr-3">#}
-{#            <a href="#" class="btn btn-success mr-3">Main call to action</a>#}
-{#            <a href="#" class="btn btn-dark">Secondary action</a>#}
-{#        </div>#}
-{#    </div>#}
-
-    {% block body %}{% endblock %}
-
-    {% include '/Shared/_footer.twig' %}
-
+<!-- main body -->
+<main role="main" class="mt-5 h-100 container">
+    {% block body %}{% endblock %}  
 </main>
+
+<!-- footer -->
+<div>
+      {% include '/Shared/_footer.twig' %}
+</div>
+
+    <!-- custom scripts -->
     {% block custom_scripts %} {% endblock %}
+
 </body>
 </html>

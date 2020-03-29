@@ -12,6 +12,7 @@ class MedicationController extends BaseController
 //        $id = uniqid('', false);
 //        $password = password_hash('northernfarm', PASSWORD_DEFAULT);
 //        var_dump($password);
+        
         echo $this->view->render('Medication\index.twig');
     }
 
@@ -29,5 +30,46 @@ class MedicationController extends BaseController
 
         echo $medlist;
     }
+
+
+     /*
+     * --------------------------------------------------------
+     *  Gets one medication item
+     * ---------------------------------------------------------
+     */
+    public function getOne($id){
+
+        $medHelper = new MedicationHelper();
+        $meditem = $medHelper->getOne($id);
+
+        //$meditem = json_encode($meditem);      
+
+        echo $this->view->render('Medication\view.twig', [
+                                    'medication' => $meditem
+                                ]);
+    }
+
+     /*
+     * --------------------------------------------------------
+     *  Gets list of all available medication
+     * ---------------------------------------------------------
+     */
+
+    public function addIndex(){               
+        echo $this->view->render('Medication\add.twig');
+    }
+
+
+     /*
+     * --------------------------------------------------------
+     *  Displays item that needs to be updated
+     * ---------------------------------------------------------
+     */
+    public function update($id){
+        echo $this->view->render('Medication\update.twig');
+    }
+
+   
+
 
 }

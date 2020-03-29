@@ -1,12 +1,6 @@
 var Contacts = new Vue({
     el: '#contact',
-    data: {
-        alert : {
-            error : false,
-            success: false,
-            message: ''
-        }
-    },
+    data: {},
     created: function () {
     },
     methods: {
@@ -35,21 +29,16 @@ var Contacts = new Vue({
             var update = $.post('/contacts/update/action', data);
 
             //get results
-            update.done(function (data){
-
-                //clear alerts
-                self.resetAlert();
+            update.done(function (data){              
 
                 //turn result into javascript workable variable
                 data = JSON.parse(data);
 
                if(data === true){
-                    self.alert.message = 'Contact has been successfully updated';
-                    self.alert.success = true;                  
+                    toastr.success("Contact has been successfully updated.");                       
                }
-               else {
-                   self.alert.message = 'Ops! There has been problem updating contact...';
-                   self.alert.error = true;                  
+               else if(data == false){
+                toastr.success("Contact has been successfully updated.");             
                }
             });
 
@@ -58,12 +47,6 @@ var Contacts = new Vue({
 
 
           
-        },
-        resetAlert: function () {
-            var self = this;
-            self.alert.error = false;
-            self.alert.success = false;
-            self.alert.message = '';
         }
     }
 });

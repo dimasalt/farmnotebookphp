@@ -31,8 +31,7 @@ var Contacts = new Vue({
                     for(var i = 0; i< self.contacts.length; i++){
                         var link = self.contacts[i].address + ', ' + self.contacts[i].city + ', ' + self.contacts[i].province + ', ' + self.contacts[i].country;
                         self.contacts[i].link = 'http://maps.google.com/maps?q=' + encodeURIComponent(link);
-                    }
-                    //JSON.parse(data);
+                    }                   
                 }
             });
 
@@ -44,10 +43,7 @@ var Contacts = new Vue({
             //event.preventDefault();
         },
         deleteContacModal : function(index){
-            var self = this;
-
-            //reset all messages and alerts
-            self.resetAlert();
+            var self = this;           
 
             //assign value to delete contact object
             self.contact_delete = self.contacts[index];
@@ -73,27 +69,17 @@ var Contacts = new Vue({
                 //if successfully removed remove from the local javascript array
                if(data == true){
 
-                   self.contacts.splice(self.contact_delete.index, 1);
+                   self.contacts.splice(self.contact_delete.index, 1);                
 
-                   self.alert.success = true;
-                   self.alert.message = 'Contact has been successfully removed.';
-
-                   //put alert message on timer
-                   setTimeout(function() {
-                       $("#success-alert").alert('close');
-                   }, 6000);
+                    //Display a success toast, with a title
+                    toastr.success("Selected contact has been successfully removed.");                                
 
                    //finally reset contact delete
                    self.resetContactDelete();
                }
-               else {
-                   self.alert.error = true;
-                   self.alert.message = 'Ops..., there appears to be an issue with removing this contact';
-
-                   //put alert message on timer
-                   setTimeout(function() {
-                       $("#error-alert").alert('close');
-                   }, 6000);
+               else if(data == false) {                                 
+                   // Display an error toast, with a title
+                   toastr.error("Ops..., there appears to be an issue with removing this contact");
                }
             });
 
@@ -103,12 +89,6 @@ var Contacts = new Vue({
         resetContactDelete : function () {
             var self = this;
             self.contact_delete = {};
-        },
-        resetAlert: function () {
-            var self = this;
-            self.alert.error = false;
-            self.alert.success = false;
-            self.alert.message = '';
-        }
+        }        
     }
 });

@@ -1,9 +1,17 @@
 
 /* Roboto font */
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+/* @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap'); */
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
 
 body {
-    font-family: "Roboto", sans-serif !important;
+    /* font-family: "Roboto", sans-serif !important; */
+    margin: 0;
+    font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
     background-color: #f2f7f8;
 }
 
@@ -54,22 +62,20 @@ nav.navbar .dropdown-menu a{
 
 
 .footer {
-    position: absolute;
+    /* position: fixed;  */
     bottom: 0;
+    margin-top: 30px;
+    margin-bottom: 0;
     width: 100%;
-    height: 60px; /* Set the fixed height of the footer here */
-    line-height: 60px; /* Vertically center the text there */
-    background-color: #f5f5f5;
-    font-size: 11px;
+    height: 40px;
+    line-height: 60px; 
+    font-size: 12px;
     color: #f3f3f3;
 }
 
 .form-control {
     border-radius: unset !important;
 }
-
-
-
 
 .form-signin {
     width: 100%;
@@ -99,4 +105,64 @@ nav.navbar .dropdown-menu a{
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+
+/**************** alerts **************************/
+.alert-info {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.alert-danger {
+    color: #fff;
+    background: #dc3545;
+    border-color: #d32535;
+}
+
+.alert-warning {
+    color: #1f2d3d;
+    background: #ffc107;
+    border-color: #edb100;
+}
+
+.alert-success {
+    color: #fff;
+    background: #28a745;
+    border-color: #23923d;
+}
+
+/***** collouts ***********************/
+.callout.callout-info {
+    border-left-color: #117a8b;
+}
+
+.callout.callout-danger {
+    border-left-color: #bd2130;
+}
+
+.callout.callout-warning {
+    border-left-color: #d39e00;
+}
+
+.callout.callout-success {
+    border-left-color: #1e7e34;
+}
+
+.callout-info i.fas {
+    color: #117a8b;
+}
+
+.callout {
+    border-radius: .25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+    background-color: #fff;
+    border-left: 5px solid #e9ecef;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+/************ other things *****************************/
+.remove-line {
+    text-decoration: line-through;
 }

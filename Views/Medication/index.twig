@@ -3,24 +3,9 @@
 {% block title %} Medication {% endblock %}
 
 {% block body %}
-    <div class="container" id="medication">
+    
 
-        <div class="row">
-            <div class="col-sm-3" v-for="item in meds">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ "{{ item.name }}" }}</h5>
-                        <p class="card-text">{{ "{{ item.desc }}" }}</p>
-                        <a href="#" class="btn btn-primary">More Info...</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-
-     <div class="container" id="medication" v-cloak>
+    <div class="container" id="medication" v-cloak>      
 
         <div class="row mb-2">
             <div class="col-12">
@@ -30,8 +15,9 @@
                            data-toggle="tooltip" data-placement="top" title="Add medication"></i>
                     </a>
                  
-                </h2>
-                <div class="alert alert-info">
+                </h2>            
+
+                 <div class="callout callout-info">
                     <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
                     This page contains medication information and usage instructions.
                 </div>
@@ -52,39 +38,58 @@
             </div>
         </div>
        
-        <div class="row">           
-            <div class="col-sm-3 mt-3" v-for="(item, index) in contacts">
-                <div class="card h-100 w-100 text-white bg-secondary mb-3">
-                    <div class="card-body">
-                        <b class="card-title text-small" style="font-size: 15px;">{{ "{{ item.name }}" }}</b>                       
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item text-white bg-secondary"></li>
-                            <li class="list-group-item text-white bg-secondary">
-                                <a v-bind:href="item.link" target="_blank" style="color: #ffffff;">
-                                    {{ "{{ item.address }}, {{ item.city }} , {{ item.province }}, {{ item.country }}, {{ item.postal }}" }}
-                                </a>
-                            </li>
-                            <li class="list-group-item text-white bg-secondary">{{ "{{ item.phone }}" }}</li>                                                                        
-                        </ul>
-                        <div class="mt-3">
-                             <a href="#" class="float-right mr-0">
-                                <i class="far fa-trash-alt text-small text-danger float-right mr-0" data-toggle="tooltip" data-placement="top" title="Remove contact"
+       
+       {# <div class="row">
+            <div class="col form-group d-flex justify-content-end">
+                <input type="text" id="search" class="col-2" placeholder="type to search..." />
+            </div>
+       </div> #}
+
+
+        <ul class="list-unstyled">
+            <li class="media mt-4 bg-white border" v-for="(item, index) in meds">                
+                <img v-bind:src='"https://picsum.photos/96/96?random=" + index' class="mr-3 mt-2 ml-2 mb-3" alt="..." v-if="item.img == null">                
+                <img v-bind:src='item.img' class="mr-3 mt-2 ml-2 mb-3" alt="..." v-else-if="item.img !== null" style="height:96px; width:96px;">               
+                <div class="media-body ml-2">
+                    <h4 class="mt-2 mb-2">
+                        {{ "{{ item.name }}" }}
+                                                
+                        <a href="#" class="float-right mr-2 btn-sm text-small">
+                            <i class="far fa-trash-alt text-danger" data-toggle="tooltip" data-placement="top" title="Remove medication"
                                 v-on:click="deleteContacModal(index)"></i>
-                            </a>                               
-                             <a v-bind:href="'/contacts/update/' + item.id">
-                                    <i class="far fa-edit text-small text-warning float-right mr-1" data-toggle="tooltip" data-placement="top" title="Edit contact"></i>
-                            </a>     
-                              <a v-bind:href="'/contacts/view/' + item.id">
-                                    <i class="far fa-eye text-small text-info float-right mr-1" data-toggle="tooltip" data-placement="top" title="View information"></i>
-                            </a>                                              
-                        </div>
-                    </div>
+                        </a>                               
+                        <a v-bind:href="'/medication/update/' + item.id" class="float-right btn-sm text-small pr-0">
+                            <i class="far fa-edit text-warning" data-toggle="tooltip" data-placement="top" title="Edit medication"></i>
+                        </a>                                                                               
+                    </h4>                  
+                    <hr  class="mt-0 mb-0" />
+                    <p class="mt-1"> {{ "{{ item.desc }}" }}</p>                    
+                </div> 
+            </li>           
+        </ul>
+
+
+        <!-- medication information Modal -->
+        <div class="modal fade" id="info_modal" tabindex="-1" data-backdrop="static" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
                 </div>
             </div>
         </div>
-
-        <!-- Remove contact Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        {# <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-danger">
@@ -106,7 +111,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> #}
 
     </div>
 
@@ -117,4 +122,12 @@
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
     <script src="/assets/js/vue/medication/index.js"></script>
+
+     <script type="application/javascript">
+        $(function () {
+            // tooltips
+            $('[data-toggle="tooltip"]').tooltip();
+
+        })
+    </script>
 {% endblock %}
