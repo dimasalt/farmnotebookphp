@@ -43,11 +43,14 @@ class PlanningController extends BaseController {
 
          // Converts it into a PHP object
          $data = json_decode($json);
- 
-        $phelper = new PlanningHelper();
-        $delresult = $phelper->delOne($data->id);
 
-        echo json_encode($delresult);
+         if(CSRFToken::isValid($data->csrf)){
+            $phelper = new PlanningHelper();
+            $delresult = $phelper->delOne($data->id);
+    
+            echo json_encode($delresult);
+         } 
+         else echo json_encode(false);       
     }
 
      /*
@@ -63,16 +66,19 @@ class PlanningController extends BaseController {
          // Converts it into a PHP object
          $data = json_decode($json);
 
-         $project_name = $data->project_name;
-         $project_price = $data->project_price;
-         $project_price_actual = $data->project_price_actual;
-         $is_start = $data->is_start;
-         $created_at = $data->created_at;
- 
-        $phelper = new PlanningHelper();
-        $result = $phelper->addNew($project_name, $project_price, $project_price_actual, $is_start, $created_at);
-
-        echo json_encode($result);
+         if(CSRFToken::isValid($data->csrf)){
+            $project_name = $data->project_name;
+            $project_price = $data->project_price;
+            $project_price_actual = $data->project_price_actual;
+            $is_start = $data->is_start;
+            $created_at = $data->created_at;
+    
+           $phelper = new PlanningHelper();
+           $result = $phelper->addNew($project_name, $project_price, $project_price_actual, $is_start, $created_at);
+   
+           echo json_encode($result);
+         } 
+         else echo json_encode(false);               
     }
 
 
@@ -89,16 +95,21 @@ class PlanningController extends BaseController {
          // Converts it into a PHP object
          $data = json_decode($json);
 
-         $project_id = $data->id;
-         $project_name = $data->project_name;
-         $project_price = $data->project_price;
-         $project_price_actual = $data->project_price_actual;        
-         $created_at = $data->created_at;
- 
-        $phelper = new PlanningHelper();
-        $result = $phelper->updateOne($project_id, $project_name, $project_price, $project_price_actual, $created_at);
+         if(CSRFToken::isValid($data->csrf)){
+            $project_id = $data->id;
+            $project_name = $data->project_name;
+            $project_price = $data->project_price;
+            $project_price_actual = $data->project_price_actual;        
+            $created_at = $data->created_at;
+    
+           $phelper = new PlanningHelper();
+           $result = $phelper->updateOne($project_id, $project_name, $project_price, $project_price_actual, $created_at);
+   
+           echo json_encode($result);
+         } 
+         else echo json_encode(false);       
 
-        echo json_encode($result);
+      
     }
 
       /*
@@ -114,14 +125,20 @@ class PlanningController extends BaseController {
          // Converts it into a PHP object
          $data = json_decode($json);
 
-         $project_id = $data->id;
-         $is_done = $data->is_done;
-        
- 
-        $phelper = new PlanningHelper();
-        $result = $phelper->projectUpdateStatus($project_id, $is_done);
+         if(CSRFToken::isValid($data->csrf)){
 
-        echo json_encode($result);
+            $project_id = $data->id;
+            $is_done = $data->is_done;
+           
+    
+           $phelper = new PlanningHelper();
+           $result = $phelper->projectUpdateStatus($project_id, $is_done);
+            
+           echo json_encode($result);
+        } 
+        else echo json_encode(false);       
+
+       
     }
 
 }

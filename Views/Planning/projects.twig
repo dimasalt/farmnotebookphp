@@ -8,6 +8,7 @@
 
 {% block body %}    
 
+    <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
     <div class="container h-100" id="projects" v-cloak>                
         <div class="row mb-2">
             <div class="col-12">
@@ -68,7 +69,6 @@
                            data-toggle="tooltip" data-placement="top" title="Add project"></i>
                     </a>
                 </h5>
-
             </div>
 
             <div class="col-12 mb-3" v-if="project_item_new_visible == true" >               
@@ -103,11 +103,11 @@
                     <tbody v-for="(item, index) in projects">
                         <tr class="border" v-bind:class="item.class" >
                             <td scope="row">
-                                <input type="checkbox" v-model="item.checked" v-on:change="editProjectStatus(item.id, index)" />
+                                <input type="checkbox" v-model="item.checked" v-on:change.prevent="editProjectStatus(item.id, index)" />
                             </td>
                             <td>
                                 {{ '{{item.project_name}}' }}
-                                <a href="#" v-on:click="delOneShow(item.id, item.project_name)">
+                                <a href="#" v-on:click.stop="delOneShow(item.id, item.project_name)">
                                     <i class="far fa-trash-alt btn-sm text-dark align-middle mr-1 float-right"
                                         data-toggle="tooltip" data-placement="top" title="remove expence point"></i>
                                 </a>

@@ -105,7 +105,9 @@ var PlanningProjects = new Vue({
             //remove one project item
             var self = this;   
             
-            var data = self.project_item_edit;                          
+            var data = self.project_item_edit;   
+            data.csrf = $('#csrf').val();
+            
 
             data = JSON.stringify(data);
            
@@ -145,7 +147,10 @@ var PlanningProjects = new Vue({
             //set data variable
             var data;
 
-            data = {id : self.projects[index].id};
+            data = {
+                id : self.projects[index].id,
+                csrf : $('#csrf').val()
+            };
 
             if(self.projects[index].checked == true)
                 data.is_done = 1;
@@ -196,7 +201,10 @@ var PlanningProjects = new Vue({
             //hide modal
             $('#deleteModal').modal('hide');
 
-            var data = { id: self.project_item_delete.id };
+            var data = { 
+                id: self.project_item_delete.id,
+                csrf : $('#csrf').val()
+            };
             data = JSON.stringify(data);
 
             var projectdel = $.post("/finances/projects/delete", data);
@@ -250,8 +258,8 @@ var PlanningProjects = new Vue({
             if(self.project_item_new.project_price_actual == '')            
                 self.project_item_new.project_price_actual = 0;
 
-            var data = self.project_item_new;    
-
+            var data = self.project_item_new; 
+ 
             // if(is_start == 1)
             //     data.project_price_actual = parseInt(data.project_price);                 
             // else if(is_start == 0){
@@ -259,6 +267,7 @@ var PlanningProjects = new Vue({
             // }
             
             data.is_start = is_start;
+            data.csrf = $('#csrf').val();  
 
             data = JSON.stringify(data);
 
