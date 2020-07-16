@@ -13,7 +13,7 @@ class PlanningController extends BaseController {
     *---------------------------------------------------------
     */
     public function projects(){       
-        echo $this->view->render('Planning\projects.twig',            
+        echo $this->view->render('Finances\planning\projects.twig',            
             [ 'csrf' => CSRFToken::getToken()]
         );
     }

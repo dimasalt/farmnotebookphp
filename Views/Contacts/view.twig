@@ -10,11 +10,7 @@
 
         <div class="row mb-2">
             <div class="col-md-10">
-                <h2 class="text-dark mb-4">View Contact Information</h2>
-                {# <div class="alert alert-info">
-                    <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
-                    Here you can view all contact information.
-                </div> #}
+                <h2 class="text-dark mb-4">View Contact Information</h2>             
 
                  <div class="callout callout-info">
                     <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
@@ -65,7 +61,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-10">
                         <label for="notes">Notes</label>
-                        <div id="summernote" class="form-control">{{ contact.note }}</div>
+                        <div id="summernote" class="form-control">{{ contact.note | raw }}</div>
                     </div>
                 </div>
                 <div class="form-row">

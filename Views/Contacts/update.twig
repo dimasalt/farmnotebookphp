@@ -2,8 +2,7 @@
 
 {% block title %} Update Contact {% endblock %}
 
-{%  block header_scripts %}
-    <link href="/assets/summernote-0.8.15/summernote-bs4.min.css" rel="stylesheet">
+{%  block header_scripts %}    
     <link href="/assets/toastr/toastr.min.css"  rel="stylesheet">
 {% endblock %}
 
@@ -24,12 +23,11 @@
         <div class="row">
             <div class="col-12">
                 <form>
-                    <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
-                    <input type="hidden" id="inputid" name="id" value="{{ contact.id }}">
+                    <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">                   
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="inputname">Name</label>
-                            <input type="text" class="form-control" id="inputname" name="contact_name" placeholder="name" value="{{ contact.name }}">
+                            <label for="inputname">Medication Name</label>
+                            <input type="text" class="form-control" id="inputname" name="medication_name" placeholder="medication name">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="inputphone">Phone</label>
@@ -64,15 +62,15 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-10">
-                            <label for="notes">Notes</label>
-                            <textarea name="note" id="summernote" class="form-control">{{ contact.note }}</textarea>
+                            <label for="notes">Notes</label>                         
+                            <textarea id="contact_note">{{ contact.note }}</textarea>
                         </div>
-                    </div>
+                    </div>                 
                     <div class="form-row">
                         <div class="form-group col-md-10">
                             <a href="#"  class="btn btn-success float-right" v-on:click="contactUpdate()">
                                 <i class="fas fa-check text-small"></i>
-                                Update
+                                Add New
                             </a>
 
                             <a href="/contacts"  class="btn btn-warning float-right mr-2">
@@ -89,51 +87,32 @@
     </div>
 {% endblock %}
 
-{% block custom_scripts %}
-    <script type="application/javascript" src="/assets/summernote-0.8.15/summernote-bs4.js"></script>   
+{% block custom_scripts %}    
+     <!-- tinyMice rich text editor -->
+    <script type="text/javascript" src="/assets/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="/assets/tinymce/jquery.tinymce.min.js"></script>
 
     <!-- vue js -->
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>    
     <script src="/assets/toastr/toastr.min.js"></script>
 
     <script type="application/javascript" src="/assets/js/vue/contacts/update.js"></script>
 
 
-    <script type="application/javascript">
 
+    <script type="application/javascript">        
         $(function () {
+           
 
-            $('#summernote').summernote({
-                tabsize: 2,
-                height: 120,
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'underline', 'clear']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['table', ['table']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ]
-            });
-
-            //set editor value
-            $('#summernote').summernote('code', '{{ contact.note }}');
+             tinymce.init({
+                selector: '#contact_note',
+                menubar:false,
+                statusbar: false,
+                toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent code',
+                plugins: 'code'
+            });        
 
         });
-
-        // $('#summernote').summernote({
-        //     placeholder: 'test',
-        //     tabsize: 2,
-        //     height: 120,
-        //     toolbar: [
-        //         ['style', ['style']],
-        //         ['font', ['bold', 'underline', 'clear']],
-        //         ['color', ['color']],
-        //         ['para', ['ul', 'ol', 'paragraph']],
-        //         ['table', ['table']],
-        //         ['insert', ['link', 'picture', 'video']],
-        //         ['view', ['fullscreen', 'codeview', 'help']]
-        //     ]
-        // });
+      
     </script>
 {% endblock %}

@@ -2,12 +2,8 @@ var ForgotPassword = new Vue({
     el: '#medication',
     data: {
         meds : [],
-        medication: {},
-        alert : {
-            error : false,
-            success: false,
-            message: ''
-        }
+        medication: {},     
+        search_term: ''
     },
     created: function () {
         var self = this;
@@ -16,17 +12,30 @@ var ForgotPassword = new Vue({
         self.getList();
     },
     methods: {
+        goSearch : function(){
+            var self = this;
+
+            // if(self.search_term.length >= 2)
+            self.getList();
+        },
         getList: function(){ //gets all medication items
             var self = this;
 
-            var data = {};
+            var data = {search_term : self.search_term };
             data = JSON.stringify(data);
 
             var medList = $.post("/medication/getList", data);
 
             medList.done(function (data) {
-                if(data.length > 0)
-                    self.meds = JSON.parse(data);
+                if(data.length > 0){
+                    
+                    data = JSON.parse(data);
+
+                    for(var i=0; i < data.length; i++)
+                        data[i].selected = "Description";                    
+
+                    self.meds = data;                                          
+                }                
             });
 
             medList.always(function () {
@@ -51,6 +60,48 @@ var ForgotPassword = new Vue({
 
             medOne.always(function () {
             });          
+        },
+        deleteContacModal: function(index){
+            var self = this;
+
+            self.medication = self.meds[index];
+
+             //show the modal
+             $('#deleteModal').modal('show');
+
+        },
+        deleteMedication: function(){
+            var self = this;
+
+              //hide the modal
+              $('#deleteModal').modal('hide');
+
+              var data = {id : self.medication.id };
+
+              data = JSON.stringify(data);
+
+              var del = $.post("/medication/delete", data);
+
+              del.done(function (data) {
+                
+               self.medication = {} ;
+
+               data = JSON.parse(data);
+                //if successfully removed remove from the local javascript array
+               if(data == true){
+                    self.getList();
+
+                    //Display a success toast, with a title
+                    toastr.success("Selected medication has been successfully removed.");                                                   
+               }
+               else if(data == false) {                                 
+                   // Display an error toast, with a title
+                   toastr.error("Ops..., there appears to be an issue with removing this medication item");
+               }
+            });
+
+            del.always(function () {
+            });
         }
     }
 });

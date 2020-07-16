@@ -3,7 +3,6 @@
 {% block title %} Update Contact {% endblock %}
 
 {%  block header_scripts %}
-    <link href="/assets/summernote-0.8.15/summernote-bs4.min.css" rel="stylesheet">
     <link href="/assets/toastr/toastr.min.css"  rel="stylesheet">
 
 {% endblock %}
@@ -14,10 +13,10 @@
 
         <div class="row mb-2">
             <div class="col-md-10">
-                <h2 class="text-dark mb-4">Update Contact</h2>
+                <h2 class="text-dark mb-4">Add New Contact</h2>
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
-                    Here you can update the contact information.
+                    Here you can add a completelly new contact to the list.
                 </div>
             </div>         
         </div>
@@ -65,8 +64,8 @@
                     <div class="form-row">
                         <div class="form-group col-md-10">
                             <label for="notes">Notes</label>
-                            <textarea name="note" id="summernote" class="form-control" placeholder="Notes"></textarea>
-                            {#                            <div id="summernote" name="note"></div>#}
+                            {# <textarea name="note" id="summernote" class="form-control" placeholder="Notes"></textarea> #}
+                            <textarea id="contact_note" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="form-row">
@@ -93,7 +92,10 @@
 {% endblock %}
 
 {% block custom_scripts %}
-    <script type="application/javascript" src="/assets/summernote-0.8.15/summernote-bs4.js"></script>
+    <!-- tinyMice rich text editor -->
+    <script type="text/javascript" src="/assets/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="/assets/tinymce/jquery.tinymce.min.js"></script>
+
     <script src="/assets/toastr/toastr.min.js"></script>
 
     <!-- vue js -->
@@ -102,40 +104,18 @@
 
 
     <script type="application/javascript">
-
+    
         $(function () {
+           
+             tinymce.init({
+                selector: '#contact_note',
+                menubar:false,
+                statusbar: false,
+                toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent code',
+                plugins: 'code'
+            });        
 
-            $('#summernote').summernote({
-                tabsize: 2,
-                height: 120,
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'underline', 'clear']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['table', ['table']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ]
-            });
-
-            //set editor value
-            $('#summernote').summernote('code', '{{ contact.note }}');
-
-        });
-
-        // $('#summernote').summernote({
-        //     placeholder: 'test',
-        //     tabsize: 2,
-        //     height: 120,
-        //     toolbar: [
-        //         ['style', ['style']],
-        //         ['font', ['bold', 'underline', 'clear']],
-        //         ['color', ['color']],
-        //         ['para', ['ul', 'ol', 'paragraph']],
-        //         ['table', ['table']],
-        //         ['insert', ['link', 'picture', 'video']],
-        //         ['view', ['fullscreen', 'codeview', 'help']]
-        //     ]
-        // });
+        });    
+     
     </script>
 {% endblock %}

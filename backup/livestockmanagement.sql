@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `note` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table livestockmanagement.contact: ~7 rows (approximately)
+-- Dumping data for table livestockmanagement.contact: ~8 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `city`, `postal`, `country`, `province`, `phone`, `email`, `note`, `created_at`) VALUES
 	(1, 'Little Bit Western', '372 Algonquin Boulevard W', 'Timmins', 'P4N 2S2', 'Canada', 'On', '705-268-0822', '', 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', '2019-04-29 21:31:35'),
@@ -40,7 +40,9 @@ INSERT INTO `contact` (`id`, `name`, `address`, `city`, `postal`, `country`, `pr
 	(3, 'Railside General Supplies', '3272 Monahan Rd', 'Val Gagne', 'P0K 1W0', 'Canada', 'On', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', '2020-01-05 07:01:53'),
 	(5, 'Northern Veterinary Hospital', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41'),
 	(25, 'Northern Allied', '352 Railway St', 'Timmins', 'P4N 2P6', 'Canada', 'On', '7052645291', '', 'Metal supply company. The only one in Timmins.', '2020-02-18 23:39:43'),
-	(26, 'Mark', 'n/a', 'Matheson', 'p0k 1n0', 'Canada', 'On', '705-262-3433', '', 'Neighbour farmer. Wants to buy cattle.', '2020-02-27 10:59:32');
+	(26, 'Mark', 'n/a', 'Matheson', 'p0k 1n0', 'Canada', 'On', '705-262-3433', '', '<p>Neighbour farmer. Wants to buy cattle.</p>', '2020-02-27 10:59:32'),
+	(30, 'Samuel M.', '', '', '', 'Canada', 'On', '705-232-2380', '', '<p>Manonite. Sells lumber and posts for fencing or/and construction.</p>', '2020-04-08 17:19:45'),
+	(31, 'Cleason Marting', 'Country Ln', 'Val Gagne', '', 'Canada', 'On', '', '', '<p>Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.</p>', '2020-04-08 17:23:04');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Dumping structure for table livestockmanagement.event
@@ -214,19 +216,20 @@ CREATE TABLE IF NOT EXISTS `medication` (
   `desc` varchar(550) DEFAULT NULL,
   `instruction` varchar(2000) DEFAULT NULL,
   `img` varchar(150) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `on_hand_doses` int(11) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='list of medication';
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='list of medication';
 
--- Dumping data for table livestockmanagement.medication: ~6 rows (approximately)
+-- Dumping data for table livestockmanagement.medication: ~5 rows (approximately)
 /*!40000 ALTER TABLE `medication` DISABLE KEYS */;
-INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `created_at`) VALUES
-	(1, 'Tasvax 8', 'For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).', 'Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.', 'https://langleyanimalclinic.ca/wp-content/uploads/2019/07/Tasvax-8.jpg', '2019-05-09 23:02:13'),
-	(2, 'Noromectin', 'Each mL contains 0.8 mg of ivermectin.\r\n\r\nTreated animals must not be slaughtered for use in food for at least 14 days after the latest treatment with this drug.', 'Dosage and Administration\r\nNoromectin should be given as a single dose treatment. Administer orally at a dose of 2.5 mL of Noromectin per 10 kg of bodyweight, with any standard drenching equipment which provides a consistent dose volume. Repeat treatment may be necessary when re-exposure to parasite infection occurs.\r\n\r\nNoromectin Drench for Sheep Caution\r\nCoughing, which usually lasts for only a few minutes, may occur in a small percentage of sheep immediately after treatment; this passing response is of no consequence.', 'https://images-na.ssl-images-amazon.com/images/I/81cX3tCC0tL._AC_SY879_.jpg', '2019-05-09 23:04:31'),
-	(3, 'Hoof Trim', 'Trimming hoof to cattle or sheep', 'n/a', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS7Yos7zq_0RtsXizsweGLrvFzVJmcSn7QDiQ335Hpd95z7ojYA', '2019-05-09 23:17:41'),
-	(4, 'Tetanus Toxoid', 'Anti-toxing vaccination. Takes 2-3 weeks to take effect.', 'Inject intromascularly 1cc/ml. Repeat vaccination in 3-4 weeks again', 'https://www.valleyvet.com/swatches/40277_L_vvs_000.jpg', '2020-01-04 22:52:43'),
-	(5, 'Ivomec', 'Ivomec Pour-On for Cattle dewormer. Adminsiter 1cc for every 10kg (22lb).', 'Apply along the top line from the withers to the tail head at the rate of 1 mL per 10 kg (22 lb).', 'https://media.tractorsupply.com/is/image/TractorSupplyCompany/2207462?$456$', '2020-02-27 10:11:31'),
-	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'Administer 2 mL subcutaneously or intramuscularly. In accordance with Beef Quality Assurance guidelines, this product should be administered SC in the neck region.', 'https://cdn11.bigcommerce.com/s-kjner/images/stencil/1280x1280/products/2083/1162/BOVISHIELD_GOLD_5__55950.1382708635.jpg?c=2', '2020-03-08 21:44:04');
+INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `on_hand_doses`, `created_at`) VALUES
+	(1, 'Tasvax 8', 'For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).', 'Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.', 'https://langleyanimalclinic.ca/wp-content/uploads/2019/07/Tasvax-8.jpg', NULL, 10, '2019-05-09 23:02:13'),
+	(2, 'Noromectin', 'Each mL contains 0.8 mg of ivermectin.\r\n\r\nTreated animals must not be slaughtered for use in food for at least 14 days after the latest treatment with this drug.', 'Dosage and Administration\r\nNoromectin should be given as a single dose treatment. Administer orally at a dose of 2.5 mL of Noromectin per 10 kg of bodyweight, with any standard drenching equipment which provides a consistent dose volume. Repeat treatment may be necessary when re-exposure to parasite infection occurs.\r\n\r\nNoromectin Drench for Sheep Caution\r\nCoughing, which usually lasts for only a few minutes, may occur in a small percentage of sheep immediately after treatment; this passing response is of no consequence.', 'https://images-na.ssl-images-amazon.com/images/I/81cX3tCC0tL._AC_SY879_.jpg', NULL, 0, '2019-05-09 23:04:31'),
+	(4, 'Tetanus Toxoid', 'Anti-toxing vaccination. Takes 2-3 weeks to take effect.', 'Inject intromascularly 1cc/ml. Repeat vaccination in 3-4 weeks again', 'https://www.valleyvet.com/swatches/40277_L_vvs_000.jpg', NULL, 0, '2020-01-04 22:52:43'),
+	(5, 'Ivomec', 'IVOMEC Pour-On for Cattle is a clear, blue colored liquid containing 5 mg of ivermectin per mL (0.5% w/v). IVOMEC Pour-On for Cattle is formulated to deliver the recommended dose level of 500 µg of ivermectin per kg of body weight in cattle when applied along the top line from the withers to the tail head at the rate of 1 mL per 10 kg.', 'Apply along the top line from the withers to the tail head at the rate of 1 mL per 10 kg (22 lb).', 'https://media.tractorsupply.com/is/image/TractorSupplyCompany/2207462?$456$', NULL, 0, '2020-02-27 10:11:31'),
+	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'Administer 2 mL subcutaneously or intramuscularly. In accordance with Beef Quality Assurance guidelines, this product should be administered SC in the neck region.', 'https://cdn11.bigcommerce.com/s-kjner/images/stencil/1280x1280/products/2083/1162/BOVISHIELD_GOLD_5__55950.1382708635.jpg?c=2', NULL, 0, '2020-03-08 21:44:04');
 /*!40000 ALTER TABLE `medication` ENABLE KEYS */;
 
 -- Dumping structure for table livestockmanagement.planning_project
@@ -236,16 +239,13 @@ CREATE TABLE IF NOT EXISTS `planning_project` (
   `project_price` decimal(10,0) NOT NULL DEFAULT 0,
   `project_price_actual` decimal(10,0) NOT NULL DEFAULT 0,
   `is_start` tinyint(4) NOT NULL DEFAULT 0,
+  `is_done` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
 
--- Dumping data for table livestockmanagement.planning_project: ~3 rows (approximately)
+-- Dumping data for table livestockmanagement.planning_project: ~0 rows (approximately)
 /*!40000 ALTER TABLE `planning_project` DISABLE KEYS */;
-INSERT INTO `planning_project` (`id`, `project_name`, `project_price`, `project_price_actual`, `is_start`, `created_at`) VALUES
-	(2, 'Fence Charger', -1200, -1300, 0, '2020-03-22 16:04:18'),
-	(30, 'Ground rods, ground clamps and split bolt connectors', -100, -125, 0, '2020-03-24 21:15:48'),
-	(46, 'Starting project budget', -4640, -4640, 1, '2020-03-20 00:00:00');
 /*!40000 ALTER TABLE `planning_project` ENABLE KEYS */;
 
 -- Dumping structure for table livestockmanagement.transaction
@@ -594,6 +594,49 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure livestockmanagement.medicationAdd
+DELIMITER //
+CREATE PROCEDURE `medicationAdd`(
+	IN `med_name` VARCHAR(50),
+	IN `description` VARCHAR(550),
+	IN `instruction` VARCHAR(2000),
+	IN `price` DECIMAL(10,2),
+	IN `on_hand` INT
+)
+    COMMENT 'inserts new medication item'
+BEGIN
+		
+	-- inserts new medication item
+	INSERT INTO medication
+		(
+			medication.name,
+			medication.`desc`,
+			medication.instruction,
+			medication.price,
+			medication.on_hand_doses
+		)
+	VALUES
+		(
+			med_name,
+			description, 
+			instruction,
+			price,
+			on_hand
+		);
+		
+		
+		-- select last inserted record
+		-- SELECT * 
+		-- FROM 
+		--  	medication
+		-- WHERE 
+		-- 	medication.id = LAST_INSERT_ID();
+		
+		-- get last insert id
+		SELECT LAST_INSERT_ID();
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure livestockmanagement.medicationDeleteOne
 DELIMITER //
 CREATE PROCEDURE `medicationDeleteOne`(
@@ -609,11 +652,30 @@ DELIMITER ;
 
 -- Dumping structure for procedure livestockmanagement.medicationGetAll
 DELIMITER //
-CREATE PROCEDURE `medicationGetAll`()
+CREATE PROCEDURE `medicationGetAll`(
+	IN `search_term` VARCHAR(50)
+)
 BEGIN
+
+	-- Check the length of search string and adjust if needed
+	IF LENGTH(search_term) < 2 THEN
+		SET search_term = "%";
+	ELSE
+		SET search_term = CONCAT('%', search_term, '%') ;
+	END IF;
 	
-	SELECT medication.id, medication.name, medication.desc, medication.instruction, medication.img
-	FROM medication;
+	-- Run the select query itself
+	SELECT 
+		medication.id, 
+		medication.name, 
+		medication.desc, 
+		medication.instruction, 
+		medication.img,
+		medication.price,
+		medication.on_hand_doses
+	FROM medication
+	WHERE (medication.name LIKE search_term)
+	ORDER BY medication.name ASC;
 	
 END//
 DELIMITER ;
@@ -625,7 +687,13 @@ CREATE PROCEDURE `medicationGetOne`(
 )
 BEGIN
 	
-	SELECT medication.id, medication.name, medication.desc, medication.instruction, medication.img
+	SELECT medication.id, 
+		medication.name, 
+		medication.desc, 
+		medication.instruction, 
+		medication.img,
+		medication.price,
+		medication.on_hand_doses
 	FROM medication
 	WHERE medication.id = id;
 	
@@ -717,10 +785,50 @@ BEGIN
 		planning_project.project_price,
 		planning_project.project_price_actual,
 		planning_project.is_start,
-		planning_project.created_at		
-				
+		planning_project.is_done,
+		DATE(planning_project.created_at) AS created_at						
 	FROM 
-		planning_project;
+		planning_project
+	ORDER BY is_done DESC; 	
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure livestockmanagement.projectUpdateOne
+DELIMITER //
+CREATE PROCEDURE `projectUpdateOne`(
+	IN `id` INT,
+	IN `project_name` VARCHAR(250),
+	IN `project_price` DECIMAL(10,0),
+	IN `project_price_actual` DECIMAL(10,0),
+	IN `created_at` DATETIME
+)
+BEGIN
+
+	UPDATE planning_project
+	SET	
+		planning_project.project_name = project_name,
+		planning_project.project_price = project_price,
+		planning_project.project_price_actual = project_price_actual,
+		planning_project.created_at = created_at		
+	WHERE planning_project.id = id;	
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure livestockmanagement.projectUpdateStatus
+DELIMITER //
+CREATE PROCEDURE `projectUpdateStatus`(
+	IN `id` INT,
+	IN `is_done` TINYINT
+)
+BEGIN
+
+	UPDATE planning_project
+	SET 
+		planning_project.is_done = is_done	
+	WHERE 
+		planning_project.id = id;
 
 END//
 DELIMITER ;

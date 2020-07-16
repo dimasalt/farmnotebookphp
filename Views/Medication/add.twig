@@ -1,51 +1,104 @@
 {% extends "Shared/_layout.twig" %}
 
-{% block title %} New Medication {% endblock %}
+{% block title %} Medication {% endblock %}
+
+{% block header_scripts %}
+    <link href="/assets/toastr/toastr.min.css"  rel="stylesheet">
+ {% endblock %}
 
 {% block body %}
+    
 
- <div class="container" id="medication" v-cloak>      
+    <div class="container" id="medication" v-cloak>      
 
-    <div class="row mb-2">
-        <div class="col-12">
-            <h2 class="text-dark mb-4">New Medication</h2>            
+        <div class="row mb-2">
+            <div class="col-12">
+                <h2 class="text-dark mb-4">Add New Medication</h2>                           
+                 <div class="callout callout-info">
+                    <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
+                     Add a new medication item.  <strong class="text-danger">An image can be added only after the medication item has been created.</strong>
+                </div>
+            </div>           
+        </div>        
+       
+        <form>
+            <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
+            <!-- new medication items -->
+            <div class="card mb-5">
 
-                <div class="callout callout-info">
-                <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
-                This page allows to add new medication to the system.
-            </div>
-        </div>
+                 <h5 class="card-header bg-dark text-white">
+                    <i class="fas fa-file-medical mr-1"></i>
+                    <input type="text" name="med_name" class="col-5 ml-2" id="imputname" placeholder="name" v-model="medication.med_name">     
+                    <input type="text" name="med_on_hand" class="col-3 ml-2" id="imputname" placeholder="on hand doses" v-model="medication.med_on_hand">            
+                    <input type="text" name="med_price" class="col-2 ml-2" id="imputname" placeholder="price" v-model="medication.med_price">                          
+                </h5>
 
-        <div class="col-12" v-if="alert.success">
-            <div id="success-alert" class="alert alert-success" role="alert" >
-                <i class="far fa-check-circle fa-2x mr-2 align-middle"></i>
-                {{ '{{ alert.message }}' }}
-            </div>
-        </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3 h-100">                           
+                            <img v-bind:src="medication.med_img"></img>                          
+                        </div>
+                        <div class="col-9">
+                            <textarea id="med_desc" placeholder="Description" v-model="medication.med_desc"></textarea>             
+                        </div>  
+                        <div class="col-12 mt-3">
+                            <textarea id="med_instr" placeholder="Instructions" v-model="medication.med_instr"></textarea>             
+                        </div>                                          
+                    </div>                    
 
-        <div class="col-12" v-if="alert.error">
-            <div id="error-alert" class="alert alert-danger" role="alert">
-                <i class="fas fa-times-circle fa-2x mr-2 align-middle"></i>
-                {{ '{{ alert.message }}' }}
-            </div>
-        </div>
+                    <div class="row mt-3">
+                        <div class="form-group col">
+                            <a href="#"  class="btn btn-success float-right" v-on:click="addMedication()">
+                                <i class="fas fa-check text-small"></i>
+                                Add Medication
+                            </a>
+                            <a href="/medication"  class="btn btn-warning float-right mr-2">
+                                <i class="fas fa-times-circle text-small"></i>
+                                Cancel/Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+           
+            </div>      
+        </form>     
+       
     </div>
-</div>    
 
 {% endblock %}
 
 {% block custom_scripts %}
 
+    <!-- tinyMice rich text editor -->
+    <script type="text/javascript" src="/assets/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="/assets/tinymce/jquery.tinymce.min.js"></script>
+
+    <!-- vue js -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="/assets/toastr/toastr.min.js"></script>
 
-    <script src="/assets/js/vue/medication/index.js"></script>
+    <script src="/assets/js/vue/medication/add.js"></script>
 
-    {# 
      <script type="application/javascript">
         $(function () {
-            // tooltips
-            $('[data-toggle="tooltip"]').tooltip();
+            
+              tinymce.init({
+                selector: '#med_desc',
+                menubar:false,
+                statusbar: false,
+                toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent code',
+                plugins: 'code'
+            });        
 
-        })
-    </script> #}
+              tinymce.init({
+                selector: '#med_instr',
+                menubar:false,
+                statusbar: false,
+                toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent code',
+                plugins: 'code'
+            });        
+
+
+        });
+    </script>
 {% endblock %}

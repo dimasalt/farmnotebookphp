@@ -20,13 +20,13 @@
 
 
 <body>
+    {% include '/Shared/_navbar.twig' %}
 
-{% include '/Shared/_navbar.twig' %}
+    <!-- main body -->
+    <main role="main" class="mt-5 h-100 container">
+        {% block body %}{% endblock %}  
+    </main>
 
-<!-- main body -->
-<main role="main" class="mt-5 h-100 container">
-    {% block body %}{% endblock %}  
-</main>
 
 <!-- footer -->
 <div>

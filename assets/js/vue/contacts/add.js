@@ -17,7 +17,8 @@ var Contacts = new Vue({
                 province : $('#inputprovince').val(),
                 phone : $('#inputphone').val(),
                 email : $('#inputpemail').val(),
-                note : $('#summernote').summernote('code'),
+                //note : tinyMCE.activeEditor.getContent(),
+                note: tinyMCE.get('contact_note').getContent(),
                 csrf : $('#csrf').val()
             };
 
