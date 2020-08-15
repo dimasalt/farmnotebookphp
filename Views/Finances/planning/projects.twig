@@ -24,9 +24,8 @@
 
         <!-- start point -->
         <div class="row mt-3">
-            <div class="col-12">
-                {# <h5>Project start budget                  #}
-                <h2 class="text-dark">Project planner
+            <div class="col-12">          
+                <h2 class="text-dark">Project Planner
                     <a href="#" v-if='Object.keys(starting_expence).length > 0' v-on:click="delOneShow(starting_expence.id, starting_expence.project_name)">
                         <i class="far fa-trash-alt btn-sm text-danger align-middle ml-1"
                             data-toggle="tooltip" data-placement="top" title="remove starting finance point"></i>
@@ -34,11 +33,11 @@
                 </h2>                
             </div>
             <div class="col-12 mt-2" v-if='Object.keys(starting_expence).length > 0'>
-                <table class="table table-sm bg-white table-bordered">              
+                <table class="table bg-white table-bordered">              
                     <tbody>
                         <tr v-bind:class='starting_expence.class' >
                             <td scope="row" style="width:90%">{{ '{{starting_expence.project_name}}' }}</td>                                   
-                            <td>${{ '{{starting_expence.project_price}}' }}</td>
+                            <td>{{ '{{starting_expence.project_price_formated}}' }}</td>
                         </tr>                                   
                     </tbody>
                 </table>
@@ -48,7 +47,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control col-7" placeholder="Project name" aria-label="Project name" aria-describedby="button-addon4" v-model="project_item_new.project_name">
                     <input type="text" class="form-control col-3" placeholder="Starting budget" aria-label="Starting budget" aria-describedby="button-addon4" v-model="project_item_new.project_price">
-                    <input type="text" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_new.created_at">
+                    <input type="date" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_new.created_at">
                     <div class="input-group-append" id="button-addon4">                       
                         <button class="btn btn-success" type="button" v-on:click="addNew(1)">
                             <i class="far fa-plus-square btn-sm text-white pl-0" title="Add starting finance point"></i>
@@ -77,7 +76,7 @@
                     <input type="text" class="form-control col-6" placeholder="Project name" aria-label="Project name" aria-describedby="button-addon4" v-model="project_item_new.project_name" required>
                     <input type="text" class="form-control col-2" placeholder="Projected expence" aria-label="Projected expence" aria-describedby="button-addon4" v-model="project_item_new.project_price" required>
                     <input type="text" class="form-control col-2" placeholder="Actual expence" aria-label="Actual expence" aria-describedby="button-addon4" v-model="project_item_new.project_price_actual" required>
-                    <input type="text" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_new.created_at">
+                    <input type="date" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_new.created_at">
                     <div class="input-group-append" id="button-addon4">     
                          <button class="btn btn-warning" type="button" v-on:click="addNewHide()">
                              <i class="fas fa-times-circle text-small mr-1"></i>
@@ -92,11 +91,11 @@
             </div>    
 
             <div class="col-12 mt-2">
-                <table class="table table-sm bg-white table-borderless">              
+                <table class="table bg-white table-borderless">              
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col" style="width:78%">Project name</th>
+                            <th scope="col" style="width:78%">Name</th>
                             <th scope="col">Predicted</th>
                             <th scope="col">Actual</th>                       
                         </tr>
@@ -117,8 +116,8 @@
                                         data-toggle="tooltip" data-placement="top" title="edit expence point"></i>
                                 </a>
                             </td>                                   
-                            <td>${{ '{{item.project_price}}' }} </td>
-                            <td>${{ '{{item.project_price_actual}}' }} </td>
+                            <td>{{ '{{item.project_price_formated}}' }} </td>
+                            <td>{{ '{{item.project_price_actual_formated}}' }} </td>
                         </tr>    
                         <tr v-if="item.is_edit == true">
                             <td colspan="4">
@@ -127,7 +126,7 @@
                                     <input type="text" class="form-control col-6" placeholder="Project name" aria-label="Project name" aria-describedby="button-addon4" v-model="project_item_edit.project_name" required>
                                     <input type="text" class="form-control col-2" placeholder="Projected expence" aria-label="Projected expence" aria-describedby="button-addon4" v-model="project_item_edit.project_price" required>
                                     <input type="text" class="form-control col-2" placeholder="Actual expence" aria-label="Actual expence" aria-describedby="button-addon4" v-model="project_item_edit.project_price_actual" required>
-                                    <input type="text" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_edit.created_at">
+                                    <input type="date" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_edit.created_at">
                                     <div class="input-group-append" id="button-addon4">     
                                         <a href="#" class="btn btn-warning" v-on:click="editCancel(index)">
                                             <i class="fas fa-times-circle text-small mr-1"></i>
@@ -145,7 +144,17 @@
                 </table>
             </div>
                    
-        </div>          
+        </div>     
+
+        <!-- graph -->
+        <div class="row">
+            <div class="col-12">
+                <canvas id="canvas" style="background-color:white"></canvas>
+                <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+            </div>
+
+            
+        </div>     
         
         <!-- final result -->
         <div class="row mt-3">
@@ -153,7 +162,7 @@
                 <!-- small box -->
                 <div class="small-box bg-info rounded text-white">
                     <div class="inner">
-                        <h3 class="pt-3 text-center">${{ '{{projects_total.predicted_expences}}' }}</h3>
+                        <h3 class="pt-3 text-center">{{ '{{projects_total.predicted_expences_formated}}' }}</h3>
 
                         <p class="pb-3 text-center text-uppercase">Total projected expences</p>
                     </div>
@@ -167,7 +176,7 @@
                 <!-- small box -->
                 <div class="small-box bg-success rounded text-white">
                 <div class="inner">
-                    <h3 class="pt-3 text-center">${{ '{{projects_total.actual_expences}}' }}</h3>
+                    <h3 class="pt-3 text-center">{{ '{{projects_total.actual_expences_formated}}' }}</h3>
 
                     <p class=" text-center pb-3 text-uppercase">Total actual expences</p>
                 </div>
@@ -213,10 +222,19 @@
 
 {% block custom_scripts %}
 
+    <!-- Load plotly.js into the DOM -->
+	<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+     <!-- chart -->
+     {# <script src="/assets/js/moment.js"></script> #}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q==" crossorigin="anonymous"></script>
+    
+        
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="/assets/js/vue/finances/planning/projects.js"></script>
 
-    <script src="/assets/toastr/toastr.min.js"></script>
+    <script src="/assets/toastr/toastr.min.js"></script>   
+    
    
     <script type="application/javascript">
         $(function () {

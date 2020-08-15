@@ -71,14 +71,20 @@ class PlanningController extends BaseController {
             $project_price = $data->project_price;
             $project_price_actual = $data->project_price_actual;
             $is_start = $data->is_start;
-            $created_at = $data->created_at;
+
+          //check if date is empty or null. If yes assign current date value
+          //if(! isset($data->created_at ) || strlen($data->created_at ) == 0)
+          if(! isset($data->created_at ) || empty($data->created_at ))
+            $data->created_at = date('Y-m-d');
+
+          $created_at = $data->created_at;
     
-           $phelper = new PlanningHelper();
-           $result = $phelper->addNew($project_name, $project_price, $project_price_actual, $is_start, $created_at);
+          $phelper = new PlanningHelper();
+          $result = $phelper->addNew($project_name, $project_price, $project_price_actual, $is_start, $created_at);
    
-           echo json_encode($result);
-         } 
-         else echo json_encode(false);               
+          echo json_encode($result);
+        } 
+        else echo json_encode(false);               
     }
 
 

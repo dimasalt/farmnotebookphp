@@ -1,7 +1,13 @@
 var FinancesIndex = new Vue({
-    el: "#ongoing-finances",
+    el: "#transactions",
     data: {
-       finances: []
+       add_new_visible : false, 
+       transactions: [],
+       transaction_record : {
+           name : '',
+           price : 0,
+           date : ''
+       }
     },
     created: function () {
         var self = this;
@@ -17,13 +23,13 @@ var FinancesIndex = new Vue({
             var data = {};
             data = JSON.stringify(data);
 
-            var projectsList = $.post("/finances/main/get/all", data);
+            var projectsList = $.post("/finances/transactions/get/all", data);
 
             projectsList.done(function (data) {
                 if (data.length > 0) {
                     data = JSON.parse(data);
                     
-                    self.finances = data;
+                    self.transactions = data;
                 }
             });
 
@@ -34,6 +40,11 @@ var FinancesIndex = new Vue({
         },
         deleteOne: function(){
 
+        },
+        displayForm: function(is_visible){
+            var self = this;
+
+            self.add_new_visible = is_visible;
         }
     }
 });

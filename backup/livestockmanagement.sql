@@ -225,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `medication` (
 -- Dumping data for table livestockmanagement.medication: ~5 rows (approximately)
 /*!40000 ALTER TABLE `medication` DISABLE KEYS */;
 INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `on_hand_doses`, `created_at`) VALUES
-	(1, 'Tasvax 8', 'For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).', 'Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.', 'https://langleyanimalclinic.ca/wp-content/uploads/2019/07/Tasvax-8.jpg', NULL, 10, '2019-05-09 23:02:13'),
+	(1, 'Tasvax 8', 'For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).', 'Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.', '/uploads/medication/Tasvax 8.jpg', NULL, 10, '2019-05-09 23:02:13'),
 	(2, 'Noromectin', 'Each mL contains 0.8 mg of ivermectin.\r\n\r\nTreated animals must not be slaughtered for use in food for at least 14 days after the latest treatment with this drug.', 'Dosage and Administration\r\nNoromectin should be given as a single dose treatment. Administer orally at a dose of 2.5 mL of Noromectin per 10 kg of bodyweight, with any standard drenching equipment which provides a consistent dose volume. Repeat treatment may be necessary when re-exposure to parasite infection occurs.\r\n\r\nNoromectin Drench for Sheep Caution\r\nCoughing, which usually lasts for only a few minutes, may occur in a small percentage of sheep immediately after treatment; this passing response is of no consequence.', 'https://images-na.ssl-images-amazon.com/images/I/81cX3tCC0tL._AC_SY879_.jpg', NULL, 0, '2019-05-09 23:04:31'),
 	(4, 'Tetanus Toxoid', 'Anti-toxing vaccination. Takes 2-3 weeks to take effect.', 'Inject intromascularly 1cc/ml. Repeat vaccination in 3-4 weeks again', 'https://www.valleyvet.com/swatches/40277_L_vvs_000.jpg', NULL, 0, '2020-01-04 22:52:43'),
 	(5, 'Ivomec', 'IVOMEC Pour-On for Cattle is a clear, blue colored liquid containing 5 mg of ivermectin per mL (0.5% w/v). IVOMEC Pour-On for Cattle is formulated to deliver the recommended dose level of 500 µg of ivermectin per kg of body weight in cattle when applied along the top line from the withers to the tail head at the rate of 1 mL per 10 kg.', 'Apply along the top line from the withers to the tail head at the rate of 1 mL per 10 kg (22 lb).', 'https://media.tractorsupply.com/is/image/TractorSupplyCompany/2207462?$456$', NULL, 0, '2020-02-27 10:11:31'),
@@ -242,10 +242,17 @@ CREATE TABLE IF NOT EXISTS `planning_project` (
   `is_done` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
 
--- Dumping data for table livestockmanagement.planning_project: ~0 rows (approximately)
+-- Dumping data for table livestockmanagement.planning_project: ~1 rows (approximately)
 /*!40000 ALTER TABLE `planning_project` DISABLE KEYS */;
+INSERT INTO `planning_project` (`id`, `project_name`, `project_price`, `project_price_actual`, `is_start`, `is_done`, `created_at`) VALUES
+	(95, 'Gooseneck trailer', 4000, 0, 0, 0, '2020-08-11 00:00:00'),
+	(96, 'January 2021', 3000, 0, 0, 0, '2020-08-11 00:00:00'),
+	(97, 'Taxes March 2021', 1750, 0, 0, 0, '2020-08-11 00:00:00'),
+	(98, 'Calves Sale', 7000, 0, 0, 0, '2020-08-11 00:00:00'),
+	(99, 'Pension plan money', 8500, 0, 0, 0, '2020-08-11 00:00:00'),
+	(103, '32 Baby Calves for spring 2021', -14000, -14000, 1, 0, '2020-08-10 00:00:00');
 /*!40000 ALTER TABLE `planning_project` ENABLE KEYS */;
 
 -- Dumping structure for table livestockmanagement.transaction
@@ -877,16 +884,16 @@ DELIMITER //
 CREATE PROCEDURE `transactionsGetAll`()
 BEGIN
 
-	SELECT trans.trans_id, 
+	SELECT transaction.id, 
 			transaction_category.trans_cat_subname, 
 			transaction_type.trans_type_name, 
-			trans.trans_ammount, 
-			trans.trans_currency,
-			trans.trans_date
-	From trans
-	inner join transaction_category on trans.trans_cat_id = transaction_category.trans_cat_id
-	inner join transaction_type on trans.trans_type_id = transaction_type.trans_type_id
-	ORDER BY trans.trans_date;
+			transaction.trans_ammount, 
+			transaction.trans_currency,
+			transaction.trans_date
+	From transaction
+	inner join transaction_category on transaction.trans_cat_id = transaction_category.id
+	inner join transaction_type on transaction.trans_type_id = transaction_type.id
+	ORDER BY transaction.trans_date DESC;
 
 END//
 DELIMITER ;
