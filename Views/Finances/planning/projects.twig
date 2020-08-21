@@ -3,7 +3,7 @@
 {% block title %} Projects Planner {% endblock %}
 
 {% block header_scripts %}
-    <link href="/assets/toastr/toastr.min.css"  rel="stylesheet">
+    <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
  {% endblock %}
 
 {% block body %}    
@@ -146,15 +146,13 @@
                    
         </div>     
 
-        <!-- graph -->
-        <div class="row">
-            <div class="col-12">
-                <canvas id="canvas" style="background-color:white"></canvas>
-                <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
-            </div>
+        <!-- Charts -->       
+        <div class="row mt-3" v-show="chart_data.length > 0">         
+            <div class="col">
+                <canvas id="canvas_line" style="background-color:white"></canvas>               
+            </div>                   
+        </div>    
 
-            
-        </div>     
         
         <!-- final result -->
         <div class="row mt-3">
@@ -164,7 +162,7 @@
                     <div class="inner">
                         <h3 class="pt-3 text-center">{{ '{{projects_total.predicted_expences_formated}}' }}</h3>
 
-                        <p class="pb-3 text-center text-uppercase">Total projected expences</p>
+                        <p class="pb-3 text-center text-uppercase">Total projected</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -178,7 +176,7 @@
                 <div class="inner">
                     <h3 class="pt-3 text-center">{{ '{{projects_total.actual_expences_formated}}' }}</h3>
 
-                    <p class=" text-center pb-3 text-uppercase">Total actual expences</p>
+                    <p class=" text-center pb-3 text-uppercase">Total actual</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -221,22 +219,22 @@
 {% endblock %}
 
 {% block custom_scripts %}
+ 
 
-    <!-- Load plotly.js into the DOM -->
-	<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-
-     <!-- chart -->
-     {# <script src="/assets/js/moment.js"></script> #}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q==" crossorigin="anonymous"></script>
+    <!-- chart -->
+    {# <script src="/assets/js/moment.js"></script> #}
+    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q==" crossorigin="anonymous"></script> #}
+    <script src='/assets/components/chartjs/Chart.bundle.min.js'></script>
     
         
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="/assets/js/vue/finances/planning/projects.js"></script>
 
-    <script src="/assets/toastr/toastr.min.js"></script>   
+    <script src="/assets/components/toastr/toastr.min.js"></script>   
     
    
-    <script type="application/javascript">
+    <script type="application/javascript">       
+
         $(function () {
             // tooltips
            // $('[data-toggle="tooltip"]').tooltip();

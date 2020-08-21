@@ -19,7 +19,7 @@ var PlanningProjects = new Vue({
             predicted_expences_class: "",
             actual_expences_class: ""
         },
-        chart_data : [] //data for date chart
+        chart_data : [] //data for the charts
     },
     created: function () {
         var self = this;
@@ -107,9 +107,7 @@ var PlanningProjects = new Vue({
 
                 //assign information for the chart
                 self.chart_data = data;
-                self.chartJS();
-
-                //self.plotlyChart();
+                self.chartJSLine();               
             });
 
             projectsList.always(function () { });
@@ -170,6 +168,8 @@ var PlanningProjects = new Vue({
                     toastr.error("Ops! There appears to be an error and project coudln't be updated");
                 }
                 
+                //call charts
+                self.chartJSLine();
             });
 
             projectedit.always(function () { });
@@ -208,8 +208,7 @@ var PlanningProjects = new Vue({
                 else if(data == false){
                     // Display an error toast, with a title
                     toastr.error("Ops! There appears to be an error and project status coudln't be updated");
-                }
-                
+                }            
             });
 
             projectedit.always(function () { });
@@ -266,7 +265,9 @@ var PlanningProjects = new Vue({
                     // Display an error toast, with a title
                     toastr.error("Ops! There appears to be an error and selected item coudln't t be removed");
                 }
-                
+
+                //redraw charts
+                self.chartJSLine();               
             });
 
             projectdel.always(function () { });
@@ -323,24 +324,25 @@ var PlanningProjects = new Vue({
                     // Display an error toast, with a title
                     toastr.error("Ops! There appears to be an error and project coudln't be added");
                 }
-                
+
+                //redraw charts
+                self.chartJSLine();                   
             });
 
             projectdel.always(function () { });
-        },
-        chartJS : function(){   
+        },      
+        chartJSLine : function(){   
             
-            var self = this;    
-            
-            var timeFormat = 'YYYY/MM/DD';
+            var self = this;            
 
             //assing data for labels and datasets
             var labels = [], data = [];            
             for(var i = 0; i < self.chart_data.length; i++){
                 //labels.push(self.chart_data[i].project_name);
 
-                if(data.length == 0)
+                if(data.length == 0){
                     data.push({ x: self.chart_data[i].created_at, y: self.chart_data[i].project_price  });
+                }
                 else 
                 {
                     var sum = parseInt(self.chart_data[i].project_price) + parseInt(data[i-1].y); 
@@ -349,14 +351,16 @@ var PlanningProjects = new Vue({
 
             }
 
+            var timeFormat = 'YYYY/MM/DD';
+            
             var config = {
                 type: 'line',
                 data: {
                     //labels: labels,
                     datasets: [{
                         label: 'Predicted expenses',                                
-                        backgroundColor : "#000000",                
-                        borderColor: "#000000",
+                        backgroundColor : "#FF0000",                
+                        borderColor: "#FF0000",
                         borderDash: [5, 5],
                         fill: false,
                         data: data
@@ -392,59 +396,13 @@ var PlanningProjects = new Vue({
                 }
             };  
             
-            var ctx = document.getElementById("canvas").getContext("2d");
+
+            Chart.defaults.global.defaultFontFamily =  'Source Sans Pro';
+            Chart.defaults.global.defaultFontColor =  '#000000';
+            
+            var ctx = document.getElementById("canvas_line").getContext("2d");
             var myChart = new Chart(ctx, config);
-        },      
-        plotlyChart: function()  {
-            var self = this;
-
-            var x = [], y = [];
-            for(var i = 0; i < self.chart_data.length; i++){
-                x.push(self.chart_data[i].created_at);
-
-                if(y.length == 0)
-                    y.push( self.chart_data[i].project_price );
-                else 
-                    y.push( parseInt(y[i-1]) + parseInt(self.chart_data[i].project_price ));    
-            }
-
-            var trace1 = {
-                type: "scatter",
-                mode: "lines",
-                name: 'Predicted expenses',
-                x: x,
-                y: y,              
-                line: {color: '#1E90FF'}
-            };
-
-            var data = [ trace1 ];
-
-            var layout = {
-                title: 'Predicted and Actual expenses',    
-                xaxis: {
-                    title: {
-                      text: 'Date',
-                      font: {
-                        family: 'Verdana',
-                        size: 16,
-                        color: '#000000'
-                      }
-                    },
-                  },
-                  yaxis: {
-                    title: {
-                      text: '$',
-                      font: {
-                        family: 'Verdana',
-                        size: 16,
-                        color: '#000000'
-                      }
-                    }
-                  }           
-            };
-              
-            Plotly.newPlot('myDiv', data, layout);           
-        },
+        },             
         resetNewItem: function(){
             var self = this;
 
