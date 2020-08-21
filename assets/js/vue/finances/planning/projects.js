@@ -336,17 +336,21 @@ var PlanningProjects = new Vue({
             var self = this;            
 
             //assing data for labels and datasets
-            var labels = [], data = [];            
+            var data_predicted = [], data_actual = [];            
             for(var i = 0; i < self.chart_data.length; i++){
                 //labels.push(self.chart_data[i].project_name);
 
-                if(data.length == 0){
-                    data.push({ x: self.chart_data[i].created_at, y: self.chart_data[i].project_price  });
+                if(data_predicted.length == 0 && data_actual.length == 0){
+                    data_predicted.push({ x: self.chart_data[i].created_at, y: self.chart_data[i].project_price  });
+                    data_actual.push({ x: self.chart_data[i].created_at, y: self.chart_data[i].project_price  });
                 }
                 else 
                 {
-                    var sum = parseInt(self.chart_data[i].project_price) + parseInt(data[i-1].y); 
-                    data.push({ x: self.chart_data[i].created_at, y: sum  });
+                    var sum_predicted = parseInt(self.chart_data[i].project_price) + parseInt(data_predicted[i-1].y); 
+                    data_predicted.push({ x: self.chart_data[i].created_at, y: sum_predicted  });
+
+                    var sum_actual = parseInt(self.chart_data[i].project_price_actual) + parseInt(data_actual[i-1].y); 
+                    data_actual.push({ x: self.chart_data[i].created_at, y: sum_actual });
                 }
 
             }
@@ -358,18 +362,27 @@ var PlanningProjects = new Vue({
                 data: {
                     //labels: labels,
                     datasets: [{
-                        label: 'Predicted expenses',                                
+                        label: 'Projected',                                
                         backgroundColor : "#FF0000",                
                         borderColor: "#FF0000",
                         borderDash: [5, 5],
                         fill: false,
-                        data: data
-                    }]
+                        data: data_predicted
+                    },
+                    {
+                        label: 'Actual',                                
+                        backgroundColor : "#008000",                
+                        borderColor: "#008000",
+                        borderDash: [5, 5],
+                        fill: false,
+                        data: data_actual
+                    }
+                ]
                 },
                 options: {
                     responsive: true,
                     title: {
-                        text: 'Predicted and Actual expenses',
+                        text: 'Projected and Actual expenses',
                         display: true
                     },
                     scales:     {
