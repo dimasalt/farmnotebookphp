@@ -24,7 +24,7 @@ $r->addRoute('GET', '/contacts', 'FarmManagement\Controllers\ContactsController:
 $r->addRoute(['GET', 'POST'], '/contacts/view/{id}', 'FarmManagement\Controllers\ContactsController:view');
 
 //finances pages
-$r->addRoute(['GET', 'POST'], '/finances/transactions/get/all', 'FarmManagement\Controllers\FinancesController:getAll');
+$r->addRoute(['GET', 'POST'], '/finances/transactions/get/all', 'FarmManagement\Controllers\FinancesController:transactionsGetAll');
 $r->addRoute(['GET', 'POST'], '/finances/transactions', 'FarmManagement\Controllers\FinancesController:index');
 
 //--------------------------

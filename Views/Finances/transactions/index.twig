@@ -3,7 +3,7 @@
 {% block title %} Transactions {% endblock %}
 
 {% block header_scripts %}
-    <link href="/assets/toastr/toastr.min.css"  rel="stylesheet">
+    <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
  {% endblock %}
 
 {% block body %}
@@ -47,7 +47,7 @@
                 <input type="text" class="form-control col-2" placeholder="Price" aria-label="Price" aria-describedby="button-addon4" v-model="transaction_record.price" required>                                
                 <input class="form-control" type="date" aria-label="Start date" aria-describedby="button-addon4" v-model="transaction_record.date">
                 <div class="input-group-append" id="button-addon4">     
-                        <button class="btn btn-warning" type="button" v-on:click="displayForm(false)">
+                        <button class="btn btn-warning" type="button" v-on:click="showForm(false)">
                             <i class="fas fa-times-circle text-small mr-1"></i>
                         Cancel           
                     </button>                  
@@ -57,7 +57,63 @@
                     </button>                       
                 </div>
             </div>
-        </div>    
+        </div> 
+
+        <div class="col-12 mt-2">
+                <table class="table bg-white table-borderless">              
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col" style="width:78%">Name</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Type</th>                
+                            <th scope="col">$ CAD</th>                       
+                        </tr>
+                    </thead>
+                    <tbody v-for="(item, index) in transactions">
+                        <tr class="border" v-bind:class="item.class" >
+                            <td scope="row">
+                                <input type="checkbox" v-model="item.checked" v-on:change.prevent="editProjectStatus(item.id, index)" />
+                            </td>
+                            <td>
+                                {{ '{{item.project_name}}' }}
+                                <a href="#" v-on:click.stop="delOneShow(item.id, item.project_name)">
+                                    <i class="far fa-trash-alt btn-sm text-dark align-middle mr-1 float-right"
+                                        data-toggle="tooltip" data-placement="top" title="remove expence point"></i>
+                                </a>
+                                 <a href="#" v-on:click="editShow(index)">
+                                    <i class="fa fa-edit btn-sm text-warning align-middle ml-1 pr-0 float-right"
+                                        data-toggle="tooltip" data-placement="top" title="edit expence point"></i>
+                                </a>
+                            </td>                                   
+                            <td>{{ '{{item.project_price_formated}}' }} </td>
+                            <td>{{ '{{item.project_price_actual_formated}}' }} </td>
+                        </tr>    
+                        <tr v-if="item.is_edit == true">
+                            <td colspan="4">
+                                  <div class="input-group">
+                                    <input type="hidden" v-model="project_item_edit.id" />
+                                    <input type="text" class="form-control col-6" placeholder="Project name" aria-label="Project name" aria-describedby="button-addon4" v-model="project_item_edit.project_name" required>
+                                    <input type="text" class="form-control col-2" placeholder="Projected expence" aria-label="Projected expence" aria-describedby="button-addon4" v-model="project_item_edit.project_price" required>
+                                    <input type="text" class="form-control col-2" placeholder="Actual expence" aria-label="Actual expence" aria-describedby="button-addon4" v-model="project_item_edit.project_price_actual" required>
+                                    <input type="date" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_edit.created_at">
+                                    <div class="input-group-append" id="button-addon4">     
+                                        <a href="#" class="btn btn-warning" v-on:click="editCancel(index)">
+                                            <i class="fas fa-times-circle text-small mr-1"></i>
+                                            Cancel           
+                                        </a>                  
+                                        <a href="#" class="btn btn-success" v-on:click="editOne()">
+                                            <i class="fas fa-check btn-sm text-white pl-0" title="Save item update"></i>
+                                            Save           
+                                        </a>                       
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>                       
+                    </tbody>
+                </table>
+            </div>   
        
 
     </div>
@@ -66,8 +122,9 @@
 
 {% block custom_scripts %}
 
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="/assets/toastr/toastr.min.js"></script>
+    {# <script src="https://cdn.jsdelivr.net/npm/vue"></script> #}
+    <script src="/assets/js/vue.min.js"> </script>
+    <script src="/assets/components/toastr/toastr.min.js"></script>
 
     <script src="/assets/js/vue/finances/transactions/index.js"></script>
 

@@ -242,9 +242,9 @@ CREATE TABLE IF NOT EXISTS `planning_project` (
   `is_done` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
 
--- Dumping data for table livestockmanagement.planning_project: ~6 rows (approximately)
+-- Dumping data for table livestockmanagement.planning_project: ~5 rows (approximately)
 /*!40000 ALTER TABLE `planning_project` DISABLE KEYS */;
 INSERT INTO `planning_project` (`id`, `project_name`, `project_price`, `project_price_actual`, `is_start`, `is_done`, `created_at`) VALUES
 	(95, 'Gooseneck trailer', 4000, 0, 0, 0, '2020-10-30 00:00:00'),
@@ -252,7 +252,7 @@ INSERT INTO `planning_project` (`id`, `project_name`, `project_price`, `project_
 	(97, 'Taxes March 2021', 1750, 0, 0, 0, '2021-03-31 00:00:00'),
 	(98, 'Calves Sale', 7000, 0, 0, 0, '2020-12-31 00:00:00'),
 	(99, 'Pension plan money', 8500, 0, 0, 0, '2021-02-28 00:00:00'),
-	(107, '32 Baby Calves for spring 2021', -14000, -14000, 1, 0, '2020-08-15 00:00:00');
+	(116, '32 Baby Calves for spring 2021', -14000, -14000, 1, 0, '2020-08-01 00:00:00');
 /*!40000 ALTER TABLE `planning_project` ENABLE KEYS */;
 
 -- Dumping structure for table livestockmanagement.transaction
@@ -263,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `trans_ammount` decimal(19,2) NOT NULL,
   `trans_currency` varchar(10) NOT NULL DEFAULT 'CAD',
   `trans_desc` varchar(250) DEFAULT NULL,
-  `addr_id` int(11) NOT NULL,
+  `addr_id` int(11) DEFAULT NULL,
   `trans_date` datetime NOT NULL DEFAULT current_timestamp(),
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),

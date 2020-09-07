@@ -17,4 +17,19 @@ class FinancesController extends BaseController
         ]);
     }
 
+    /**
+     * function to get list of transactions
+     */
+    public function transactionsGetAll(){
+        // Takes raw data from the request
+        $json = file_get_contents('php://input');
+
+        // Converts it into a PHP object
+        $data = json_decode($json);
+   
+        $helper = new FinancesHelper();
+        $result = $helper->transactionsGetAll();
+
+        echo json_encode($result);
+    }
 }

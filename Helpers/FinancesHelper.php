@@ -9,13 +9,12 @@ class FinancesHelper
     /*
     * get list of all available medication items
     */
-    public function getList($search_term){
+    public function transactionsGetAll(){
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call medicationGetAll(?)');
-        $stmt->execute(array($search_term));
-        //$stmt->execute();
+        $stmt = $pdo->prepare('call transactionsGetAll()');      
+        $stmt->execute();
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 

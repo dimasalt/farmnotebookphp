@@ -38,6 +38,9 @@ class PlanningController extends BaseController {
     */
     public function delOne()
     {
+          //security
+          session_regenerate_id();
+          
          // Takes raw data from the request
          $json = file_get_contents('php://input');
 
@@ -60,6 +63,9 @@ class PlanningController extends BaseController {
     */
     public function addNew()
     {
+        //security
+        session_regenerate_id();
+
          // Takes raw data from the request
          $json = file_get_contents('php://input');
 
@@ -95,6 +101,9 @@ class PlanningController extends BaseController {
     */
     public function updateOne()
     {
+          //security
+          session_regenerate_id();
+
          // Takes raw data from the request
          $json = file_get_contents('php://input');
 
@@ -125,6 +134,9 @@ class PlanningController extends BaseController {
     */
     public function projectUpdateStatus()
     {
+          //security
+          session_regenerate_id();
+
          // Takes raw data from the request
          $json = file_get_contents('php://input');
 

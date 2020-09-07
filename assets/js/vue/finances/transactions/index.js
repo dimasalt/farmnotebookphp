@@ -6,17 +6,23 @@ var FinancesIndex = new Vue({
        transaction_record : {
            name : '',
            price : 0,
-           date : ''
-       }
+           date : '',
+           category : '',
+           type : ''
+       },
+       transaction_category : [],
+       transaction_type: [],
+       chart_show: true,
+       chart_data : []
     },
     created: function () {
         var self = this;
 
         //get all the projects
-        self.getFinances();
+        self.transactionsGetAll();
     },
     methods: {
-        getFinances: function () {
+        transactionsGetAll: function () {
             //gets all project items
             var self = this;           
 
@@ -35,13 +41,13 @@ var FinancesIndex = new Vue({
 
             projectsList.always(function () { });
         },
-        editOne: function(){
+        transactionEdit: function(){
 
         },
-        deleteOne: function(){
+        transactionDel: function(){
 
         },
-        displayForm: function(is_visible){
+        showForm: function(is_visible){
             var self = this;
 
             self.add_new_visible = is_visible;
