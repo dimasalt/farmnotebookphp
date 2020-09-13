@@ -34,7 +34,7 @@
                 </h2>                
             </div>
             <div class="col-12 mt-2" v-if='Object.keys(starting_expence).length > 0'>
-                <table class="table bg-white table-bordered">              
+                <table class="table bg-white table-bordered shadow-sm">              
                     <tbody>
                         <tr v-bind:class='starting_expence.class' >
                             <td scope="row" style="width:90%">{{ '{{starting_expence.project_name}}' }}</td>                                   
@@ -92,7 +92,7 @@
             </div>    
 
             <div class="col-12 mt-2">
-                <table class="table bg-white table-borderless">              
+                <table class="table bg-white table-borderless shadow-sm">              
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -150,7 +150,7 @@
         <!-- Charts -->       
         <div class="row mt-3" v-show="chart_data.length > 0">         
             <div class="col">
-                <canvas id="canvas_line" style="background-color:white"></canvas>               
+                <canvas id="canvas_line" class="shadow-sm"  style="background-color:white"></canvas>               
             </div>                   
         </div>    
 
