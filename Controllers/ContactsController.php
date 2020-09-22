@@ -91,7 +91,7 @@ class ContactsController extends BaseController
 
         $contHelper = new ContactsHelper();
         $contact = $contHelper->GetOne($id);
-
+      
         //display the view
         echo $this->view->render('Contacts/update.twig', [
             'csrf' => CSRFToken::getToken(),
@@ -108,7 +108,7 @@ class ContactsController extends BaseController
         $json = file_get_contents('php://input');
 
         // Converts it into a PHP object
-        $contact = json_decode($json);
+        $contact = json_decode($json);       
 
 //        $contact = [
 //               'csrf'           => $_POST['csrf'],

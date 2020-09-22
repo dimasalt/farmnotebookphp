@@ -71,6 +71,7 @@ class ContactsHelper
     {
         $db = new DBConnection();
         $pdo = $db->getPDO();
+        //$pdo->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING );
         $stmt = $pdo->prepare('call contactUpdate(?,?,?,?,?,?,?,?,?,?)');
         $stmt->execute(array(
             $contact->id,
@@ -83,7 +84,9 @@ class ContactsHelper
             $contact->phone,
             $contact->email,
             $contact->note
-        ));
+        ));        
+
+        //return $stmt->errorCode();
 
         if($stmt->rowCount() > 0) return true;
         else return false;

@@ -39,7 +39,7 @@ var Contacts = new Vue({
                     toastr.success("Contact has been successfully updated.");                       
                }
                else if(data == false){
-                toastr.success("Contact has been successfully updated.");             
+                toastr.error("Ops..., there appears to be an issue with udating this contact");          
                }
             });
 

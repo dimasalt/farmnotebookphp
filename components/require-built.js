@@ -28072,7 +28072,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 define('moment', function (require, exports, module) {
 //! moment.js
-//! version : 2.27.0
+//! version : 2.28.0
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
@@ -32477,7 +32477,7 @@ define('moment', function (require, exports, module) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].name;
@@ -32497,7 +32497,7 @@ define('moment', function (require, exports, module) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].narrow;
@@ -32517,7 +32517,7 @@ define('moment', function (require, exports, module) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].abbr;
@@ -32540,7 +32540,7 @@ define('moment', function (require, exports, module) {
             dir = eras[i].since <= eras[i].until ? +1 : -1;
 
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (
                 (eras[i].since <= val && val <= eras[i].until) ||
@@ -33691,7 +33691,7 @@ define('moment', function (require, exports, module) {
 
     //! moment.js
 
-    hooks.version = '2.27.0';
+    hooks.version = '2.28.0';
 
     setHookCallback(createLocal);
 
