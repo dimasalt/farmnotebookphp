@@ -16,8 +16,17 @@ body {
     background-color: #f2f7f8;
 }
 
+[v-cloak] {
+    display: none !important;
+}
+
+
 .bg-dark {
     background-color: #323232;
+}
+
+.w-15 {
+    width: 15%;
 }
 
 /****************  Navbar Elements     **********/
@@ -170,6 +179,7 @@ nav.navbar .dropdown-menu a{
 /************ other things *****************************/
 .remove-line {
     text-decoration: line-through;
+    color: black !important;
 }
 
 

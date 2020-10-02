@@ -25,7 +25,7 @@
 
         <!-- start point -->
         <div class="row mt-3">
-            <div class="col-12">          
+            <div class="col-12 border-bottom">          
                 <h2 class="text-dark">Project Planner
                     <a href="#" v-if='Object.keys(starting_expence).length > 0' v-on:click="delOneShow(starting_expence.id, starting_expence.project_name)">
                         <i class="far fa-trash-alt btn-sm text-danger align-middle ml-1"
@@ -71,7 +71,8 @@
                     </a>
                 </h4>
             </div>
-
+        </div>
+        <div class="row">
             <div class="col-12 mb-3" v-if="project_item_new_visible == true" >               
                 <div class="input-group">
                     <input type="text" class="form-control col-6" placeholder="Project name" aria-label="Project name" aria-describedby="button-addon4" v-model="project_item_new.project_name" required>
@@ -90,9 +91,10 @@
                     </div>
                 </div>
             </div>    
-
-            <div class="col-12 mt-2">
-                <table class="table bg-white table-borderless shadow-sm">              
+        </div>
+        <div class="row">
+            <div class="col-6 mt-2" id="projects_table">
+                <table class="table bg-white table-borderless shadow-sm" >              
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -144,15 +146,23 @@
                     </tbody>
                 </table>
             </div>
-                   
-        </div>     
-
-        <!-- Charts -->       
-        <div class="row mt-3" v-show="chart_data.length > 0">         
-            <div class="col">
-                <canvas id="canvas_line" class="shadow-sm"  style="background-color:white"></canvas>               
-            </div>                   
+               <!-- Charts -->       
+            <div class="col-6" >         
+                {# <div class="col" v-show="chart_data.length > 0"> #}
+                <canvas id="canvas_line" class="shadow-sm mt-2"  style="background-color:white; display:none;"></canvas>    
+                 <div id='myDiv' class="shadow-sm mt-2"><!-- Plotly chart will be drawn inside this DIV --></div>         
+               
+            {# </div>                    #}
         </div>    
+       
+    </div>     
+
+    {# <div class="row">
+        <div class="col-12">
+             <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>     
+        </div>
+    </div> #}
+     
 
         
         <!-- final result -->
@@ -225,6 +235,8 @@
     <!-- chart -->
     {# <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q==" crossorigin="anonymous"></script> #}
     <script src='/assets/components/chartjs/Chart.bundle.min.js'></script>
+    <!-- plotly -->
+    <script src='/assets/components/plotly/plotly-latest.min.js'></script>
     
         
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -238,7 +250,9 @@
         $(function () {
             // tooltips
            // $('[data-toggle="tooltip"]').tooltip();
-
+           // var required_height = $('#projects_table').height();
+            // $('#canvas_line').height(required_height);
+             //$('#canvas_line').css({'height', required_height + 'px !important' });
         })
     </script>
 {% endblock %}

@@ -11,11 +11,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
--- Dumping database structure for livestockmanagement
-CREATE DATABASE IF NOT EXISTS `livestockmanagement` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
-USE `livestockmanagement`;
-
 -- Dumping structure for table livestockmanagement.contact
 CREATE TABLE IF NOT EXISTS `contact` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -40,7 +35,7 @@ INSERT INTO `contact` (`id`, `name`, `address`, `city`, `postal`, `country`, `pr
 	(3, 'Railside General Supplies', '3272 Monahan Rd', 'Val Gagne', 'P0K 1W0', 'Canada', 'On', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', '2020-01-05 07:01:53'),
 	(5, 'Northern Veterinary Hospital', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41'),
 	(25, 'Northern Allied', '352 Railway St', 'Timmins', 'P4N 2P6', 'Canada', 'On', '7052645291', '', 'Metal supply company. The only one in Timmins.', '2020-02-18 23:39:43'),
-	(26, 'Mark', 'n/a', 'Matheson', 'p0k 1n0', 'Canada', 'On', '705-262-3433', '', '<p>Neighbour farmer. Wants to buy cattle.</p>', '2020-02-27 10:59:32'),
+	(26, 'Mark', 'n/a', 'Matheson', 'p0k 1n0', 'Canada', 'On', '705-262-3433', '', '<p>Neighbour farmer. Wants to buy cattle. May not keep the word.</p>', '2020-02-27 10:59:32'),
 	(30, 'Samuel M.', '', '', '', 'Canada', 'On', '705-232-2380', '', '<p>Manonite. Sells lumber and posts for fencing or/and construction.</p>', '2020-04-08 17:19:45'),
 	(31, 'Cleason Marting', 'Country Ln', 'Val Gagne', '', 'Canada', 'On', '', '', '<p>Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.</p>', '2020-04-08 17:23:04');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
@@ -229,7 +224,7 @@ INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `
 	(2, 'Noromectin', 'Each mL contains 0.8 mg of ivermectin.\r\n\r\nTreated animals must not be slaughtered for use in food for at least 14 days after the latest treatment with this drug.', 'Dosage and Administration\r\nNoromectin should be given as a single dose treatment. Administer orally at a dose of 2.5 mL of Noromectin per 10 kg of bodyweight, with any standard drenching equipment which provides a consistent dose volume. Repeat treatment may be necessary when re-exposure to parasite infection occurs.\r\n\r\nNoromectin Drench for Sheep Caution\r\nCoughing, which usually lasts for only a few minutes, may occur in a small percentage of sheep immediately after treatment; this passing response is of no consequence.', 'https://images-na.ssl-images-amazon.com/images/I/81cX3tCC0tL._AC_SY879_.jpg', NULL, 0, '2019-05-09 23:04:31'),
 	(4, 'Tetanus Toxoid', 'Anti-toxing vaccination. Takes 2-3 weeks to take effect.', 'Inject intromascularly 1cc/ml. Repeat vaccination in 3-4 weeks again', 'https://www.valleyvet.com/swatches/40277_L_vvs_000.jpg', NULL, 0, '2020-01-04 22:52:43'),
 	(5, 'Ivomec', 'IVOMEC Pour-On for Cattle is a clear, blue colored liquid containing 5 mg of ivermectin per mL (0.5% w/v). IVOMEC Pour-On for Cattle is formulated to deliver the recommended dose level of 500 µg of ivermectin per kg of body weight in cattle when applied along the top line from the withers to the tail head at the rate of 1 mL per 10 kg.', 'Apply along the top line from the withers to the tail head at the rate of 1 mL per 10 kg (22 lb).', 'https://media.tractorsupply.com/is/image/TractorSupplyCompany/2207462?$456$', NULL, 0, '2020-02-27 10:11:31'),
-	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'Administer 2 mL subcutaneously or intramuscularly. In accordance with Beef Quality Assurance guidelines, this product should be administered SC in the neck region.', 'https://cdn11.bigcommerce.com/s-kjner/images/stencil/1280x1280/products/2083/1162/BOVISHIELD_GOLD_5__55950.1382708635.jpg?c=2', NULL, 0, '2020-03-08 21:44:04');
+	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'Administer 2 mL subcutaneously or intramuscularly. In accordance with Beef Quality Assurance guidelines, this product should be administered SC in the neck region.', '/uploads/medication/Bovi_Shield_Gold_5.jpg', NULL, 0, '2020-03-08 21:44:04');
 /*!40000 ALTER TABLE `medication` ENABLE KEYS */;
 
 -- Dumping structure for table livestockmanagement.planning_project
@@ -242,9 +237,9 @@ CREATE TABLE IF NOT EXISTS `planning_project` (
   `is_done` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
 
--- Dumping data for table livestockmanagement.planning_project: ~5 rows (approximately)
+-- Dumping data for table livestockmanagement.planning_project: ~6 rows (approximately)
 /*!40000 ALTER TABLE `planning_project` DISABLE KEYS */;
 INSERT INTO `planning_project` (`id`, `project_name`, `project_price`, `project_price_actual`, `is_start`, `is_done`, `created_at`) VALUES
 	(95, 'Gooseneck trailer', 4000, 0, 0, 0, '2020-10-30 00:00:00'),
@@ -279,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 -- Dumping data for table livestockmanagement.transaction: ~4 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_cat_id`, `trans_type_id`, `trans_ammount`, `trans_currency`, `trans_desc`, `addr_id`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('0333a75f-71a9-11e9-bfc5-d8cb8ac0caec', 1, 1, 49.72, 'CAD', NULL, 1, '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2019-05-08 11:50:32'),
+	('0333a75f-71a9-11e9-bfc5-d8cb8ac0caec', 1, 1, 49.72, 'CAD', NULL, 1, '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-09-29 11:18:52'),
 	('66d91789-6aea-11', 1, 1, 24.86, 'CAD', NULL, 1, '2019-04-29 16:31:58', '2019-04-29 21:34:58', '2019-05-01 13:28:31'),
 	('965a0a99-6c36-11', 1, 1, 49.72, 'CAD', NULL, 1, '2019-04-30 16:52:34', '2019-05-01 13:28:11', '2019-05-01 13:29:02'),
 	('dc2d7067-6da7-11e9-9b6b-d8cb8ac0caec', 5, 1, 3625.00, 'CAD', NULL, 1, '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2019-05-03 09:35:03');
@@ -886,6 +881,7 @@ BEGIN
 
 	SELECT transaction.id, 
 			transaction_category.trans_cat_subname, 
+			transaction_category.trans_cat_name,
 			transaction_type.trans_type_name, 
 			transaction.trans_ammount, 
 			transaction.trans_currency,

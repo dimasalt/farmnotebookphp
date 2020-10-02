@@ -1,0 +1,171 @@
+var app = new Vue({
+  el: '#app',
+  data: {
+    results: [],
+    feeds: [{
+        type: "grain",
+        name: "corn",
+        CP: 10,
+        TDN: 90
+      },
+      {
+        type: "protein",
+        name: "soy bean meal",
+        CP: 47,
+        TDN: 77
+      },
+      {
+        type: "weed",
+        name: "hay",
+        CP: 7,
+        TDN: 55
+      }
+    ],
+    nutrition_req: [{
+        type: "steer/heifer",
+        weight: 200,
+        CP: 22,
+        TDN: 80,
+        DM: 5.4,
+        target: 3,
+      },
+      {
+        type: "steer/heifer",
+        weight: 300,
+        CP: 22,
+        TDN: 80,
+        DM: 8.3,
+        target: 3,
+      },
+      {
+        type: "steer/heifer",
+        weight: 400,
+        CP: 18.7,
+        TDN: 80,
+        DM: 10.4,
+        target: 3,
+      }
+    ]
+  },
+  created: function() {
+    var self = this;
+
+    //call calculations
+    self.calculate();
+  },
+  methods: {
+    //function to calculate feed requirements and proportions
+    calculate: function() {
+      var self = this;
+
+      //define temporary variables
+      var grain_temp = {}, protein_temp = {}, hay_temp = {}, result_temp = {};
+
+      //assign values to a temp variables
+      for (var i = 0; i < self.feeds.length; i++) {
+        if (self.feeds[i].type == "grain")
+          grain_temp = self.feeds[i];
+        else if (self.feeds[i].type == "protein")
+          protein_temp = self.feeds[i];
+        else hay_temp = self.feeds[i];
+      }
+
+      //calculate requirements
+      for (var i = 0; i < self.nutrition_req.length; i++) {
+      
+        var grain_square, hay_square, grain_tdn, hay_tdn;
+
+        //calculate TDN %
+        grain_square = grain_temp.TDN - self.nutrition_req[i].TDN;
+        if (grain_square < 0)
+          grain_square = grain_square * (-1);
+
+        hay_square = hay_temp.TDN - self.nutrition_req[i].TDN;
+        if (hay_square < 0)
+          hay_square = hay_square * (-1);
+          
+        var grain_ratio = hay_square / (hay_square + grain_square);
+        var hay_ratio = grain_square / (hay_square + grain_square);
+
+        grain_tdn = grain_ratio * self.nutrition_req[i].DM;
+        hay_tdn = hay_ratio * self.nutrition_req[i].DM;
+
+        /* round decimals */
+        grain_tdn = Math.round(grain_tdn * 10) / 10;
+        hay_tdn = Math.round(hay_tdn * 10) / 10;     
+
+        //assing values to the temporary result object
+        result_temp.grain_tdn = grain_tdn;
+        result_temp.hay_tdn = hay_tdn; 
+
+
+        //calculate CP %
+        var  grain_CP, hay_CP;
+        grain_CP = grain_ratio * grain_temp.CP;       
+        hay_CP = hay_ratio * hay_temp.CP;
+        
+        var grain_req_CP = (self.nutrition_req[i].CP - hay_CP);
+        var grain_needed_CP = (grain_req_CP / grain_ratio);    
+       
+        var grain_square_CP, protein_square_CP;
+        grain_square_CP = grain_temp.CP - grain_needed_CP;
+        protein_square_CP = protein_temp.CP - grain_needed_CP;
+        
+        if(grain_square_CP < 0) 
+          grain_square_CP = grain_square_CP * (-1);
+        if(protein_square_CP < 0)
+          protein_square_CP = protein_square_CP * (-1);       
+        
+        var grain_ratio_CP, protein_ratio_CP;
+        grain_ratio_CP = protein_square_CP / (grain_square_CP + protein_square_CP);
+        protein_ratio_CP = grain_square_CP /  (grain_square_CP + protein_square_CP);       
+        
+        var grain_lb = grain_ratio_CP * grain_tdn;
+        var protein_lb = protein_ratio_CP * grain_tdn;                
+       
+      }
+
+    }
+  }
+});
+
+-----------------------------------
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Feed Calculator</title>
+  </head>
+  <body>
+    <div class="container" id="app">
+      <div class="row">
+        <div class="col">
+            <!-- <h2>Cattle feed calculator</h2> -->          
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    
+    <!-- vuejs and JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
+    <!-- feed script -->
+    <script src="script.js"></script>
+  </body>
+</html>
+
+
+-----------------------------------------
+
+https://playcode.io/

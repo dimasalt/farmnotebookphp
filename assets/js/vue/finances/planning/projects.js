@@ -19,7 +19,8 @@ var PlanningProjects = new Vue({
             predicted_expences_class: "",
             actual_expences_class: ""
         },
-        chart_data : [] //data for the charts
+        chart_data : [], //data for the charts
+        image_link: ''
     },
     created: function () {
         var self = this;
@@ -107,7 +108,9 @@ var PlanningProjects = new Vue({
 
                 //assign information for the chart
                 self.chart_data = data;
-                self.chartJSLine();               
+                self.chartJSLine();        
+                
+                self.plotlyTimeChart();
             });
 
             projectsList.always(function () { });
@@ -330,7 +333,80 @@ var PlanningProjects = new Vue({
             });
 
             projectdel.always(function () { });
-        },      
+        },  
+        plotlyTimeChart: function()  {
+            var self = this;
+
+            //assing data for labels and datasets
+            var data_predicted = [], data_actual = [], projects_date = [];            
+            for(var i = 0; i < self.chart_data.length; i++){
+                
+                //labels.push(self.chart_data[i].project_name);
+
+                projects_date.push(self.chart_data[i].created_at);
+
+                if(data_predicted.length == 0 && data_actual.length == 0){
+                    data_predicted.push(self.chart_data[i].project_price);
+                    data_actual.push(self.chart_data[i].project_price);
+                }
+                else 
+                {
+                    var sum_predicted = parseInt(self.chart_data[i].project_price) + parseInt(data_predicted[i-1]); 
+                    data_predicted.push(sum_predicted);
+
+                    var sum_actual = parseInt(self.chart_data[i].project_price_actual) + parseInt(data_actual[i-1]); 
+                    data_actual.push(sum_actual);
+                }
+
+            }
+
+
+            var trace1 = {
+                type: "scatter",               
+                mode: 'lines+markers',            
+                line: {
+                    dash: 'dot',
+                    width: 2,
+                    color: '#FF0000'
+                },                  
+                name: 'Predicted',
+                x: projects_date,
+                y: data_predicted,                
+            }
+         
+            var trace2 = {
+                type: "scatter",               
+                mode: 'lines+markers',            
+                line: {
+                    dash: 'dot',
+                    width: 2,
+                    color: '#008000'
+                },                  
+                name: 'Actual',
+                x: projects_date,
+                y: data_actual               
+            }
+              
+            var data = [trace1,trace2];
+              
+            var layout = {
+                title: 'Predicted and Actual Expenses',
+                 margin: {
+                    l: 50,
+                    r: 50,
+                    b: 50,
+                    t: 60,
+                    pad: 4
+                }             
+            };
+
+            var config = {
+                responsive: true,
+                displayModeBar: false
+            }
+              
+            Plotly.newPlot('myDiv', data, layout, config);
+        },
         chartJSLine : function(){   
             
             var self = this;            

@@ -60,7 +60,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-2">
-                        <img v-bind:src='"https://picsum.photos/96/96?random=" + index' class="mr-3 mt-1 ml-2 mb-3" alt="..." v-if="item.img == null">                
+                        <img v-bind:src='"https://picsum.photos/96/96?random=" + index' class="mr-3 mt-1 ml-2 mb-3 medication_image" alt="..." v-if="item.img == null">                
                         <img v-bind:src='item.img' class="mr-3 mt-1 ml-2 mb-3" alt="..." v-else-if="item.img !== null" style="height:96px; width:96px;">               
                     </div>
                     <div class="col-10">

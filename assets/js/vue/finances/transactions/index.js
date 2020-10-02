@@ -34,6 +34,13 @@ var FinancesIndex = new Vue({
             projectsList.done(function (data) {
                 if (data.length > 0) {
                     data = JSON.parse(data);
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        //check for red or green success class styling
+                        if (data[i].trans_type_name == 'expense') data[i].class = "text-danger";
+                        else if (data[i].trans_type_name == 'income') data[i].class = "text-success";
+                    }
                     
                     self.transactions = data;
                 }
@@ -41,7 +48,13 @@ var FinancesIndex = new Vue({
 
             projectsList.always(function () { });
         },
+        transactionEditDisplay: function(){
+
+        },
         transactionEdit: function(){
+
+        },
+        transactionDelDisplay: function(){
 
         },
         transactionDel: function(){
