@@ -7,10 +7,9 @@
      <link href="/assets/components/chartjs/Chart.min.css"  rel="stylesheet">
  {% endblock %}
 
-{% block body %}    
-
-    <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
-    <div class="container h-100" id="projects" v-cloak>                
+{% block body %}       
+    <div class=" pt-4 h-100" id="projects" v-cloak>                
+        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
         {# <div class="row mb-2">
             <div class="col-12">
                 <h2 class="text-dark">Project planner</h2>            
@@ -24,7 +23,7 @@
 
 
         <!-- start point -->
-        <div class="row mt-3">
+        <div class="row">
             <div class="col-12 border-bottom">          
                 <h2 class="text-dark">Project Planner
                     <a href="#" v-if='Object.keys(starting_expence).length > 0' v-on:click="delOneShow(starting_expence.id, starting_expence.project_name)">
@@ -93,7 +92,7 @@
             </div>    
         </div>
         <div class="row">
-            <div class="col-6 mt-2" id="projects_table">
+            <div class="col-xl-8 col-lg-12 mt-2" id="projects_table">
                 <table class="table bg-white table-borderless shadow-sm" >              
                     <thead>
                         <tr>
@@ -147,12 +146,44 @@
                 </table>
             </div>
                <!-- Charts -->       
-            <div class="col-6" >         
+            <div class="col-xl-4 col-lg-12" >         
                 {# <div class="col" v-show="chart_data.length > 0"> #}
                 <canvas id="canvas_line" class="shadow-sm mt-2"  style="background-color:white; display:none;"></canvas>    
                  <div id='myDiv' class="shadow-sm mt-2"><!-- Plotly chart will be drawn inside this DIV --></div>         
                
             {# </div>                    #}
+
+            <!-- final result -->
+            <div class="row mt-3">
+                <div class=" col-lg-6 col-md-12" >
+                    <!-- small box -->
+                    <div class="small-box bg-info rounded text-white shadow-sm">
+                        <div class="inner">
+                            <h3 class="pt-3 text-center">{{ '{{projects_total.predicted_expences_formated}}' }}</h3>
+
+                            <p class="pb-3 text-center text-uppercase">Total projected</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>            
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 col-md-12">
+                    <!-- small box -->
+                    <div class="small-box bg-success rounded text-white shadow-sm">
+                    <div class="inner">
+                        <h3 class="pt-3 text-center">{{ '{{projects_total.actual_expences_formated}}' }}</h3>
+
+                        <p class=" text-center pb-3 text-uppercase">Total actual</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>            
+                    </div>
+                </div>
+
+            </div>
         </div>    
        
     </div>     
@@ -162,44 +193,11 @@
              <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>     
         </div>
     </div> #}
-     
-
-        
-        <!-- final result -->
-        <div class="row mt-3">
-              <div class="col-6" >
-                <!-- small box -->
-                <div class="small-box bg-info rounded text-white">
-                    <div class="inner">
-                        <h3 class="pt-3 text-center">{{ '{{projects_total.predicted_expences_formated}}' }}</h3>
-
-                        <p class="pb-3 text-center text-uppercase">Total projected</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>            
-                </div>
-            </div>
-            
-            <div class="col-6">
-                <!-- small box -->
-                <div class="small-box bg-success rounded text-white">
-                <div class="inner">
-                    <h3 class="pt-3 text-center">{{ '{{projects_total.actual_expences_formated}}' }}</h3>
-
-                    <p class=" text-center pb-3 text-uppercase">Total actual</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>            
-                </div>
-            </div>
-
-        </div>
+          
         
       
 
-          <!-- Remove contact Modal -->
+        <!-- Remove contact Modal -->
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">

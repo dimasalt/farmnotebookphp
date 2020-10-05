@@ -8,25 +8,16 @@
 
 {% block body %}
 
-    <div class="container" id="contacts" v-cloak>
+    <div class="pt-4" id="contacts" v-cloak>
 
         <div class="row mb-2">
-            <div class="col-12">
+            <div class="col-12 border-bottom">
                 <h2 class="text-dark mb-4">Contacts
                     <a href="/contacts/add">
                         <i class="far fa-plus-square btn-sm text-success ml-1 align-middle"
                            data-toggle="tooltip" data-placement="top" title="Add contact"></i>
-                    </a>
-                 
-                </h2>               
-
-                <div class="callout callout-info">
-                  {# <h5>I am an info callout!</h5> #}
-
-                  {# <p> This page contains contact information of people and organization for quick access.</p> #}
-                   <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
-                  This page contains contact information of people and organization for quick access.
-                </div>
+                    </a>                 
+                </h2>                               
             </div>
 
             <div class="col-12" v-if="alert.success">
@@ -45,7 +36,17 @@
         </div>
        
         <div class="row">           
-            <div class="col-sm-3 mt-3" v-for="(item, index) in contacts">
+
+            <div class="col-12">
+                 <div class="callout callout-info">                                
+                   <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
+                  This page contains contact information of people and organization for quick access.
+                </div>
+            </div>
+
+
+            <div class="col-sm-2 mt-3" v-for="(item, index) in contacts">               
+                <!-- contact cards -->
                 <div class="card h-100 w-100 text-white bg-secondary mb-3 shadow-sm">
                     <div class="card-body">
                         <b class="card-title text-small" style="font-size: 15px;">{{ "{{ item.name }}" }}</b>                     

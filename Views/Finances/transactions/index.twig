@@ -8,11 +8,10 @@
 
 {% block body %}
     
-    <!-- csrf protection -->
-    <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
+    <div class="pt-4" id="transactions" v-cloak>      
 
-
-    <div class="container" id="transactions" v-cloak>      
+         <!-- csrf protection -->
+        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
 
         <div class="row mb-2">
             <div class="col-12 border-bottom">

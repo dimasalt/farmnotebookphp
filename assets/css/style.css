@@ -20,6 +20,16 @@ body {
     display: none !important;
 }
 
+/****** side menu ***************/
+.container-menu {
+    min-height: 100vh;
+    padding-top: 80px;
+    padding-right:0 !important;
+    padding-left: 10px;
+    width: 240px;
+    background-color: white;
+}
+
 
 .bg-dark {
     background-color: #323232;
