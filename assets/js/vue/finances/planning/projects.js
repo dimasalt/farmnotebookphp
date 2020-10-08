@@ -390,7 +390,7 @@ var PlanningProjects = new Vue({
             var data = [trace1,trace2];
               
             var layout = {
-                title: 'Predicted and Actual Expenses',
+                title: 'Projected and Actual Expenses',
                  margin: {
                     l: 50,
                     r: 50,
