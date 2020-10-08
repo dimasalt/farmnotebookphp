@@ -6,17 +6,23 @@
     {# <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet"> #}
  {% endblock %}
 
-{% block body %}
 
+
+{% block body %}
+<!-- side nav menu -->
+{% include '/Contacts/_sidenav.twig' %}
+
+<!-- page content -->
+<div class="container-fluid">
     <div class="pt-4" id="contacts" v-cloak>
 
         <div class="row mb-2">
             <div class="col-12 border-bottom">
                 <h2 class="text-dark mb-4">Contacts
-                    <a href="/contacts/add">
+                    {# <a href="/contacts/add">
                         <i class="far fa-plus-square btn-sm text-success ml-1 align-middle"
                            data-toggle="tooltip" data-placement="top" title="Add contact"></i>
-                    </a>                 
+                    </a>                  #}
                 </h2>                               
             </div>
 
@@ -102,7 +108,7 @@
         </div>
 
     </div>
-
+</div>
 
 {% endblock %}
 

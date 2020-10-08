@@ -7,7 +7,13 @@
      <link href="/assets/components/chartjs/Chart.min.css"  rel="stylesheet">
  {% endblock %}
 
+
 {% block body %}       
+<!-- side nav menu -->
+{% include '/Finances/_sidenav.twig' %}
+
+<!-- page content -->
+<div class="container-fluid">
     <div class=" pt-4 h-100" id="projects" v-cloak>                
         <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
         {# <div class="row mb-2">
@@ -224,6 +230,7 @@
  
 
     </div>
+</div>
 
 {% endblock %}
 

@@ -25,13 +25,12 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `note` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table livestockmanagement.contact: ~8 rows (approximately)
+-- Dumping data for table livestockmanagement.contact: ~9 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `city`, `postal`, `country`, `province`, `phone`, `email`, `note`, `created_at`) VALUES
 	(1, 'Little Bit Western', '372 Algonquin Boulevard W', 'Timmins', 'P4N 2S2', 'Canada', 'On', '705-268-0822', '', 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', '2019-04-29 21:31:35'),
-	(2, 'Northern Farm', '1496 Caribou Rd W', 'Matheson', 'P0K 1N0', 'Canada ', 'On', '647-864-2435', NULL, 'Our very own farm address', '2019-05-08 11:45:08'),
 	(3, 'Railside General Supplies', '3272 Monahan Rd', 'Val Gagne', 'P0K 1W0', 'Canada', 'On', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', '2020-01-05 07:01:53'),
 	(5, 'Northern Veterinary Hospital', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41'),
 	(25, 'Northern Allied', '352 Railway St', 'Timmins', 'P4N 2P6', 'Canada', 'On', '7052645291', '', 'Metal supply company. The only one in Timmins.', '2020-02-18 23:39:43'),
@@ -258,26 +257,25 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `trans_ammount` decimal(19,2) NOT NULL,
   `trans_currency` varchar(10) NOT NULL DEFAULT 'CAD',
   `trans_desc` varchar(250) DEFAULT NULL,
-  `addr_id` int(11) DEFAULT NULL,
+  `trans_address` varchar(250) DEFAULT NULL,
   `trans_date` datetime NOT NULL DEFAULT current_timestamp(),
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `FK_transaction_transaction_category` (`trans_cat_id`),
   KEY `FK_transaction_transaction_type` (`trans_type_id`),
-  KEY `FK_transaction_address_book` (`addr_id`),
-  CONSTRAINT `FK_transaction_address_book` FOREIGN KEY (`addr_id`) REFERENCES `contact` (`id`),
+  KEY `FK_transaction_address_book` (`trans_address`) USING BTREE,
   CONSTRAINT `FK_transaction_transaction_category` FOREIGN KEY (`trans_cat_id`) REFERENCES `transaction_category` (`id`),
   CONSTRAINT `FK_transaction_transaction_type` FOREIGN KEY (`trans_type_id`) REFERENCES `transaction_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
 -- Dumping data for table livestockmanagement.transaction: ~4 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` (`id`, `trans_cat_id`, `trans_type_id`, `trans_ammount`, `trans_currency`, `trans_desc`, `addr_id`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('0333a75f-71a9-11e9-bfc5-d8cb8ac0caec', 1, 1, 49.72, 'CAD', NULL, 1, '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-09-29 11:18:52'),
-	('66d91789-6aea-11', 1, 1, 24.86, 'CAD', NULL, 1, '2019-04-29 16:31:58', '2019-04-29 21:34:58', '2019-05-01 13:28:31'),
-	('965a0a99-6c36-11', 1, 1, 49.72, 'CAD', NULL, 1, '2019-04-30 16:52:34', '2019-05-01 13:28:11', '2019-05-01 13:29:02'),
-	('dc2d7067-6da7-11e9-9b6b-d8cb8ac0caec', 5, 1, 3625.00, 'CAD', NULL, 1, '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2019-05-03 09:35:03');
+INSERT INTO `transaction` (`id`, `trans_cat_id`, `trans_type_id`, `trans_ammount`, `trans_currency`, `trans_desc`, `trans_address`, `trans_date`, `created_at`, `updated_at`) VALUES
+	('0333a75f-71a9-11e9-bfc5-d8cb8ac0caec', 1, 1, 49.72, 'CAD', NULL, '1', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-09-29 11:18:52'),
+	('66d91789-6aea-11', 1, 1, 24.86, 'CAD', NULL, '1', '2019-04-29 16:31:58', '2019-04-29 21:34:58', '2019-05-01 13:28:31'),
+	('965a0a99-6c36-11', 1, 1, 49.72, 'CAD', NULL, '1', '2019-04-30 16:52:34', '2019-05-01 13:28:11', '2019-05-01 13:29:02'),
+	('dc2d7067-6da7-11e9-9b6b-d8cb8ac0caec', 5, 1, 3625.00, 'CAD', NULL, '1', '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2019-05-03 09:35:03');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table livestockmanagement.transaction_category

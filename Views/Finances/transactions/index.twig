@@ -8,8 +8,12 @@
 
 {% block body %}
     
-    <div class="pt-4" id="transactions" v-cloak>      
+<!-- side nav menu -->
+{% include '/Finances/_sidenav.twig' %}
 
+<!-- page content -->
+<div class="container-fluid">
+    <div class="pt-4" id="transactions" v-cloak>      
          <!-- csrf protection -->
         <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
 
@@ -111,7 +115,7 @@
         </div>   
        
     </div>
-
+</div>
 {% endblock %}
 
 {% block custom_scripts %}
