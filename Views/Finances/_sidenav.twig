@@ -4,16 +4,34 @@
     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted border-bottom font-weight-bolder">
         <span class=" text-uppercase"><i class="fas fa-dollar-sign mr-1"></i>Finances</span>               
     </h6>            
-    <ul class="nav flex-column">       
-        <li class="nav-item">
+    <ul class="nav flex-column"> 
+         <li class="nav-item">
+             <a class="nav-link collapsed active text-dark mt-3" href="#submenu1" data-toggle="collapse" data-target="#submenu1">                
+                <i class="fas fa-money-check-alt mr-2"></i>Transactions <span class="sr-only">(current)</span><i class="fas fa-chevron-down mt-2 float-right"></i>
+            </a>            
+            <div class="" id="submenu1" aria-expanded="false">
+                <ul class="flex-column pl-2 nav">
+                    <li class="nav-item"><a class="nav-link py-0 ml-2 text-dark" href="/finances/transactions"><i class="fas fa-align-justify mr-2"></i>View</a></li>     
+                    <li class="nav-item"><a class="nav-link py-0 ml-2 text-dark" href="/finances/categories"><i class="fas fa-tools mr-2"></i>Types</a></li>                            
+                </ul>
+            </div>
+        </li>                   
+        {# <li class="nav-item">
             <a class="nav-link active text-dark mt-3" href="/finances/transactions">                
                 <i class="fas fa-money-check-alt mr-2"></i>Transactions <span class="sr-only">(current)</span>
             </a>
-        </li>               
+        </li>                #}
         <li class="nav-item">
-            <a class="nav-link active text-dark pt-0" href="/finances/projects">                
+            <a class="nav-link active text-dark pt-0 mt-3" href="/finances/projects">                
                 <i class="far fa-list-alt mr-2"></i>Projects
             </a>
-        </li>               
+        </li>  
+        <li class="nav-item">
+            <a class="nav-link active text-dark pt-0" href="/finances/projects">                
+                <i class="fas fa-shopping-bag mr-2"></i>Future Purchaces
+            </a>
+        </li>  
+
+       
     </ul>               
 </div>      

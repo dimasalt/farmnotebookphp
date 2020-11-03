@@ -20,9 +20,9 @@
         <div class="row mb-2">
             <div class="col-12 border-bottom">
                 <h1 class="text-dark mb-4">Transactions
-                    <a href="#" class="btn btn-success" v-on:click="displayForm(true)">Add new
-                        {# <i class="far fa-plus-square text-success ml-1 align-middle"
-                           data-toggle="tooltip" data-placement="top" title="Add medication"></i> #}
+                    <a href="#" v-on:click="displayForm(true)">
+                        <i class="far fa-plus-square btn-sm text-success align-middle"
+                           data-toggle="tooltip" data-placement="top" title="Add Transaction"></i>
                     </a>                 
                 </h1>            
 
@@ -69,10 +69,7 @@
                     </tr>
                 </thead>
                 <tbody v-for="(item, index) in transactions">
-                    <tr class="border" v-bind:class="item.class">
-                        {# <td scope="row">
-                            <input type="checkbox" v-model="item.checked" v-on:change.prevent="editProjectStatus(item.id, index)" />
-                        </td> #}
+                    <tr class="border" v-bind:class="item.class">                     
                         <td class="pl-4">
                             {{ '{{item.trans_cat_subname}}' }}                             
                         </td>                                   

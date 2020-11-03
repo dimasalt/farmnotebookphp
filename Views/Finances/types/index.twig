@@ -1,0 +1,118 @@
+{% extends "Shared/_layout.twig" %}
+
+{% block title %} Transaction Types {% endblock %}
+
+{% block header_scripts %}
+    <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
+ {% endblock %}
+
+{% block body %}
+    
+<!-- side nav menu -->
+{% include '/Finances/_sidenav.twig' %}
+
+<!-- page content -->
+<div class="container-fluid">
+    <div class="pt-4" id="transactiontypes" v-cloak>      
+         <!-- csrf protection -->
+        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
+
+        <!-- headline -->
+        <div class="row mb-2">
+            <div class="col-12 border-bottom">
+                <h1 class="text-dark mb-4">Transaction Types                  
+            </div>           
+        </div>                    
+
+        <!-- Actual search box -->
+        {# <div class="form-group has-search col-3 float-right">
+            <span class="fa fa-search form-control-feedback"></span>
+            <input type="text" class="form-control"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
+        </div>  #}
+
+         <div class="row">
+            <div class="col-3 mt-2">
+                <h5>Categories  <i class="far fa-plus-square btn-sm text-success mr-0 pr-0" v-on:click="showCatItemForm(-1, '', '')"></i></h5>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" 
+                        v-for="(item, index) in transaction_cats" v-bind:class="{ 'list-group-item-dark': item.is_active }" >
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1" v-on:click="selectCategory(index)">{{ '{{ item.trans_cat_name }}' }}</h5> 
+                                <span>                                   
+                                    <i class="fa fa-edit btn-sm text-warning pr-0 mr-0" v-on:click="showCatItemForm(index, item.trans_cat_name, item.trans_cat_desc)"></i>          
+                                    <i class="far fa-trash-alt btn-sm text-danger pl-1"></i>         
+                                </span>                                                                 
+                            </div>
+                            <p class="mb-1" v-on:click="selectCategory(index)">{{ '{{ item.trans_cat_desc }}' }}</p>                        
+                    </a>                  
+                </div>
+            </div>
+            <div class="col-3 mt-2" v-hid="transaction_subcats.length == 0">
+                <h5>Sub Categories <i class="far fa-plus-square btn-sm text-success mr-0 pr-0" v-on:click="showCatItemForm(-1, '', '')"></i></h5>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="(item, index) in transaction_subcats" >
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ '{{ item.cat_subname }}' }}</h6> 
+                                <span>                                    
+                                    <i class="fa fa-edit btn-sm text-warning pr-0 mr-0" v-on:click="showCatItemForm(index, item.cat_subname, item.cat_desc)"></i>          
+                                    <i class="far fa-trash-alt btn-sm text-danger pl-1"></i>         
+                                </span>                                                                 
+                            </div>
+                            <p class="mb-1" v-on:click="selectCategory(index)">{{ '{{ item.cat_desc }}' }}</p>                        
+                    </a>                  
+                </div>
+            </div>
+
+            
+            <!-- new or edit form -->
+            <div class="col-3 mt-2 bg-dark text-white rounded shadow-sm" v-show="cat_work_form">
+                    <h5 class="mt-3">New Sub Categories</h5>
+                    <hr class="bg-secondary" />
+                    <form class="mt-3">
+                        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">    
+                        <div class="form-group">
+                            <label for="cat_name">Name </label><small class="text-danger float-right"> (required *)</small>
+                            <input type="text" class="form-control bg-secondary text-white border-dark" id="cat_name" aria-describedby="cat_name" v-model="work_item.cat_name" required>
+                            <small id="emailHelp" class="form-text text-muted float-right">50 characters max</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="cat_desc">Description</label>
+                            <textarea class="form-control bg-secondary text-white border-dark" id="cat_desc" rows="4" v-model="work_item.cat_desc"></textarea>                           
+                            <small id="cat_desc_warrning" class="form-text text-muted float-right">250 characters max</small>
+                        </div>                      
+                        <div class="form-group mt-5">
+                            <a href="#" class="btn btn-success float-right" v-on:click="">
+                                <i class="fas fa-check btn-sm text-white pl-0" title="Save item update"></i>
+                                Save           
+                            </a>                       
+                            <a href="#" class="btn btn-warning float-right mr-2" v-on:click="closeCatItemForm">
+                                <i class="fas fa-times-circle text-small mr-1"></i>
+                                Cancel           
+                            </a>                                           
+                        </div>
+                    </form>
+                </div>
+            </div>    
+        </div>   
+        
+       
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_scripts %}
+
+    <script src="/assets/js/vue.min.js"> </script>
+    <script src="/assets/components/toastr/toastr.min.js"></script>
+
+    <script src="/assets/js/vue/finances/types/index.js"></script>
+
+     <script type="application/javascript">
+        $(function () {
+
+            // tooltips
+            $('[data-toggle="tooltip"]').tooltip();
+
+        });
+    </script>
+{% endblock %}

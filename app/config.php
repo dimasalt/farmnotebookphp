@@ -5,11 +5,11 @@
 // * ************************************************/
 return [
     "db" => [
-        "dsn" => 'mysql:host=127.0.0.1;dbname=livestockmanagement;charset=utf8',
+        "dsn" => 'mysql:host=127.0.0.1;dbname=farmwork;charset=utf8',
         "host" => "127.0.0.1",
-        "database" => "livestockmanagement",
+        "database" => "farmwork",
         "username" => "root",
-        "password" => "root"
+        "password" => ""
     ],
 "mail" => [
     "host" => 'smtp.zoho.com',

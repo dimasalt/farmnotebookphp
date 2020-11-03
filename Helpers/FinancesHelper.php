@@ -83,4 +83,61 @@ class FinancesHelper
 
         return $result;       
     }
+
+    /**
+     * ***********************************************************************************************
+     *                      Transaction types
+     * ************************************************************************************************
+     */
+
+      /**
+     * get all transaction types 
+     */
+    public function transactionCatsGetAll(){        
+
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call transactionCatGetAll()');
+        $stmt->execute();       
+
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);                    
+
+        return $result;
+    }
+
+    /**
+     * Gets all sub categories for selected category
+     */
+    public function transactionSubCatsGetAll($id){
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call transactionCatGetAllSubs(?)');
+        $stmt->execute(array($id));       
+
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);                    
+
+        return $result;
+    }
+
+    /**
+     * add new transaction type
+     */
+    public function transactionCatsAdd(){
+
+    }
+
+    /**
+     * add new transaction type
+     */
+    public function transactionCatsDelete(){
+
+    }
+
+    
+    /**
+     * update existing transaction type
+     */
+    public function transactionCatsUpdate(){
+
+    }
 }
