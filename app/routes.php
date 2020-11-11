@@ -28,11 +28,12 @@ $r->addRoute(['GET', 'POST'], '/finances/transactions/get/all', 'FarmManagement\
 $r->addRoute(['GET', 'POST'], '/finances/transactions', 'FarmManagement\Controllers\FinancesController:index');
 
 //finances categories
-$r->addRoute(['GET', 'POST'], '/finances/categories/update', 'FarmManagement\Controllers\FinancesController:transactionCatsUpdate');
+// $r->addRoute(['GET', 'POST'], '/finances/categories/update', 'FarmManagement\Controllers\FinancesController:transactionCatsUpdate');
 $r->addRoute(['GET', 'POST'], '/finances/categories/delete', 'FarmManagement\Controllers\FinancesController:transactionCatsDelete');
-$r->addRoute(['GET', 'POST'], '/finances/categories/add', 'FarmManagement\Controllers\FinancesController:transactionCatsAdd');
+// $r->addRoute(['GET', 'POST'], '/finances/categories/add', 'FarmManagement\Controllers\FinancesController:transactionCatsAdd');
 $r->addRoute(['GET', 'POST'], '/finances/categories/get/all', 'FarmManagement\Controllers\FinancesController:transactionCatsGetAll');
-$r->addRoute(['GET', 'POST'], '/finances/categories/get/allsub', 'FarmManagement\Controllers\FinancesController:transactionSubCatsGetAll');
+//$r->addRoute(['GET', 'POST'], '/finances/categories/get/allsub', 'FarmManagement\Controllers\FinancesController:transactionSubCatsGetAll');
+$r->addRoute(['GET', 'POST'], '/finances/categories/save', 'FarmManagement\Controllers\FinancesController:transactionCatSave');
 $r->addRoute(['GET'], '/finances/categories', 'FarmManagement\Controllers\FinancesController:transactionCatsIndex');
 
 // finances projects

@@ -280,19 +280,32 @@ INSERT INTO `transaction` (`id`, `trans_cat_name`, `trans_type`, `trans_desc`, `
 -- Dumping structure for table farmwork.transaction_category
 CREATE TABLE IF NOT EXISTS `transaction_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cat_name` varchar(150) NOT NULL,
-  `cat_desc` varchar(250) DEFAULT NULL,
+  `parent_id` int(11) NOT NULL DEFAULT 0,
+  `category_name` varchar(150) NOT NULL,
+  `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~4 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~16 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
-INSERT INTO `transaction_category` (`id`, `cat_name`, `cat_desc`, `created_at`) VALUES
-	(1, 'Feed', 'Contains straw, hay and other grass feeds.', '2019-04-29 21:32:30'),
-	(2, 'Grain', 'Contains all grains such as corn, oats, barley etc...', '2019-04-29 21:33:09'),
-	(5, 'Livestock', 'Livestock types (cattle, chicken, horse, sheep, goats etc...)', '2019-05-03 09:30:51'),
-	(9, 'Medication', 'Medication and medication merchandise needed to treat and keep livestock well and healthy.', '2019-05-03 09:34:18');
+INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
+	(1, 0, 'Feed', 'Contains straw, hay and other grass feeds.', '2019-04-29 21:32:30'),
+	(2, 0, 'Grain', 'Contains all grains such as corn, oats, barley etc...', '2019-04-29 21:33:09'),
+	(5, 0, 'Livestock', 'Livestock types (cattle, chicken, horse, sheep, goats etc...)', '2019-05-03 09:30:51'),
+	(9, 0, 'Medication', 'Medication and medication merchandise needed to treat and keep livestock well and healthy.', '2019-05-03 09:34:18'),
+	(10, 1, 'Hay', NULL, '2020-11-11 09:25:54'),
+	(11, 2, 'Corn', NULL, '2020-11-11 09:26:13'),
+	(12, 2, 'Barley', NULL, '2020-11-11 09:26:23'),
+	(13, 2, 'Oats', NULL, '2020-11-11 09:26:35'),
+	(14, 5, 'Beef', NULL, '2020-11-11 09:27:15'),
+	(15, 5, 'Chicken', NULL, '2020-11-11 09:27:26'),
+	(16, 5, 'Sheep', NULL, '2020-11-11 09:27:36'),
+	(17, 5, 'Horse', NULL, '2020-11-11 09:27:45'),
+	(18, 5, 'Goat', NULL, '2020-11-11 09:28:01'),
+	(19, 9, 'Tasvax-8', NULL, '2020-11-11 09:28:30'),
+	(20, 9, 'Bovi-Shield Gold 5', NULL, '2020-11-11 09:28:55'),
+	(21, 2, 'Cracked Corn', NULL, '2020-11-11 09:29:15');
 /*!40000 ALTER TABLE `transaction_category` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_item
@@ -312,35 +325,6 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
 
--- Dumping structure for table farmwork.transaction_subcategory
-CREATE TABLE IF NOT EXISTS `transaction_subcategory` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cat_id` int(11) NOT NULL,
-  `cat_subname` varchar(150) NOT NULL DEFAULT '',
-  `cat_desc` varchar(250) DEFAULT '',
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `FK_transaction_subcategory_transaction_category` (`cat_id`),
-  CONSTRAINT `FK_transaction_subcategory_transaction_category` FOREIGN KEY (`cat_id`) REFERENCES `transaction_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
-
--- Dumping data for table farmwork.transaction_subcategory: ~12 rows (approximately)
-/*!40000 ALTER TABLE `transaction_subcategory` DISABLE KEYS */;
-INSERT INTO `transaction_subcategory` (`id`, `cat_id`, `cat_subname`, `cat_desc`, `created_at`) VALUES
-	(1, 1, 'Hay', '', '2020-10-19 23:23:25'),
-	(2, 2, 'Corn', '', '2020-10-19 23:25:13'),
-	(3, 2, 'Barley', '', '2020-10-19 23:25:45'),
-	(4, 2, 'Oats', '', '2020-10-19 23:26:03'),
-	(5, 5, 'Beef', '', '2020-10-19 23:27:21'),
-	(6, 5, 'Chicken', '', '2020-10-19 23:27:34'),
-	(7, 5, 'Sheep', '', '2020-10-19 23:27:49'),
-	(8, 5, 'Horse', '', '2020-10-19 23:28:02'),
-	(9, 5, 'Goats', '', '2020-10-19 23:28:15'),
-	(10, 9, 'Tasvax-8', '', '2020-10-19 23:28:32'),
-	(11, 9, 'Bovi-Shield Gold 5', '', '2020-10-19 23:28:56'),
-	(12, 2, 'Cracked Corn', '', '2020-10-19 23:53:25');
-/*!40000 ALTER TABLE `transaction_subcategory` ENABLE KEYS */;
-
 -- Dumping structure for table farmwork.user
 CREATE TABLE IF NOT EXISTS `user` (
   `id` char(32) NOT NULL,
@@ -352,7 +336,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~0 rows (approximately)
+-- Dumping data for table farmwork.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -424,6 +408,620 @@ CREATE TABLE IF NOT EXISTS `user_to_role` (
 -- Dumping data for table farmwork.user_to_role: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
+
+-- Dumping structure for procedure farmwork.contactAdd
+DELIMITER //
+CREATE PROCEDURE `contactAdd`(
+	IN `contact_name` VARCHAR(50),
+	IN `address` VARCHAR(50),
+	IN `city` VARCHAR(50),
+	IN `postal` VARCHAR(50),
+	IN `country` VARCHAR(50),
+	IN `province` VARCHAR(50),
+	IN `phone` VARCHAR(50),
+	IN `email` VARCHAR(50),
+	IN `note` VARCHAR(250)
+)
+BEGIN
+
+	INSERT INTO 
+		contact (`name`, address, city, postal, country, province, phone, email, note)
+	VALUES (contact_name, address, city, postal, country, province, phone, email, note);
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.contactDeleteOne
+DELIMITER //
+CREATE PROCEDURE `contactDeleteOne`(
+	IN `contact_id` INT
+)
+BEGIN
+
+	DELETE 
+	FROM contact 
+	WHERE contact.id = contact_id;
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.contactGetOne
+DELIMITER //
+CREATE PROCEDURE `contactGetOne`(
+	IN `contact_id` INT
+)
+BEGIN
+
+	select contact.id, 
+			contact.name, 
+			contact.address, 
+			contact.city, 
+			contact.postal, 
+			contact.province, 
+			contact.country, 
+			contact.phone, 
+			contact.email, 
+			contact.note
+	FROM contact
+	WHERE contact.id = contact_id;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.contactsGetAll
+DELIMITER //
+CREATE PROCEDURE `contactsGetAll`()
+    COMMENT 'get various contacts information'
+BEGIN
+
+	select contact.id, 
+			contact.name, 
+			contact.address, 
+			contact.city, 
+			contact.postal, 
+			contact.province, 
+			contact.country, 
+			contact.phone, 
+			contact.email, 
+			contact.note
+	FROM contact
+	ORDER BY contact.name ASC;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.contactUpdate
+DELIMITER //
+CREATE PROCEDURE `contactUpdate`(
+	IN `id` INT,
+	IN `contact_name` VARCHAR(100),
+	IN `address` VARCHAR(50),
+	IN `city` VARCHAR(50),
+	IN `postal` VARCHAR(10),
+	IN `country` VARCHAR(50),
+	IN `province` VARCHAR(50),
+	IN `phone` VARCHAR(50),
+	IN `email` VARCHAR(50),
+	IN `note` VARCHAR(250)
+
+
+)
+BEGIN
+
+	UPDATE contact 
+	SET contact.name = contact_name, 
+		 contact.address = address, 
+		 contact.city = city,
+		 contact.postal = postal,
+		 contact.country = country,
+		 contact.province = province,
+		 contact.phone = phone,
+		 contact.email = email,
+		 contact.note = note
+	WHERE contact.id = id;
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.eventAddType
+DELIMITER //
+CREATE PROCEDURE `eventAddType`(
+	IN `ev_type_name` VARCHAR(20),
+	IN `ev_type_value` VARCHAR(25),
+	IN `ev_type_desc` VARCHAR(300)
+)
+    COMMENT 'allows to add event type'
+BEGIN
+	
+	INSERT INTO event_type 
+		 (
+				ev_type_id,
+				ev_type_name,
+				ev_type_value,
+				ev_type_desc			
+		 )
+		 VALUES
+		 (
+		 		UUID(),
+		 		ev_type_name,
+		 		ev_type_value,
+		 		ev_type_desc
+		 );
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.livestockGetAll
+DELIMITER //
+CREATE PROCEDURE `livestockGetAll`(
+	IN `current_page` INT,
+	IN `records` INT,
+	IN `is_active` INT
+
+)
+BEGIN
+
+	DECLARE offset_rows INT DEFAULT (current_page -1) * records;	
+	
+	DECLARE total INT DEFAULT 0;
+	DECLARE total_pages INT DEFAULT 0;
+	
+	SET total = (SELECT count(livestock.livestock_id) FROM livestock WHERE livestock.is_active >= is_active);		 
+   SET total_pages = total / records;
+
+		 	
+	IF total % records > 0 THEN
+		SET total_pages = total_pages + 1;
+	END IF;
+	
+	 
+	SELECT 
+		livestock_id, 
+		long_tag, 
+		tag, 
+		livestock_sex,
+		total_pages
+	FROM 
+		livestock 
+	WHERE livestock.is_active >= is_active
+	LIMIT offset_rows, records;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.livestockGetTypeAll
+DELIMITER //
+CREATE PROCEDURE `livestockGetTypeAll`()
+    COMMENT 'get flock types'
+BEGIN
+
+	SELECT livestock_type.type_id, livestock_type.type_male, livestock_type.type_female, livestock_type.type_name
+	FROM livestock_type;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.medicationAdd
+DELIMITER //
+CREATE PROCEDURE `medicationAdd`(
+	IN `med_name` VARCHAR(50),
+	IN `description` VARCHAR(550),
+	IN `instruction` VARCHAR(2000),
+	IN `price` DECIMAL(10,2),
+	IN `on_hand` INT
+)
+    COMMENT 'inserts new medication item'
+BEGIN
+		
+	-- inserts new medication item
+	INSERT INTO medication
+		(
+			medication.name,
+			medication.`desc`,
+			medication.instruction,
+			medication.price,
+			medication.on_hand_doses
+		)
+	VALUES
+		(
+			med_name,
+			description, 
+			instruction,
+			price,
+			on_hand
+		);
+		
+		
+		-- select last inserted record
+		-- SELECT * 
+		-- FROM 
+		--  	medication
+		-- WHERE 
+		-- 	medication.id = LAST_INSERT_ID();
+		
+		-- get last insert id
+		SELECT LAST_INSERT_ID();
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.medicationDeleteOne
+DELIMITER //
+CREATE PROCEDURE `medicationDeleteOne`(
+	IN `id` INT
+)
+BEGIN
+	
+	DELETE FROM medication
+	WHERE medication.id = id;
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.medicationGetAll
+DELIMITER //
+CREATE PROCEDURE `medicationGetAll`(
+	IN `search_term` VARCHAR(50)
+)
+BEGIN
+
+	-- Check the length of search string and adjust if needed
+	IF LENGTH(search_term) < 2 THEN
+		SET search_term = "%";
+	ELSE
+		SET search_term = CONCAT('%', search_term, '%') ;
+	END IF;
+	
+	-- Run the select query itself
+	SELECT 
+		medication.id, 
+		medication.name, 
+		medication.desc, 
+		medication.instruction, 
+		medication.img,
+		medication.price,
+		medication.on_hand_doses
+	FROM medication
+	WHERE (medication.name LIKE search_term)
+	ORDER BY medication.name ASC;
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.medicationGetOne
+DELIMITER //
+CREATE PROCEDURE `medicationGetOne`(
+	IN `id` INT
+)
+BEGIN
+	
+	SELECT medication.id, 
+		medication.name, 
+		medication.desc, 
+		medication.instruction, 
+		medication.img,
+		medication.price,
+		medication.on_hand_doses
+	FROM medication
+	WHERE medication.id = id;
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.medicationUpdate
+DELIMITER //
+CREATE PROCEDURE `medicationUpdate`(
+	IN `id` INT,
+	IN `med_name` VARCHAR(50),
+	IN `med_desc` VARCHAR(550),
+	IN `med_instruction` VARCHAR(2000)
+)
+BEGIN
+
+	UPDATE medication
+	SET 
+		medication.name = med_name, 
+		medication.`desc` = med_desc,
+		medication.instruction = med_instruction
+	WHERE medication.id = id;	
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.projectAdd
+DELIMITER //
+CREATE PROCEDURE `projectAdd`(
+	IN `project_name` VARCHAR(250),
+	IN `project_price` DECIMAL(10,0),
+	IN `project_price_actual` DECIMAL(10,0),
+	IN `is_start` TINYINT,
+	IN `created_at` DATETIME
+)
+BEGIN
+
+	-- Removes starting budget point if that's what we're adding
+	IF is_start = 1 THEN
+		DELETE FROM planning_project
+		WHERE planning_project.is_start = 1;	
+	END IF;
+	
+
+	-- inserts new project item
+	INSERT INTO planning_project
+		(
+			planning_project.project_name, 
+			planning_project.project_price, 
+			planning_project.project_price_actual, 
+			planning_project.is_start,
+			planning_project.created_at
+		)
+	VALUES
+		(
+			project_name, 
+			project_price, 
+			project_price_actual, 
+			is_start,
+			created_at
+		);
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.projectDelOne
+DELIMITER //
+CREATE PROCEDURE `projectDelOne`(
+	IN `id` INT
+)
+    COMMENT 'removes one item from project list'
+BEGIN
+
+	DELETE FROM planning_project
+	WHERE planning_project.id = id;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.projectGetAll
+DELIMITER //
+CREATE PROCEDURE `projectGetAll`()
+    COMMENT 'Gets project list with their predicted and actual financial information'
+BEGIN
+
+	SELECT 
+		planning_project.id,
+		planning_project.project_name,
+		planning_project.project_price,
+		planning_project.project_price_actual,
+		planning_project.is_start,
+		planning_project.is_done,
+		DATE(planning_project.created_at) AS created_at						
+	FROM 
+		planning_project
+	ORDER BY created_at ASC; 	
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.projectUpdateOne
+DELIMITER //
+CREATE PROCEDURE `projectUpdateOne`(
+	IN `id` INT,
+	IN `project_name` VARCHAR(250),
+	IN `project_price` DECIMAL(10,0),
+	IN `project_price_actual` DECIMAL(10,0),
+	IN `created_at` DATETIME
+)
+BEGIN
+
+	UPDATE planning_project
+	SET	
+		planning_project.project_name = project_name,
+		planning_project.project_price = project_price,
+		planning_project.project_price_actual = project_price_actual,
+		planning_project.created_at = created_at		
+	WHERE planning_project.id = id;	
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.projectUpdateStatus
+DELIMITER //
+CREATE PROCEDURE `projectUpdateStatus`(
+	IN `id` INT,
+	IN `is_done` TINYINT
+)
+BEGIN
+
+	UPDATE planning_project
+	SET 
+		planning_project.is_done = is_done	
+	WHERE 
+		planning_project.id = id;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionCatDelete
+DELIMITER //
+CREATE PROCEDURE `transactionCatDelete`(
+	IN `id` INT
+)
+    COMMENT 'removes category or sub category'
+BEGIN
+		
+		DELETE FROM transaction_category 
+		WHERE transaction_category.id = id;
+		
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionCatGetAll
+DELIMITER //
+CREATE PROCEDURE `transactionCatGetAll`()
+BEGIN
+	
+	SELECT 
+		transaction_category.id,
+		transaction_category.parent_id,
+		transaction_category.category_name,
+		transaction_category.category_description
+	FROM transaction_category 
+	WHERE transaction_category.parent_id = 0
+	GROUP BY transaction_category.category_name
+	ORDER BY transaction_category.category_name ASC;
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionCatGetAllSubs
+DELIMITER //
+CREATE PROCEDURE `transactionCatGetAllSubs`(
+	IN `parent_id` INT
+)
+BEGIN
+
+	SELECT 
+		transaction_category.id,
+		transaction_category.parent_id,
+		transaction_category.category_name,
+		transaction_category.category_description
+	FROM transaction_category
+	WHERE transaction_category.parent_id = parent_id;
+
+-- 	SELECT 
+-- 		transaction_subcategory.id,
+-- 		transaction_subcategory.category_id,
+-- 		transaction_subcategory.category_sub_name,
+-- 		transaction_subcategory.category_sub_description
+-- 	FROM 
+-- 		transaction_subcategory
+-- 	WHERE 
+-- 		transaction_subcategory.category_id = id
+-- 	ORDER by
+-- 		transaction_subcategory.category_sub_name ASC;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionCatSave
+DELIMITER //
+CREATE PROCEDURE `transactionCatSave`(
+	IN `id` INT,
+	IN `parent_id` INT,
+	IN `category_name` VARCHAR(150),
+	IN `category_description` VARCHAR(250)
+)
+    COMMENT 'procedure to update, insert or save transaction category or sub category record'
+BEGIN
+
+	-- if new category
+	IF id = 0 THEN
+			
+			INSERT INTO transaction_category(parent_id, category_name, category_description)
+			VALUES (parent_id, category_name, category_description);				
+		
+	-- if update category	
+	ELSEIF id != 0 THEN
+		
+		UPDATE transaction_category
+		SET 
+			transaction_category.parent_id = parent_id, 
+			transaction_category.category_name = category_name, 
+			transaction_category.category_description = category_description
+		WHERE transaction_category.id = id;			
+		
+	END IF;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionCreate
+DELIMITER //
+CREATE PROCEDURE `transactionCreate`(
+	IN `trans_cat_id` INT,
+	IN `trans_type_id` INT,
+	IN `trans_ammount` INT,
+	IN `trans_currency` DECIMAL(19,2),
+	IN `addr_id` INT,
+	IN `trans_date` DATETIME
+
+
+)
+    COMMENT 'Inserts new transactions into database'
+BEGIN
+
+	INSERT INTO transaction_history 
+			(
+				transaction_history.trans_id, 
+				transaction_history.trans_cat_id, 
+				transaction_history.trans_type_id, 
+				transaction_history.trans_ammount, 
+				transaction_history.trans_currency, 
+				transaction_history.addr_id, 
+				transaction_history.trans_date
+			)
+	VALUES
+		  (
+		  		UUID(), 
+				trans_cat_id, 
+				trans_type_id  ,
+				trans_ammount,
+				trans_currency,
+				addr_id,
+				trans_date
+		  );
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionsGetAll
+DELIMITER //
+CREATE PROCEDURE `transactionsGetAll`()
+BEGIN
+
+	SELECT 
+		transaction.id,
+		transaction.trans_cat_name,
+		transaction.trans_type,
+		transaction.trans_desc,
+		transaction.trans_ammount,
+		transaction.trans_currency,
+		transaction.trans_address,
+		transaction.trans_date
+	FROM 
+		transaction
+	ORDER BY transaction.trans_date DESC;
+		
+
+-- 	SELECT transaction.id, 
+-- 			transaction_category.trans_cat_subname, 
+-- 			transaction_category.trans_cat_name,
+-- 			transaction_type.trans_type_name, 
+-- 			transaction.trans_ammount, 
+-- 			transaction.trans_currency,
+-- 			transaction.trans_date
+-- 	From transaction
+-- 	inner join transaction_category on transaction.trans_cat_id = transaction_category.id
+-- 	inner join transaction_type on transaction.trans_type_id = transaction_type.id
+-- 	ORDER BY transaction.trans_date DESC;
+-- 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.userCreate
+DELIMITER //
+CREATE PROCEDURE `userCreate`(
+	IN `user_id` CHAR(16),
+	IN `username` VARCHAR(15),
+	IN `email` VARCHAR(50),
+	IN `password` VARCHAR(36)
+)
+BEGIN
+
+	Insert into user(user.id, user.username, user.email, user.password, user.is_active) 
+	values(user_id, username, email, password, 1);
+	
+END//
+DELIMITER ;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

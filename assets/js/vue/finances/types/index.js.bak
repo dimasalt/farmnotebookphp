@@ -1,0 +1,147 @@
+var FinancesIndex = new Vue({
+    el: "#transactiontypes",
+    data: {             
+        transaction_cats: [], 
+        transaction_subcats: [],
+        work_item : {
+            id : 0,
+            category_id : 0,
+            category_name : '',
+            category_description : ''
+        },       
+        cat_work_form: false,
+        selected_index : 0
+    },
+    created: function () {
+        var self = this;
+
+        //get all the projects
+        self.getTypes();
+    },
+    methods: {
+        getTypes: function () {
+            //gets all project items
+            var self = this;           
+
+            var data = {};
+            data = JSON.stringify(data);
+
+            var result = $.post("/finances/categories/get/all", data);
+
+            result.done(function (data) {
+                if (data.length > 0) {
+                    data = JSON.parse(data);
+
+                    self.transaction_cats = data;                
+
+                    //get sub categories for the very first item
+                    self.selectCategory(self.selected_index);               
+                }
+            });
+
+            result.always(function () { });
+        },
+        selectCategory: function(index){
+            var self = this;
+
+            //reset transaction sub category array
+            self.transaction_subcats = [];
+
+            //adjust value of selected index
+            self.selected_index = index;
+
+            //change active element in the list
+            for(var i = 0; i < self.transaction_cats.length; i++)
+            {
+                if(i == index) self.transaction_cats[i].is_active = true;
+                else self.transaction_cats[i].is_active = false;
+            }
+
+            self.cat_work_form = false;
+
+
+            //get sub categories for selected category type
+            var data = {id : self.transaction_cats[index].id};
+            data = JSON.stringify(data);
+
+            var result = $.post("/finances/categories/get/allsub", data);
+
+            result.done(function (data) {
+                if (data.length > 0) {
+                    data = JSON.parse(data);
+                
+                    self.transaction_subcats = data;                                            
+                }
+            });
+
+            result.always(function () { });
+        },
+        newCategoryClick: function(){
+            var self = this;
+
+            self.work_item.id = 0;
+            self.work_item.category_id = 0;
+            self.work_item.category_name = '';
+            self.work_item.category_description = '';
+
+            self.cat_work_form = true;
+
+
+        },
+        newSubCategoryClick: function(){
+            var self = this;
+
+            var category_id = 0;
+
+            //find a main parent category
+            for(var i = 0; i < self.transaction_cats.length; i++)
+                if(self.transaction_cats[i].is_active == true)
+                    item = self.transaction_cats[i].id;
+
+            self.work_item.id = 0;
+            self.work_item.category_id = category_id;
+            self.work_item.category_name = '';
+            self.work_item.category_description = '';
+
+            self.cat_work_form = true;
+        },
+        editCategoryClick: function(index){ //edit existing category
+            var self = this;        
+            
+            self.closeCatItemForm();
+
+            //change category to active and pull it sub categories
+            self.selectCategory(index);
+              
+            //assign values to working item
+            self.work_item = self.transaction_cats[index];
+
+            //show form
+            self.cat_work_form = true;
+        },
+        editSubCategoryClick : function(edit_item) {
+            var self = this;           
+
+            self.closeCatItemForm();
+            
+            self.work_item.id = edit_item.id;
+            self.work_item.category_id = edit_item.category_id;
+            self.work_item.category_name = edit_item.category_sub_name;
+            self.work_item.category_description = edit_item.category_sub_description;                
+
+             //show form
+             self.cat_work_form = true;
+        },
+        closeCatItemForm: function(){
+            var self = this;
+
+              //assing edit or new item\
+              self.work_item.id = 0;
+              self.work_item.category_id  = 0;
+              self.work_item.cat_name = '';
+              self.work_item.cat_desc = '';        
+
+            self.cat_work_form = false;
+        }
+    }
+});

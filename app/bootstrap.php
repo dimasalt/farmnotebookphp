@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+session_regenerate_id(); //create new session id (for security purposes)
+
 require 'vendor/autoload.php';
 
 define('INC_ROOT', dirname(__DIR__));

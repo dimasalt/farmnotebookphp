@@ -8,9 +8,7 @@ use FarmManagement\Libraries\CSRFToken;
 
 class FinancesController extends BaseController
 {
-    public function index(){
-               
-        session_regenerate_id();
+    public function index(){            
 
         echo $this->view->render('Finances\transactions\index.twig', [
             'csrf' => CSRFToken::getToken()
@@ -37,8 +35,7 @@ class FinancesController extends BaseController
     /**
      * transaction types main page
      */
-    public function transactionCatsIndex(){
-        session_regenerate_id();              
+    public function transactionCatsIndex(){         
 
         echo $this->view->render('Finances\types\index.twig', [
             'csrf' => CSRFToken::getToken()
@@ -52,62 +49,80 @@ class FinancesController extends BaseController
         $helper = new FinancesHelper();
         $result = $helper->transactionCatsGetAll();
 
-        //mark first element as an active element
-        if(count($result) > 1) 
-            $result[0]["is_active"] = true;
+        for($i = 0; $i< count($result); $i++){         
+            //get all sub categories for the main category
+            $result[$i]["sub_category"] = $this->transactionSubCatsGetAllServerSide($result[$i]["id"]);
 
-        // mark rest of the array elements as inactive
-        for($i = 1; $i< count($result); $i++)
-            $result[$i]["is_active"] = false;           
-        
+        }                  
 
         echo json_encode($result);   
     }
 
-    /**
+     /**
      * Gets all sub categories for selected category
      */
-    public function transactionSubCatsGetAll(){
-        //security
-        session_regenerate_id();
+    public function transactionSubCatsGetAllServerSide($id){
+          
+        $helper = new FinancesHelper();
+        $result = $helper->transactionSubCatsGetAll($id);    
+        
+        return $result;     
+    }   
 
+
+    /**
+     * save/add/update transaction category or sub category
+     */
+    public function transactionCatSave() 
+    {        
         // Takes raw data from the request
         $json = file_get_contents('php://input');
 
         // Converts it into a PHP object
-        $data = json_decode($json);
+        $data = json_decode($json);      
 
-        $id = $data->id;    
-          
-        $helper = new FinancesHelper();
-        $result = $helper->transactionSubCatsGetAll($id);
+        $csrf = $data->csrf;
 
-        echo json_encode($result);
-         
-    }   
+        if(CSRFToken::isValid($csrf)) {
+               
+            //call helper
+            $helper = new FinancesHelper();
+            $result = $helper->transactionCatSave($data->category_item);
 
-
-
-
-    /**
-     * add new transaction type
-     */
-    public function transactionCatsAdd(){
-
+            echo json_encode($result);
+        }
+        else echo json_encode([
+                'message' => "Invalid CSRF token", 
+                'result' => false
+            ]);
     }
 
     /**
      * add new transaction type
      */
     public function transactionCatsDelete(){
+        
+        // Takes raw data from the request
+        $json = file_get_contents('php://input');
 
+        // Converts it into a PHP object
+        $data = json_decode($json);      
+  
+        $csrf = $data->csrf;
+  
+        if(CSRFToken::isValid($csrf)) {
+                 
+              //call helper
+              $helper = new FinancesHelper();
+              $result = $helper->transactionCatsDelete($data->category_id);
+  
+              echo json_encode($result);
+        }
+        else echo json_encode([
+                  'message' => "Invalid CSRF token", 
+                  'result' => false
+        ]);
     }
 
     
-    /**
-     * update existing transaction type
-     */
-    public function transactionCatsUpdate(){
-
-    }
 }
