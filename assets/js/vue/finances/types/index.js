@@ -108,6 +108,7 @@ const app = Vue.createApp({
               
             //deep copy (not by reference as default in javascript )
             //self.transaction_subcats = JSON.parse(JSON.stringify( self.transaction_cats[index].sub_category));      
+            
             //assign values to working item //shallow copy them rather than referencing
             self.work_item = Object.assign({}, self.transaction_cats[index] );
 
