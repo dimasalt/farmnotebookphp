@@ -1,8 +1,8 @@
-const transactions = {
+const app = Vue.createApp({
     data() {
         return {
+            add_new_visible : false, 
             transactions: [],
-            add_new_visible : false,          
             transaction_record : {
                 name : '',
                 price : 0,
@@ -14,39 +14,41 @@ const transactions = {
             transaction_type: [],
             chart_show: true,
             chart_data : []
-        }
-    },   
-    created () { 
-        var self = this;
-        self.transactionsGetAll(); //get all transactions     
+                }
     },
-    methods: {    
-        transactionsGetAll () {
+    created () {
+        var self = this;
+
+        //get all the projects
+        self.transactionsGetAll();
+    },
+    methods: {
+        transactionsGetAll: function () {
             //gets all project items
             var self = this;           
-    
+
             var data = {};
             data = JSON.stringify(data);
-    
+
             var projectsList = $.post("/finances/transactions/get/all", data);
-    
+
             projectsList.done(function (data) {
                 if (data.length > 0) {
                     data = JSON.parse(data);
-    
+
                     for (var i = 0; i < data.length; i++) {
-    
+
                         //check for red or green success class styling
-                        if (data[i].trans_ammount < 0) data[i].class = "text-danger";
-                        else if (data[i].trans_ammount > 0) data[i].class = "text-success";
+                        if (data[i].trans_type_name == 'expense') data[i].class = "text-danger";
+                        else if (data[i].trans_type_name == 'income') data[i].class = "text-success";
                     }
                     
                     self.transactions = data;
                 }
             });
-    
+
             projectsList.always(function () { });
-        },   
+        },
         transactionEditDisplay: function(){
 
         },
@@ -65,11 +67,6 @@ const transactions = {
             self.add_new_visible = is_visible;
         }
     }
-};
+});
 
-const app = Vue.createApp(transactions)
-                .mount('#transactions');
-
-                
-//const vm = app.mount('#transactions');
-//app.mount('#transactions');
+const vm = app.mount('#transactions');

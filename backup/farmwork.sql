@@ -224,7 +224,7 @@ INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `
 	(2, 'Noromectin', 'Each mL contains 0.8 mg of ivermectin.\r\n\r\nTreated animals must not be slaughtered for use in food for at least 14 days after the latest treatment with this drug.', 'Dosage and Administration\r\nNoromectin should be given as a single dose treatment. Administer orally at a dose of 2.5 mL of Noromectin per 10 kg of bodyweight, with any standard drenching equipment which provides a consistent dose volume. Repeat treatment may be necessary when re-exposure to parasite infection occurs.\r\n\r\nNoromectin Drench for Sheep Caution\r\nCoughing, which usually lasts for only a few minutes, may occur in a small percentage of sheep immediately after treatment; this passing response is of no consequence.', 'https://images-na.ssl-images-amazon.com/images/I/81cX3tCC0tL._AC_SY879_.jpg', NULL, 0, '2019-05-09 23:04:31'),
 	(4, 'Tetanus Toxoid', 'Anti-toxing vaccination. Takes 2-3 weeks to take effect.', 'Inject intromascularly 1cc/ml. Repeat vaccination in 3-4 weeks again', 'https://www.valleyvet.com/swatches/40277_L_vvs_000.jpg', NULL, 0, '2020-01-04 22:52:43'),
 	(5, 'Ivomec', 'IVOMEC Pour-On for Cattle is a clear, blue colored liquid containing 5 mg of ivermectin per mL (0.5% w/v). IVOMEC Pour-On for Cattle is formulated to deliver the recommended dose level of 500 µg of ivermectin per kg of body weight in cattle when applied along the top line from the withers to the tail head at the rate of 1 mL per 10 kg.', 'Apply along the top line from the withers to the tail head at the rate of 1 mL per 10 kg (22 lb).', 'https://media.tractorsupply.com/is/image/TractorSupplyCompany/2207462?$456$', NULL, 0, '2020-02-27 10:11:31'),
-	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'Administer 2 mL subcutaneously or intramuscularly. In accordance with Beef Quality Assurance guidelines, this product should be administered SC in the neck region.', '/uploads/medication/Bovi_Shield_Gold_5.jpg', NULL, 0, '2020-03-08 21:44:04');
+	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'In accordance with Beef Quality Assurance guidelines, this product should be adminsitered 2 mL subcutaneously in the neck region.', '/uploads/medication/Bovi_Shield_Gold_5.jpg', NULL, 0, '2020-03-08 21:44:04');
 /*!40000 ALTER TABLE `medication` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.planning_project
@@ -237,24 +237,22 @@ CREATE TABLE IF NOT EXISTS `planning_project` (
   `is_done` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
 
--- Dumping data for table farmwork.planning_project: ~6 rows (approximately)
+-- Dumping data for table farmwork.planning_project: ~5 rows (approximately)
 /*!40000 ALTER TABLE `planning_project` DISABLE KEYS */;
 INSERT INTO `planning_project` (`id`, `project_name`, `project_price`, `project_price_actual`, `is_start`, `is_done`, `created_at`) VALUES
-	(95, 'Gooseneck trailer', 4000, 0, 0, 0, '2020-10-30 00:00:00'),
 	(96, 'January 2021', 3000, 0, 0, 0, '2021-01-31 00:00:00'),
 	(97, 'Taxes March 2021', 1750, 0, 0, 0, '2021-03-31 00:00:00'),
-	(98, 'Calves Sale', 7000, 0, 0, 0, '2020-12-31 00:00:00'),
+	(98, 'Calves Sale', 7000, 1419, 0, 0, '2020-12-31 00:00:00'),
 	(99, 'Pension plan money', 8500, 0, 0, 0, '2021-02-28 00:00:00'),
-	(116, '32 Baby Calves for spring 2021', -14000, -14000, 1, 0, '2020-08-01 00:00:00');
+	(121, '50 Baby Calves for spring 2021', -17500, -17500, 1, 0, '2020-08-31 00:00:00');
 /*!40000 ALTER TABLE `planning_project` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction
 CREATE TABLE IF NOT EXISTS `transaction` (
   `id` char(36) NOT NULL DEFAULT uuid(),
-  `trans_cat_name` varchar(150) NOT NULL DEFAULT '',
-  `trans_type` varchar(50) NOT NULL DEFAULT '',
+  `trans_name` varchar(100) DEFAULT NULL,
   `trans_desc` varchar(250) DEFAULT NULL,
   `trans_ammount` decimal(19,2) NOT NULL,
   `trans_currency` varchar(10) NOT NULL DEFAULT 'CAD',
@@ -263,18 +261,16 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `FK_transaction_address_book` (`trans_address`) USING BTREE,
-  KEY `FK_transaction_transaction_type` (`trans_type`) USING BTREE,
-  KEY `FK_transaction_transaction_category` (`trans_cat_name`) USING BTREE
+  KEY `FK_transaction_address_book` (`trans_address`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
 -- Dumping data for table farmwork.transaction: ~4 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` (`id`, `trans_cat_name`, `trans_type`, `trans_desc`, `trans_ammount`, `trans_currency`, `trans_address`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('0333a75f-71a9-11e9-bfc5-d8cb8ac0caec', 'Feed/Hay', 'expence', NULL, 49.72, 'CAD', '1', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-10-29 09:29:01'),
-	('66d91789-6aea-11', 'Feed/Hay', 'expence', NULL, 24.86, 'CAD', '1', '2019-04-29 16:31:58', '2019-04-29 21:34:58', '2020-10-29 09:29:05'),
-	('965a0a99-6c36-11', 'Feed/Hay', 'expence', NULL, 49.72, 'CAD', '1', '2019-04-30 16:52:34', '2019-05-01 13:28:11', '2020-10-29 09:29:18'),
-	('dc2d7067-6da7-11e9-9b6b-d8cb8ac0caec', 'Livestock/Beef', 'expence', NULL, 3625.00, 'CAD', '1', '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2020-10-29 09:29:40');
+INSERT INTO `transaction` (`id`, `trans_name`, `trans_desc`, `trans_ammount`, `trans_currency`, `trans_address`, `trans_date`, `created_at`, `updated_at`) VALUES
+	('0333a75f-71a9-11e9-bfc5-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 'CAD', '1', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
+	('66d91789-6aea-11', NULL, NULL, -24.86, 'CAD', '1', '2019-04-29 16:31:58', '2019-04-29 21:34:58', '2020-12-26 11:21:30'),
+	('965a0a99-6c36-11', 'calves feed', NULL, -49.72, 'CAD', '1', '2019-04-30 16:52:34', '2019-05-01 13:28:11', '2020-12-26 13:23:53'),
+	('dc2d7067-6da7-11e9-9b6b-d8cb8ac0caec', 'calves purchase', NULL, -3625.00, 'CAD', '1', '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2020-12-26 13:24:05');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -285,19 +281,18 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~16 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~15 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Contains straw, hay and other grass feeds.', '2019-04-29 21:32:30'),
-	(2, 0, 'Grain', 'Contains all grains such as corn, oats, barley etc...', '2019-04-29 21:33:09'),
 	(5, 0, 'Livestock', 'Livestock types (cattle, chicken, horse, sheep, goats etc...)', '2019-05-03 09:30:51'),
 	(9, 0, 'Medication', 'Medication and medication merchandise needed to treat and keep livestock well and healthy.', '2019-05-03 09:34:18'),
-	(10, 1, 'Hay', NULL, '2020-11-11 09:25:54'),
-	(11, 2, 'Corn', NULL, '2020-11-11 09:26:13'),
-	(12, 2, 'Barley', NULL, '2020-11-11 09:26:23'),
-	(13, 2, 'Oats', NULL, '2020-11-11 09:26:35'),
+	(10, 1, 'Hay', '', '2020-11-11 09:25:54'),
+	(11, 1, 'Corn', NULL, '2020-11-11 09:26:13'),
+	(12, 1, 'Barley', NULL, '2020-11-11 09:26:23'),
+	(13, 1, 'Oats', NULL, '2020-11-11 09:26:35'),
 	(14, 5, 'Beef', NULL, '2020-11-11 09:27:15'),
 	(15, 5, 'Chicken', NULL, '2020-11-11 09:27:26'),
 	(16, 5, 'Sheep', NULL, '2020-11-11 09:27:36'),
@@ -305,20 +300,22 @@ INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `categor
 	(18, 5, 'Goat', NULL, '2020-11-11 09:28:01'),
 	(19, 9, 'Tasvax-8', NULL, '2020-11-11 09:28:30'),
 	(20, 9, 'Bovi-Shield Gold 5', NULL, '2020-11-11 09:28:55'),
-	(21, 2, 'Cracked Corn', NULL, '2020-11-11 09:29:15');
+	(21, 1, 'Cracked Corn', NULL, '2020-11-11 09:29:15'),
+	(22, 0, 'Equipment', 'Farming equipment purchases or sales', '2020-12-14 12:23:00'),
+	(23, 22, 'Tractor', '', '2020-12-14 12:23:21');
 /*!40000 ALTER TABLE `transaction_category` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_item
 CREATE TABLE IF NOT EXISTS `transaction_item` (
   `id` char(36) NOT NULL,
-  `trans_id` char(36) NOT NULL,
-  `trans_item_cat` varchar(150) NOT NULL,
-  `trans_item_subcat` varchar(150) NOT NULL,
+  `transaction_id` char(36) NOT NULL,
+  `transaction_category` varchar(150) NOT NULL,
+  `transaction_subcategory` varchar(150) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `FK_transaction_item_transaction` (`trans_id`),
-  CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`trans_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `FK_transaction_item_transaction` (`transaction_id`) USING BTREE,
+  CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
 -- Dumping data for table farmwork.transaction_item: ~0 rows (approximately)
@@ -336,7 +333,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~1 rows (approximately)
+-- Dumping data for table farmwork.user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -848,8 +845,13 @@ CREATE PROCEDURE `transactionCatDelete`(
     COMMENT 'removes category or sub category'
 BEGIN
 		
+		-- remove category by id (if main category)
 		DELETE FROM transaction_category 
 		WHERE transaction_category.id = id;
+		
+		-- remove all sub categories
+		DELETE FROM transaction_category 
+		WHERE transaction_category.parent_id = id;
 		
 END//
 DELIMITER ;
@@ -980,8 +982,7 @@ BEGIN
 
 	SELECT 
 		transaction.id,
-		transaction.trans_cat_name,
-		transaction.trans_type,
+		transaction.trans_name,
 		transaction.trans_desc,
 		transaction.trans_ammount,
 		transaction.trans_currency,

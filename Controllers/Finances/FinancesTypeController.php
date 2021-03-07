@@ -95,9 +95,9 @@ class FinancesTypeController extends BaseController
               echo json_encode($result);
         }
         else echo json_encode([
-                  'message' => "Invalid CSRF token", 
-                  'result' => false
-        ]);
+                'message' => "Invalid CSRF token", 
+                'result' => false
+            ]);
     }
 
     

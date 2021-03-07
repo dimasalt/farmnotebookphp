@@ -1,0 +1,134 @@
+{% extends "Shared/_layout.twig" %}
+
+{% block title %} Transactions {% endblock %}
+
+{% block header_scripts %}
+    <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
+ {% endblock %}
+
+{% block body %}
+    
+<!-- side nav menu -->
+{% include '/Finances/_sidenav.twig' %}
+
+<!-- page content -->
+<div class="container-fluid" id="transactions" v-cloak>
+    <div class="pt-4" >      
+         <!-- csrf protection -->
+        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
+
+        <div class="row mb-2">
+            <div class="col-12 border-bottom">
+                <h1 class="text-dark mb-4">Transactions
+                    <a href="#" v-on:click="displayForm(true)">
+                        <i class="far fa-plus-square btn-sm text-success align-middle"
+                           data-toggle="tooltip" data-placement="top" title="Add Transaction"></i>
+                    </a>                 
+                </h1>            
+
+                 {# <div class="callout callout-info">
+                    <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
+                    This page contains ongoing on the farm finances information.
+                </div> #}
+            </div>           
+        </div>        
+
+        <!-- Actual search box -->
+        {# <div class="form-group has-search col-3 float-right">
+            <span class="fa fa-search form-control-feedback"></span>
+            <input type="text" class="form-control"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
+        </div>  #}
+
+         <!-- list of transactions -->        
+        <div class="col-12 mb-3" v-if="add_new_visible == true" >               
+            <div class="input-group">
+                <input type="text" class="form-control col-8" placeholder="Name" aria-label="Name" aria-describedby="button-addon4" v-model="transaction_record.name" required>
+                <input type="text" class="form-control col-2" placeholder="Price" aria-label="Price" aria-describedby="button-addon4" v-model="transaction_record.price" required>                                
+                <input class="form-control" type="date" aria-label="Start date" aria-describedby="button-addon4" v-model="transaction_record.date">
+                <div class="input-group-append" id="button-addon4">     
+                        <button class="btn btn-warning" type="button" v-on:click="showForm(false)">
+                            <i class="fas fa-times-circle text-small mr-1"></i>
+                        Cancel           
+                    </button>                  
+                    <button class="btn btn-success" type="button" v-on:click="addNew()">
+                        <i class="far fa-plus-square btn-sm text-white pl-0" title="Add starting finance point"></i>
+                        Add           
+                    </button>                       
+                </div>
+            </div>
+        </div> 
+
+        <div class="col-6 mt-2" id="transaction-list">
+            <table class="table table-condensed bg-white table-borderless shadow-sm">              
+                <thead>
+                    <tr>                           
+                        <th scope="col"  class="w-15">Name</th>                           
+                        <th scope="col"  class="w-50">Category</th>                
+                        <th scope="col"  class="w-15">$ CAD</th>     
+                        <th scope="col" class="w-15">#</th>                                            
+                    </tr>
+                </thead>
+                <tbody v-for="(item, index) in transactions">
+                    <tr class="border" v-bind:class="item.class">                     
+                        <td class="pl-4">
+                            {{ '{{item.trans_cat_subname}}' }}                             
+                        </td>                                   
+                        <td>{{ '{{item.trans_cat_name }}' }} </td>
+                        <td>${{ '{{item.trans_ammount}}' }} </td>
+                        <td>
+                            <a href="#" v-on:click.stop="delOneShow(item.id, item.project_name)">
+                                <i class="far fa-trash-alt btn-sm text-dark align-middle float-right"
+                                    data-toggle="tooltip" data-placement="top" title="remove expence point"></i>
+                            </a>
+                                <a href="#" v-on:click="editShow(index)">
+                                <i class="fa fa-edit btn-sm text-warning align-middle pr-0 float-right"
+                                    data-toggle="tooltip" data-placement="top" title="edit expence point"></i>
+                            </a>
+                        </td>
+                    </tr>    
+                    <tr v-if="item.is_edit == true">
+                        <td colspan="4">
+                                <div class="input-group">
+                                <input type="hidden" v-model="project_item_edit.id" />
+                                <input type="text" class="form-control col-6" placeholder="Project name" aria-label="Project name" aria-describedby="button-addon4" v-model="project_item_edit.project_name" required>
+                                <input type="text" class="form-control col-2" placeholder="Projected expence" aria-label="Projected expence" aria-describedby="button-addon4" v-model="project_item_edit.project_price" required>
+                                <input type="text" class="form-control col-2" placeholder="Actual expence" aria-label="Actual expence" aria-describedby="button-addon4" v-model="project_item_edit.project_price_actual" required>
+                                <input type="date" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_edit.created_at">
+                                <div class="input-group-append" id="button-addon4">     
+                                    <a href="#" class="btn btn-warning" v-on:click="editCancel(index)">
+                                        <i class="fas fa-times-circle text-small mr-1"></i>
+                                        Cancel           
+                                    </a>                  
+                                    <a href="#" class="btn btn-success" v-on:click="editOne()">
+                                        <i class="fas fa-check btn-sm text-white pl-0" title="Save item update"></i>
+                                        Save           
+                                    </a>                       
+                                </div>
+                            </div>
+                        </td>
+                    </tr>                       
+                </tbody>
+            </table>
+        </div>   
+       
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_scripts %}
+
+    {# <script src="/assets/js/vue.min.js"> </script> #}
+    <script src="/assets/js/vue.global.prod.js"></script>
+    <script src="/assets/components/toastr/toastr.min.js"></script>
+
+    <script src="/assets/js/vue/finances/transactions/index.js"></script>
+
+     <script type="application/javascript">
+        $(function () {
+
+            // tooltips
+            $('[data-toggle="tooltip"]').tooltip();
+
+        });
+    </script>
+{% endblock %}

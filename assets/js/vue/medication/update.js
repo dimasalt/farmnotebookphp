@@ -1,4 +1,4 @@
-var ForgotPassword = new Vue({
+var UpdateMedication = new Vue({
     el: '#medication',
     data: {     
         medication: {}     
@@ -27,21 +27,9 @@ var ForgotPassword = new Vue({
 
             medOne.always(function () {
             });          
-        },
-        deleteContacModal: function(index){
-            var self = this;
-
-            self.medication = self.meds[index];
-
-             //show the modal2
-             $('#deleteModal').modal('show');
-
-        },
-        deleteMedication: function(){
-            var self = this;
-
-              //hide the modal
-              $('#deleteModal').modal('hide');
+        },       
+        updateMed: function(){
+            var self = this;            
 
               var data = {id : self.medication.id };
 

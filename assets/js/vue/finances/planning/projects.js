@@ -1,28 +1,29 @@
-var PlanningProjects = new Vue({
-    el: "#projects",
-    data: {
-        starting_expence: {},
-        project_item_new : {
-            project_name : '',
-            project_price : '',
-            project_price_actual : '',
-            is_start : 0,
-            created_at : ''
-        },
-        project_item_new_visible: false,     
-        project_item_delete : {},
-        project_item_edit : {},
-        projects: [],
-        projects_total: {
-            predicted_expences: 0,
-            actual_expences: 0,
-            predicted_expences_class: "",
-            actual_expences_class: ""
-        },
-        chart_data : [], //data for the charts
-        image_link: ''
+const app = Vue.createApp({
+    data() {
+        return {
+            starting_expence: {},
+            project_item_new : {
+                project_name : '',
+                project_price : '',
+                project_price_actual : '',
+                is_start : 0,
+                created_at : ''
+            },
+            project_item_new_visible: false,     
+            project_item_delete : {},
+            project_item_edit : {},
+            projects: [],
+            projects_total: {
+                predicted_expences: 0,
+                actual_expences: 0,
+                predicted_expences_class: "",
+                actual_expences_class: ""
+            },
+            chart_data : [], //data for the charts
+            image_link: ''
+        }
     },
-    created: function () {
+    created() {
         var self = this;
 
         //get all the projects
@@ -37,7 +38,7 @@ var PlanningProjects = new Vue({
         self.project_item_new.created_at = yyyy + '-' + mm + '-' + dd;     
     },
     methods: {
-        getProjects: function () {
+        getProjects() {
             //gets all project items
             var self = this;
 
@@ -505,3 +506,5 @@ var PlanningProjects = new Vue({
         }
     }
 });
+
+const vm = app.mount('#projects');

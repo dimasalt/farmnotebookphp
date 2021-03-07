@@ -112,6 +112,9 @@
                     </div>
                     <div class="modal-body">
                         Are you sure you want to remove category named <b>"{{ '{{ work_item.category_name }}' }}"</b> ?
+                        <div class="alert alert-danger mt-4" role="alert">
+                            Please keep in mind if you removing main category, all sub categories will be removed as well.
+                        </div>                            
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-dismiss="modal">

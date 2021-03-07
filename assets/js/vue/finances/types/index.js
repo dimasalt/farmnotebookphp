@@ -42,7 +42,7 @@ const app = Vue.createApp({
 
             result.always(function () { });
         },
-        selectCategory(index){
+        selectCategory: function(index){
             var self = this;
 
             self.transaction_subcats = [];                 
