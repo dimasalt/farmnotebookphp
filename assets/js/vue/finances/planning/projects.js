@@ -50,7 +50,7 @@ const app = Vue.createApp({
             var data = {};
             data = JSON.stringify(data);
 
-            var projectsList = $.post("/finances/projects/get/all", data);
+            var projectsList = $.post("/bookkeeping/projects/get/all", data);
 
             projectsList.done(function (data) {
                 if (data.length > 0) {                  
@@ -244,7 +244,7 @@ const app = Vue.createApp({
             };
             data = JSON.stringify(data);
 
-            var projectdel = $.post("/finances/projects/delete", data);
+            var projectdel = $.post("/bookkeeping/projects/delete", data);
 
             projectdel.done(function (data) {
                 data = JSON.parse(data);             
@@ -308,7 +308,7 @@ const app = Vue.createApp({
 
             data = JSON.stringify(data);
 
-            var projectdel = $.post("/finances/projects/add", data);
+            var projectdel = $.post("/bookkeeping/projects/add", data);
 
             projectdel.done(function (data) {
                 data = JSON.parse(data);             

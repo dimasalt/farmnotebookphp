@@ -1,0 +1,176 @@
+{% extends "Shared/_layout.twig" %}
+
+{% block title %} Transactions {% endblock %}
+
+{% block header_scripts %}
+    <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
+ {% endblock %}
+
+{% block body %}
+    
+<!-- side nav menu -->
+{% include '/Bookkeeping/_sidenav.twig' %}
+
+<!-- page content -->
+<div class="container-fluid" id="vehiclelogbook" v-cloak>
+    
+        <!-- csrf protection -->
+    <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
+
+    <div class="row border-bottom pt-4">
+        <div class="col-9">
+            <h1 class="text-dark mb-2">Vehicle Log Book
+                <a href="#" v-on:click="displayForm(true)">
+                    <i class="far fa-plus-square btn-sm text-success align-middle"
+                        data-toggle="tooltip" data-placement="top" title="Add Transaction"></i>
+                </a>                 
+            </h1>   
+        </div>
+        <!-- date selection -->
+        <div class="col-3">        
+            <div class="input-group">                                       
+                <input type="date" class="form-control col-6" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="start_date">   
+                <input type="date" class="form-control col-6" placeholder="date yyyy-mm-dd" aria-label="End date" aria-describedby="button-addon4" v-model="end_date">                                                                  
+            </div>               
+        </div>           
+    </div>        
+
+    <!-- Actual search box -->
+    {# <div class="form-group has-search col-3 float-right">
+        <span class="fa fa-search form-control-feedback"></span>
+        <input type="text" class="form-control"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
+    </div>  #}
+
+    <div class="row">
+        <div class="col-8">
+            <table class="table mt-4 bg-white">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td colspan="2">Larry the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+       
+        
+
+        {# <div class="col-12 mb-3" v-if="add_new_visible == true" id="transaction_list" >               
+            <div class="input-group">
+                <input type="text" class="form-control col-8" placeholder="Name" aria-label="Name" aria-describedby="button-addon4" v-model="transaction_record.name" required>
+                <input type="text" class="form-control col-2" placeholder="Price" aria-label="Price" aria-describedby="button-addon4" v-model="transaction_record.price" required>                                
+                <input class="form-control" type="date" aria-label="Start date" aria-describedby="button-addon4" v-model="transaction_record.date">
+                <div class="input-group-append" id="button-addon4">     
+                        <button class="btn btn-warning" type="button" v-on:click="showForm(false)">
+                            <i class="fas fa-times-circle text-small mr-1"></i>
+                        Cancel           
+                    </button>                  
+                    <button class="btn btn-success" type="button" v-on:click="addNew()">
+                        <i class="far fa-plus-square btn-sm text-white pl-0" title="Add starting finance point"></i>
+                        Add           
+                    </button>                       
+                </div>
+            </div>
+        </div>        #}
+       
+
+
+
+    {# <div class="col-8 mt-2">
+        <table class="table bg-white table-borderless shadow-sm table-hover">              
+            <thead class="thead-dark">
+                <tr>                           
+                    <th scope="col"  class="w-75">Name</th>                                  
+                    <th scope="col"  class="w-10">$ CAD</th>     
+                    <th scope="col" class="w-10">#</th>                                            
+                </tr>
+            </thead>
+            <tbody v-for="(item, index) in transactions">
+                <tr class="border">                     
+                    <td class="pl-4" v-bind:class="item.class">
+                        {{ '{{item.trans_name}}' }}                             
+                    </td>                                                      
+                    <td v-bind:class="item.class">${{ '{{item.trans_ammount}}' }} </td>
+                    <td>                      
+                        <a href="#" v-on:click.stop="delOneShow(item.id, item.project_name)">
+                            <i class="far fa-trash-alt btn-sm text-dark align-middle float-right"
+                                data-toggle="tooltip" data-placement="top" title="remove transaction"></i>
+                        </a>
+                            <a href="#" v-on:click="editShow(index)">
+                            <i class="fa fa-edit btn-sm text-warning align-middle pr-0 float-right"
+                                data-toggle="tooltip" data-placement="top" title="edit transaction"></i>
+                        </a>
+                        <a href="/contacts/view/1">
+                            <i data-toggle="tooltip" data-placement="top" title="View transaction" class="far fa-eye text-small text-info float-right mr-1 mt-1"></i>
+                        </a>
+                    </td>
+                </tr>    
+                <tr v-if="item.is_edit == true">
+                    <td colspan="4">
+                            <div class="input-group">
+                            <input type="hidden" v-model="project_item_edit.id" />
+                            <input type="text" class="form-control col-6" placeholder="Project name" aria-label="Project name" aria-describedby="button-addon4" v-model="project_item_edit.project_name" required>
+                            <input type="text" class="form-control col-2" placeholder="Projected expence" aria-label="Projected expence" aria-describedby="button-addon4" v-model="project_item_edit.project_price" required>
+                            <input type="text" class="form-control col-2" placeholder="Actual expence" aria-label="Actual expence" aria-describedby="button-addon4" v-model="project_item_edit.project_price_actual" required>
+                            <input type="date" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_edit.created_at">
+                            <div class="input-group-append" id="button-addon4">     
+                                <a href="#" class="btn btn-warning" v-on:click="editCancel(index)">
+                                    <i class="fas fa-times-circle text-small mr-1"></i>
+                                    Cancel           
+                                </a>                  
+                                <a href="#" class="btn btn-success" v-on:click="editOne()">
+                                    <i class="fas fa-check btn-sm text-white pl-0" title="Save item update"></i>
+                                    Save           
+                                </a>                       
+                            </div>
+                        </div>
+                    </td>
+                </tr>                       
+            </tbody>
+        </table>
+    </div>   #}
+</div>
+
+
+
+
+{% endblock %}
+
+{% block custom_scripts %}
+
+    <script src="/assets/js/vue.global.prod.js"></script>
+    <script src="/assets/components/toastr/toastr.min.js"></script>
+
+    <script src="/assets/js/vue/finances/vehiclelogbook/index.js"></script>
+
+
+     <script type="application/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+{% endblock %}

@@ -2,31 +2,45 @@
 
 namespace FarmManagement\Controllers;
 
-use FarmManagement\Helpers\FinancesPlanningHelper;
+use FarmManagement\Helpers\VehicleLogBookHelper;
 use FarmManagement\Libraries\CSRFToken;
 
-class FinancesPlanningController extends BaseController {
+class VehicleLogBookController extends BaseController {
 
     /*
     *--------------------------------------------------------
     *       Project planning page
     *---------------------------------------------------------
     */
-    public function projects(){       
-        echo $this->view->render('Bookkeeping\planning\projects.twig',            
+    public function index(){       
+        echo $this->view->render('Bookkeeping\vehiclelogbook\index.twig',            
             [ 'csrf' => CSRFToken::getToken()]
         );
     }
 
-    /*
+     /*
     *--------------------------------------------------------
-    *       Project planning get list of all
+    *      vehicle log book get all records
     *---------------------------------------------------------
     */
-    public function getList()
+    public function getOdometer()
     {
-        $phelper = new FinancesPlanningHelper();
-        $projects = $phelper->getList();
+        $phelper = new VehicleLogBookHelper();
+        $projects = $phelper->getOdometer();
+
+        echo json_encode($projects);
+    }
+
+
+    /*
+    *--------------------------------------------------------
+    *      vehicle log book get all records
+    *---------------------------------------------------------
+    */
+    public function getAll()
+    {
+        $phelper = new VehicleLogBookHelper();
+        $projects = $phelper->getAll();
 
         echo json_encode($projects);
     }
@@ -91,72 +105,6 @@ class FinancesPlanningController extends BaseController {
           echo json_encode($result);
         } 
         else echo json_encode(false);               
-    }
-
-
-      /*
-    *--------------------------------------------------------
-    *       edit one item from the planned project list
-    *---------------------------------------------------------
-    */
-    public function updateOne()
-    {
-          //security
-          session_regenerate_id();
-
-         // Takes raw data from the request
-         $json = file_get_contents('php://input');
-
-         // Converts it into a PHP object
-         $data = json_decode($json);
-
-         if(CSRFToken::isValid($data->csrf)){
-            $project_id = $data->id;
-            $project_name = $data->project_name;
-            $project_price = $data->project_price;
-            $project_price_actual = $data->project_price_actual;        
-            $created_at = $data->created_at;
-    
-           $phelper = new FinancesPlanningHelper();
-           $result = $phelper->updateOne($project_id, $project_name, $project_price, $project_price_actual, $created_at);
-   
-           echo json_encode($result);
-         } 
-         else echo json_encode(false);       
-
-      
-    }
-
-      /*
-    *--------------------------------------------------------
-    *       update status of one item from the planned project list
-    *---------------------------------------------------------
-    */
-    public function projectUpdateStatus()
-    {
-          //security
-          session_regenerate_id();
-
-         // Takes raw data from the request
-         $json = file_get_contents('php://input');
-
-         // Converts it into a PHP object
-         $data = json_decode($json);
-
-         if(CSRFToken::isValid($data->csrf)){
-
-            $project_id = $data->id;
-            $is_done = $data->is_done;
-           
-    
-           $phelper = new FinancesPlanningHelper();
-           $result = $phelper->projectUpdateStatus($project_id, $is_done);
-            
-           echo json_encode($result);
-        } 
-        else echo json_encode(false);       
-
-       
     }
 
 }

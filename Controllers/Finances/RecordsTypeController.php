@@ -6,14 +6,14 @@ use FarmManagement\Helpers\FinancesTypeHelper;
 use FarmManagement\Libraries\CSRFToken;
 
 
-class FinancesTypeController extends BaseController
+class RecordsTypeController extends BaseController
 {
     /**
      * transaction types main page
      */
     public function index() {         
 
-        echo $this->view->render('Finances\types\index.twig', [
+        echo $this->view->render('Bookkeeping\types\index.twig', [
             'csrf' => CSRFToken::getToken()
         ]);
     }

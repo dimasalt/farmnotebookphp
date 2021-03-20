@@ -24,22 +24,26 @@ $r->addRoute('GET', '/contacts', 'FarmManagement\Controllers\ContactsController:
 $r->addRoute(['GET', 'POST'], '/contacts/view/{id}', 'FarmManagement\Controllers\ContactsController:view');
 
 //finances pages
-$r->addRoute(['GET', 'POST'], '/finances/transactions/get/all', 'FarmManagement\Controllers\FinancesController:transactionsGetAll');
-$r->addRoute(['GET', 'POST'], '/finances/transactions', 'FarmManagement\Controllers\FinancesController:index');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/records/get/all', 'FarmManagement\Controllers\BookkeepingController:transactionsGetAll');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/records', 'FarmManagement\Controllers\BookkeepingController:index');
 
 //finances categories
-$r->addRoute(['GET', 'POST'], '/finances/categories/delete', 'FarmManagement\Controllers\FinancesTypeController:transactionCatsDelete');
-$r->addRoute(['GET', 'POST'], '/finances/categories/get/all', 'FarmManagement\Controllers\FinancesTypeController:transactionCatsGetAll');
-$r->addRoute(['GET', 'POST'], '/finances/categories/save', 'FarmManagement\Controllers\FinancesTypeController:transactionCatSave');
-$r->addRoute(['GET'], '/finances/categories', 'FarmManagement\Controllers\FinancesTypeController:index');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/categories/delete', 'FarmManagement\Controllers\RecordsTypeController:transactionCatsDelete');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/categories/get/all', 'FarmManagement\Controllers\RecordsTypeController:transactionCatsGetAll');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/categories/save', 'FarmManagement\Controllers\RecordsTypeController:transactionCatSave');
+$r->addRoute(['GET'], '/bookkeeping/categories', 'FarmManagement\Controllers\RecordsTypeController:index');
 
 // finances projects
-$r->addRoute(['GET', 'POST'], '/finances/projects/updatestatus', 'FarmManagement\Controllers\FinancesPlanningController:projectUpdateStatus');
-$r->addRoute(['GET', 'POST'], '/finances/projects/update', 'FarmManagement\Controllers\FinancesPlanningController:updateOne');
-$r->addRoute(['GET', 'POST'], '/finances/projects/add', 'FarmManagement\Controllers\FinancesPlanningController:addNew');
-$r->addRoute(['GET', 'POST'], '/finances/projects/delete', 'FarmManagement\Controllers\FinancesPlanningController:delOne');
-$r->addRoute(['GET', 'POST'], '/finances/projects/get/all', 'FarmManagement\Controllers\FinancesPlanningController:getList');
-$r->addRoute(['GET', 'POST'], '/finances/projects', 'FarmManagement\Controllers\FinancesPlanningController:projects');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/projects/updatestatus', 'FarmManagement\Controllers\FinancesPlanningController:projectUpdateStatus');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/projects/update', 'FarmManagement\Controllers\FinancesPlanningController:updateOne');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/projects/add', 'FarmManagement\Controllers\FinancesPlanningController:addNew');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/projects/delete', 'FarmManagement\Controllers\FinancesPlanningController:delOne');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/projects/get/all', 'FarmManagement\Controllers\FinancesPlanningController:getList');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/projects', 'FarmManagement\Controllers\FinancesPlanningController:projects');
+
+// vehicle log book
+$r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/get/all', 'FarmManagement\Controllers\VehicleLogBookController:getAll');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook', 'FarmManagement\Controllers\VehicleLogBookController:index');
 
 // upload pages
 $r->addRoute('GET', '/upload/{name}/{item_type}/{item_id}', 'FarmManagement\Controllers\UploadController:index');

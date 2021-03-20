@@ -2,7 +2,7 @@
 -- Host:                         localhost
 -- Server version:               10.5.6-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             11.1.0.6116
+-- HeidiSQL Version:             11.2.0.6213
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -37,7 +37,7 @@ INSERT INTO `contact` (`id`, `name`, `address`, `city`, `postal`, `country`, `pr
 	(25, 'Northern Allied', '352 Railway St', 'Timmins', 'P4N 2P6', 'Canada', 'On', '7052645291', '', 'Metal supply company. The only one in Timmins.', '2020-02-18 23:39:43'),
 	(26, 'Mark', 'n/a', 'Matheson', 'p0k 1n0', 'Canada', 'On', '705-262-3433', '', '<p>Neighbour farmer. Wants to buy cattle. May not keep the word.</p>', '2020-02-27 10:59:32'),
 	(30, 'Samuel M.', '', '', '', 'Canada', 'On', '705-232-2380', '', '<p>Manonite. Sells lumber and posts for fencing or/and construction.</p>', '2020-04-08 17:19:45'),
-	(31, 'Cleason Marting', 'Country Ln', 'Val Gagne', '', 'Canada', 'On', '', '', '<p>Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.</p>', '2020-04-08 17:23:04');
+	(31, 'Cleason Marting', 'Country Ln', 'Val Gagne', '', 'Canada', 'On', '705-232-2039', '', '<p>Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.</p>', '2020-04-08 17:23:04');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.event
@@ -239,13 +239,10 @@ CREATE TABLE IF NOT EXISTS `planning_project` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
 
--- Dumping data for table farmwork.planning_project: ~5 rows (approximately)
+-- Dumping data for table farmwork.planning_project: ~3 rows (approximately)
 /*!40000 ALTER TABLE `planning_project` DISABLE KEYS */;
 INSERT INTO `planning_project` (`id`, `project_name`, `project_price`, `project_price_actual`, `is_start`, `is_done`, `created_at`) VALUES
-	(96, 'January 2021', 3000, 0, 0, 0, '2021-01-31 00:00:00'),
 	(97, 'Taxes March 2021', 1750, 0, 0, 0, '2021-03-31 00:00:00'),
-	(98, 'Calves Sale', 7000, 1419, 0, 0, '2020-12-31 00:00:00'),
-	(99, 'Pension plan money', 8500, 0, 0, 0, '2021-02-28 00:00:00'),
 	(121, '50 Baby Calves for spring 2021', -17500, -17500, 1, 0, '2020-08-31 00:00:00');
 /*!40000 ALTER TABLE `planning_project` ENABLE KEYS */;
 
@@ -268,7 +265,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_name`, `trans_desc`, `trans_ammount`, `trans_currency`, `trans_address`, `trans_date`, `created_at`, `updated_at`) VALUES
 	('0333a75f-71a9-11e9-bfc5-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 'CAD', '1', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
-	('66d91789-6aea-11', NULL, NULL, -24.86, 'CAD', '1', '2019-04-29 16:31:58', '2019-04-29 21:34:58', '2020-12-26 11:21:30'),
+	('66d91789-6aea-11', 'no name', NULL, -24.86, 'CAD', '1', '2019-04-29 16:31:58', '2019-04-29 21:34:58', '2020-12-26 14:44:01'),
 	('965a0a99-6c36-11', 'calves feed', NULL, -49.72, 'CAD', '1', '2019-04-30 16:52:34', '2019-05-01 13:28:11', '2020-12-26 13:23:53'),
 	('dc2d7067-6da7-11e9-9b6b-d8cb8ac0caec', 'calves purchase', NULL, -3625.00, 'CAD', '1', '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2020-12-26 13:24:05');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
@@ -281,28 +278,41 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~15 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~28 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
-	(1, 0, 'Feed', 'Contains straw, hay and other grass feeds.', '2019-04-29 21:32:30'),
+	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
 	(5, 0, 'Livestock', 'Livestock types (cattle, chicken, horse, sheep, goats etc...)', '2019-05-03 09:30:51'),
-	(9, 0, 'Medication', 'Medication and medication merchandise needed to treat and keep livestock well and healthy.', '2019-05-03 09:34:18'),
+	(9, 0, 'Veterinary', 'Veterinary fees, medicine, and breeding fees.', '2019-05-03 09:34:18'),
 	(10, 1, 'Hay', '', '2020-11-11 09:25:54'),
 	(11, 1, 'Corn', NULL, '2020-11-11 09:26:13'),
 	(12, 1, 'Barley', NULL, '2020-11-11 09:26:23'),
 	(13, 1, 'Oats', NULL, '2020-11-11 09:26:35'),
-	(14, 5, 'Beef', NULL, '2020-11-11 09:27:15'),
-	(15, 5, 'Chicken', NULL, '2020-11-11 09:27:26'),
-	(16, 5, 'Sheep', NULL, '2020-11-11 09:27:36'),
-	(17, 5, 'Horse', NULL, '2020-11-11 09:27:45'),
-	(18, 5, 'Goat', NULL, '2020-11-11 09:28:01'),
+	(14, 5, 'Cattle', NULL, '2020-11-11 09:27:15'),
+	(15, 5, 'Poultry', NULL, '2020-11-11 09:27:26'),
 	(19, 9, 'Tasvax-8', NULL, '2020-11-11 09:28:30'),
 	(20, 9, 'Bovi-Shield Gold 5', NULL, '2020-11-11 09:28:55'),
 	(21, 1, 'Cracked Corn', NULL, '2020-11-11 09:29:15'),
 	(22, 0, 'Equipment', 'Farming equipment purchases or sales', '2020-12-14 12:23:00'),
-	(23, 22, 'Tractor', '', '2020-12-14 12:23:21');
+	(23, 22, 'Tractor', '', '2020-12-14 12:23:21'),
+	(24, 5, 'Livestock and Animals', '', '2021-03-07 09:47:40'),
+	(26, 0, 'Other', 'Please specify', '2021-03-07 09:49:15'),
+	(27, 22, 'Small tools', '', '2021-03-07 09:50:58'),
+	(28, 22, 'Gasoline and diesel fuel', '', '2021-03-07 09:51:22'),
+	(30, 22, 'Repairs', '', '2021-03-07 09:53:19'),
+	(31, 22, 'Oil', '', '2021-03-07 09:54:37'),
+	(32, 0, 'Farm', 'Farm expences', '2021-03-07 10:06:09'),
+	(33, 32, 'Electricity', '', '2021-03-07 10:06:20'),
+	(34, 32, 'Property Tax', '', '2021-03-07 10:06:29'),
+	(35, 0, 'Property', 'Property expences', '2021-03-07 10:08:31'),
+	(36, 35, 'Electricity', '', '2021-03-07 10:10:47'),
+	(37, 35, 'Property Tax', '', '2021-03-07 10:10:55'),
+	(38, 32, 'Mortgage interest', '', '2021-03-07 10:40:37'),
+	(39, 32, 'Maintenance', '', '2021-03-07 10:41:04'),
+	(40, 32, 'Insurance', '', '2021-03-07 10:41:28'),
+	(41, 1, 'Milk Replacer', '', '2021-03-14 22:37:01');
 /*!40000 ALTER TABLE `transaction_category` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_item
@@ -405,6 +415,43 @@ CREATE TABLE IF NOT EXISTS `user_to_role` (
 -- Dumping data for table farmwork.user_to_role: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
+
+-- Dumping structure for table farmwork.vehicle_log_book
+CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `year_start_odometer` int(11) NOT NULL,
+  `year_end_odometer` int(11) DEFAULT NULL,
+  `vehicle_desc` varchar(150) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+-- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
+/*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
+INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
+	(1, 175153, 0, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
+/*!40000 ALTER TABLE `vehicle_log_book` ENABLE KEYS */;
+
+-- Dumping structure for table farmwork.vehicle_log_book_item
+CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `vehicle_log_book_id` int(11) NOT NULL,
+  `destination` varchar(250) NOT NULL,
+  `purpose` varchar(150) NOT NULL,
+  `travel_distance` bigint(20) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `travel_date` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `FK_vehicle_log_book_item_vehicle_log_book` (`vehicle_log_book_id`),
+  CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
+
+-- Dumping data for table farmwork.vehicle_log_book_item: ~1 rows (approximately)
+/*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
+INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
+	(1, 1, 'New Liskeard livestock barn sale.', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
+	(2, 1, 'New Liskeard livestock barn sale.', 'Beef calves purchase', 320, '2021-03-16 00:00:00', '2021-03-08 00:00:00');
+/*!40000 ALTER TABLE `vehicle_log_book_item` ENABLE KEYS */;
 
 -- Dumping structure for procedure farmwork.contactAdd
 DELIMITER //
@@ -887,7 +934,8 @@ BEGIN
 		transaction_category.category_name,
 		transaction_category.category_description
 	FROM transaction_category
-	WHERE transaction_category.parent_id = parent_id;
+	WHERE transaction_category.parent_id = parent_id
+	ORDER BY transaction_category.category_name ASC;
 
 -- 	SELECT 
 -- 		transaction_subcategory.id,
@@ -1025,6 +1073,6 @@ END//
 DELIMITER ;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

@@ -1,27 +1,28 @@
-const transactions = {
+const vehiclebooklogs = {
     data() {
         return {
-            transactions: [],
-            add_new_visible : false,          
-            transaction_record : {
-                name : '',
-                price : 0,
-                date : '',
-                category : '',
-                type : ''
-            },
-            transaction_category : [],
-            transaction_type: [],
-            chart_show: true,
-            chart_data : []
+            booklogs: [],
+            new_booklog: {},       
+            start_date: '',
+            end_date : '' 
         }
     },   
     created () { 
         var self = this;
-        self.transactionsGetAll(); //get all transactions     
+
+        var today = new Date();
+        // var dd = String(today.getDate()).padStart(2, '0');
+        // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        //format is yyyy/mm/dd
+        self.start_date = yyyy + '-01-01';
+        self.end_date = yyyy + '-12-01';
+
+        self.bookLogsGetAll(); //get all transactions     
     },
     methods: {    
-        transactionsGetAll () {
+        bookLogsGetAll () {
             //gets all project items
             var self = this;           
     
@@ -46,29 +47,12 @@ const transactions = {
             });
     
             projectsList.always(function () { });
-        },   
-        transactionEditDisplay: function(){
-
-        },
-        transactionEdit: function(){
-
-        },
-        transactionDelDisplay: function(){
-
-        },
-        transactionDel: function(){
-
-        },
-        showForm: function(is_visible){
-            var self = this;
-
-            self.add_new_visible = is_visible;
-        }
+        },        
     }
 };
 
-const app = Vue.createApp(transactions)
-                .mount('#transactions');
+const app = Vue.createApp(vehiclebooklogs)
+                .mount('#vehiclelogbook');
 
                 
 //const vm = app.mount('#transactions');

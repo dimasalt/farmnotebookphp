@@ -9,7 +9,7 @@
 {% block body %}
     
 <!-- side nav menu -->
-{% include '/Finances/_sidenav.twig' %}
+{% include '/Bookkeeping/_sidenav.twig' %}
 
 <!-- page content -->
 <div class="container-fluid" id="transactions" v-cloak>
@@ -19,7 +19,7 @@
 
         <div class="row mb-2">
             <div class="col-12 border-bottom">
-                <h1 class="text-dark mb-4">Transactions
+                <h1 class="text-dark mb-4">Accounting Records
                     <a href="#" v-on:click="displayForm(true)">
                         <i class="far fa-plus-square btn-sm text-success align-middle"
                            data-toggle="tooltip" data-placement="top" title="Add Transaction"></i>

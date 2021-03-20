@@ -27,7 +27,7 @@ const app = Vue.createApp({
             var data = {};
             data = JSON.stringify(data);
 
-            var result = $.post("/finances/categories/get/all", data);
+            var result = $.post("/bookkeeping/categories/get/all", data);
 
             result.done(function (data) {
                 if (data.length > 0) {
@@ -147,7 +147,7 @@ const app = Vue.createApp({
             var data = {category_item : self.work_item, csrf : csrf};
             data = JSON.stringify(data);
 
-            var result = $.post("/finances/categories/save", data);
+            var result = $.post("/bookkeeping/categories/save", data);
 
             result.done(function (data) {
 
@@ -190,7 +190,7 @@ const app = Vue.createApp({
             var data = {category_id : category_id, csrf : csrf};
             data = JSON.stringify(data);
 
-            var result = $.post("/finances/categories/delete", data);
+            var result = $.post("/bookkeeping/categories/delete", data);
 
             result.done(function (data) {
 
