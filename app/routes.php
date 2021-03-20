@@ -42,7 +42,8 @@ $r->addRoute(['GET', 'POST'], '/bookkeeping/projects/get/all', 'FarmManagement\C
 $r->addRoute(['GET', 'POST'], '/bookkeeping/projects', 'FarmManagement\Controllers\FinancesPlanningController:projects');
 
 // vehicle log book
-$r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/get/all', 'FarmManagement\Controllers\VehicleLogBookController:getAll');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/get/odometer', 'FarmManagement\Controllers\VehicleLogBookController:getOdometer');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/get/all', 'FarmManagement\Controllers\VehicleLogBookController:bookLogsGetAll');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook', 'FarmManagement\Controllers\VehicleLogBookController:index');
 
 // upload pages

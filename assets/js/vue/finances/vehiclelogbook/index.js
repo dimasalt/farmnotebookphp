@@ -1,10 +1,10 @@
 const vehiclebooklogs = {
     data() {
         return {
-            booklogs: [],
-            new_booklog: {},       
-            start_date: '',
-            end_date : '' 
+            odometer : {},
+            booklogs: [],           
+            booklog_date: '',
+            booklogs_pager: []            
         }
     },   
     created () { 
@@ -16,38 +16,73 @@ const vehiclebooklogs = {
         var yyyy = today.getFullYear();
 
         //format is yyyy/mm/dd
-        self.start_date = yyyy + '-01-01';
-        self.end_date = yyyy + '-12-01';
+        self.booklog_date = yyyy + '-01-01';
+        // self.end_date = yyyy + '-12-01';
 
-        self.bookLogsGetAll(); //get all transactions     
+        self.getOdometer(); //get year start and end odometer      
     },
     methods: {    
-        bookLogsGetAll () {
-            //gets all project items
-            var self = this;           
+        getOdometer() {
+             //gets all project items
+             var self = this;           
     
-            var data = {};
+             var data = {booklog_date : self.booklog_date};
+             data = JSON.stringify(data);
+     
+             var odometerReadings = $.post("/bookkeeping/vehiclelogbook/get/odometer", data);
+     
+             odometerReadings.done(function (data) {
+                 if (data.length > 0) {
+                     data = JSON.parse(data);                 
+                     
+                     self.odometer = data;
+
+                     //get all records for current odometer year
+                     self.bookLogsGetAll();
+                 }
+             });
+     
+             odometerReadings.always(function () { });
+        },
+        bookLogsGetAll () {           
+            var self = this;          
+            
+            //reset booklog records
+            self.booklogs = [];
+    
+            //prepare data
+            var data = {year_id : self.odometer.id};
             data = JSON.stringify(data);
     
-            var projectsList = $.post("/bookkeeping/records/get/all", data);
+            var projectsList = $.post("/bookkeeping/vehiclelogbook/get/all", data);
     
             projectsList.done(function (data) {
                 if (data.length > 0) {
                     data = JSON.parse(data);
     
-                    for (var i = 0; i < data.length; i++) {
+                    // for (var i = 0; i < data.length; i++) {
     
-                        //check for red or green success class styling
-                        if (data[i].trans_ammount < 0) data[i].class = "text-danger";
-                        else if (data[i].trans_ammount > 0) data[i].class = "text-success";
-                    }
+                    //     //check for red or green success class styling
+                    //     if (data[i].trans_ammount < 0) data[i].class = "text-danger";
+                    //     else if (data[i].trans_ammount > 0) data[i].class = "text-success";
+                    // }
                     
-                    self.transactions = data;
+                    self.booklogs = data;
                 }
             });
     
             projectsList.always(function () { });
-        },        
+        },     
+        onYearChange()   {
+            var self = this;     
+            
+            //reset existing items
+            self.odometer = {};
+            self.booklogs = [];
+
+            //pull new information
+            self.getOdometer();
+        }
     }
 };
 

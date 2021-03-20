@@ -278,9 +278,9 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~28 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~31 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -437,6 +437,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `vehicle_log_book_id` int(11) NOT NULL,
   `destination` varchar(250) NOT NULL,
+  `address` varchar(250) NOT NULL DEFAULT '',
   `purpose` varchar(150) NOT NULL,
   `travel_distance` bigint(20) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -448,9 +449,9 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
 
 -- Dumping data for table farmwork.vehicle_log_book_item: ~1 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
-INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
-	(1, 1, 'New Liskeard livestock barn sale.', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
-	(2, 1, 'New Liskeard livestock barn sale.', 'Beef calves purchase', 320, '2021-03-16 00:00:00', '2021-03-08 00:00:00');
+INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
+	(1, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
+	(2, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-16 00:00:00', '2021-03-15 00:00:00');
 /*!40000 ALTER TABLE `vehicle_log_book_item` ENABLE KEYS */;
 
 -- Dumping structure for procedure farmwork.contactAdd
@@ -1069,6 +1070,47 @@ BEGIN
 	Insert into user(user.id, user.username, user.email, user.password, user.is_active) 
 	values(user_id, username, email, password, 1);
 	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.vehicleGetOdometer
+DELIMITER //
+CREATE PROCEDURE `vehicleGetOdometer`(
+	IN `select_year` VARCHAR(50)
+)
+BEGIN
+
+	SELECT 
+		vehicle_log_book.id,
+		vehicle_log_book.year_start_odometer,
+		vehicle_log_book.year_end_odometer,
+		vehicle_log_book.vehicle_desc,
+		YEAR(vehicle_log_book.created_at) AS 'created_at'
+	FROM vehicle_log_book
+	WHERE YEAR(vehicle_log_book.created_at) = select_year
+	LIMIT 1;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.vehicleGetTravelRecords
+DELIMITER //
+CREATE PROCEDURE `vehicleGetTravelRecords`(
+	IN `year_id` INT
+)
+BEGIN
+
+SELECT 
+	vehicle_log_book_item.id,
+	vehicle_log_book_item.destination,
+	vehicle_log_book_item.address,
+	vehicle_log_book_item.purpose,
+	vehicle_log_book_item.travel_distance,
+	vehicle_log_book_item.travel_date
+FROM vehicle_log_book_item
+WHERE vehicle_log_book_item.vehicle_log_book_id = year_id
+ORDER BY vehicle_log_book_item.travel_date DESC;
+
 END//
 DELIMITER ;
 
