@@ -13,7 +13,10 @@ class VehicleLogBookController extends BaseController {
     *       Project planning page
     *---------------------------------------------------------
     */
-    public function index(){       
+    public function index(){               
+        //security
+        session_regenerate_id();
+
         echo $this->view->render('Bookkeeping\vehiclelogbook\index.twig',            
             [ 'csrf' => CSRFToken::getToken()]
         );
@@ -21,7 +24,8 @@ class VehicleLogBookController extends BaseController {
 
      /*
     *--------------------------------------------------------
-    *      vehicle log book get all records
+    *   vehicle log book get all records based on
+    *   a selected year
     *---------------------------------------------------------
     */
     public function getOdometer()
@@ -58,18 +62,48 @@ class VehicleLogBookController extends BaseController {
         // Converts it into a PHP object
         $data = json_decode($json);
 
-        $phelper = new VehicleLogBookHelper();
-        $projects = $phelper->bookLogsGetAll($data->year_id);
+        //convert to object
+        $data = (object)$data;
 
-        echo json_encode($projects);
+        $phelper = new VehicleLogBookHelper();
+        $logrecords = $phelper->bookLogsGetAll($data->odometer_id);
+
+        echo json_encode($logrecords);
     }
 
-    /*
-    *--------------------------------------------------------
-    *       removes one item from the planned project list
-    *---------------------------------------------------------
-    */
-    public function delOne()
+
+    /**
+     * --------------------------------------------------------
+     * Adds new odometer
+     * ---------------------------------------------------------
+     */
+    public function odometerAddNew(){
+        //security
+        session_regenerate_id();
+         
+        $json = file_get_contents('php://input');
+        // Converts it into a PHP object
+        $data = json_decode($json);
+
+        //convert to object
+        $data = (object)$data;
+
+        //check csrf key
+        if(CSRFToken::isValid($data->csrf)){
+            $phelper = new VehicleLogBookHelper();
+            $result = $phelper->odometerAddNew($data);
+
+            echo json_encode($result);
+        }
+    }
+
+    /**
+     * ---------------------------------------------------
+     * removes odometer from records and all associated vehicle book log records
+     * for selected year
+     * ----------------------------------------------------
+     */
+    public function odometerDelOne()
     {
           //security
           session_regenerate_id();
@@ -82,14 +116,14 @@ class VehicleLogBookController extends BaseController {
 
          if(CSRFToken::isValid($data->csrf)){
             $phelper = new VehicleLogBookHelper();
-            $delresult = $phelper->delOne($data->id);
+            $delresult = $phelper->odometerDelOne($data->id);
     
             echo json_encode($delresult);
          } 
          else echo json_encode(false);       
     }
 
-     /*
+    /*
     *--------------------------------------------------------
     *       adds one item to the planned project list
     *---------------------------------------------------------

@@ -14,12 +14,12 @@ class VehicleLogBookHelper {
      /*
     * get list of all available log items
     */
-    function bookLogsGetAll($year_id): array{
+    function bookLogsGetAll($odometer_id): array{
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
         $stmt = $pdo->prepare('call vehicleGetTravelRecords(?)');
-        $stmt->execute([$year_id]);
+        $stmt->execute([$odometer_id]);
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC); 
 
@@ -30,6 +30,26 @@ class VehicleLogBookHelper {
        return $result;
     }
 
+    /**
+     * ---------------------------------------------------------------
+     * adds new odometer reading 
+     * ---------------------------------------------------------------
+     */
+
+    public function odometerAddNew($data){
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call vehicleAddOdometer(?,?,?,?)');
+        $stmt->execute([
+            $data->odometer->year_start_odometer,
+            $data->odometer->year_end_odometer,
+            $data->odometer->vehicle_desc,  
+            $data->created_at
+        ]);
+
+        if($stmt->rowCount() > 0) return true;
+        else return false;
+    }
 
     /**
      * get start and end year odometer reading //gets single record
@@ -45,13 +65,16 @@ class VehicleLogBookHelper {
        return $result;
     }
 
-    /**
-     * removes record from the vehicle log book
+   /**
+     * ---------------------------------------------------
+     * removes odometer from records and all associated vehicle book log records
+     * for selected year
+     * ----------------------------------------------------
      */
-    public function delOne($id): bool{
+    public function odometerDelOne($id): bool{
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call projectDelOne(?)');
+        $stmt = $pdo->prepare('call vehicleDelOdometer(?)');
         $stmt->execute(array($id));
 
         if($stmt->rowCount() > 0) return true;

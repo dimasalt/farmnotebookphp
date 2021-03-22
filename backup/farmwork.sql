@@ -239,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `planning_project` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
 
--- Dumping data for table farmwork.planning_project: ~3 rows (approximately)
+-- Dumping data for table farmwork.planning_project: ~2 rows (approximately)
 /*!40000 ALTER TABLE `planning_project` DISABLE KEYS */;
 INSERT INTO `planning_project` (`id`, `project_name`, `project_price`, `project_price_actual`, `is_start`, `is_done`, `created_at`) VALUES
 	(97, 'Taxes March 2021', 1750, 0, 0, 0, '2021-03-31 00:00:00'),
@@ -280,7 +280,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~31 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~30 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -343,7 +343,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~0 rows (approximately)
+-- Dumping data for table farmwork.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -424,9 +424,9 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   `vehicle_desc` varchar(150) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~2 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 0, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -445,9 +445,9 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   PRIMARY KEY (`id`),
   KEY `FK_vehicle_log_book_item_vehicle_log_book` (`vehicle_log_book_id`),
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
 
--- Dumping data for table farmwork.vehicle_log_book_item: ~1 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book_item: ~2 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
 	(1, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
@@ -1069,6 +1069,47 @@ BEGIN
 
 	Insert into user(user.id, user.username, user.email, user.password, user.is_active) 
 	values(user_id, username, email, password, 1);
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.vehicleAddOdometer
+DELIMITER //
+CREATE PROCEDURE `vehicleAddOdometer`(
+	IN `year_start_odometer` INT,
+	IN `year_end_odometer` INT,
+	IN `vehicle_desc` VARCHAR(150),
+	IN `created_at` VARCHAR(50)
+)
+BEGIN
+
+	INSERT INTO vehicle_log_book
+	(
+		year_start_odometer,
+		year_end_odometer, 
+		vehicle_desc, 
+		created_at
+	)
+	VALUES 
+	(
+		year_start_odometer,
+		year_end_odometer,
+		vehicle_desc,
+		created_at
+	);
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.vehicleDelOdometer
+DELIMITER //
+CREATE PROCEDURE `vehicleDelOdometer`(
+	IN `id` INT
+)
+BEGIN
+
+	DELETE FROM vehicle_log_book
+	WHERE vehicle_log_book.id = id;
 	
 END//
 DELIMITER ;
