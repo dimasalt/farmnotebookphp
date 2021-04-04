@@ -77,7 +77,7 @@ class VehicleLogBookController extends BaseController {
      * Adds new odometer
      * ---------------------------------------------------------
      */
-    public function odometerAddNew(){
+    public function odometerAddOrEdit(){
         //security
         session_regenerate_id();
          
@@ -91,7 +91,7 @@ class VehicleLogBookController extends BaseController {
         //check csrf key
         if(CSRFToken::isValid($data->csrf)){
             $phelper = new VehicleLogBookHelper();
-            $result = $phelper->odometerAddNew($data);
+            $result = $phelper->odometerAddOrEdit($data);
 
             echo json_encode($result);
         }
@@ -122,42 +122,37 @@ class VehicleLogBookController extends BaseController {
          } 
          else echo json_encode(false);       
     }
+    /**
+     * -------------------------------------------------------------------------
+     * add new book log item
+     * -------------------------------------------------------------------------
+     */
+    public function booklogItemAdd(){
 
-    /*
-    *--------------------------------------------------------
-    *       adds one item to the planned project list
-    *---------------------------------------------------------
-    */
-    // public function addNew()
-    // {
-    //     //security
-    //     session_regenerate_id();
+          //security
+          session_regenerate_id();
+          
+         // Takes raw data from the request
+         $json = file_get_contents('php://input');
 
-    //      // Takes raw data from the request
-    //      $json = file_get_contents('php://input');
+         // Converts it into a PHP object
+         $data = json_decode($json);
 
-    //      // Converts it into a PHP object
-    //      $data = json_decode($json);
+         $data = (object)$data;
 
-    //      if(CSRFToken::isValid($data->csrf)){
-    //         $project_name = $data->project_name;
-    //         $project_price = $data->project_price;
-    //         $project_price_actual = $data->project_price_actual;
-    //         $is_start = $data->is_start;
+         if(CSRFToken::isValid($data->csrf)){
+            $phelper = new VehicleLogBookHelper();
+            $delresult = $phelper->booklogItemAdd($data);
+    
+            echo json_encode($delresult);
+         } 
+         else echo json_encode(false);       
+    }
 
-    //       //check if date is empty or null. If yes assign current date value
+ 
     //       //if(! isset($data->created_at ) || strlen($data->created_at ) == 0)
     //       if(! isset($data->created_at ) || empty($data->created_at ))
     //         $data->created_at = date('Y-m-d');
 
     //       $created_at = $data->created_at;
-    
-    //       $phelper = new VehicleLogBookHelper();
-    //       $result = $phelper->addNew($project_name, $project_price, $project_price_actual, $is_start, $created_at);
-   
-    //       echo json_encode($result);
-    //     } 
-    //     else echo json_encode(false);               
-    // }
-
 }

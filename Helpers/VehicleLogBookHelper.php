@@ -36,11 +36,12 @@ class VehicleLogBookHelper {
      * ---------------------------------------------------------------
      */
 
-    public function odometerAddNew($data){
+    public function odometerAddOrEdit($data){
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call vehicleAddOdometer(?,?,?,?)');
+        $stmt = $pdo->prepare('call vehicleAddOrEditOdometer(?,?,?,?,?)');
         $stmt->execute([
+            $data->odometer->id,
             $data->odometer->year_start_odometer,
             $data->odometer->year_end_odometer,
             $data->odometer->vehicle_desc,  
@@ -54,11 +55,11 @@ class VehicleLogBookHelper {
     /**
      * get start and end year odometer reading //gets single record
      */
-    public function getOdometer($date){
+    public function getOdometer($data){
         $db = new DBConnection();
         $pdo = $db->getPDO();
         $stmt = $pdo->prepare('call vehicleGetOdometer(?)');
-        $stmt->execute([$date]);
+        $stmt->execute([$data]);
 
         $result = $stmt->fetch();            
 
@@ -76,6 +77,24 @@ class VehicleLogBookHelper {
         $pdo = $db->getPDO();
         $stmt = $pdo->prepare('call vehicleDelOdometer(?)');
         $stmt->execute(array($id));
+
+        if($stmt->rowCount() > 0) return true;
+        else return false;
+    }
+
+      /**
+     * -------------------------------------------------------------------------
+     * add new book log item
+     * -------------------------------------------------------------------------
+     */
+    public function booklogItemAdd($booklog_item): bool{
+
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call vehicleAddTravelRecords(?,?,?,?,?,?)');
+        $stmt->execute([
+            $booklog_item->destination
+        ]);
 
         if($stmt->rowCount() > 0) return true;
         else return false;

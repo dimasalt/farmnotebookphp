@@ -13,7 +13,12 @@ class MedicationController extends BaseController
         //        $password = password_hash('northernfarm', PASSWORD_DEFAULT);
         //        var_dump($password);
         
-        session_regenerate_id();
+        session_regenerate_id();       
+
+        // $medHelper = new MedicationHelper();
+        // $medlist = $medHelper->getList("");
+
+        
 
         echo $this->view->render('Medication\index.twig', [
             'csrf' => CSRFToken::getToken()
@@ -53,10 +58,11 @@ class MedicationController extends BaseController
         $search_term = $data->search_term;
 
         $medHelper = new MedicationHelper();
-        $medlist = $medHelper->getList($search_term);
-
-        $medlist = json_encode($medlist);
-
+        $medlist = $medHelper->getList($search_term);       
+        
+        $medlist = json_encode($medlist);     
+        //echo json_decode(json_encode(current($medlist)),true);        
+       
         echo $medlist;
     }
 
