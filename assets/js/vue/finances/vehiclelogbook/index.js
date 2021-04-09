@@ -82,8 +82,11 @@ const vehiclebooklogs = {
             projectsList.done(function (data) {
                 if (data.length > 0) {
                     data = JSON.parse(data);                
-                    
+                                        
                     self.booklogs = data;
+
+                    //hidde new item form in case new item has just been added
+                    self.booklog_item.is_new = false;
                 }
             });
     
@@ -225,11 +228,14 @@ const vehiclebooklogs = {
 
                     if(data == true){
                         //Display a success toast, with a title
-                        toastr.success("You have successfully added an logbook item from the records");                                                    
+                        toastr.success("You have successfully added an logbook item from the records");  
+                        
+                        //load new record for display
+                        self.bookLogsGetAll();
                     }
                     else if(data == false){
                         // Display an error toast, with a title
-                        toastr.error("Ops! There appears to be an error and booklog item coudln't be removed");
+                        toastr.error("Ops! There appears to be an error and booklog item coudln't be added");
                     }               
                 }                              
             });

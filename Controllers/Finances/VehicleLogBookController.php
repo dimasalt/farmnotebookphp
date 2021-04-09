@@ -142,9 +142,9 @@ class VehicleLogBookController extends BaseController {
 
          if(CSRFToken::isValid($data->csrf)){
             $phelper = new VehicleLogBookHelper();
-            $delresult = $phelper->booklogItemAdd($data);
+            $addresult = $phelper->booklogItemAdd($data);
     
-            echo json_encode($delresult);
+            echo json_encode($addresult);
          } 
          else echo json_encode(false);       
     }

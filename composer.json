@@ -9,11 +9,11 @@
     },
 	 "autoload": {
         "psr-4": {
-            "Test\\Controllers\\": "Controllers/",
-            "Test\\Helpers\\": "Helpers/",
-            "Test\\Models\\": "Models/",
-            "Test\\Libraries\\": "Libraries/",
-            "Test\\Middleware\\": "Middleware/"
+            "FarmManagement\\Controllers\\": "Controllers/",
+            "FarmManagement\\Helpers\\": "Helpers/",
+            "FarmManagement\\Models\\": "Models/",
+            "FarmManagement\\Libraries\\": "Libraries/",
+            "FarmManagement\\Middleware\\": "Middleware/"
         },
         "classmap" : [
             "Controllers/",

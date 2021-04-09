@@ -3,12 +3,12 @@
 namespace FarmManagement\Libraries;
 
 // Good video on PHP encryption
-// https://www.youtube.com/watch?v=KCJFl5wMyGg&nohtml5=False
+// https://www.youtube.com/watch?v=KCJFl5wMyGg&nohtml5=False -> (outdated)
 //--------------------------------------------------------------
 
 
 /*--------------------------------------------------------
-  Based on: https://packagist.org/packages/hieblmedia/simple-php-encrypter-decrypter
+  Based on: https://packagist.org/packages/hieblmedia/simple-php-encrypter-decrypter -> (check for updated version)
 ----------------------------------------------------------*/
 class Encryptor
 {

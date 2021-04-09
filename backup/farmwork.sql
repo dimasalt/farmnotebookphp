@@ -446,14 +446,16 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   PRIMARY KEY (`id`),
   KEY `FK_vehicle_log_book_item_vehicle_log_book` (`vehicle_log_book_id`),
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
 
--- Dumping data for table farmwork.vehicle_log_book_item: ~3 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book_item: ~5 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
 	(1, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
 	(2, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-16 00:00:00', '2021-03-15 00:00:00'),
-	(4, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-22 00:00:00', '2021-03-22 00:00:00');
+	(4, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-22 00:00:00', '2021-03-22 00:00:00'),
+	(5, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-29 00:00:00', '2021-03-29 00:00:00'),
+	(6, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-04-05 00:00:00', '2021-04-05 00:00:00');
 /*!40000 ALTER TABLE `vehicle_log_book_item` ENABLE KEYS */;
 
 -- Dumping structure for procedure farmwork.contactAdd
@@ -1117,9 +1119,9 @@ END IF;
 END//
 DELIMITER ;
 
--- Dumping structure for procedure farmwork.vehicleAddTravelRecords
+-- Dumping structure for procedure farmwork.vehicleAddTravelRecord
 DELIMITER //
-CREATE PROCEDURE `vehicleAddTravelRecords`(
+CREATE PROCEDURE `vehicleAddTravelRecord`(
 	IN `vehicle_log_book_id` INT,
 	IN `destination` VARCHAR(250),
 	IN `address` VARCHAR(250),

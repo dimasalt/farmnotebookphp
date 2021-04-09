@@ -87,13 +87,18 @@ class VehicleLogBookHelper {
      * add new book log item
      * -------------------------------------------------------------------------
      */
-    public function booklogItemAdd($booklog_item): bool{
+    public function booklogItemAdd($data): bool{
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call vehicleAddTravelRecords(?,?,?,?,?,?)');
+        $stmt = $pdo->prepare('call vehicleAddTravelRecord(?,?,?,?,?,?)');
         $stmt->execute([
-            $booklog_item->destination
+            $data->vehicle_log_book_id,           
+            $data->booklog_item->destination,
+            $data->booklog_item->address,
+            $data->booklog_item->purpose,
+            $data->booklog_item->travel_distance,
+            $data->booklog_item->travel_date
         ]);
 
         if($stmt->rowCount() > 0) return true;
