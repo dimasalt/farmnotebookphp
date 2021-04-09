@@ -160,7 +160,11 @@
                         <td>{{ '{{item.purpose}}' }}</td>
                         <td>{{ '{{item.travel_distance}}' }} km</td>
                         <td>{{ '{{item.travel_date}}' }}</td>
-                        <td><i class="far fa-trash-alt btn-sm text-danger align-middle" data-toggle="tooltip" data-placement="top" title="remove travel log"></i></td>
+                        <td>
+                            <a href="#" v-on:click="booklogItemDelModalShow(item.id)">
+                                <i class="far fa-trash-alt btn-sm text-danger align-middle" data-toggle="tooltip" data-placement="top" title="remove travel log"></i>
+                            </a>
+                        </td>
                     </tr>                                      
                 </tbody>
             </table>
@@ -214,6 +218,35 @@
         </div>
     </div>
        
+    
+    <!-- Remove booklog item Modal -->
+    <div class="modal fade" id="deletebooklogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white" id="exampleModalCenterTitle">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        Remove Booklog item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove booklog for <b>"{{ '{{ booklog_date }}' }}"</b> year ?
+                    <div class="alert alert-warning mt-2" role="alert">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        Please be advised removing is irreversible operation.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                        <i class="fas fa-times-circle text-small mr-1"></i>Cancel</button>
+                    <button type="button" class="btn btn-danger" v-on:click="booklogItemDelOne()">
+                        <i class="far fa-trash-alt text-small mr-1"></i>Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

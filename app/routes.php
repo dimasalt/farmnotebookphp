@@ -47,6 +47,7 @@ $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/addoredit/odometer', 
 $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/del/odometer', 'FarmManagement\Controllers\VehicleLogBookController:odometerDelOne');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/get/all', 'FarmManagement\Controllers\VehicleLogBookController:bookLogsGetAll');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/add/booklog', 'FarmManagement\Controllers\VehicleLogBookController:booklogItemAdd');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/del/booklog', 'FarmManagement\Controllers\VehicleLogBookController:booklogItemDel');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook', 'FarmManagement\Controllers\VehicleLogBookController:index');
 
 // upload pages

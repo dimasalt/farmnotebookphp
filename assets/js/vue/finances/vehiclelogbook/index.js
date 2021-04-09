@@ -18,7 +18,8 @@ const vehiclebooklogs = {
                 travel_distance : 0,
                 travel_date : '',
                 is_new : false
-            },         
+            },  
+            booklog_del_item_id : 0,       
             booklog_date: '',
             booklogs_pager: []            
         }
@@ -27,13 +28,16 @@ const vehiclebooklogs = {
         var self = this;
 
         var today = new Date();
-        // var dd = String(today.getDate()).padStart(2, '0');
-        // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = today.getFullYear();
 
         //format is yyyy/mm/dd
         self.booklog_date = yyyy + '-01-01';
         // self.end_date = yyyy + '-12-01';
+
+        //booklogitem
+        self.booklog_item.travel_date = yyyy + '-' + mm + '-' + dd;
 
         self.getOdometer(); //get year start and end odometer      
     },
@@ -237,11 +241,66 @@ const vehiclebooklogs = {
                         // Display an error toast, with a title
                         toastr.error("Ops! There appears to be an error and booklog item coudln't be added");
                     }               
-                }                              
+                }                          
+                
+                //reset booklog item
+                self.resetVehicleBooklogItem();
             });
      
             booklogAdd.always(function () { });
 
+        },
+             /**
+         * -------------------------------------------------------
+         * remove odometer
+         * --------------------------------------------------------
+         */
+        booklogItemDelModalShow(id){
+            var self = this;    
+
+            //get id of item to delete
+            self.booklog_del_item_id = id;
+
+            //show the modal
+            $('#deletebooklogModal').modal('show');
+        },
+        booklogItemDelOne(){
+            var self = this;    
+            
+            //show the modal
+            $('#deletebooklogModal').modal('hide');
+            
+            var data = {id : self.booklog_del_item_id};           
+            data.csrf = $('#csrf').val();  
+
+            //prepare json
+            data = JSON.stringify(data);
+
+            var odometerDel = $.post("/bookkeeping/vehiclelogbook/del/booklog", data);
+    
+            odometerDel.done(function (data) {
+                if(data.length > 0){
+                    //parse json
+                    data = JSON.parse(data);
+
+                    if(data == true){
+                        //Display a success toast, with a title
+                        toastr.success("You have successfully removed an odometer from the records");                                                
+                    }
+                    else if(data == false){
+                        // Display an error toast, with a title
+                        toastr.error("Ops! There appears to be an error and odometer coudln't be removed");
+                    }    
+                    
+                    //reset delete item id
+                    self.booklog_del_item_id = 0;
+
+                    //update list of displayed book log items
+                    self.bookLogsGetAll();
+                }                              
+            });
+        
+            odometerDel.always(function () { });
         },
         onYearChange()   {
             var self = this;     
@@ -252,6 +311,31 @@ const vehiclebooklogs = {
 
             //pull new information
             self.getOdometer();
+        },
+        /**
+         * -------------------------------------------------------------
+         * resets vehicle booklog item
+         * -------------------------------------------------------------
+         */
+        resetVehicleBooklogItem(){
+            var self = this;
+
+            //get current date for travel date input field
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();                
+
+            //reset booklog item
+            self.booklog_item = {
+                vehicle_log_book_id : 0,
+                destination : '',
+                address : '',
+                purpose : '',
+                travel_distance : 0,
+                travel_date : yyyy + '-' + mm + '-' + dd,
+                is_new : false
+            }         
         }
     }
 };

@@ -104,4 +104,20 @@ class VehicleLogBookHelper {
         if($stmt->rowCount() > 0) return true;
         else return false;
     }
+
+       /**
+     * -------------------------------------------------------------------------
+     * delete vehidle book log item
+     * -------------------------------------------------------------------------
+     */
+    public function booklogItemDel($id): bool{
+
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call vehicleDelTravelRecord(?)');
+        $stmt->execute([ $id ]);
+
+        if($stmt->rowCount() > 0) return true;
+        else return false;
+    }
 }

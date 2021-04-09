@@ -149,6 +149,32 @@ class VehicleLogBookController extends BaseController {
          else echo json_encode(false);       
     }
 
+    /**
+     * -------------------------------------------------------------------------
+     * remove vehicle booklog item
+     * -------------------------------------------------------------------------
+     */
+    public function booklogItemDel(){
+          //security
+          session_regenerate_id();
+          
+         // Takes raw data from the request
+         $json = file_get_contents('php://input');
+
+         // Converts it into a PHP object
+         $data = json_decode($json);
+
+         $data = (object)$data;
+
+         if(CSRFToken::isValid($data->csrf)){
+            $phelper = new VehicleLogBookHelper();
+            $delresult = $phelper->booklogItemDel($data->id);
+    
+            echo json_encode($delresult);
+         } 
+         else echo json_encode(false);       
+    }
+
  
     //       //if(! isset($data->created_at ) || strlen($data->created_at ) == 0)
     //       if(! isset($data->created_at ) || empty($data->created_at ))
