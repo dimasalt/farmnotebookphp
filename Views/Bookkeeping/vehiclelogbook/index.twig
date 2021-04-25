@@ -44,15 +44,17 @@
                 </a>                                 
             </h3>
         </div>
+
         <!-- alert in case there is no odometer reading for a selected year -->
         <div class="col-8 alert alert-warning ml-3" role="alert" v-if="odometer == false">
             <i class="fas fa-exclamation-triangle mr-2"></i>
             Sorry but there is no odometer reading for the selected year.
         </div>
 
+        <!-- add new odometer or edit existing one -->
         <div class="col-12 mb-3" v-if="odometer_item.is_addoredit == true">
             <form class="form-inline">
-                <div class="form-group mr-1 col-4 pr-0 pl-0">
+                <div class="form-group mr-1 col-3 pr-0 pl-0">
                     <label for="txt_vehicle" class="sr-only">Vehicle used</label>
                     <input type="text" class="form-control col-12" id="txt_vehicle" placeholder="Vehicle" v-model="odometer_item.vehicle_desc">
                 </div>
@@ -69,14 +71,19 @@
                     <i class="fas fa-plus mr-1"></i>
                     Add Odometer
                 </button>
-                <button type="submit" class="btn btn-warning mr-3" v-on:click.prevent="odometerAddOrEdit()" v-if="odometer_item.id > 0">
+                <button type="submit" class="btn btn-success rounded-0" v-on:click.prevent="odometerAddOrEdit()" v-if="odometer_item.id > 0">
                      <i class="fa fa-edit mr-1"></i>
                     Edit Odometer
+                </button>
+                <button type="submit" class="btn btn-warning rounded-0" v-on:click.prevent="hideodometerForm()" v-if="odometer_item.id > 0">
+                      <i class="fas fa-times-circle mr-1"></i>
+                     Cancel
                 </button>
             </form>
         </div>
 
-        <!-- odometer reading -->
+
+        <!-- odometer reading display -->
         <div class="col-4" v-if="odometer != false">
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Year Start</strong> {{ '{{odometer.year_start_odometer}}' }} km</li>
@@ -148,14 +155,14 @@
                         <th scope="col">Purpose</th>
                         <th scope="col">Distance</th>
                         <th scope="col">Date</th>
-                        <th scope="col"></th>
+                        <th scope="col">#</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="item in booklogs">
                         <td>
                             {{ '{{item.destination}}' }} 
-                            <div><small> at {{ '{{item.address}}' }} </small></div>
+                            <div><small> <i> At: {{ '{{item.address}}' }} </i> </small></div>
                         </td>
                         <td>{{ '{{item.purpose}}' }}</td>
                         <td>{{ '{{item.travel_distance}}' }} km</td>
@@ -259,7 +266,7 @@
     <script src="/assets/js/vue.global.prod.js"></script>
     <script src="/assets/components/toastr/toastr.min.js"></script>
 
-    <script src="/assets/js/vue/finances/vehiclelogbook/index.js"></script>
+    <script src="/assets/js/vue/accounting/vehiclelogbook/index.js" defer></script>
 
 
      <script type="application/javascript">

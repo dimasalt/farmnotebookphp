@@ -18,37 +18,53 @@
         <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
 
         <div class="row mb-2">
-            <div class="col-12 border-bottom">
+            <div class="col-8 border-bottom">
                 <h1 class="text-dark mb-4">Accounting Records
-                    <a href="#" v-on:click="displayForm(true)">
+                    {# <a href="#" v-on:click="displayForm(true)">
                         <i class="far fa-plus-square btn-sm text-success align-middle"
                            data-toggle="tooltip" data-placement="top" title="Add Transaction"></i>
-                    </a>                 
-                </h1>            
+                    </a>                  #}
+                </h1>        
+            </div>    
 
-                 {# <div class="callout callout-info">
-                    <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
-                    This page contains ongoing on the farm finances information.
-                </div> #}
+            <!-- date selection -->
+            <div class="col-2 border-bottom">        
+                <div class="input-group">                                       
+                    <input type="date" class="form-control" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="start_date" v-on:change="onYearChange()">                   
+                </div>               
             </div>           
-        </div>        
+            <div class="col-2 border-bottom">        
+                <div class="input-group">                                       
+                    <input type="date" class="form-control" placeholder="date yyyy-mm-dd" aria-label="End date" aria-describedby="button-addon4" v-model="end_date" v-on:change="onYearChange()">                   
+                </div>               
+            </div>           
+        </div>             
 
-        <!-- Actual search box -->
-        {# <div class="form-group has-search col-3 float-right">
-            <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" class="form-control"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
-        </div>  #}
-
-         <!-- list of transactions -->  
+        <!-- transaction totals -->
         <div class="row">
-             <div class="col-8">
-                <transaction-list></transaction-list>
-             </div>
-        </div>     
-       
+            <div class="col-12">         
+                <h3 class="mt-3">Transaction Totals</h3>
+            </div>
+            
+            <!-- Transaction totals -->
+            <div class="col-4" v-if="odometer != false">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Exprences Total</strong> </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Income Total</strong> </li>                         
+                </ul>
+            </div>       
+            <div class="col-4" v-if="odometer != false">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Feed Expences</strong> </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Cattle Purchace Expences</strong></li>              
+                </ul>
+            </div>      
+        </div>
+    </div>   
+           
         
-
-        <div class="col-12 mb-3" v-if="add_new_visible == true" id="transaction_list" >               
+    <div class="row">
+        <div class="col-12 mb-3" v-if="transaction_record.is_new == true" id="transaction_list" >               
             <div class="input-group">
                 <input type="text" class="form-control col-8" placeholder="Name" aria-label="Name" aria-describedby="button-addon4" v-model="transaction_record.name" required>
                 <input type="text" class="form-control col-2" placeholder="Price" aria-label="Price" aria-describedby="button-addon4" v-model="transaction_record.price" required>                                
@@ -64,13 +80,45 @@
                     </button>                       
                 </div>
             </div>
-        </div>       
-       
+        </div>              
     </div>
 
-
-    <div class="col-8 mt-2">
-        <table class="table bg-white table-borderless shadow-sm table-hover">              
+   
+    <div class="row mt-5">
+        <div class="col-8">
+            <div class="form-inline mt-5">
+                <div class="col-5 form-group">
+                    <h3>Transactions
+                        <a href="#" v-on:click="showNewBooklogForm(true)">
+                            <i class="far fa-plus-square btn-sm text-success align-middle"
+                                data-toggle="tooltip" data-placement="top" title="Add Miles"></i>
+                        </a>                 
+                    </h3>
+                </div>
+                <!-- transaction category -->
+                <div class="col-2 form-group pr-0 pl-0">
+                    <select class="form-control float-right w-100" aria-label="Select group" v-model="transaction_category_selected" v-on:change="categoryChanged()">
+                        <option v-for="item in transaction_category" v-bind:value="item.id">
+                            {{ '{{ item.category_name }}' }}
+                        </option>            
+                    </select>
+                </div>
+                <div class="col-2 pr-0 pl-0">
+                    <select class="form-control form-group float-right w-100" aria-label="Select sub group" v-bind:disabled="transaction_sub_category_disabled">
+                       <option v-for="item in transaction_sub_category" v-bind:value="item.id">
+                            {{ '{{ item.category_name }}' }}
+                        </option>            
+                    </select>
+                </div>
+                <div class="col-3 form-group pr-0 pl-0">
+                    <div class="form-group has-search float-right w-100">
+                        <span class="fa fa-search form-control-feedback"></span>
+                        <input type="text" class="form-control w-100"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
+                    </div>
+                </div>
+            </div>
+        
+        <table class="table bg-white table-borderless shadow-sm table-hover">                
             <thead class="thead-dark">
                 <tr>                           
                     <th scope="col"  class="w-75">Name</th>                                  
@@ -81,9 +129,9 @@
             <tbody v-for="(item, index) in transactions">
                 <tr class="border">                     
                     <td class="pl-4" v-bind:class="item.class">
-                        {{ '{{item.trans_name}}' }}                             
-                    </td>                                   
-                    {# <td v-bind:class="item.class">{{ '{{item.trans_desc }}' }} </td> #}
+                        <p>{{ '{{item.trans_name}}' }}</p>
+                        <p><small>{{ '{{item.trans_desc}}' }}</small></p>
+                    </td>                                                      
                     <td v-bind:class="item.class">${{ '{{item.trans_ammount}}' }} </td>
                     <td>                      
                         <a href="#" v-on:click.stop="delOneShow(item.id, item.project_name)">
@@ -94,7 +142,7 @@
                             <i class="fa fa-edit btn-sm text-warning align-middle pr-0 float-right"
                                 data-toggle="tooltip" data-placement="top" title="edit transaction"></i>
                         </a>
-                        <a href="/contacts/view/1">
+                        <a href="#">
                             <i data-toggle="tooltip" data-placement="top" title="View transaction" class="far fa-eye text-small text-info float-right mr-1 mt-1"></i>
                         </a>
                     </td>
@@ -125,9 +173,6 @@
     </div>  
 </div>
 
-
-
-
 {% endblock %}
 
 {% block custom_scripts %}
@@ -135,8 +180,7 @@
     <script src="/assets/js/vue.global.prod.js"></script>
     <script src="/assets/components/toastr/toastr.min.js"></script>
 
-    {# <script src="/assets/js/vue/finances/transactions/transaction-list.js"></script> #}
-    <script src="/assets/js/vue/finances/transactions/index.js"></script>
+    <script src="/assets/js/vue/accounting/transactions/index.js"></script>
 
 
      <script type="application/javascript">

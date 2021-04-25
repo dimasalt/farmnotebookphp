@@ -6,15 +6,18 @@ use FarmManagement\Libraries\DBConnection;
 
 class FinancesHelper
 {
-    /*
-    * get list of all available transactions items
+    /**
+    -----------------------------------------------------------
+    * get list of all available transactions items based on search
+    * term, dates and other selected parameters
+    -----------------------------------------------------------
     */
-    public function transactionsGetAll(){
+    public function transactionsGetAll($search_term){
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call transactionsGetAll()');      
-        $stmt->execute();
+        $stmt = $pdo->prepare('call transactionsGetAll(?,?,?)');      
+        $stmt->execute([$search_term, 1, 1]);
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -93,14 +96,21 @@ class FinancesHelper
       /**
      * get all transaction types 
      */
-    public function transactionCatsGetAll(){        
+    public function getCategories(){        
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
         $stmt = $pdo->prepare('call transactionCatGetAll()');
         $stmt->execute();       
 
-        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);                    
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);    
+        
+        for($i = 0; $i< count($result); $i++){         
+            //get all sub categories for the main category
+            $result[$i]["sub_category"] = $this->transactionSubCatsGetAll($result[$i]["id"]);
+
+        }                  
+
 
         return $result;
     }

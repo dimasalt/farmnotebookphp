@@ -232,13 +232,13 @@ CREATE TABLE IF NOT EXISTS `planning_project` (
   `is_done` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
 
 -- Dumping data for table farmwork.planning_project: ~2 rows (approximately)
 /*!40000 ALTER TABLE `planning_project` DISABLE KEYS */;
 INSERT INTO `planning_project` (`id`, `project_name`, `project_price`, `project_price_actual`, `is_start`, `is_done`, `created_at`) VALUES
-	(97, 'Taxes March 2021', 1750, 0, 0, 0, '2021-03-31 00:00:00'),
-	(121, '50 Baby Calves for spring 2021', -17500, -17500, 1, 0, '2020-08-31 00:00:00');
+	(124, 'profit from calves sale', 13250, 0, 0, 0, '2021-04-17 00:00:00'),
+	(125, '25 head calves raising to 900lb', 25000, 25000, 1, 0, '2021-03-01 00:00:00');
 /*!40000 ALTER TABLE `planning_project` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction
@@ -247,8 +247,10 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `trans_name` varchar(100) DEFAULT NULL,
   `trans_desc` varchar(250) DEFAULT NULL,
   `trans_ammount` decimal(19,2) NOT NULL,
+  `trans_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
   `trans_currency` varchar(10) NOT NULL DEFAULT 'CAD',
   `trans_address` varchar(250) DEFAULT NULL,
+  `trans_image` varchar(150) DEFAULT NULL,
   `trans_date` datetime NOT NULL DEFAULT current_timestamp(),
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -258,11 +260,11 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 
 -- Dumping data for table farmwork.transaction: ~4 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` (`id`, `trans_name`, `trans_desc`, `trans_ammount`, `trans_currency`, `trans_address`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('0333a75f-71a9-11e9-bfc5-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 'CAD', '1', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
-	('66d91789-6aea-11', 'no name', NULL, -24.86, 'CAD', '1', '2019-04-29 16:31:58', '2019-04-29 21:34:58', '2020-12-26 14:44:01'),
-	('965a0a99-6c36-11', 'calves feed', NULL, -49.72, 'CAD', '1', '2019-04-30 16:52:34', '2019-05-01 13:28:11', '2020-12-26 13:23:53'),
-	('dc2d7067-6da7-11e9-9b6b-d8cb8ac0caec', 'calves purchase', NULL, -3625.00, 'CAD', '1', '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2020-12-26 13:24:05');
+INSERT INTO `transaction` (`id`, `trans_name`, `trans_desc`, `trans_ammount`, `trans_tax`, `trans_currency`, `trans_address`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
+	('0333a75f-71a9-11e9-bfc5-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
+	('66d91789-6aea-11', 'no name', NULL, -24.86, 0.00, 'CAD', '1', '', '2019-04-29 16:31:58', '2019-04-29 21:34:58', '2020-12-26 14:44:01'),
+	('965a0a99-6c36-11', 'calves feed', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-04-30 16:52:34', '2019-05-01 13:28:11', '2020-12-26 13:23:53'),
+	('dc2d7067-6da7-11e9-9b6b-d8cb8ac0caec', 'calves purchase', NULL, -3625.00, 0.00, 'CAD', '1', '', '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2020-12-26 13:24:05');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -273,9 +275,9 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~30 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~32 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -307,13 +309,17 @@ INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `categor
 	(38, 32, 'Mortgage interest', '', '2021-03-07 10:40:37'),
 	(39, 32, 'Maintenance', '', '2021-03-07 10:41:04'),
 	(40, 32, 'Insurance', '', '2021-03-07 10:41:28'),
-	(41, 1, 'Milk Replacer', '', '2021-03-14 22:37:01');
+	(41, 1, 'Milk Replacer', '', '2021-03-14 22:37:01'),
+	(45, 0, 'Vehicle', 'Car used for business expenses, such as cattle transportation and feed pickup.', '2021-04-13 14:07:25'),
+	(46, 45, 'Gasoline', '', '2021-04-13 14:07:35');
 /*!40000 ALTER TABLE `transaction_category` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_item
 CREATE TABLE IF NOT EXISTS `transaction_item` (
-  `id` char(36) NOT NULL,
+  `id` char(36) NOT NULL DEFAULT uuid(),
   `transaction_id` char(36) NOT NULL,
+  `item_name` varchar(150) NOT NULL,
+  `item_desc` varchar(250) NOT NULL,
   `transaction_category` varchar(150) NOT NULL,
   `transaction_subcategory` varchar(150) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -419,13 +425,12 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   `vehicle_desc` varchar(150) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~2 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
-	(1, 175153, 0, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35'),
-	(14, 1, 1, '2013 Chevrolet Silverado 1500', '2020-06-01 00:00:00');
+	(1, 175153, 0, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
 /*!40000 ALTER TABLE `vehicle_log_book` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.vehicle_log_book_item
@@ -441,16 +446,18 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   PRIMARY KEY (`id`),
   KEY `FK_vehicle_log_book_item_vehicle_log_book` (`vehicle_log_book_id`),
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
 
--- Dumping data for table farmwork.vehicle_log_book_item: ~6 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book_item: ~7 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
 	(1, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
 	(2, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-16 00:00:00', '2021-03-15 00:00:00'),
 	(4, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-22 00:00:00', '2021-03-22 00:00:00'),
 	(5, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-29 00:00:00', '2021-03-29 00:00:00'),
-	(6, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-04-05 00:00:00', '2021-04-05 00:00:00');
+	(6, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-04-05 00:00:00', '2021-04-05 00:00:00'),
+	(17, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-04-13 11:21:45', '2021-04-12 00:00:00'),
+	(18, 1, 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'Cattle feed purchase ', 280, '2021-04-20 10:03:22', '2021-04-19 00:00:00');
 /*!40000 ALTER TABLE `vehicle_log_book_item` ENABLE KEYS */;
 
 -- Dumping structure for procedure farmwork.contactAdd
@@ -1025,19 +1032,35 @@ DELIMITER ;
 
 -- Dumping structure for procedure farmwork.transactionsGetAll
 DELIMITER //
-CREATE PROCEDURE `transactionsGetAll`()
+CREATE PROCEDURE `transactionsGetAll`(
+	IN `search_term` VARCHAR(50),
+	IN `page_num` INT,
+	IN `records_take` INT
+)
 BEGIN
+
+	-- prepare search term
+	IF LENGTH(search_term) < 2 THEN
+		SET search_term = "%";
+	ELSE
+		SET search_term = CONCAT('%', search_term, '%') ;
+	END IF;
 
 	SELECT 
 		transaction.id,
 		transaction.trans_name,
 		transaction.trans_desc,
 		transaction.trans_ammount,
+		transaction.trans_tax,
 		transaction.trans_currency,
 		transaction.trans_address,
 		transaction.trans_date
 	FROM 
 		transaction
+	WHERE 		
+			transaction.trans_name LIKE search_term
+			OR transaction.trans_desc LIKE search_term
+			OR transaction.trans_address LIKE search_term
 	ORDER BY transaction.trans_date DESC;
 		
 

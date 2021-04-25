@@ -143,6 +143,11 @@ const vehiclebooklogs = {
      
             odometerNew.always(function () { });
         },     
+         /**
+         * -------------------------------------------------------
+         * show odometer form
+         * --------------------------------------------------------
+         */
         showOdometerForm(){
             var self = this;
             
@@ -152,6 +157,23 @@ const vehiclebooklogs = {
             //show form
             self.odometer_item.is_addoredit = true;
 
+        },
+          /**
+         * -------------------------------------------------------
+         * hide odometer form
+         * --------------------------------------------------------
+         */
+        hideodometerForm(){
+            var self = this;
+        
+             //reset odometer_item
+             self.odometer_item = {
+                id: 0,
+                year_start_odometer : '',
+                year_end_odometer : '',
+                vehicle_desc : '',
+                is_addoredit : false       
+            };
         },
         /**
          * -------------------------------------------------------

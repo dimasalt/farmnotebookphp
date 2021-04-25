@@ -16,7 +16,9 @@ class BookkeepingController extends BaseController
     }
 
     /**
+     * -----------------------------------------------------------
      * function to get list of transactions
+     * -----------------------------------------------------------
      */
     public function transactionsGetAll(){
         // Takes raw data from the request
@@ -24,10 +26,38 @@ class BookkeepingController extends BaseController
 
         // Converts it into a PHP object
         $data = json_decode($json);
+
+        //prepare search term variable 
+        // if($data->search_term == '') 
+        //     $data->search_term = '%' . $data->search_term . '%';
    
         $helper = new FinancesHelper();
-        $result = $helper->transactionsGetAll();
+        $result = $helper->transactionsGetAll($data->search_term);
 
+        echo json_encode($result);
+    }
+
+    
+    /**
+     * -----------------------------------------------------------
+     * function to get list of all main categories
+     * -----------------------------------------------------------
+     */
+    public function getCategories(){
+        // Takes raw data from the request
+        $json = file_get_contents('php://input');
+
+        // Converts it into a PHP object
+        $data = json_decode($json);
+
+        //prepare search term variable 
+        // if($data->search_term == '') 
+        //     $data->search_term = '%' . $data->search_term . '%';
+   
+        $helper = new FinancesHelper();
+        $result = $helper->getCategories();
+
+       
         echo json_encode($result);
     }
     
