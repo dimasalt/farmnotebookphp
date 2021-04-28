@@ -1,9 +1,9 @@
 <?php
 
-namespace FarmManagement\Controllers;
+namespace FarmWork\Controllers;
 
-use FarmManagement\Helpers\FinancesPlanningHelper;
-use FarmManagement\Libraries\CSRFToken;
+use FarmWork\Helpers\FinancesPlanningHelper;
+use FarmWork\Libraries\CSRFToken;
 
 class FinancesPlanningController extends BaseController {
 

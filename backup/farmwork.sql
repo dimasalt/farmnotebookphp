@@ -14,7 +14,7 @@
 
 -- Dumping structure for table farmwork.contact
 CREATE TABLE IF NOT EXISTS `contact` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` char(36) NOT NULL DEFAULT uuid(),
   `name` varchar(100) NOT NULL,
   `address` varchar(50) DEFAULT NULL,
   `city` varchar(50) DEFAULT NULL,
@@ -25,19 +25,19 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `email` varchar(50) DEFAULT NULL,
   `note` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table farmwork.contact: ~7 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `city`, `postal`, `country`, `province`, `phone`, `email`, `note`, `created_at`) VALUES
-	(1, 'Little Bit Western', '372 Algonquin Boulevard W', 'Timmins', 'P4N 2S2', 'Canada', 'On', '705-268-0822', '', 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', '2019-04-29 21:31:35'),
-	(3, 'Railside General Supplies', '3272 Monahan Rd', 'Val Gagne', 'P0K 1W0', 'Canada', 'On', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', '2020-01-05 07:01:53'),
-	(5, 'Northern Veterinary Hospital', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41'),
-	(25, 'Northern Allied', '352 Railway St', 'Timmins', 'P4N 2P6', 'Canada', 'On', '7052645291', '', 'Metal supply company. The only one in Timmins.', '2020-02-18 23:39:43'),
-	(26, 'Mark', 'n/a', 'Matheson', 'p0k 1n0', 'Canada', 'On', '705-262-3433', '', '<p>Neighbour farmer. Wants to buy cattle. May not keep the word.</p>', '2020-02-27 10:59:32'),
-	(30, 'Samuel M.', '', '', '', 'Canada', 'On', '705-232-2380', '', '<p>Manonite. Sells lumber and posts for fencing or/and construction.</p>', '2020-04-08 17:19:45'),
-	(31, 'Cleason Marting', 'Country Ln', 'Val Gagne', '', 'Canada', 'On', '705-232-2039', '', '<p>Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.</p>', '2020-04-08 17:23:04');
+	('81a77d42-a76d-11eb-80d2-d8cb8ac0caec', 'Little Bit Western', '372 Algonquin Boulevard W', 'Timmins', 'P4N 2S2', 'Canada', 'On', '705-268-0822', '', 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', '2019-04-29 21:31:35'),
+	('81a77fe9-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Allied', '352 Railway St', 'Timmins', 'P4N 2P6', 'Canada', 'On', '7052645291', '', 'Metal supply company. The only one in Timmins.', '2020-02-18 23:39:43'),
+	('81a781a5-a76d-11eb-80d2-d8cb8ac0caec', 'Mark', 'n/a', 'Matheson', 'p0k 1n0', 'Canada', 'On', '705-262-3433', '', '<p>Neighbour farmer. Wants to buy cattle. May not keep the word.</p>', '2020-02-27 10:59:32'),
+	('81a78279-a76d-11eb-80d2-d8cb8ac0caec', 'Railside General Supplies', '3272 Monahan Rd', 'Val Gagne', 'P0K 1W0', 'Canada', 'On', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', '2020-01-05 07:01:53'),
+	('81a78332-a76d-11eb-80d2-d8cb8ac0caec', 'Samuel M.', '', '', '', 'Canada', 'On', '705-232-2380', '', '<p>Manonite. Sells lumber and posts for fencing or/and construction.</p>', '2020-04-08 17:19:45'),
+	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln', 'Val Gagne', '', 'Canada', 'On', '705-232-2039', '', '<p>Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.</p>', '2020-04-08 17:23:04'),
+	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.event
@@ -234,17 +234,14 @@ CREATE TABLE IF NOT EXISTS `planning_project` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
 
--- Dumping data for table farmwork.planning_project: ~2 rows (approximately)
+-- Dumping data for table farmwork.planning_project: ~0 rows (approximately)
 /*!40000 ALTER TABLE `planning_project` DISABLE KEYS */;
-INSERT INTO `planning_project` (`id`, `project_name`, `project_price`, `project_price_actual`, `is_start`, `is_done`, `created_at`) VALUES
-	(124, 'profit from calves sale', 13250, 0, 0, 0, '2021-04-17 00:00:00'),
-	(125, '25 head calves raising to 900lb', 25000, 25000, 1, 0, '2021-03-01 00:00:00');
 /*!40000 ALTER TABLE `planning_project` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction
 CREATE TABLE IF NOT EXISTS `transaction` (
   `id` char(36) NOT NULL DEFAULT uuid(),
-  `trans_name` varchar(100) DEFAULT NULL,
+  `trans_name` varchar(100) NOT NULL,
   `trans_desc` varchar(250) DEFAULT NULL,
   `trans_ammount` decimal(19,2) NOT NULL,
   `trans_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
@@ -254,17 +251,19 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `trans_date` datetime NOT NULL DEFAULT current_timestamp(),
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `FK_transaction_address_book` (`trans_address`) USING BTREE
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~4 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~7 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_name`, `trans_desc`, `trans_ammount`, `trans_tax`, `trans_currency`, `trans_address`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('0333a75f-71a9-11e9-bfc5-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
-	('66d91789-6aea-11', 'no name', NULL, -24.86, 0.00, 'CAD', '1', '', '2019-04-29 16:31:58', '2019-04-29 21:34:58', '2020-12-26 14:44:01'),
-	('965a0a99-6c36-11', 'calves feed', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-04-30 16:52:34', '2019-05-01 13:28:11', '2020-12-26 13:23:53'),
-	('dc2d7067-6da7-11e9-9b6b-d8cb8ac0caec', 'calves purchase', NULL, -3625.00, 0.00, 'CAD', '1', '', '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2020-12-26 13:24:05');
+	('6f412e9c-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
+	('6f589f1c-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
+	('6f71b3fa-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
+	('6f8a0f5a-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
+	('70780839-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
+	('dc2d7067-6da7-11e9-9b6b-d8cb8ac0caec', 'calves purchase', NULL, -3625.00, 0.00, 'CAD', '1', '', '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2020-12-26 13:24:05'),
+	('f36d0a47-a770-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -335,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
 
 -- Dumping structure for table farmwork.user
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` char(32) NOT NULL,
+  `id` char(36) NOT NULL DEFAULT uuid(),
   `username` varchar(15) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL,
@@ -353,7 +352,7 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created
 -- Dumping structure for table farmwork.user_detail
 CREATE TABLE IF NOT EXISTS `user_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` char(32) NOT NULL,
+  `user_id` char(36) NOT NULL,
   `fname` varchar(50) DEFAULT NULL,
   `lname` varchar(50) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -376,8 +375,8 @@ CREATE TABLE IF NOT EXISTS `user_logins` (
   `modified_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `FK__user` (`user_id`),
-  CONSTRAINT `FK__user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `FK_user_logins_user` (`user_id`),
+  CONSTRAINT `FK_user_logins_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='contains user login information';
 
 -- Dumping data for table farmwork.user_logins: ~0 rows (approximately)
@@ -386,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `user_logins` (
 
 -- Dumping structure for table farmwork.user_role
 CREATE TABLE IF NOT EXISTS `user_role` (
-  `id` char(32) NOT NULL DEFAULT uuid_short(),
+  `id` char(36) NOT NULL DEFAULT uuid(),
   `role` varchar(10) NOT NULL,
   `role_desc` varchar(150) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -403,8 +402,8 @@ INSERT INTO `user_role` (`id`, `role`, `role_desc`, `created_at`) VALUES
 -- Dumping structure for table farmwork.user_to_role
 CREATE TABLE IF NOT EXISTS `user_to_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` char(32) NOT NULL,
-  `role_id` char(32) NOT NULL,
+  `user_id` char(36) NOT NULL,
+  `role_id` char(36) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `FK_user_to_role_user` (`user_id`),
@@ -499,7 +498,7 @@ DELIMITER ;
 -- Dumping structure for procedure farmwork.contactGetOne
 DELIMITER //
 CREATE PROCEDURE `contactGetOne`(
-	IN `contact_id` INT
+	IN `contact_id` CHAR(36)
 )
 BEGIN
 
@@ -1026,6 +1025,20 @@ BEGIN
 				addr_id,
 				trans_date
 		  );
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionDelMain
+DELIMITER //
+CREATE PROCEDURE `transactionDelMain`(
+	IN `id` CHAR(36)
+)
+BEGIN
+
+	DELETE 
+	FROM transaction 
+	WHERE transaction.id = id;
 	
 END//
 DELIMITER ;

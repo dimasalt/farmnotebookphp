@@ -1,6 +1,6 @@
 <?php
 
-namespace FarmManagement\Libraries;
+namespace FarmWork\Libraries;
 
 // Good video on PHP encryption
 // https://www.youtube.com/watch?v=KCJFl5wMyGg&nohtml5=False -> (outdated)

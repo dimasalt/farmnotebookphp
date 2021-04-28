@@ -1,9 +1,9 @@
 <?php
 
-namespace FarmManagement\Controllers;
+namespace FarmWork\Controllers;
 
-use FarmManagement\Helpers\UploadHelper;
-use FarmManagement\Libraries\CSRFToken;
+use FarmWork\Helpers\UploadHelper;
+use FarmWork\Libraries\CSRFToken;
 
 class UploadController extends BaseController {
 

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace FarmManagement\Models;
+namespace FarmWork\Models;
 
 
 class UserModel

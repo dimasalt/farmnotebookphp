@@ -1,10 +1,10 @@
 <?php
 
-namespace FarmManagement\Controllers;
+namespace FarmWork\Controllers;
 
 use DateTime;
-use FarmManagement\Helpers\VehicleLogBookHelper;
-use FarmManagement\Libraries\CSRFToken;
+use FarmWork\Helpers\VehicleLogBookHelper;
+use FarmWork\Libraries\CSRFToken;
 
 class VehicleLogBookController extends BaseController {
 

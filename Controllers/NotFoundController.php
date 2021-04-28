@@ -1,6 +1,6 @@
 <?php
 
-namespace FarmManagement\Controllers;
+namespace FarmWork\Controllers;
 
 
 class NotFoundController extends BaseController

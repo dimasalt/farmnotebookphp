@@ -1,9 +1,9 @@
 <?php
 
-namespace FarmManagement\Controllers;
+namespace FarmWork\Controllers;
 
-use FarmManagement\Helpers\FinancesTypeHelper;
-use FarmManagement\Libraries\CSRFToken;
+use FarmWork\Helpers\FinancesTypeHelper;
+use FarmWork\Libraries\CSRFToken;
 
 
 class RecordsTypeController extends BaseController

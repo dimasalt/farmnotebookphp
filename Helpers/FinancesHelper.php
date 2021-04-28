@@ -1,8 +1,8 @@
 <?php
 
-namespace FarmManagement\Helpers;
+namespace FarmWork\Helpers;
 
-use FarmManagement\Libraries\DBConnection;
+use FarmWork\Libraries\DBConnection;
 
 class FinancesHelper
 {

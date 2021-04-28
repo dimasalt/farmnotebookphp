@@ -1,8 +1,8 @@
 <?php
 
-namespace FarmManagement\Controllers;
+namespace FarmWork\Controllers;
 
-use FarmManagement\Helpers\LiveStockHelper;
+use FarmWork\Helpers\LiveStockHelper;
 
 class LivestockController extends BaseController
 {

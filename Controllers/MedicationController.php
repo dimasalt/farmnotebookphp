@@ -1,9 +1,9 @@
 <?php
 
-namespace FarmManagement\Controllers;
+namespace FarmWork\Controllers;
 
-use FarmManagement\Helpers\MedicationHelper;
-use FarmManagement\Libraries\CSRFToken;
+use FarmWork\Helpers\MedicationHelper;
+use FarmWork\Libraries\CSRFToken;
 
 
 class MedicationController extends BaseController

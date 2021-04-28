@@ -1,6 +1,6 @@
 <?php
 
-namespace FarmManagement\Middleware;
+namespace FarmWork\Middleware;
 
 /*
  * A class that checks if user has an access to specific

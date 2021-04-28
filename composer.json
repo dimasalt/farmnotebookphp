@@ -8,11 +8,11 @@
     },
 	 "autoload": {
         "psr-4": {
-            "FarmManagement\\Controllers\\": "Controllers/",
-            "FarmManagement\\Helpers\\": "Helpers/",
-            "FarmManagement\\Models\\": "Models/",
-            "FarmManagement\\Libraries\\": "Libraries/",
-            "FarmManagement\\Middleware\\": "Middleware/"
+            "FarmWork\\Controllers\\": "Controllers/",
+            "FarmWork\\Helpers\\": "Helpers/",
+            "FarmWork\\Models\\": "Models/",
+            "FarmWork\\Libraries\\": "Libraries/",
+            "FarmWork\\Middleware\\": "Middleware/"
         },
         "classmap" : [
             "Controllers/",

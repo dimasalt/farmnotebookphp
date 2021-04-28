@@ -1,8 +1,8 @@
 <?php
 
-namespace FarmManagement\Controllers;
+namespace FarmWork\Controllers;
 
-use FarmManagement\Libraries\CSRFToken;
+use FarmWork\Libraries\CSRFToken;
 
 
 class LoginController extends BaseController

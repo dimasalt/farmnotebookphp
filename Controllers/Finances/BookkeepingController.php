@@ -1,9 +1,9 @@
 <?php
 
-namespace FarmManagement\Controllers;
+namespace FarmWork\Controllers;
 
-use FarmManagement\Helpers\FinancesHelper;
-use FarmManagement\Libraries\CSRFToken;
+use FarmWork\Helpers\FinancesHelper;
+use FarmWork\Libraries\CSRFToken;
 
 
 class BookkeepingController extends BaseController
