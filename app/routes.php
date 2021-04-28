@@ -25,6 +25,7 @@ $r->addRoute(['GET', 'POST'], '/contacts/view/{id}', 'FarmManagement\Controllers
 
 //finances pages
 $r->addRoute(['GET', 'POST'], '/bookkeeping/records/get/all', 'FarmManagement\Controllers\BookkeepingController:transactionsGetAll');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/records/del/main', 'FarmManagement\Controllers\BookkeepingController:transactionDel');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/records', 'FarmManagement\Controllers\BookkeepingController:index');
 
 //finances categories

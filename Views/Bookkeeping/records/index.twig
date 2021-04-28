@@ -89,9 +89,9 @@
             <div class="form-inline mt-5">
                 <div class="col-5 form-group">
                     <h3>Transactions
-                        <a href="#" v-on:click="showNewBooklogForm(true)">
+                        <a href="#" v-on:click="showNewTransactionForm(true)">
                             <i class="far fa-plus-square btn-sm text-success align-middle"
-                                data-toggle="tooltip" data-placement="top" title="Add Miles"></i>
+                                data-toggle="tooltip" data-placement="top" title="Add transaction"></i>
                         </a>                 
                     </h3>
                 </div>
@@ -134,8 +134,8 @@
                     </td>                                                      
                     <td v-bind:class="item.class">${{ '{{item.trans_ammount}}' }} </td>
                     <td>                      
-                        <a href="#" v-on:click.stop="delOneShow(item.id, item.project_name)">
-                            <i class="far fa-trash-alt btn-sm text-dark align-middle float-right"
+                        <a href="#" v-on:click.prevent="delOneShow(item.id, item.trans_name)">
+                            <i class="far fa-trash-alt btn-sm text-danger align-middle float-right"
                                 data-toggle="tooltip" data-placement="top" title="remove transaction"></i>
                         </a>
                             <a href="#" v-on:click="editShow(index)">
@@ -171,6 +171,38 @@
             </tbody>
         </table>
     </div>  
+
+
+    <!-- Remove transaction Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white" id="exampleModalCenterTitle">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        Remove item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove transaction record for <b>"{{ '{{ transaction_record.trans_name }}' }}"</b> ?
+                    <div class="alert alert-warning mt-2" role="alert">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        Please be advised removing transaction will remove all it's sub items as well including any saved photocopy.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                        <i class="fas fa-times-circle text-small mr-1"></i>Cancel</button>
+                    <button type="button" class="btn btn-danger" v-on:click="delTransactionMain()">
+                        <i class="far fa-trash-alt text-small mr-1"></i>Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end of modal -->
+
 </div>
 
 {% endblock %}

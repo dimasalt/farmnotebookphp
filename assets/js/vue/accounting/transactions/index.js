@@ -3,7 +3,8 @@ const transactions = {
         return {
             transactions: [],           
             transaction_record : {
-                is_new : false
+                is_new : false,
+                is_delete : false
             },
             start_date : new Date().getFullYear()  + '-01-01', //format yyyy + '-' + mm + '-' + dd;
             end_date:  new Date().getFullYear()  + '-12-31', //format yyyy + '-' + mm + '-' + dd;
@@ -28,10 +29,8 @@ const transactions = {
          */
         goSearch() {
             var self = this;
-
-            //search only if at least 2 letters typed
-            // if(self.search_term.length >= 2)
-                self.transactionsGetAll();
+           
+            self.transactionsGetAll();
         },
         transactionsGetAll () {
             //gets all project items
@@ -118,6 +117,11 @@ const transactions = {
     
             result.always(function () { });
         },
+        /**
+         * -----------------------------------------------------------------------------------
+         * when selected category in drop down has changed
+         * -----------------------------------------------------------------------------------
+         */
         categoryChanged() {
             var self = this;
 
@@ -131,7 +135,69 @@ const transactions = {
                 self.transaction_sub_category_disabled = true;
             else self.transaction_sub_category_disabled = false;
         },
-        showForm: function(is_visible){
+        /**
+         * -------------------------------------------------------------------------------
+         * show delete modal for transaction
+         * -------------------------------------------------------------------------------
+         */
+        delOneShow (id, name){
+            var self = this;
+
+            self.transaction_record.id = id;
+            self.transaction_record.trans_name = name;
+            self.transaction_record.is_delete = true;
+
+             //show the modal
+             $('#deleteModal').modal('show');
+        },
+        /**
+         * ------------------------------------------------------------------------------
+         * remove main transaction items and all sub items
+         * ------------------------------------------------------------------------------
+         */
+        delTransactionMain(){
+            var self = this;
+
+            var data = self.transaction_record;
+            data = JSON.stringify(data);
+    
+            var result = $.post("/bookkeeping/records/del/main", data);
+    
+            result.done(function (data) {
+                if (data.length > 0) {
+                    
+                    data = JSON.parse(data);   
+                    
+                    if (data == true) {                       
+    
+                        //hide the modal
+                        $('#deleteModal').modal('hide');
+
+                        //get updated list of transactions
+                        self.transactionsGetAll();
+
+                        //Display a success toast, with a title
+                        toastr.success("You have successfully have removed main transaction item");                                              
+                    }
+                    else if(data == false){
+                        // Display an error toast, with a title
+                        toastr.error("Ops! There appears to be an error and selected transaction item coudln't t be removed");
+                    }
+                    
+                }                
+            });
+    
+            result.always(function () {
+                var self = this;
+
+                transaction_record = {
+                    is_new : false,
+                    is_delete : false
+                };
+
+             });
+        },
+        showForm (is_visible){
             var self = this;
 
             //show new transaction form

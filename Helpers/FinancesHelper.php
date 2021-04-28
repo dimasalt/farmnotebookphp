@@ -29,62 +29,22 @@ class FinancesHelper
        return $result;
     }
 
-    /*
-    * gets a single medication item
-    */
-    public function getOne($id){
 
+    
+    /*
+     * ---------------------------------------------------------
+     * Gets one main transaction from database
+     * ---------------------------------------------------------
+     */
+    public function transactionDel($id) : bool
+    {
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call medicationGetOne(?)');
-        $stmt->execute(array($id));
-
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-
-        return $result;
-    }
-
-    /*
-    * removes medication item from database
-    */
-    public function deleteAction($id){
-
-        $db = new DBConnection();
-        $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call medicationDeleteOne(?)');
+        $stmt = $pdo->prepare('call transactionDelMain(?)');
         $stmt->execute(array($id));
 
         if($stmt->rowCount() > 0) return true;
-        else return false;
-
-    }
-
-    /*
-    * adds medication item
-    */
-    public function addAction($medication){
-        $db = new DBConnection();
-        $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call medicationAdd(?,?,?,?,?)');
-        $stmt->execute(array(
-            $medication->med_name, 
-            $medication->med_desc, 
-            $medication->med_instr, 
-            $medication->med_price, 
-            $medication->med_on_hand
-        ));
-
-        //fetch last insert id 
-        //returns array with only one number in place [0]
-        $id = $stmt->fetch(\PDO::FETCH_NUM)[0];
-
-        //set result object to return to ajax
-        $result = [
-            'id' => $id,
-            'result' => true
-        ];
-
-        return $result;       
+        else return false;        
     }
 
     /**

@@ -37,6 +37,24 @@ class BookkeepingController extends BaseController
         echo json_encode($result);
     }
 
+    /**
+     * -----------------------------------------------------------
+     * function to remove main transaction item
+     * -----------------------------------------------------------
+     */
+    public function transactionDel(){
+
+        // Takes raw data from the request
+        $json = file_get_contents('php://input');
+
+        // Converts it into a PHP object
+        $data = json_decode($json);      
+
+        $helper = new FinancesHelper();
+        $result = $helper->transactionDel($data->id);
+
+        echo json_encode($result);
+    }
     
     /**
      * -----------------------------------------------------------
