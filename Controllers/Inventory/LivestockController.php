@@ -3,12 +3,15 @@
 namespace FarmWork\Controllers;
 
 use FarmWork\Helpers\LiveStockHelper;
+use FarmWork\Libraries\CSRFToken;
 
 class LivestockController extends BaseController
 {
-    public function index($request, $response, $args)
-    {
-        return $this->getView()->render('LiveStock/index.twig');
+    public function index()
+    {               
+        echo $this->view->render('Inventory/livestock/index.twig', [
+            'csrf' => CSRFToken::getToken()
+        ]);
     }
 
 
@@ -17,29 +20,34 @@ class LivestockController extends BaseController
      * Get livestock inventory
      * ---------------------------------------------------
      */
-    public function getLiveStockInventory($request, $response, $args) {
+    public function getLiveStockInventory() {
 
-        $request_args = json_decode( file_get_contents('php://input') );
-        $current_page = $request_args->current_page;
-        $records =  $request_args->records;
+         // Takes raw data from the request
+         $json = file_get_contents('php://input');
+
+         // Converts it into a PHP object
+         $data = json_decode($json);
+
+        $current_page = $data->current_page;
+        $records =  $data->records;        
 
         $livestockHelper = new LiveStockHelper();
-        $livestockInventory = $livestockHelper->GetLiveStock($current_page, $records);
-
-        return $response->withJson($livestockInventory, 200);
+        $livestockInventory = $livestockHelper->GetLiveStock($current_page, $records, 0);
+       
+        echo json_encode($livestockInventory);
     }
 
-    /**
-     * ---------------------------------------------------------------------------------
-     * Get livestock types presented on the farm
-     * ---------------------------------------------------------------------------------
-     */
-    public function getLiveStockTypes($request, $response, $args){
-        $livestockHelper = new LiveStockHelper();
-        $livestockTypes = $livestockHelper->getLiveStockTypes();
+    // /**
+    //  * ---------------------------------------------------------------------------------
+    //  * Get livestock types presented on the farm
+    //  * ---------------------------------------------------------------------------------
+    //  */
+    // public function getLiveStockTypes(){
+    //     $livestockHelper = new LiveStockHelper();
+    //     $livestockTypes = $livestockHelper->getLiveStockTypes();
 
-        return $response->withJson($livestockTypes, 200);
-    }
+    //     return $response->withJson($livestockTypes, 200);
+    // }
 
 
 

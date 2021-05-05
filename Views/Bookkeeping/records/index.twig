@@ -19,21 +19,16 @@
 
         <div class="row mb-2">
             <div class="col-8 border-bottom">
-                <h1 class="text-dark mb-4">Accounting Records
-                    {# <a href="#" v-on:click="displayForm(true)">
-                        <i class="far fa-plus-square btn-sm text-success align-middle"
-                           data-toggle="tooltip" data-placement="top" title="Add Transaction"></i>
-                    </a>                  #}
-                </h1>        
+                <h1 class="text-dark mb-4">Accounting Records</h1>        
             </div>    
 
             <!-- date selection -->
-            <div class="col-2 border-bottom">        
+            <div class="col-2 border-bottom p-1">        
                 <div class="input-group">                                       
                     <input type="date" class="form-control" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="start_date" v-on:change="onYearChange()">                   
                 </div>               
             </div>           
-            <div class="col-2 border-bottom">        
+            <div class="col-2 border-bottom p-1">        
                 <div class="input-group">                                       
                     <input type="date" class="form-control" placeholder="date yyyy-mm-dd" aria-label="End date" aria-describedby="button-addon4" v-model="end_date" v-on:change="onYearChange()">                   
                 </div>               

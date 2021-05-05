@@ -1,4 +1,8 @@
 <?php
+// inventory pages
+$r->addRoute(['GET'], '/inventory/livestock', 'FarmWork\Controllers\LivestockController:index');
+$r->addRoute(['GET', 'POST'], '/inventory/livestock/getall', 'FarmWork\Controllers\LivestockController:getLiveStockInventory');
+
 
 //medication pages
 $r->addRoute(['POST', 'GET'], '/medication/view/{id}', 'FarmWork\Controllers\MedicationController:getOne');

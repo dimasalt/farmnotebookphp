@@ -4,7 +4,8 @@
         "twig/twig": "^3.0",
         "snapappointments/bootstrap-select": "^1.13",
         "fullcalendar/fullcalendar": "^3.10",
-        "mongodb/mongodb": "^1.8"
+        "mongodb/mongodb": "^1.8",
+        "respect/validation": "^2.2"
     },
 	 "autoload": {
         "psr-4": {

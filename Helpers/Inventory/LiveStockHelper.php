@@ -10,17 +10,17 @@ class LiveStockHelper
 
     /**
      * ----------------------------------------------
-     *  get sheep inventory
+     *  get livestock inventory
      * ---------------------------------------------*/
-    public function GetLiveStock($current_page, $records)
+    public function GetLiveStock($current_page, $records, $is_active)
     {
         //get db
         $db = new Libraries\DBConnection();
         $pdo = $db->getPDO();
 
         //check if user already exists
-        $stmt  = $pdo->prepare('call sp_GetLiveStock('.$current_page .',' . $records .')');
-        $stmt->execute();
+        $stmt  = $pdo->prepare('call livestockGetAll(?,?,?)');
+        $stmt->execute([$current_page, $records, $is_active]);
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -28,7 +28,7 @@ class LiveStockHelper
         //        if($result == false) return false;
         //        else return true;
 
-        return $result;
+        return $result;       
     }
 
     /**

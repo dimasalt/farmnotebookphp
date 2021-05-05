@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         localhost
--- Server version:               10.5.6-MariaDB - mariadb.org binary distribution
+-- Server version:               10.5.9-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
 -- HeidiSQL Version:             11.2.0.6213
 -- --------------------------------------------------------
@@ -49,9 +49,9 @@ CREATE TABLE IF NOT EXISTS `event` (
   `ev_date` datetime NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `FK_event_history_event_type` (`ev_type_id`),
-  KEY `FK_event_history_livestock` (`livestock_id`),
-  CONSTRAINT `FK_event_history_event_type` FOREIGN KEY (`ev_type_id`) REFERENCES `event_type` (`ev_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `FK_event_event_type` (`ev_type_id`),
+  KEY `FK_event_livestock` (`livestock_id`),
+  CONSTRAINT `FK_event_event_type` FOREIGN KEY (`ev_type_id`) REFERENCES `event_type_bak` (`ev_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_event_livestock` FOREIGN KEY (`livestock_id`) REFERENCES `livestock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Contains events that occured in the past';
 
@@ -62,6 +62,26 @@ CREATE TABLE IF NOT EXISTS `event` (
 -- Dumping structure for table farmwork.event_type
 CREATE TABLE IF NOT EXISTS `event_type` (
   `ev_type_id` char(36) NOT NULL DEFAULT uuid(),
+  `ev_type_name` varchar(25) NOT NULL,
+  `ev_type_desc` varchar(300) DEFAULT NULL,
+  `place` tinyint(4) NOT NULL DEFAULT 100,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`ev_type_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
+
+-- Dumping data for table farmwork.event_type: ~5 rows (approximately)
+/*!40000 ALTER TABLE `event_type` DISABLE KEYS */;
+INSERT INTO `event_type` (`ev_type_id`, `ev_type_name`, `ev_type_desc`, `place`, `created_at`) VALUES
+	('006e21ef-acfc-11eb-a999-d8cb8ac0caec', 'Birth Date', 'Used to associate an animal’s birth date with its unique approved tag number.', 11, '2019-05-05 21:00:17'),
+	('0071c376-acfc-11eb-a999-d8cb8ac0caec', 'Weight', 'Used to report the weight of livestock.', 1, '2020-01-04 16:01:31'),
+	('00752389-acfc-11eb-a999-d8cb8ac0caec', 'Castration/Banding', 'Used to report of castration or banding of livestock', 3, '2020-01-04 15:58:24'),
+	('88f7cc5e-acfb-11eb-a999-d8cb8ac0caec', 'Medicated', 'Used to report medication use on a livestock', 2, '2019-05-05 21:19:43'),
+	('b1d57a36-acfb-11eb-a999-d8cb8ac0caec', 'Hoof Trimming', 'Used to report a hoof trimming performed on the animal', 10, '2019-05-09 23:10:51');
+/*!40000 ALTER TABLE `event_type` ENABLE KEYS */;
+
+-- Dumping structure for table farmwork.event_type_bak
+CREATE TABLE IF NOT EXISTS `event_type_bak` (
+  `ev_type_id` char(36) NOT NULL DEFAULT uuid(),
   `ev_type_name` varchar(20) NOT NULL,
   `ev_type_value` varchar(25) NOT NULL,
   `ev_type_desc` varchar(300) DEFAULT NULL,
@@ -70,9 +90,9 @@ CREATE TABLE IF NOT EXISTS `event_type` (
   PRIMARY KEY (`ev_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
 
--- Dumping data for table farmwork.event_type: ~12 rows (approximately)
-/*!40000 ALTER TABLE `event_type` DISABLE KEYS */;
-INSERT INTO `event_type` (`ev_type_id`, `ev_type_name`, `ev_type_value`, `ev_type_desc`, `place`, `created_at`) VALUES
+-- Dumping data for table farmwork.event_type_bak: ~12 rows (approximately)
+/*!40000 ALTER TABLE `event_type_bak` DISABLE KEYS */;
+INSERT INTO `event_type_bak` (`ev_type_id`, `ev_type_name`, `ev_type_value`, `ev_type_desc`, `place`, `created_at`) VALUES
 	('09ef9b47-6f9d-11e9-992e-d8cb8ac0caec', 'medicated', 'Medicated', 'Used to report medication use on a livestock', 2, '2019-05-05 21:19:43'),
 	('37a81ef3-72d1-11e9-9f5d-d8cb8ac0caec', 'hoof_trim', 'Hoof Trimming', 'Used to report a hoof trimming performed on the animal', 10, '2019-05-09 23:10:51'),
 	('5060a862-6f9a-11e9-992e-d8cb8ac0caec', 'birth_date', 'Birth Date', 'Used to associate an animal’s birth date with its unique approved tag number.', 11, '2019-05-05 21:00:17'),
@@ -85,7 +105,7 @@ INSERT INTO `event_type` (`ev_type_id`, `ev_type_name`, `ev_type_value`, `ev_typ
 	('86db3a93-6f9b-11e9-992e-d8cb8ac0caec', 'retired', 'Retired', 'Used to report the identification of an approved tag applied to an animal that has died or was slaughtered.', 9, '2019-05-05 21:08:58'),
 	('86e328da-6f9b-11e9-992e-d8cb8ac0caec', 'disposed', 'Disposed', 'Used to report the identification of an approved tag applied to an animal, or an animal based on carcass details, that has died and has been disposed of by a producer or dead stock operator.', 12, '2019-05-05 21:08:58'),
 	('f26cb0aa-2f34-11ea-ac21-d8cb8ac0caec', 'castration', 'Castration/Banding', 'Used to report of castration or banding of livestock', 3, '2020-01-04 15:58:24');
-/*!40000 ALTER TABLE `event_type` ENABLE KEYS */;
+/*!40000 ALTER TABLE `event_type_bak` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.feed_inventory
 CREATE TABLE IF NOT EXISTS `feed_inventory` (
@@ -121,29 +141,24 @@ CREATE TABLE IF NOT EXISTS `feed_type` (
 
 -- Dumping structure for table farmwork.livestock
 CREATE TABLE IF NOT EXISTS `livestock` (
-  `id` char(32) NOT NULL DEFAULT uuid(),
-  `long_tag` varchar(50) DEFAULT NULL,
+  `id` char(36) NOT NULL DEFAULT uuid(),
+  `tag` varchar(50) DEFAULT NULL,
+  `barn_tag` varchar(10) DEFAULT NULL,
   `livestock_type` varchar(50) DEFAULT '',
+  `sex` varchar(10) DEFAULT NULL,
+  `weight` int(11) DEFAULT NULL,
+  `price` float(10,2) DEFAULT NULL,
   `is_active` tinyint(4) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='flock details';
 
--- Dumping data for table farmwork.livestock: ~11 rows (approximately)
+-- Dumping data for table farmwork.livestock: ~2 rows (approximately)
 /*!40000 ALTER TABLE `livestock` DISABLE KEYS */;
-INSERT INTO `livestock` (`id`, `long_tag`, `livestock_type`, `is_active`, `created_at`, `updated_at`) VALUES
-	('ef21b44f-66fc-11', '124000501336702', '4', 0, '2019-04-20 23:05:24', '2019-12-26 10:47:33'),
-	('ef21b5d5-66fc-11', '124000501336861', '4', 0, '2019-04-20 23:05:24', '2019-12-26 10:47:33'),
-	('ef21b60c-66fc-11', '124000501336879', '4', 0, '2019-04-20 23:05:24', '2019-12-26 10:47:33'),
-	('ef21b63e-66fc-11', '124000501336995', '4', 0, '2019-04-20 23:05:24', '2019-12-26 10:47:33'),
-	('ef21b663-66fc-11', '124000501336998', '4', 0, '2019-04-20 23:05:24', '2019-12-26 10:47:33'),
-	('ef21b689-66fc-11', '124000501337008', '4', 0, '2019-04-20 23:05:24', '2019-12-26 10:47:33'),
-	('ef21b6b2-66fc-11', '124000501337060', '4', 0, '2019-04-20 23:05:24', '2019-12-26 10:47:33'),
-	('ef21b6d8-66fc-11', '124000501337083', '4', 0, '2019-04-20 23:05:24', '2019-12-26 10:47:33'),
-	('ef21b6fc-66fc-11', '124000501337104', '4', 0, '2019-04-20 23:05:24', '2019-12-26 10:47:33'),
-	('ef21b71f-66fc-11', '124000501337133', '4', 0, '2019-04-20 23:05:24', '2019-12-26 10:47:33'),
-	('ef21b745-66fc-11', '124000501337053', '4', 0, '2019-04-20 23:05:24', '2019-12-26 10:47:33');
+INSERT INTO `livestock` (`id`, `tag`, `barn_tag`, `livestock_type`, `sex`, `weight`, `price`, `is_active`, `created_at`, `updated_at`) VALUES
+	('3b8a3e14-acef-11eb-81f8-d8cb8ac0caec', '120473774', '858', '1', 'steer', 175, 490.00, 1, '2021-04-12 11:41:25', '2021-05-04 15:17:35'),
+	('ccc4a7d5-ad0d-11eb-a999-d8cb8ac0caec', '120333154', '390', '1', 'steer', 90, 279.00, 1, '2021-04-09 11:41:25', '2021-05-04 15:21:31');
 /*!40000 ALTER TABLE `livestock` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.livestock_group
@@ -163,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `livestock_group` (
 -- Dumping structure for table farmwork.livestock_to_group
 CREATE TABLE IF NOT EXISTS `livestock_to_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `livestock_id` char(16) NOT NULL,
+  `livestock_id` char(36) NOT NULL,
   `group_id` int(11) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
@@ -276,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~31 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~32 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -343,7 +358,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~0 rows (approximately)
+-- Dumping data for table farmwork.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -426,7 +441,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~2 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 0, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -445,9 +460,9 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   PRIMARY KEY (`id`),
   KEY `FK_vehicle_log_book_item_vehicle_log_book` (`vehicle_log_book_id`),
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
 
--- Dumping data for table farmwork.vehicle_log_book_item: ~6 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book_item: ~9 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
 	(1, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
@@ -456,8 +471,23 @@ INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`,
 	(5, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-29 00:00:00', '2021-03-29 00:00:00'),
 	(6, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-04-05 00:00:00', '2021-04-05 00:00:00'),
 	(17, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-04-13 11:21:45', '2021-04-12 00:00:00'),
-	(18, 1, 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'Cattle feed purchase ', 280, '2021-04-20 10:03:22', '2021-04-19 00:00:00');
+	(18, 1, 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'Cattle feed purchase ', 280, '2021-04-20 10:03:22', '2021-04-19 00:00:00'),
+	(19, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'cattle feed purchase', 26, '2021-04-28 20:55:50', '2021-04-27 00:00:00'),
+	(20, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'cattle feed purchase', 26, '2021-05-04 17:30:01', '2021-05-04 00:00:00');
 /*!40000 ALTER TABLE `vehicle_log_book_item` ENABLE KEYS */;
+
+-- Dumping structure for view farmwork.v_livestock
+-- Creating temporary table to overcome VIEW dependency errors
+CREATE TABLE `v_livestock` (
+	`id` CHAR(36) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`tag` VARCHAR(50) NULL COLLATE 'utf8mb4_general_ci',
+	`barn_tag` VARCHAR(10) NULL COLLATE 'utf8mb4_general_ci',
+	`sex` VARCHAR(10) NULL COLLATE 'utf8mb4_general_ci',
+	`weight` INT(11) NULL,
+	`price` FLOAT(10,2) NULL,
+	`type_name` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`is_active` TINYINT(4) NOT NULL
+) ENGINE=MyISAM;
 
 -- Dumping structure for procedure farmwork.contactAdd
 DELIMITER //
@@ -607,32 +637,34 @@ CREATE PROCEDURE `livestockGetAll`(
 	IN `current_page` INT,
 	IN `records` INT,
 	IN `is_active` INT
-
 )
 BEGIN
 
 	DECLARE offset_rows INT DEFAULT (current_page -1) * records;	
 	
 	DECLARE total INT DEFAULT 0;
-	DECLARE total_pages INT DEFAULT 0;
+	DECLARE total_pages INT DEFAULT 1;
 	
-	SET total = (SELECT count(livestock.livestock_id) FROM livestock WHERE livestock.is_active >= is_active);		 
-   SET total_pages = total / records;
+	SET total = (SELECT count(livestock.id) FROM livestock WHERE livestock.is_active = is_active);		 
 
 		 	
-	IF total % records > 0 THEN
-		SET total_pages = total_pages + 1;
+	IF total > records THEN
+		SET total_pages = (total / records) + 1;
 	END IF;
 	
 	 
 	SELECT 
-		livestock_id, 
-		long_tag, 
-		tag, 
-		livestock_sex,
+		livestock.id, 
+		livestock.barn_tag, 
+		livestock.tag, 
+		livestock_type.type_name,
+		livestock.sex,
+		livestock.weight,
+		livestock.price,
 		total_pages
 	FROM 
 		livestock 
+	LEFT JOIN livestock_type ON livestock_type.id = livestock.livestock_type
 	WHERE livestock.is_active >= is_active
 	LIMIT offset_rows, records;
 
@@ -1251,6 +1283,21 @@ ORDER BY vehicle_log_book_item.travel_date DESC;
 
 END//
 DELIMITER ;
+
+-- Dumping structure for view farmwork.v_livestock
+-- Removing temporary table and create final VIEW structure
+DROP TABLE IF EXISTS `v_livestock`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_livestock` AS SELECT 
+	livestock.id,
+	livestock.tag,
+	livestock.barn_tag,
+	livestock.sex,
+	livestock.weight,
+	livestock.price,
+	livestock_type.type_name,
+	livestock.is_active
+FROM livestock
+INNER JOIN livestock_type ON livestock.livestock_type = livestock_type.id ;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

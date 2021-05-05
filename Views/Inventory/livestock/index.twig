@@ -1,0 +1,125 @@
+{% extends "Shared/_layout.twig" %}
+
+{% block title %} Livestock {% endblock %}
+
+{% block header_scripts %}
+    <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
+ {% endblock %}
+
+{% block body %}
+    
+<!-- side nav menu -->
+{% include '/Inventory/_sidenav.twig' %}
+
+<!-- page content -->
+<div class="container-fluid" id="livestock" v-cloak>
+    <div class="pt-4" >      
+         <!-- csrf protection -->
+        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
+
+        <div class="row mb-2">
+            <div class="col-8 border-bottom">
+                <h1 class="text-dark mb-4">
+                    Livestock
+                     <a href="#" v-on:click="addNewShow()">
+                        <i class="far fa-plus-square btn-sm text-success ml-1 align-middle"
+                           data-toggle="tooltip" data-placement="top" title="Add project"></i>
+                    </a>
+                </h1>        
+            </div>    
+
+            <!-- date selection -->
+            <div class="col-2 border-bottom p-1">        
+                <div class="input-group">                                       
+                    <input type="date" class="form-control" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="start_date" v-on:change="onYearChange()">                   
+                </div>               
+            </div>           
+            <div class="col-2 border-bottom p-1">        
+                <div class="input-group">                                       
+                    <input type="date" class="form-control" placeholder="date yyyy-mm-dd" aria-label="End date" aria-describedby="button-addon4" v-model="end_date" v-on:change="onYearChange()">                   
+                </div>               
+            </div>           
+        </div>        
+    </div>    
+
+    <!-- list of livestock -->
+    <div class="row">
+        <div class="col-8">
+            <table class="table bg-white table-borderless shadow-sm table-hover">                
+                <thead class="thead-dark">
+                    <tr> 
+                        {# <th scope="col" class="w-5"></th>                           #}
+                        <th scope="col"  class="w-75">Tag #</th>                                  
+                         {# <th scope="col"  class="w-15">Barn Tag</th>                        #}
+                        <th scope="col"  class="w-10">$ CAD</th>     
+                        <th scope="col" class="w-15">#</th>                                            
+                    </tr>
+                </thead>
+                <tbody v-for="(item, index) in livestock">
+                    <tr class="border">                     
+                        {# <td> 
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            </div>
+                        </td> #}
+                        <td class="pl-4" v-bind:class="item.class">        
+                            <span class="float-left ml-2"><input type="checkbox" class="form-check-input" id="exampleCheck1"></span>
+                            <span class="float-left ml-2">{{ '{{item.tag}}' }}</span>
+                            <span class="badge badge-pill badge-light float-right ml-1 shadow-sm">{{ '{{ item.weight }}' }}lb</span>           
+                            <span class="badge badge-pill badge-success ml-1 float-right">{{ '{{item.sex}}' }}</span> 
+                            <span class="badge badge-pill badge-secondary float-right">{{ '{{item.type_name}}' }}</span>                                                                 
+                        </td>  
+                        {# <td> {{ '{{item.barn_tag}}' }}</td>                                                     #}
+                        <td v-bind:class="item.class">${{ '{{item.price}}' }} </td>
+                        <td>
+                            <a href="#">
+                                <i data-toggle="tooltip" data-placement="top" title="View animal" class="far fa-eye text-small text-info float-left mr-1 mt-1"></i>
+                            </a>                             
+                            <a href="#" v-on:click="editShow(index)">
+                                <i class="fa fa-edit btn-sm text-warning align-middle pr-0 float-left"
+                                    data-toggle="tooltip" data-placement="top" title="edit animal"></i>
+                            </a>
+                            <a href="#" v-on:click.prevent="delOneShow(item.id, item.trans_name)">
+                                <i class="far fa-trash-alt btn-sm text-danger align-middle float-left"
+                                data-toggle="tooltip" data-placement="top" title="remove animal"></i>
+                            </a>
+                        </td>
+                        {# 
+                        <td>                      
+                            <a href="#" v-on:click.prevent="delOneShow(item.id, item.trans_name)">
+                                <i class="far fa-trash-alt btn-sm text-danger align-middle float-right"
+                                    data-toggle="tooltip" data-placement="top" title="remove transaction"></i>
+                            </a>
+                                <a href="#" v-on:click="editShow(index)">
+                                <i class="fa fa-edit btn-sm text-warning align-middle pr-0 float-right"
+                                    data-toggle="tooltip" data-placement="top" title="edit transaction"></i>
+                            </a>
+                            <a href="#">
+                                <i data-toggle="tooltip" data-placement="top" title="View transaction" class="far fa-eye text-small text-info float-right mr-1 mt-1"></i>
+                            </a>
+                        </td> #}
+                    </tr>    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block custom_scripts %}
+
+    <script src="/assets/js/vue.global.prod.js"></script>
+    <script src="/assets/components/toastr/toastr.min.js"></script>
+
+    <script src="/assets/js/vue/livestock/index.js"></script>
+
+
+     <script type="application/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+{% endblock %}
