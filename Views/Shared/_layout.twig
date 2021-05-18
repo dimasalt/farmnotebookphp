@@ -9,7 +9,8 @@
     <meta name="generator" content="">
     <title>{% block title %}{% endblock %}</title>
 
-    {% include '/Shared/_header.twig' %}
+    {# {% include '/Shared/_header.twig' %} #}
+    {{ include('Shared/_header.twig') }}
 
     <link rel="icon" type="image/png" href="/cow-16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="/cow-32x32.png" sizes="32x32">
@@ -20,7 +21,8 @@
 
 
 <body>
-    {% include '/Shared/_navbar.twig' %}
+    {# {% include 'Shared/_navbar.twig' %} #}
+    {{ include('Shared/_navbar.twig') }}
 
     <!-- main body -->
     <main role="main" class="d-flex">        
@@ -33,7 +35,8 @@
 
 <!-- footer -->
 <div>
-      {% include '/Shared/_footer.twig' %}
+      {# {% include 'Shared/_footer.twig' %} #}
+      {{ include('Shared/_footer.twig') }}
 </div>
 
     <!-- custom scripts -->

@@ -9,7 +9,8 @@
 {% block body %}
     
 <!-- side nav menu -->
-{% include '/Bookkeeping/_sidenav.twig' %}
+{# {% include 'Bookkeeping/_sidenav.twig' %} #}
+{{ include('Bookkeeping/_sidenav.twig') }}
 
 <!-- page content -->
 <div class="container-fluid" id="transactions" v-cloak>
