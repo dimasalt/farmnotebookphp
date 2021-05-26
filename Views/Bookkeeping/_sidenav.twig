@@ -1,34 +1,42 @@
 
+
 <!-- side navigation -->
 <div class="container-menu border-right pr-5 pt-4 shadow-sm bg-white">                
     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted border-bottom font-weight-bolder">
-        <span class=" text-uppercase"><i class="fas fa-dollar-sign mr-1"></i>Finances</span>               
+        <span class=" text-uppercase"><i class="fas fa-dollar-sign me-1"></i>Finances</span>               
     </h6>            
     <ul class="nav flex-column"> 
-         <li class="nav-item">
+        <li class="nav-item">
+             <a class="nav-link collapsed active text-dark mt-3" href="#accounting" data-bs-toggle="collapse" aria-expanded="false" aria-controls="accounting">                
+                <i class="fas fa-money-check-alt me-2"></i>Accounting <span class="sr-only">(current)</span><i class="fas fa-chevron-down mt-2 float-right"></i>
+            </a>            
+            <div class="collapsed" id="accounting" aria-expanded="false">
+                <ul class="flex-column nav">
+                    <li class="nav-item"><a class="nav-link py-0 ms-3 text-dark" href="/bookkeeping/records"><i class="fas fa-align-justify me-2"></i>Records</a></li>     
+                    <li class="nav-item"><a class="nav-link py-0 ms-3 text-dark" href="/bookkeeping/categories"><i class="fas fa-tools me-2"></i>Types</a></li>                             
+                </ul>
+            </div>
+        </li>                             
+
+        {# <li class="nav-item">
              <a class="nav-link collapsed active text-dark mt-3" href="#submenu1" data-toggle="collapse" data-target="#submenu1">                
-                <i class="fas fa-money-check-alt mr-2"></i>Accounting <span class="sr-only">(current)</span><i class="fas fa-chevron-down mt-2 float-right"></i>
+                <i class="fas fa-money-check-alt me-2"></i>Accounting <span class="sr-only">(current)</span><i class="fas fa-chevron-down mt-2 float-right"></i>
             </a>            
             <div class="" id="submenu1" aria-expanded="false">
                 <ul class="flex-column pl-2 nav">
-                    <li class="nav-item"><a class="nav-link py-0 ml-2 text-dark" href="/bookkeeping/records"><i class="fas fa-align-justify mr-2"></i>Records</a></li>     
-                    <li class="nav-item"><a class="nav-link py-0 ml-2 text-dark" href="/bookkeeping/categories"><i class="fas fa-tools mr-2"></i>Types</a></li>                             
+                    <li class="nav-item"><a class="nav-link py-0 ml-2 text-dark" href="/bookkeeping/records"><i class="fas fa-align-justify me-2"></i>Records</a></li>     
+                    <li class="nav-item"><a class="nav-link py-0 ml-2 text-dark" href="/bookkeeping/categories"><i class="fas fa-tools me-2"></i>Types</a></li>                             
                 </ul>
             </div>
-        </li>                   
-        {# <li class="nav-item">
-            <a class="nav-link active text-dark mt-3" href="/finances/transactions">                
-                <i class="fas fa-money-check-alt mr-2"></i>Transactions <span class="sr-only">(current)</span>
-            </a>
-        </li>                #}
+        </li>                            #}
         <li class="nav-item">
             <a class="nav-link active text-dark pt-0 mt-2" href="/bookkeeping/vehiclelogbook">                
-                <i class="fas fa-car mr-2"></i>Vehicle Log Book
+                <i class="fas fa-car me-2"></i>Vehicle Log Book
             </a>
         </li>  
         <li class="nav-item">
             <a class="nav-link active text-dark pt-0" href="/bookkeeping/projects">                
-                <i class="far fa-list-alt mr-2"></i>Projects
+                <i class="far fa-list-alt me-2"></i>Projects
             </a>
         </li>        
 

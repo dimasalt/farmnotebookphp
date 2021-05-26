@@ -41,8 +41,7 @@ class BaseController
     {
         if(is_null($this->view))
         {
-            $loader = new \Twig\Loader\FilesystemLoader(INC_ROOT . '/Views');    
-            //$loader = new \Twig\Loader\FilesystemLoader(__DIR__ .  '/../Views');    
+            $loader = new \Twig\Loader\FilesystemLoader(INC_ROOT . '/Views');         
             $this->view = new \Twig\Environment($loader, array('cache' => false/*, 'debug' => true*/));
 
             //for debug only

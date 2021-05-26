@@ -38,7 +38,7 @@
             <h3 class="mt-5">
                 Odometer Readings      
                 <a href="#" v-on:click.prevent="showOdometerForm()">
-                    <i class="fa fa-edit btn-sm text-warning pr-0 mr-0" data-toggle="tooltip" data-placement="top" title="edit Odometer"></i>
+                    <i class="fa fa-edit btn-sm text-warning pe-0 me-0" data-toggle="tooltip" data-placement="top" title="edit Odometer"></i>
                 </a>       
                 <a href="#" v-on:click.prevent="odometerDelModalShow()" v-if="odometer != false">
                     <i class="far fa-trash-alt btn-sm text-danger align-middle"
@@ -49,36 +49,36 @@
 
         <!-- alert in case there is no odometer reading for a selected year -->
         <div class="col-8 alert alert-warning ml-3" role="alert" v-if="odometer == false">
-            <i class="fas fa-exclamation-triangle mr-2"></i>
+            <i class="fas fa-exclamation-triangle me-2"></i>
             Sorry but there is no odometer reading for the selected year.
         </div>
 
         <!-- add new odometer or edit existing one -->
         <div class="col-12 mb-3" v-if="odometer_item.is_addoredit == true">
             <form class="form-inline">
-                <div class="form-group mr-1 col-3 pr-0 pl-0">
+                <div class="form-group me-1 col-3 pe-0 pl-0">
                     <label for="txt_vehicle" class="sr-only">Vehicle used</label>
                     <input type="text" class="form-control col-12" id="txt_vehicle" placeholder="Vehicle" v-model="odometer_item.vehicle_desc">
                 </div>
-                <div class="form-group mr-1">
+                <div class="form-group me-1">
                     <label for="txt_start_odometer" class="sr-only">Start Odometer</label>
                     <input type="text" class="form-control" id="txt_start_odometer" placeholder="Year start odometer" v-model="odometer_item.year_start_odometer">
                 </div>
-                <div class="form-group mr-1">
+                <div class="form-group me-1">
                     <label for="txt_end_odometer" class="sr-only">End Odometer</label>
                     <input type="text" class="form-control" id="txt_end_odometer" placeholder="Year end odometer" v-model="odometer_item.year_end_odometer">
                 </div>               
               
-                <button type="submit" class="btn btn-success mr-3" v-on:click.prevent="odometerAddOrEdit()" v-if="odometer_item.id == 0">
-                    <i class="fas fa-plus mr-1"></i>
+                <button type="submit" class="btn btn-success me-3" v-on:click.prevent="odometerAddOrEdit()" v-if="odometer_item.id == 0">
+                    <i class="fas fa-plus me-1"></i>
                     Add Odometer
                 </button>
                 <button type="submit" class="btn btn-success rounded-0" v-on:click.prevent="odometerAddOrEdit()" v-if="odometer_item.id > 0">
-                     <i class="fa fa-edit mr-1"></i>
+                     <i class="fa fa-edit me-1"></i>
                     Edit Odometer
                 </button>
                 <button type="submit" class="btn btn-warning rounded-0" v-on:click.prevent="hideodometerForm()" v-if="odometer_item.id > 0">
-                      <i class="fas fa-times-circle mr-1"></i>
+                      <i class="fas fa-times-circle me-1"></i>
                      Cancel
                 </button>
             </form>
@@ -96,6 +96,12 @@
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Vehicle</strong> {{ '{{odometer.vehicle_desc}}' }}</li>
                 <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Year</strong> {{ '{{odometer.created_at}}' }}</li>              
+            </ul>
+        </div>      
+         <div class="col-4" v-if="odometer != false">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Total Km</strong> {{ '{{odometer.vehicle_desc}}' }}</li>
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Business Km</strong> {{ '{{odometer.created_at}}' }}</li>              
             </ul>
         </div>      
     </div>     
@@ -137,11 +143,11 @@
                     
                     <div class="form-group col-2 p-0">
                         <button type="submit" class="btn btn-success rounded-0" v-on:click.prevent="booklogItemAdd()">
-                            <i class="fas fa-plus mr-1"></i>
+                            <i class="fas fa-plus me-1"></i>
                             Add
                         </button>                   
                         <button type="submit" class="btn btn-warning rounded-0" v-on:click.prevent="showNewBooklogForm(false)">
-                            <i class="fas fa-times-circle text-small mr-1"></i>
+                            <i class="fas fa-times-circle text-small me-1"></i>
                             Cancel
                         </button>                                                                    
                     </div>        
@@ -164,7 +170,8 @@
                     <tr v-for="item in booklogs">
                         <td>
                             {{ '{{item.destination}}' }} 
-                            <div><small> <i> At: {{ '{{item.address}}' }} </i> </small></div>
+                            {# <div><small> <i> At: {{ '{{item.address}}' }} </i> </small></div> #}
+                             <div><small> <i> {{ '{{item.address}}' }} </i> </small></div>
                         </td>
                         <td>{{ '{{item.purpose}}' }}</td>
                         <td>{{ '{{item.travel_distance}}' }} km</td>
@@ -204,7 +211,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger">
                     <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <i class="fas fa-exclamation-triangle me-2"></i>
                         Remove item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -213,15 +220,15 @@
                 <div class="modal-body">
                     Are you sure you want to remove odomoter for <b>"{{ '{{ booklog_date }}' }}"</b> year ?
                     <div class="alert alert-warning mt-2" role="alert">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <i class="fas fa-exclamation-triangle me-2"></i>
                         Please be advised removing odometer will remove all travel logs for the selected year.
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning" data-dismiss="modal">
-                        <i class="fas fa-times-circle text-small mr-1"></i>Cancel</button>
+                        <i class="fas fa-times-circle text-small me-1"></i>Cancel</button>
                     <button type="button" class="btn btn-danger" v-on:click="odometerDelOne()">
-                        <i class="far fa-trash-alt text-small mr-1"></i>Remove</button>
+                        <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
                 </div>
             </div>
         </div>
@@ -234,7 +241,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger">
                     <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <i class="fas fa-exclamation-triangle me-2"></i>
                         Remove Booklog item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -243,15 +250,15 @@
                 <div class="modal-body">
                     Are you sure you want to remove booklog for <b>"{{ '{{ booklog_date }}' }}"</b> year ?
                     <div class="alert alert-warning mt-2" role="alert">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <i class="fas fa-exclamation-triangle me-2"></i>
                         Please be advised removing is irreversible operation.
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning" data-dismiss="modal">
-                        <i class="fas fa-times-circle text-small mr-1"></i>Cancel</button>
+                        <i class="fas fa-times-circle text-small me-1"></i>Cancel</button>
                     <button type="button" class="btn btn-danger" v-on:click="booklogItemDelOne()">
-                        <i class="far fa-trash-alt text-small mr-1"></i>Remove</button>
+                        <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
                 </div>
             </div>
         </div>

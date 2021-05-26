@@ -47,7 +47,8 @@
 
     <!-- list of livestock -->
     <div class="row">
-        <div class="col-8">
+        <div class="col-8"> 
+
             <table class="table bg-white table-borderless shadow-sm table-hover">                
                 <thead class="thead-dark">
                     <tr> 
@@ -67,11 +68,11 @@
                             </div>
                         </td> #}
                         <td class="pl-4" v-bind:class="item.class">        
-                            <span class="float-left ml-2"><input type="checkbox" class="form-check-input" id="exampleCheck1"></span>
-                            <span class="float-left ml-2">{{ '{{item.tag}}' }}</span>
-                            <span class="badge badge-pill badge-light float-right ml-1 shadow-sm">{{ '{{ item.weight }}' }}lb</span>           
-                            <span class="badge badge-pill badge-success ml-1 float-right">{{ '{{item.sex}}' }}</span> 
-                            <span class="badge badge-pill badge-secondary float-right">{{ '{{item.type_name}}' }}</span>                                                                 
+                            <span class="float-start me-2"><input type="checkbox" class="form-check-input" id="exampleCheck1"></span>
+                            <span class="float-start me-2">{{ '{{item.tag}}' }}</span>
+                            <span class="badge badge-pill bg-light text-dark float-end shadow-sm">{{ '{{ item.weight }}' }}lb</span>           
+                            <span class="badge badge-pill bg-success me-1 float-end shadow-sm">{{ '{{item.sex}}' }}</span> 
+                            <span class="badge badge-pill bg-secondary me-1 float-end shadow-sm">{{ '{{item.type_name}}' }}</span>                                                                                
                         </td>  
                         {# <td> {{ '{{item.barn_tag}}' }}</td>                                                     #}
                         <td v-bind:class="item.class">${{ '{{item.price}}' }} </td>
