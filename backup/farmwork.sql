@@ -2,7 +2,7 @@
 -- Host:                         localhost
 -- Server version:               10.5.9-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             11.2.0.6213
+-- HeidiSQL Version:             11.3.0.6295
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `event_type` (
   PRIMARY KEY (`ev_type_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
 
--- Dumping data for table farmwork.event_type: ~5 rows (approximately)
+-- Dumping data for table farmwork.event_type: ~4 rows (approximately)
 /*!40000 ALTER TABLE `event_type` DISABLE KEYS */;
 INSERT INTO `event_type` (`ev_type_id`, `ev_type_name`, `ev_type_desc`, `place`, `created_at`) VALUES
 	('006e21ef-acfc-11eb-a999-d8cb8ac0caec', 'Birth Date', 'Used to associate an animal’s birth date with its unique approved tag number.', 11, '2019-05-05 21:00:17'),
@@ -256,29 +256,23 @@ CREATE TABLE IF NOT EXISTS `planning_project` (
 -- Dumping structure for table farmwork.transaction
 CREATE TABLE IF NOT EXISTS `transaction` (
   `id` char(36) NOT NULL DEFAULT uuid(),
-  `trans_name` varchar(100) NOT NULL,
+  `trans_name` varchar(50) NOT NULL,
   `trans_desc` varchar(250) DEFAULT NULL,
-  `trans_ammount` decimal(19,2) NOT NULL,
-  `trans_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
-  `trans_currency` varchar(10) NOT NULL DEFAULT 'CAD',
+  `trans_address_name` varchar(50) DEFAULT NULL,
   `trans_address` varchar(250) DEFAULT NULL,
-  `trans_image` varchar(150) DEFAULT NULL,
+  `trans_image` varchar(250) DEFAULT NULL,
   `trans_date` datetime NOT NULL DEFAULT current_timestamp(),
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~7 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~3 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` (`id`, `trans_name`, `trans_desc`, `trans_ammount`, `trans_tax`, `trans_currency`, `trans_address`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('6f412e9c-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
-	('6f589f1c-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
-	('6f71b3fa-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
-	('6f8a0f5a-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
-	('70780839-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22'),
-	('dc2d7067-6da7-11e9-9b6b-d8cb8ac0caec', 'calves purchase', NULL, -3625.00, 0.00, 'CAD', '1', '', '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2020-12-26 13:24:05'),
-	('f36d0a47-a770-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', NULL, -49.72, 0.00, 'CAD', '1', '', '2019-05-06 16:47:00', '2019-05-08 11:50:32', '2020-12-26 11:21:22');
+INSERT INTO `transaction` (`id`, `trans_name`, `trans_desc`, `trans_address_name`, `trans_address`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
+	('0acba598-c332-11eb-82b4-d8cb8ac0caec', 'calves purchase', NULL, NULL, '1', '', '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2020-12-26 13:24:05'),
+	('61533390-c7a6-11eb-8172-d8cb8ac0caec', 'calves purchase', '', '', '', NULL, '2019-01-05 00:00:00', '2021-06-07 11:38:17', '2021-06-07 12:01:48'),
+	('6f412e9c-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', 'n/a', 'n/a', 'n/a', '', '2019-05-06 00:00:00', '2019-05-08 11:50:32', '2021-06-07 12:02:07');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -291,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~32 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~31 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -336,8 +330,12 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   `item_desc` varchar(250) NOT NULL,
   `transaction_category` varchar(150) NOT NULL,
   `transaction_subcategory` varchar(150) NOT NULL,
+  `amount` decimal(19,0) NOT NULL,
+  `hst_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
+  `gst_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
+  `pst_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
+  `currency` varchar(10) NOT NULL DEFAULT 'CAD',
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `FK_transaction_item_transaction` (`transaction_id`) USING BTREE,
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -358,7 +356,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~1 rows (approximately)
+-- Dumping data for table farmwork.user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -441,7 +439,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~2 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 184200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -460,9 +458,9 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   PRIMARY KEY (`id`),
   KEY `FK_vehicle_log_book_item_vehicle_log_book` (`vehicle_log_book_id`),
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
 
--- Dumping data for table farmwork.vehicle_log_book_item: ~13 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book_item: ~11 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
 	(1, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
@@ -477,7 +475,8 @@ INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`,
 	(21, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-05-16 00:21:08', '2021-05-10 00:00:00'),
 	(22, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'buying cattle feed and bedding supplies', 26, '2021-05-17 12:03:37', '2021-05-17 00:00:00'),
 	(23, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'cattle feed purchase', 26, '2021-05-17 12:04:36', '2021-05-10 00:00:00'),
-	(24, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-05-18 20:34:40', '2021-05-17 00:00:00');
+	(24, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-05-18 20:34:40', '2021-05-17 00:00:00'),
+	(25, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'cattle feed purchase', 26, '2021-05-26 13:42:06', '2021-05-25 00:00:00');
 /*!40000 ALTER TABLE `vehicle_log_book_item` ENABLE KEYS */;
 
 -- Dumping structure for view farmwork.v_livestock
@@ -1029,45 +1028,38 @@ DELIMITER ;
 -- Dumping structure for procedure farmwork.transactionCreate
 DELIMITER //
 CREATE PROCEDURE `transactionCreate`(
-	IN `trans_cat_id` INT,
-	IN `trans_type_id` INT,
-	IN `trans_ammount` INT,
-	IN `trans_currency` DECIMAL(19,2),
-	IN `addr_id` INT,
+	IN `trans_name` VARCHAR(50),
+	IN `trans_desc` VARCHAR(250),
+	IN `trans_address_name` VARCHAR(50),
+	IN `trans_address` VARCHAR(250),
 	IN `trans_date` DATETIME
-
-
 )
-    COMMENT 'Inserts new transactions into database'
+    COMMENT 'Inserts new main transactions into database'
 BEGIN
 
-	INSERT INTO transaction_history 
-			(
-				transaction_history.trans_id, 
-				transaction_history.trans_cat_id, 
-				transaction_history.trans_type_id, 
-				transaction_history.trans_ammount, 
-				transaction_history.trans_currency, 
-				transaction_history.addr_id, 
-				transaction_history.trans_date
+	INSERT INTO transaction
+			(			
+				transaction.trans_name,
+				transaction.trans_desc,
+				transaction.trans_address_name,
+				transaction.trans_address,
+				transaction.trans_date
 			)
 	VALUES
 		  (
-		  		UUID(), 
-				trans_cat_id, 
-				trans_type_id  ,
-				trans_ammount,
-				trans_currency,
-				addr_id,
+				trans_name,
+				trans_desc,
+				trans_address_name,
+				trans_address,
 				trans_date
 		  );
 	
 END//
 DELIMITER ;
 
--- Dumping structure for procedure farmwork.transactionDelMain
+-- Dumping structure for procedure farmwork.transactionDelete
 DELIMITER //
-CREATE PROCEDURE `transactionDelMain`(
+CREATE PROCEDURE `transactionDelete`(
 	IN `id` CHAR(36)
 )
 BEGIN
@@ -1076,6 +1068,94 @@ BEGIN
 	FROM transaction 
 	WHERE transaction.id = id;
 	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionItemCreate
+DELIMITER //
+CREATE PROCEDURE `transactionItemCreate`(
+	IN `transaction_id` CHAR(36),
+	IN `item_name` VARCHAR(150),
+	IN `item_desc` VARCHAR(250),
+	IN `transaction_category` VARCHAR(150),
+	IN `transaction_subcategory` VARCHAR(150),
+	IN `amount` DECIMAL(19,2),
+	IN `hst_tax` DECIMAL(19,2),
+	IN `gst_tax` DECIMAL(19,2),
+	IN `pst_tax` DECIMAL(19,2),
+	IN `currency` VARCHAR(10)
+)
+BEGIN
+
+	INSERT INTO transaction_item
+	(
+		id,
+		transaction_id,
+		item_name,
+		item_desc,
+		transaction_category,
+		transaction_subcategory,
+		amount,
+		hst_tax,
+		gst_tax,
+		pst_tax,
+		currency  
+	)
+	VALUES 
+	(
+		UUID(),
+		transaction_id,
+		item_name,
+		item_desc,
+		transaction_category,
+		transaction_subcategory,
+		amount,
+		hst_tax,
+		gst_tax,
+		pst_tax,
+		currency
+	);
+		
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionItemDelete
+DELIMITER //
+CREATE PROCEDURE `transactionItemDelete`(
+	IN `id` CHAR(36)
+)
+BEGIN
+
+	DELETE FROM transaction_item
+	WHERE transaction_item.id = id;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionItemGetAll
+DELIMITER //
+CREATE PROCEDURE `transactionItemGetAll`(
+	IN `transaction_id` CHAR(36)
+)
+BEGIN
+
+	SELECT 
+		transaction_item.id,
+		transaction_item.transaction_id,
+		transaction_item.item_name,
+		transaction_item.item_desc,
+		transaction_item.transaction_category,
+		transaction_item.transaction_subcategory,
+		transaction_item.amount,
+		transaction_item.hst_tax,
+		transaction_item.gst_tax,
+		transaction_item.pst_tax,
+		transaction_item.currency
+	FROM 
+		transaction_item
+	WHERE 		
+		transaction_item.transaction_id = id;
+		
 END//
 DELIMITER ;
 
@@ -1099,11 +1179,10 @@ BEGIN
 		transaction.id,
 		transaction.trans_name,
 		transaction.trans_desc,
-		transaction.trans_ammount,
-		transaction.trans_tax,
-		transaction.trans_currency,
+		transaction.trans_address_name,
 		transaction.trans_address,
-		transaction.trans_date
+		transaction.trans_image,
+		DATE(transaction.trans_date) AS trans_date
 	FROM 
 		transaction
 	WHERE 		
@@ -1112,19 +1191,33 @@ BEGIN
 			OR transaction.trans_address LIKE search_term
 	ORDER BY transaction.trans_date DESC;
 		
+END//
+DELIMITER ;
 
--- 	SELECT transaction.id, 
--- 			transaction_category.trans_cat_subname, 
--- 			transaction_category.trans_cat_name,
--- 			transaction_type.trans_type_name, 
--- 			transaction.trans_ammount, 
--- 			transaction.trans_currency,
--- 			transaction.trans_date
--- 	From transaction
--- 	inner join transaction_category on transaction.trans_cat_id = transaction_category.id
--- 	inner join transaction_type on transaction.trans_type_id = transaction_type.id
--- 	ORDER BY transaction.trans_date DESC;
--- 
+-- Dumping structure for procedure farmwork.transactionUpdate
+DELIMITER //
+CREATE PROCEDURE `transactionUpdate`(
+	IN `id` CHAR(36),
+	IN `trans_name` VARCHAR(150),
+	IN `trans_desc` VARCHAR(250),
+	IN `trans_address_name` VARCHAR(150),
+	IN `trans_address` VARCHAR(250),
+	IN `trans_image` VARCHAR(250),
+	IN `trans_date` DATETIME
+)
+    COMMENT 'updates main transaction record'
+BEGIN
+
+		UPDATE transaction
+		SET 
+			transaction.trans_name = trans_name,
+			transaction.trans_desc = trans_desc,
+			transaction.trans_address_name = trans_address_name,
+			transaction.trans_address = trans_address,
+			transaction.trans_image = trans_image,
+			transaction.trans_date = trans_date
+		WHERE transaction.id = id;			
+
 END//
 DELIMITER ;
 

@@ -2,17 +2,16 @@ const transactions = {
     data() {
         return {
             transactions: [],           
-            transaction_record : {
-                is_new : false,
-                is_delete : false
-            },
+            transaction_record : {},
             start_date : new Date().getFullYear()  + '-01-01', //format yyyy + '-' + mm + '-' + dd;
             end_date:  new Date().getFullYear()  + '-12-31', //format yyyy + '-' + mm + '-' + dd;
             transaction_category_selected : '',
             transaction_category : [],
             transaction_sub_category : [],
             transaction_sub_category_disabled : true,
-            search_term : ''     
+            search_term : '',
+            //transaction_form: false,
+            action: ''
         }
     },   
     created () { 
@@ -20,6 +19,7 @@ const transactions = {
 
         //get all transactions     
         self.transactionsGetAll(); 
+
         //get transaction categories
         self.getCategories();
     },
@@ -118,6 +118,134 @@ const transactions = {
             result.always(function () { });
         },
         /**
+         * -----------------------------------------------------------
+         * adds main transaction item
+         * -----------------------------------------------------------
+         */
+        transactionAdd(){
+            var self = this;
+
+            var data = self.transaction_record;
+            data = JSON.stringify(data);
+
+            var result = $.post("/bookkeeping/records/add", data);
+    
+            result.done(function (data) {
+                if (data.length > 0) {
+                    
+                    data = JSON.parse(data);   
+                    
+                    if (data == true) {   
+                        
+                        //close new transaction input form
+                        //self.action = '';
+
+                        //get updated list of transactions
+                        self.transactionsGetAll();
+
+                        //Display a success toast, with a title
+                        toastr.success("You have successfully have added a main transaction item");                                              
+                    }
+                    else if(data == false){
+                        // Display an error toast, with a title
+                        toastr.error("Ops! There appears to be an error and selected main transaction coudln't be removed");
+                    }
+                    
+                }                
+            });
+    
+            result.always(function () { });
+        },
+        /**
+         * -------------------------------------------------------------------------------------
+         * edit main transaction item
+         * -------------------------------------------------------------------------------------
+         */
+         transactionEdit(){
+            var self = this;
+
+            var data = self.transaction_record;
+            data = JSON.stringify(data);
+
+            var result = $.post("/bookkeeping/records/edit", data);
+    
+            result.done(function (data) {
+                if (data.length > 0) {
+                    
+                    data = JSON.parse(data);   
+                    
+                    if (data == true) {   
+                        
+                        //close new transaction input form
+                        //self.showForm(false);
+
+                        //reset transaction record
+                        self.resetTransactionRecord();
+
+                        //get updated list of transactions
+                        self.transactionsGetAll();
+
+                        //Display a success toast, with a title
+                        toastr.success("You have successfully have edited a main transaction record");                                              
+                    }
+                    else if(data == false){
+                        // Display an error toast, with a title
+                        toastr.error("Ops! There appears to be an error and selected main transaction coudln't be changed");
+                    }
+                    
+                }                
+            });
+    
+            result.always(function () { });
+        },
+            /**
+         * ------------------------------------------------------------------------------
+         * remove main transaction items and all sub items
+         * ------------------------------------------------------------------------------
+         */
+        delTransactionMain(){
+            var self = this;
+
+            var data = self.transaction_record;
+            data = JSON.stringify(data);
+
+            //reset transaction record
+            self.resetTransactionRecord();
+    
+            var result = $.post("/bookkeeping/records/del", data);
+    
+            result.done(function (data) {
+                if (data.length > 0) {
+                    
+                    data = JSON.parse(data);   
+                    
+                    if (data == true) {                       
+
+                        //hide the modal
+                        $('#deleteModal').modal('hide');
+
+                        //get updated list of transactions
+                        self.transactionsGetAll();
+
+                        //Display a success toast, with a title
+                        toastr.success("You have successfully have removed main transaction item");                                              
+                    }
+                    else if(data == false){
+                        // Display an error toast, with a title
+                        toastr.error("Ops! There appears to be an error and selected transaction item coudln't t be removed");
+                    }
+                    
+                }                
+            });
+    
+            result.always(function () {
+                var self = this;
+
+                //reset transaction record and action
+               self.resetTransactionRecord();
+            });
+        },
+        /**
          * -----------------------------------------------------------------------------------
          * when selected category in drop down has changed
          * -----------------------------------------------------------------------------------
@@ -145,63 +273,43 @@ const transactions = {
 
             self.transaction_record.id = id;
             self.transaction_record.trans_name = name;
-            self.transaction_record.is_delete = true;
+            
+            self.action = 'delete';
 
              //show the modal
              $('#deleteModal').modal('show');
         },
-        /**
-         * ------------------------------------------------------------------------------
-         * remove main transaction items and all sub items
-         * ------------------------------------------------------------------------------
-         */
-        delTransactionMain(){
+        delOneHide (){
             var self = this;
 
-            var data = self.transaction_record;
-            data = JSON.stringify(data);
-    
-            var result = $.post("/bookkeeping/records/del/main", data);
-    
-            result.done(function (data) {
-                if (data.length > 0) {
-                    
-                    data = JSON.parse(data);   
-                    
-                    if (data == true) {                       
-    
-                        //hide the modal
-                        $('#deleteModal').modal('hide');
+            //reset transaction object and action
+            self.resetTransactionRecord();
 
-                        //get updated list of transactions
-                        self.transactionsGetAll();
+             //show the modal
+             $('#deleteModal').modal('toggle');
+        },    
+        setAction (action){
+            var self = this;
 
-                        //Display a success toast, with a title
-                        toastr.success("You have successfully have removed main transaction item");                                              
-                    }
-                    else if(data == false){
-                        // Display an error toast, with a title
-                        toastr.error("Ops! There appears to be an error and selected transaction item coudln't t be removed");
-                    }
-                    
-                }                
-            });
-    
-            result.always(function () {
-                var self = this;
+            //hide tooltip
+            //$('[data-bs-toggle="tooltip"]').tooltip('hide');           
 
-                transaction_record = {
-                    is_new : false,
-                    is_delete : false
-                };
+            //reset transaction record
+            self.resetTransactionRecord();
 
-             });
+            //show new transaction for action                       
+            self.action = action;
         },
-        showForm (is_visible){
+        editShow(index){
+
             var self = this;
 
-            //show new transaction form
-            self.transaction_record.is_new = is_visible;
+            //coppy record and set action to update
+            self.transaction_record = Object.assign({}, self.transactions[index] );            
+
+             //show new transaction form
+           self.action = 'edit';
+
         },
         assignDates(){
             var self = this;
@@ -217,13 +325,21 @@ const transactions = {
     
             //booklogitem
             //self.booklog_item.travel_date = yyyy + '-' + mm + '-' + dd;
+        },
+        resetTransactionRecord(){
+            var self = this;
+
+            self.transaction_record.id = 0;
+            self.transaction_record.trans_name = '';
+            self.transaction_record.trans_desc = '';
+            self.transaction_record.trans_address_name = '';
+            self.transaction_record.trans_address = '';
+            self.transaction_record.trans_date = '';
+
+            self.action = '';
         }
     }
 };
 
 const app = Vue.createApp(transactions)
                 .mount('#transactions');
-
-                
-//const vm = app.mount('#transactions');
-//app.mount('#transactions');

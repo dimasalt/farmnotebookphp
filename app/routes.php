@@ -27,10 +27,27 @@ $r->addRoute(['GET', 'POST'], '/contacts/add', 'FarmWork\Controllers\ContactsCon
 $r->addRoute('GET', '/contacts', 'FarmWork\Controllers\ContactsController:index');
 $r->addRoute(['GET', 'POST'], '/contacts/view/{id}', 'FarmWork\Controllers\ContactsController:view');
 
-//finances pages
-$r->addRoute(['GET', 'POST'], '/bookkeeping/records/get/all', 'FarmWork\Controllers\BookkeepingController:transactionsGetAll');
-$r->addRoute(['GET', 'POST'], '/bookkeeping/records/del/main', 'FarmWork\Controllers\BookkeepingController:transactionDel');
-$r->addRoute(['GET', 'POST'], '/bookkeeping/records', 'FarmWork\Controllers\BookkeepingController:index');
+/**
+ * ------------------------------------------------------------------
+ * transaction records
+ * -------------------------------------------------------------------
+ */
+$r->addRoute(['GET', 'POST'], '/bookkeeping/records/get/all', 'FarmWork\Controllers\RecordsController:transactionsGetAll');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/records/del', 'FarmWork\Controllers\RecordsController:transactionDelete');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/records/add', 'FarmWork\Controllers\RecordsController:transactionAdd');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/records/edit', 'FarmWork\Controllers\RecordsController:transactionUpdate');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/records', 'FarmWork\Controllers\RecordsController:index');
+
+/**
+ * ------------------------------------------------------------------
+ * transaction record items
+ * -------------------------------------------------------------------
+ */
+$r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/get/all', 'FarmWork\Controllers\RecordsController:transactionGetAlltem');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/add', 'FarmWork\Controllers\RecordsController:transactionAddtem');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/delete', 'FarmWork\Controllers\RecordsController:transactionDeletetem');
+
+
 
 //finances categories
 $r->addRoute(['GET', 'POST'], '/bookkeeping/categories/delete', 'FarmWork\Controllers\RecordsTypeController:transactionCatsDelete');

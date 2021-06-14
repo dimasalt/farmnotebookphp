@@ -28,7 +28,51 @@ class FinancesHelper
 
        return $result;
     }
+    /**
+     * ------------------------------------------------------------------
+     * Adds main transaction record
+     * -------------------------------------------------------------------
+     */
+    public function transactionAdd($data): bool 
+    {
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call transactionCreate(?,?,?,?,?)');
+        $stmt->execute(array(
+            $data->trans_name,
+            $data->trans_desc,
+            $data->trans_address_name,
+            $data->trans_address,
+            $data->trans_date
+        ));
 
+        if($stmt->rowCount() > 0) return true;
+        else return false;        
+    }
+
+     /**
+     * ------------------------------------------------------------------
+     * updates main transaction record
+     * -------------------------------------------------------------------
+     */
+    public function transactionUpdate($data): bool 
+    {
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call transactionUpdate(?,?,?,?,?,?,?)');
+        $stmt->execute(array(
+            $data->id,
+            $data->trans_name,
+            $data->trans_desc,
+            $data->trans_address_name,
+            $data->trans_address,
+            $data->trans_image,
+            $data->trans_date
+        ));
+
+        if($stmt->rowCount() > 0) return true;
+        else return false;        
+    }
 
     
     /*
@@ -36,11 +80,11 @@ class FinancesHelper
      * Gets one main transaction from database
      * ---------------------------------------------------------
      */
-    public function transactionDel($id) : bool
+    public function transactionDelete($id) : bool
     {
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call transactionDelMain(?)');
+        $stmt = $pdo->prepare('call transactionDelete(?)');
         $stmt->execute(array($id));
 
         if($stmt->rowCount() > 0) return true;

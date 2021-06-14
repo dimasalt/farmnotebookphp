@@ -14,108 +14,130 @@
 
 <!-- page content -->
 <div class="container-fluid" id="transactions" v-cloak>
-    <div class="pt-4" >      
-         <!-- csrf protection -->
-        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
 
-        <div class="row mb-2">
-            <div class="col-8 border-bottom">
-                <h1 class="text-dark mb-4">Accounting Records</h1>        
-            </div>    
+    <!-- page name and date selectors -->   
+    
+    <!-- csrf protection -->
+    <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
 
-            <!-- date selection -->
-            <div class="col-2 border-bottom p-1">        
-                <div class="input-group">                                       
-                    <input type="date" class="form-control" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="start_date" v-on:change="onYearChange()">                   
-                </div>               
-            </div>           
-            <div class="col-2 border-bottom p-1">        
-                <div class="input-group">                                       
-                    <input type="date" class="form-control" placeholder="date yyyy-mm-dd" aria-label="End date" aria-describedby="button-addon4" v-model="end_date" v-on:change="onYearChange()">                   
-                </div>               
-            </div>           
-        </div>             
+    <div class="row mb-2 pt-4">
+        <div class="col-8 border-bottom">
+            <h1 class="text-dark mb-4">Accounting Records</h1>        
+        </div>    
 
-        <!-- transaction totals -->
-        <div class="row">
-            <div class="col-12">         
-                <h3 class="mt-3">Transaction Totals</h3>
-            </div>
-            
-            <!-- Transaction totals -->
-            <div class="col-4" v-if="odometer != false">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Exprences Total</strong> </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Income Total</strong> </li>                         
-                </ul>
-            </div>       
-            <div class="col-4" v-if="odometer != false">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Feed Expences</strong> </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Cattle Purchace Expences</strong></li>              
-                </ul>
-            </div>      
-        </div>
-    </div>   
-           
-        
+        <!-- date selection -->
+        <div class="col-2 border-bottom p-1">        
+            <div class="input-group">                                       
+                <input type="date" class="form-control" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="start_date" v-on:change="onYearChange()">                   
+            </div>               
+        </div>           
+        <div class="col-2 border-bottom p-1">        
+            <div class="input-group">                                       
+                <input type="date" class="form-control" placeholder="date yyyy-mm-dd" aria-label="End date" aria-describedby="button-addon4" v-model="end_date" v-on:change="onYearChange()">                   
+            </div>               
+        </div>           
+    </div>             
+
+    <!-- transaction totals -->
     <div class="row">
-        <div class="col-12 mb-3" v-if="transaction_record.is_new == true" id="transaction_list" >               
-            <div class="input-group">
-                <input type="text" class="form-control col-8" placeholder="Name" aria-label="Name" aria-describedby="button-addon4" v-model="transaction_record.name" required>
-                <input type="text" class="form-control col-2" placeholder="Price" aria-label="Price" aria-describedby="button-addon4" v-model="transaction_record.price" required>                                
-                <input class="form-control" type="date" aria-label="Start date" aria-describedby="button-addon4" v-model="transaction_record.date">
-                <div class="input-group-append" id="button-addon4">     
-                        <button class="btn btn-warning" type="button" v-on:click="showForm(false)">
-                            <i class="fas fa-times-circle text-small mr-1"></i>
-                        Cancel           
-                    </button>                  
-                    <button class="btn btn-success" type="button" v-on:click="addNew()">
-                        <i class="far fa-plus-square btn-sm text-white pl-0" title="Add starting finance point"></i>
-                        Add           
-                    </button>                       
-                </div>
-            </div>
-        </div>              
+        <div class="col-12">         
+            <h3 class="mt-3">Transaction Totals</h3>
+        </div>
+        
+        <!-- Transaction totals -->
+        <div class="col-3" v-if="odometer != false">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Exprences Total</strong> </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Income Total</strong> </li>                         
+            </ul>
+        </div>       
+        <div class="col-3" v-if="odometer != false">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Feed Expences</strong> </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Cattle Purchace Expences</strong></li>              
+            </ul>
+        </div>     
+            <div class="col-3" v-if="odometer != false">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Veterinary </strong> </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Other</strong></li>              
+            </ul>
+        </div>       
     </div>
+   
 
-
+    <!-- header and search form inputs -->
     <div class="row g-0 mt-5">
-        <div class="col-2">
+        <div class="col-3">
              <h3>Transactions
-                <a href="#" v-on:click="showNewTransactionForm(true)">
+                <a href="#" v-on:click="setAction('new')" v-if="action==''">
                     <i class="far fa-plus-square btn-sm text-success align-middle"
-                        data-toggle="tooltip" data-placement="top" title="Add transaction"></i>
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Add transaction"></i>
                 </a>                 
             </h3>
         </div>
-         <!-- transaction category -->
-        <div class="col-2">
+         <!-- transaction category and other search parameters -->
+        <div class="col-2" v-if="action==''">
             <select class="form-select w-100 rounded-0" aria-label="Select group" v-model="transaction_category_selected" v-on:change="categoryChanged()">
                 <option v-for="item in transaction_category" v-bind:value="item.id">
                     {{ '{{ item.category_name }}' }}
                 </option>            
             </select>
         </div>
-        <div class="col-2">
+        <div class="col-2" v-if="action==''">
             <select class="form-select w-100 rounded-0" aria-label="Select sub group" v-bind:disabled="transaction_sub_category_disabled">
                 <option v-for="item in transaction_sub_category" v-bind:value="item.id">
                     {{ '{{ item.category_name }}' }}
                 </option>            
             </select>
         </div>
-        <div class="col-2 pe-2">
+        <div class="col-2 pe-2" v-if="action==''">
             <div class="has-search rounded-0 w-100">
                 <span class="fa fa-search form-control-feedback"></span>
                 <input type="text" class="form-control w-100"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
             </div>
         </div>
     </div>
+
+
+    <!-- new transaction form -->
+    <div class="row ms-1" v-if="action=='new' || action=='edit'">
+        <div class="col-2 px-0">
+            <input type="text" class="form-control mx-0" placeholder="Name" aria-label="Name" v-model="transaction_record.trans_name" required>
+        </div>
+        <div class="col-3 px-0">
+            <input type="text" class="form-control mx-0" placeholder="Description" aria-label="Name" v-model="transaction_record.trans_desc" required>
+        </div>
+        <div class="col-2 px-0">
+            <input type="text" class="form-control mx-0" placeholder="Place Name" aria-label="Name" v-model="transaction_record.trans_address_name" required>
+        </div>
+        <div class="col-2 px-0">
+            <input type="text" class="form-control mx-0" placeholder="Address" aria-label="Price" v-model="transaction_record.trans_address" required>                                
+        </div>
+        <div class="col-1 px-0">
+            <input class="form-control mx-0" type="date" aria-label="Start date" v-model="transaction_record.trans_date">
+        </div>
+        <div class="col-2 px-0">
+            <button class="btn btn-warning rounded-0" type="button" v-on:click="setAction('')">
+                <i class="fas fa-times-circle text-small mr-1"></i>
+                Cancel           
+            </button>                  
+            <button class="btn btn-success rounded-0" type="button" v-on:click="transactionAdd" v-if="action == 'new'">
+                <i class="far fa-plus-square btn-sm text-white pl-0" title="Add starting finance point"></i>
+                Save           
+            </button>  
+              <button class="btn btn-success rounded-0" type="button" v-on:click="transactionEdit" v-if="action=='edit'">
+                <i class="far fa-plus-square btn-sm text-white pl-0" title="Add starting finance point"></i>
+                Update           
+            </button>                                          
+        </div>
+    </div>   
    
+   <!-- transaction display table and delete modal -->
     <div class="row mt-2">
         <div class="col-9">            
         
-            <table class="table bg-white table-borderless shadow-sm table-hover w-100">                
+            <table class="table table-sm bg-white table-borderless shadow-sm table-hover w-100">                
                 <thead class="table-dark">
                     <tr>                           
                         <th scope="col"  class="w-75">Name</th>                                  
@@ -125,9 +147,16 @@
                 </thead>
                 <tbody v-for="(item, index) in transactions">
                     <tr class="border">                     
-                        <td class="pl-4" v-bind:class="item.class">
-                            <p>{{ '{{item.trans_name}}' }}</p>
-                            <p><small>{{ '{{item.trans_desc}}' }}</small></p>
+                        <td class="ps-4" v-bind:class="item.class">
+                            <div>{{ '{{item.trans_name}}' }}</div>
+                            
+                            <a href="#" v-on:click="showItemForm(true)" class="mt-0 text-dark">
+                                <i class="far fa-plus-square btn-sm text-success me-1 mt-0"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Add transaction item">
+                                </i>
+                                <small>Add Item</small>
+                            </a>                            
+                            {# <p><small>{{ '{{item.trans_desc}}' }}</small></p> #}
                         </td>                                                      
                         <td v-bind:class="item.class">${{ '{{item.trans_ammount}}' }} </td>
                         <td>                      
@@ -153,7 +182,7 @@
                                 <input type="text" class="form-control col-2" placeholder="Actual expence" aria-label="Actual expence" aria-describedby="button-addon4" v-model="project_item_edit.project_price_actual" required>
                                 <input type="date" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_edit.created_at">
                                 <div class="input-group-append" id="button-addon4">     
-                                    <a href="#" class="btn btn-warning" v-on:click="editCancel(index)">
+                                    <a href="#" class="btn btn-warning" v-on:click="setAction('')">
                                         <i class="fas fa-times-circle text-small mr-1"></i>
                                         Cancel           
                                     </a>                  
@@ -170,68 +199,93 @@
         </div>
         
         <!-- new or edit form -->
-        <div class="col-3 mt-0" >
+        <div class="col-3 mt-0" v-if="action=='new' || action=='edit'">
             <div class="card col-12 bg-dark text-white rounded shadow-sm">
-                <h5 class="mt-3 mb-1 ms-3">New/Edit Category</h5>
+                <h5 class="mt-3 mb-1 ms-3">
+                    <span v-if="action=='new'">New</span>
+                    <span v-if="action=='edit'">Edit</span>
+                    Transaction
+                </h5>
                 <hr class="bg-secondary" />
                 <form class="mt-0 mb-3 mx-3">                  
                     <div class="col">
-                        <label for="cat_name">Transaction Name </label><small class="text-danger float-end"> (required *)</small>
-                        <input type="text" class="form-control bg-secondary text-white border-dark" id="cat_name" aria-describedby="cat_name" required>
+                        <label for="trans_name">Transaction Name </label><small class="text-danger float-end"> (required *)</small>
+                        <input type="text" class="form-control bg-secondary text-white border-dark" id="trans_name" aria-describedby="trans_name" v-model="transaction_record.trans_name" required>
                         <small id="emailHelp" class="form-text text-muted float-end">50 characters max</small>
                     </div>
                     <div class="col mt-4">
-                        <label for="cat_desc">Description</label>
-                        <textarea class="form-control bg-secondary text-white border-dark" id="cat_desc" rows="4"></textarea>                           
+                        <label for="trans_desc">Description</label>
+                        <input type="text" class="form-control bg-secondary text-white border-dark" id="trans_desc" aria-describedby="trans_desc" v-model="transaction_record.trans_desc" required>
                         <small id="cat_desc_warrning" class="form-text text-muted float-end">250 characters max</small>
-                    </div>        
+                    </div>    
+                    <div class="col mt-4">
+                        <label for="trans_category">Category</label>
+                        <select class="form-select w-100 rounded-0 bg-secondary text-white border-dark" aria-label="Select group" v-model="transaction_category_selected" v-on:change="categoryChanged()" id="trans_category">
+                            <option v-for="item in transaction_category" v-bind:value="item.id">
+                                {{ '{{ item.category_name }}' }}
+                            </option>            
+                        </select>
+                    </div> 
+                    <div class="col mt-4">  
+                         <label for="trans_subcategory">Sub Category</label>                  
+                        <select class="form-select w-100 rounded-0 bg-secondary text-white border-dark" aria-label="Select sub group" v-bind:disabled="transaction_sub_category_disabled" id="tans_subcategory">
+                            <option v-for="item in transaction_sub_category" v-bind:value="item.id">
+                                {{ '{{ item.category_name }}' }}
+                            </option>            
+                        </select>
+                    </div>                       
                     <div class="clearfix mt-3"></div>              
                     <div class="col mt-3 d-flex justify-content-end">                                   
-                        <a href="#" class="btn btn-warning rounded-0" v-on:click="closeCatItemForm">
+                        <a href="#" class="btn btn-warning rounded-0" v-on:click="setAction('')">
                             <i class="fas fa-times-circle text-small me-1"></i>
                             Cancel           
-                        </a>                                           
-                        <a href="#" class="btn btn-success rounded-0" v-on:click="saveCategory">
+                        </a>    
+                        <a href="#" class="btn btn-success rounded-0" v-on:click="saveCategory" v-if="action=='edit'">
+                            <i class="fas fa-check btn-sm text-white ps-0" title="Save item update"></i>
+                            Update           
+                        </a>                                                     
+                        <a href="#" class="btn btn-success rounded-0" v-on:click="saveCategory" v-if="action=='new'">
                             <i class="fas fa-check btn-sm text-white ps-0" title="Save item update"></i>
                             Save           
                         </a>               
                     </div>
                 </form>
-            </div>
-        </div>    
-    </div>  
+            </div> 
+        </div>  
 
-
-    <!-- Remove transaction Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-danger">
-                    <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                        Remove item</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to remove transaction record for <b>"{{ '{{ transaction_record.trans_name }}' }}"</b> ?
-                    <div class="alert alert-warning mt-2" role="alert">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                        Please be advised removing transaction will remove all it's sub items as well including any saved photocopy.
+        <!-- Remove transaction Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h5 class="modal-title text-white" id="exampleModalCenterTitle">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Remove item
+                        </h5>     
+                        {# <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>             #}
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">
-                        <i class="fas fa-times-circle text-small mr-1"></i>Cancel</button>
-                    <button type="button" class="btn btn-danger" v-on:click="delTransactionMain()">
-                        <i class="far fa-trash-alt text-small mr-1"></i>Remove</button>
+                    <div class="modal-body">
+                        Are you sure you want to remove transaction record for <b>"{{ '{{ transaction_record.trans_name }}' }}"</b> ?
+                        <div class="alert alert-warning mt-2" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Please be advised removing transaction will remove all it's sub items as well including any saved photocopy.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal" v-on:click.prevent="delOneHide()">
+                            <i class="fas fa-times-circle text-small me-1"></i>Cancel
+                        </button>
+                        <button type="button" class="btn btn-danger" v-on:click.prevent="delTransactionMain()">
+                            <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- end of modal -->
-
+        <!-- end of modal -->
+ 
+    </div>  
 </div>
 
 {% endblock %}
@@ -246,7 +300,7 @@
 
      <script type="application/javascript">
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-bs-toggle="tooltip"]').tooltip();
         });
     </script>
 

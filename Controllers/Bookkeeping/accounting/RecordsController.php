@@ -6,7 +6,7 @@ use FarmWork\Helpers\FinancesHelper;
 use FarmWork\Libraries\CSRFToken;
 
 
-class BookkeepingController extends BaseController
+class RecordsController extends BaseController
 {
     public function index(){            
 
@@ -36,13 +36,49 @@ class BookkeepingController extends BaseController
 
         echo json_encode($result);
     }
+    /**
+     * -----------------------------------------------------------
+     * adds main transaction record
+     * -----------------------------------------------------------
+     */
+    public function transactionAdd(){
+        
+         // Takes raw data from the request
+         $json = file_get_contents('php://input');
+
+         // Converts it into a PHP object
+         $data = json_decode($json);      
+ 
+        $helper = new FinancesHelper();
+        $result = $helper->transactionAdd($data);
+
+        echo json_encode($result);
+    }
+    /**
+     * ----------------------------------------------------------
+     * update main transaction record
+     * ---------------------------------------------------------
+     */
+    public function transactionUpdate(){
+        
+          // Takes raw data from the request
+          $json = file_get_contents('php://input');
+
+          // Converts it into a PHP object
+          $data = json_decode($json);      
+  
+          $helper = new FinancesHelper();
+          $result = $helper->transactionUpdate($data);
+  
+          echo json_encode($result);
+    }
 
     /**
      * -----------------------------------------------------------
      * function to remove main transaction item
      * -----------------------------------------------------------
      */
-    public function transactionDel(){
+    public function transactionDelete(){
 
         // Takes raw data from the request
         $json = file_get_contents('php://input');
@@ -51,11 +87,31 @@ class BookkeepingController extends BaseController
         $data = json_decode($json);      
 
         $helper = new FinancesHelper();
-        $result = $helper->transactionDel($data->id);
+        $result = $helper->transactionDelete($data->id);
 
         echo json_encode($result);
     }
-    
+      /**
+     * -----------------------------------------------------------
+     * function to create transaction item and add it to main  transaction
+     * record
+     * -----------------------------------------------------------
+     */
+    public function transactionAddtem(){
+
+        // Takes raw data from the request
+        $json = file_get_contents('php://input');
+
+        // Converts it into a PHP object
+        $data = json_decode($json);      
+
+        $helper = new FinancesHelper();
+        $result = $helper->transactionDelete($data->id);
+
+        echo json_encode($result);
+    }
+
+
     /**
      * -----------------------------------------------------------
      * function to get list of all main categories
