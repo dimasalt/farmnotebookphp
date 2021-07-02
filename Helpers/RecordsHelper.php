@@ -4,7 +4,7 @@ namespace FarmWork\Helpers;
 
 use FarmWork\Libraries\DBConnection;
 
-class FinancesHelper
+class RecordsHelper
 {
     /**
     -----------------------------------------------------------
@@ -20,6 +20,13 @@ class FinancesHelper
         $stmt->execute([$search_term, 1, 1]);
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        //get items for transaction record
+        for($i = 0; $i < count($result); $i++){
+            $items = $this->transactionltemsGet($result[$i]['id']);
+
+            $result[$i]['items'] = $items;
+        }
 
         // for($i = 0; $i< count($result); $i++){
         //     if(strlen($result[$i]["desc"]) > 100 )
@@ -37,12 +44,13 @@ class FinancesHelper
     {
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call transactionCreate(?,?,?,?,?)');
+        $stmt = $pdo->prepare('call transactionCreate(?,?,?,?,?,?)');
         $stmt->execute(array(
             $data->trans_name,
             $data->trans_desc,
             $data->trans_address_name,
             $data->trans_address,
+            $data->currency,
             $data->trans_date
         ));
 
@@ -66,7 +74,7 @@ class FinancesHelper
             $data->trans_desc,
             $data->trans_address_name,
             $data->trans_address,
-            $data->trans_image,
+            $data->trans_currency,
             $data->trans_date
         ));
 
@@ -92,13 +100,15 @@ class FinancesHelper
     }
 
     /**
-     * ***********************************************************************************************
+     * ---------------------------------------------------------
      *                      Transaction types
-     * ************************************************************************************************
+     * ---------------------------------------------------------
      */
 
-      /**
+    /**
+     * ---------------------------------------------------------
      * get all transaction types 
+     * ---------------------------------------------------------
      */
     public function getCategories(){        
 
@@ -120,7 +130,9 @@ class FinancesHelper
     }
 
     /**
+     * -----------------------------------------------------------
      * Gets all sub categories for selected category
+     * -----------------------------------------------------------
      */
     public function transactionSubCatsGetAll($parent_id){
         $db = new DBConnection();
@@ -134,7 +146,52 @@ class FinancesHelper
     }
 
     /**
+     * *********************************************************************************
+     * Transaction Item operations
+     * *********************************************************************************
+     */
+    public function transactionItemAdd($item) : bool
+    {
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call transactionItemCreate(?,?,?,?,?,?,?,?,?)');
+        $stmt->execute(array(            
+            $item->transaction_id,
+            $item->item_name,
+            $item->item_desc,
+            $item->item_category,
+            $item->item_subcategory,
+            $item->amount,
+            $item->hst_tax,
+            $item->gst_tax,
+            $item->pst_tax
+        ));    
+
+        if($stmt->rowCount() > 0) return true;
+        else return false; 
+    }
+    
+    /**
+     * ----------------------------------------------------------------------------------
+     * Gets all transaction items for specific transaction record
+     * -----------------------------------------------------------------------------------
+     */
+    public function transactionltemsGet($transaction_id): array
+    {
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call transactionItemsGet(?)');
+        $stmt->execute(array($transaction_id));       
+
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);                    
+
+        return $result;
+    }
+
+    /**
+     * -------------------------------------------------------------------------
      * add new transaction type
+     * --------------------------------------------------------------------------
      */
     public function transactionCatSave($category_item): bool
     {

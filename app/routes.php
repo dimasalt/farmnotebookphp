@@ -43,10 +43,9 @@ $r->addRoute(['GET', 'POST'], '/bookkeeping/records', 'FarmWork\Controllers\Reco
  * transaction record items
  * -------------------------------------------------------------------
  */
-$r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/get/all', 'FarmWork\Controllers\RecordsController:transactionGetAlltem');
-$r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/add', 'FarmWork\Controllers\RecordsController:transactionAddtem');
-$r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/delete', 'FarmWork\Controllers\RecordsController:transactionDeletetem');
-
+$r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/get', 'FarmWork\Controllers\RecordsController:transactionltemsGet');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/add', 'FarmWork\Controllers\RecordsController:transactionItemAdd');
+//$r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/delete', 'FarmWork\Controllers\RecordsController:transactionItemDelete');
 
 
 //finances categories

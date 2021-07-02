@@ -10,12 +10,17 @@ const transactions = {
             transaction_sub_category : [],
             transaction_sub_category_disabled : true,
             search_term : '',
-            //transaction_form: false,
-            action: ''
+            action: '',
+            action_item: false,
+
+            transaction_item : {},
         }
     },   
     created () { 
         var self = this;
+
+        //reset transaction record and item 
+        self.resetTransactionRecord();
 
         //get all transactions     
         self.transactionsGetAll(); 
@@ -136,9 +141,9 @@ const transactions = {
                     data = JSON.parse(data);   
                     
                     if (data == true) {   
-                        
-                        //close new transaction input form
-                        //self.action = '';
+                                                
+                        //reset transaction record and item 
+                        self.resetTransactionRecord();
 
                         //get updated list of transactions
                         self.transactionsGetAll();
@@ -157,8 +162,47 @@ const transactions = {
             result.always(function () { });
         },
         /**
+         * --------------------------------------------------------------------------------------
+         * add item to main transaction record
+         * ---------------------------------------------------------------------------------------
+         */
+         transactionItemAdd(){
+             var self = this;
+
+            var data = self.transaction_item;
+            data = JSON.stringify(data);
+
+            var result = $.post("/bookkeeping/record/item/add", data);
+    
+            result.done(function (data) {
+                if (data.length > 0) {
+                    
+                    data = JSON.parse(data);   
+                    
+                    if (data == true) {   
+                                           
+                        //reset form values                        
+                        self.resetTransactionRecord();
+
+                        //get updated list of transactions
+                        //self.transactionsGetAll();
+
+                        //Display a success toast, with a title
+                        toastr.success("You have successfully have added a main transaction item");                                              
+                    }
+                    else if(data == false){
+                        // Display an error toast, with a title
+                        toastr.error("Ops! There appears to be an error and selected main transaction coudln't be removed");
+                    }
+                    
+                }                
+            });
+    
+            result.always(function () { });
+         },
+        /**
          * -------------------------------------------------------------------------------------
-         * edit main transaction item
+         * edit main transaction record
          * -------------------------------------------------------------------------------------
          */
          transactionEdit(){
@@ -255,7 +299,7 @@ const transactions = {
 
             for(var i = 0; i < self.transaction_category.length; i++)
                 if(self.transaction_category[i].id == self.transaction_category_selected){
-                    self.transaction_sub_category = self.transaction_category[i].sub_category;
+                    self.transaction_sub_category = self.transaction_category[i].sub_category;                   
                     break;                    
                 }   
                 
@@ -263,6 +307,20 @@ const transactions = {
                 self.transaction_sub_category_disabled = true;
             else self.transaction_sub_category_disabled = false;
         },
+        /**
+         *----------------------------------------------------------------------------
+         * on transaction item category being changed, select proper sub categories
+         * ----------------------------------------------------------------------------
+         */
+         categoryItemChanged(){
+            var self = this;             
+
+            for(var i = 0; i < self.transaction_category.length; i++)
+                if(self.transaction_category[i].category_name == self.transaction_item.item_category){
+                    self.transaction_sub_category = self.transaction_category[i].sub_category;                   
+                    break;                    
+                }   
+         },
         /**
          * -------------------------------------------------------------------------------
          * show delete modal for transaction
@@ -272,13 +330,16 @@ const transactions = {
             var self = this;
 
             self.transaction_record.id = id;
-            self.transaction_record.trans_name = name;
-            
-            self.action = 'delete';
+            self.transaction_record.trans_name = name;         
 
              //show the modal
              $('#deleteModal').modal('show');
         },
+         /**
+         * -------------------------------------------------------------------------------
+         * Hide delete modal for transaction
+         * -------------------------------------------------------------------------------
+         */
         delOneHide (){
             var self = this;
 
@@ -289,10 +350,7 @@ const transactions = {
              $('#deleteModal').modal('toggle');
         },    
         setAction (action){
-            var self = this;
-
-            //hide tooltip
-            //$('[data-bs-toggle="tooltip"]').tooltip('hide');           
+            var self = this;          
 
             //reset transaction record
             self.resetTransactionRecord();
@@ -300,7 +358,23 @@ const transactions = {
             //show new transaction for action                       
             self.action = action;
         },
-        editShow(index){
+        /**
+         * -------------------------------------------------------------
+         * show new transaction item form
+         * -------------------------------------------------------------
+         */
+        showTransactionItemForm(action, transaction_id){
+            var self = this;
+
+            self.action_item = action;
+            self.transaction_item.transaction_id = transaction_id;                  
+        },
+        /**
+         * -------------------------------------------------------
+         * shows edit form for transaction item
+         * -------------------------------------------------------
+         */
+        showEditForm(index){
 
             var self = this;
 
@@ -326,17 +400,48 @@ const transactions = {
             //booklogitem
             //self.booklog_item.travel_date = yyyy + '-' + mm + '-' + dd;
         },
+        /**
+         * ------------------------------------------------------
+         * reset for transaction and transaction item
+         * ------------------------------------------------------
+         */
         resetTransactionRecord(){
-            var self = this;
+            var self = this;                     
 
-            self.transaction_record.id = 0;
-            self.transaction_record.trans_name = '';
-            self.transaction_record.trans_desc = '';
-            self.transaction_record.trans_address_name = '';
-            self.transaction_record.trans_address = '';
-            self.transaction_record.trans_date = '';
+            //set today date
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2,'0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            //self.transaction_record.trans_date = today.getFullYear() + '-' + mm + '-' + dd;
 
+            //reset transaction record
+            self.transaction_record = {
+                id : 0,
+                trans_name : '',
+                trans_desc : '',
+                trans_address_name : '',
+                trans_address : '',
+                trans_currency: 'C$',
+                trans_date : today.getFullYear() + '-' + mm + '-' + dd
+            };
+
+            //reset actions for record and item
             self.action = '';
+            self.action_item = false;
+
+            //transaction item
+            self.transaction_item = {
+                id : 0,
+                transaction_id : 0,
+                item_name : '',
+                item_desc : '',
+                item_category : '',
+                item_subcategory : '',
+                amount : 0,
+                hst_tax : 0,
+                gst_tax : 0,
+                pst_tax : 0              
+            };
         }
     }
 };

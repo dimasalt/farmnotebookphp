@@ -260,6 +260,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `trans_desc` varchar(250) DEFAULT NULL,
   `trans_address_name` varchar(50) DEFAULT NULL,
   `trans_address` varchar(250) DEFAULT NULL,
+  `trans_currency` varchar(10) NOT NULL DEFAULT 'C$',
   `trans_image` varchar(250) DEFAULT NULL,
   `trans_date` datetime NOT NULL DEFAULT current_timestamp(),
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -267,12 +268,10 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~3 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~1 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` (`id`, `trans_name`, `trans_desc`, `trans_address_name`, `trans_address`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('0acba598-c332-11eb-82b4-d8cb8ac0caec', 'calves purchase', NULL, NULL, '1', '', '2019-01-05 09:31:50', '2019-05-03 09:31:50', '2020-12-26 13:24:05'),
-	('61533390-c7a6-11eb-8172-d8cb8ac0caec', 'calves purchase', '', '', '', NULL, '2019-01-05 00:00:00', '2021-06-07 11:38:17', '2021-06-07 12:01:48'),
-	('6f412e9c-a776-11eb-80d2-d8cb8ac0caec', 'hay, corn and soybean meal', 'n/a', 'n/a', 'n/a', '', '2019-05-06 00:00:00', '2019-05-08 11:50:32', '2021-06-07 12:02:07');
+INSERT INTO `transaction` (`id`, `trans_name`, `trans_desc`, `trans_address_name`, `trans_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
+	('2c049cf2-dac7-11eb-bd7f-d8cb8ac0caec', 'Gasoline', 'fueling vehicle', 'Petro-Canada', '4310 Harold Ave, South Porcupine, On, P0N 1H0', 'C$', NULL, '2021-06-24 00:00:00', '2021-07-01 19:50:53', '2021-07-01 19:50:53');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -327,22 +326,24 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   `id` char(36) NOT NULL DEFAULT uuid(),
   `transaction_id` char(36) NOT NULL,
   `item_name` varchar(150) NOT NULL,
-  `item_desc` varchar(250) NOT NULL,
-  `transaction_category` varchar(150) NOT NULL,
-  `transaction_subcategory` varchar(150) NOT NULL,
-  `amount` decimal(19,0) NOT NULL,
+  `item_desc` varchar(250) DEFAULT NULL,
+  `item_category` varchar(150) NOT NULL,
+  `item_subcategory` varchar(150) NOT NULL,
+  `amount` decimal(19,2) NOT NULL,
   `hst_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
   `gst_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
   `pst_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
-  `currency` varchar(10) NOT NULL DEFAULT 'CAD',
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `FK_transaction_item_transaction` (`transaction_id`) USING BTREE,
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~0 rows (approximately)
+-- Dumping data for table farmwork.transaction_item: ~2 rows (approximately)
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
+INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `created_at`) VALUES
+	('5ba15129-daea-11eb-bd7f-d8cb8ac0caec', '2c049cf2-dac7-11eb-bd7f-d8cb8ac0caec', 'fuel', 'gasoline', 'Vehicle', 'Gasoline', 79.01, 0.00, 0.00, 0.00, '2021-07-02 00:02:45'),
+	('bf88c816-db39-11eb-bd7f-d8cb8ac0caec', '2c049cf2-dac7-11eb-bd7f-d8cb8ac0caec', 'sdfadf', 'sdfdsaf', 'Equipment', 'Oil', 10.00, 1.00, 4.00, 67.00, '2021-07-02 09:30:58');
 /*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.user
@@ -1032,6 +1033,7 @@ CREATE PROCEDURE `transactionCreate`(
 	IN `trans_desc` VARCHAR(250),
 	IN `trans_address_name` VARCHAR(50),
 	IN `trans_address` VARCHAR(250),
+	IN `trans_currency` VARCHAR(10),
 	IN `trans_date` DATETIME
 )
     COMMENT 'Inserts new main transactions into database'
@@ -1043,6 +1045,7 @@ BEGIN
 				transaction.trans_desc,
 				transaction.trans_address_name,
 				transaction.trans_address,
+				transaction.trans_currency,
 				transaction.trans_date
 			)
 	VALUES
@@ -1051,6 +1054,7 @@ BEGIN
 				trans_desc,
 				trans_address_name,
 				trans_address,
+				trans_currency,
 				trans_date
 		  );
 	
@@ -1077,13 +1081,12 @@ CREATE PROCEDURE `transactionItemCreate`(
 	IN `transaction_id` CHAR(36),
 	IN `item_name` VARCHAR(150),
 	IN `item_desc` VARCHAR(250),
-	IN `transaction_category` VARCHAR(150),
-	IN `transaction_subcategory` VARCHAR(150),
+	IN `item_category` VARCHAR(150),
+	IN `item_subcategory` VARCHAR(150),
 	IN `amount` DECIMAL(19,2),
 	IN `hst_tax` DECIMAL(19,2),
 	IN `gst_tax` DECIMAL(19,2),
-	IN `pst_tax` DECIMAL(19,2),
-	IN `currency` VARCHAR(10)
+	IN `pst_tax` DECIMAL(19,2)
 )
 BEGIN
 
@@ -1093,13 +1096,12 @@ BEGIN
 		transaction_id,
 		item_name,
 		item_desc,
-		transaction_category,
-		transaction_subcategory,
+		item_category,
+		item_subcategory,
 		amount,
 		hst_tax,
 		gst_tax,
-		pst_tax,
-		currency  
+		pst_tax
 	)
 	VALUES 
 	(
@@ -1107,13 +1109,12 @@ BEGIN
 		transaction_id,
 		item_name,
 		item_desc,
-		transaction_category,
-		transaction_subcategory,
+		item_category,
+		item_subcategory,
 		amount,
 		hst_tax,
 		gst_tax,
-		pst_tax,
-		currency
+		pst_tax
 	);
 		
 END//
@@ -1132,9 +1133,9 @@ BEGIN
 END//
 DELIMITER ;
 
--- Dumping structure for procedure farmwork.transactionItemGetAll
+-- Dumping structure for procedure farmwork.transactionItemsGet
 DELIMITER //
-CREATE PROCEDURE `transactionItemGetAll`(
+CREATE PROCEDURE `transactionItemsGet`(
 	IN `transaction_id` CHAR(36)
 )
 BEGIN
@@ -1144,17 +1145,17 @@ BEGIN
 		transaction_item.transaction_id,
 		transaction_item.item_name,
 		transaction_item.item_desc,
-		transaction_item.transaction_category,
-		transaction_item.transaction_subcategory,
+		transaction_item.item_category,
+		transaction_item.item_subcategory,
 		transaction_item.amount,
 		transaction_item.hst_tax,
 		transaction_item.gst_tax,
-		transaction_item.pst_tax,
-		transaction_item.currency
+		transaction_item.pst_tax
 	FROM 
 		transaction_item
 	WHERE 		
-		transaction_item.transaction_id = id;
+		transaction_item.transaction_id = transaction_id
+	ORDER BY transaction_item.item_name ASC;
 		
 END//
 DELIMITER ;
@@ -1182,6 +1183,7 @@ BEGIN
 		transaction.trans_address_name,
 		transaction.trans_address,
 		transaction.trans_image,
+		transaction.trans_currency,
 		DATE(transaction.trans_date) AS trans_date
 	FROM 
 		transaction
@@ -1202,7 +1204,7 @@ CREATE PROCEDURE `transactionUpdate`(
 	IN `trans_desc` VARCHAR(250),
 	IN `trans_address_name` VARCHAR(150),
 	IN `trans_address` VARCHAR(250),
-	IN `trans_image` VARCHAR(250),
+	IN `trans_currency` VARCHAR(10),
 	IN `trans_date` DATETIME
 )
     COMMENT 'updates main transaction record'
@@ -1214,7 +1216,7 @@ BEGIN
 			transaction.trans_desc = trans_desc,
 			transaction.trans_address_name = trans_address_name,
 			transaction.trans_address = trans_address,
-			transaction.trans_image = trans_image,
+			transaction.trans_currency = trans_currency,
 			transaction.trans_date = trans_date
 		WHERE transaction.id = id;			
 

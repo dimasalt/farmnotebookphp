@@ -2,7 +2,7 @@
 
 namespace FarmWork\Controllers;
 
-use FarmWork\Helpers\FinancesHelper;
+use FarmWork\Helpers\RecordsHelper;
 use FarmWork\Libraries\CSRFToken;
 
 
@@ -31,7 +31,7 @@ class RecordsController extends BaseController
         // if($data->search_term == '') 
         //     $data->search_term = '%' . $data->search_term . '%';
    
-        $helper = new FinancesHelper();
+        $helper = new RecordsHelper();
         $result = $helper->transactionsGetAll($data->search_term);
 
         echo json_encode($result);
@@ -49,7 +49,7 @@ class RecordsController extends BaseController
          // Converts it into a PHP object
          $data = json_decode($json);      
  
-        $helper = new FinancesHelper();
+        $helper = new RecordsHelper();
         $result = $helper->transactionAdd($data);
 
         echo json_encode($result);
@@ -67,7 +67,7 @@ class RecordsController extends BaseController
           // Converts it into a PHP object
           $data = json_decode($json);      
   
-          $helper = new FinancesHelper();
+          $helper = new RecordsHelper();
           $result = $helper->transactionUpdate($data);
   
           echo json_encode($result);
@@ -75,7 +75,7 @@ class RecordsController extends BaseController
 
     /**
      * -----------------------------------------------------------
-     * function to remove main transaction item
+     * function to remove main transaction record
      * -----------------------------------------------------------
      */
     public function transactionDelete(){
@@ -86,7 +86,7 @@ class RecordsController extends BaseController
         // Converts it into a PHP object
         $data = json_decode($json);      
 
-        $helper = new FinancesHelper();
+        $helper = new RecordsHelper();
         $result = $helper->transactionDelete($data->id);
 
         echo json_encode($result);
@@ -97,7 +97,7 @@ class RecordsController extends BaseController
      * record
      * -----------------------------------------------------------
      */
-    public function transactionAddtem(){
+    public function transactionItemAdd(){
 
         // Takes raw data from the request
         $json = file_get_contents('php://input');
@@ -105,8 +105,8 @@ class RecordsController extends BaseController
         // Converts it into a PHP object
         $data = json_decode($json);      
 
-        $helper = new FinancesHelper();
-        $result = $helper->transactionDelete($data->id);
+        $helper = new RecordsHelper();
+        $result = $helper->transactionItemAdd($data);
 
         echo json_encode($result);
     }
@@ -128,7 +128,7 @@ class RecordsController extends BaseController
         // if($data->search_term == '') 
         //     $data->search_term = '%' . $data->search_term . '%';
    
-        $helper = new FinancesHelper();
+        $helper = new RecordsHelper();
         $result = $helper->getCategories();
 
        
