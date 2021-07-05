@@ -1,6 +1,5 @@
 <!-- top navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
     <div class="container-fluid pl-0">
         <div class="col-2 pl-0 pr-0">
              <div class="brand-text d-none d-md-inline-block">
@@ -29,15 +28,32 @@
                             <a class="dropdown-item" href="/cattle">Beef Cattle</a>                   
                         </div>
                     </li> #}
+                    {# end of dropdown menu #}
                     <li class="nav-item me-3">
                         <a class="nav-link" href="#"><i class="fas fa-seedling me-1"></i>Ration</a>
                     </li>
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/medication"><i class="fas fa-atom me-2"></i>Medication</a>
                     </li>
-                    <li class="nav-item me-3">
+                    {# <li class="nav-item me-3">
                         <a class="nav-link" href="/bookkeeping/records"> <i class="fas fa-dollar-sign me-1"></i>Bookkeeping</a>
-                    </li>
+                    </li> #}
+                     <ul class="navbar-nav me-2">                    
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-dollar-sign me-1"></i>Accounting</a>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="/bookkeeping/records">Records</a></li>
+                                <li><a class="dropdown-item" href="/bookkeeping/categories">Types</a></li>
+                                 <li><a class="dropdown-item disabled" href="#">Vendors</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/bookkeeping/vehiclelogbook">Vehicle Logbook</a></li>
+                                  <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/bookkeeping/projects">Projects</a></li>
+                            </ul>
+                        </li>                      
+                    </ul>
 
                       
                     {# <li class="nav-item dropdown me-3">
@@ -57,76 +73,30 @@
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/contacts"><i class="far fa-id-card me-1"></i>Contacts</a>
                     </li>
-                </ul>               
+                </ul>                
             </div>
         </div>
 
     {% if page != "/login" %}
         <div class="col-2">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">           
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown me-3">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-cog me-1"></i>Settings</a>
+            <div class="collapse navbar-collapse float-end" id="navbarNavDropdown">
+                <ul class="navbar-nav">                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-cog me-1"></i></a>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/upload">Upload</a>                      
-                        </div>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Upload</a></li>
+                            <li><a class="dropdown-item" href="#">Users action</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                        </ul>
                     </li>
-                    <a class="nav-item nav-link nav-top" href="#"><i class="fas fa-sign-out-alt me-1"></i>logout</a>        
-                </ul>    
-            </div>
+                      <li class="nav-item me-3">
+                        <a class="nav-link" href="#"></i>Logout</a>
+                    </li>                  
+
+                </ul>
+            </div>                       
         </div>
     {% endif %}
 </nav>
-
-{# {% if page != "/login" %}
-    <!-- second top navbar with the menu -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div class="container">
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item active me-3">
-                        <a class="nav-link" href="/">
-                            <i class="fas fa-home"></i>
-                            Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown me-3">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-feather me-1"></i>Inventory
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/cattle">Beef Cattle</a>                   
-                        </div>
-                    </li>
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="#"><i class="fas fa-seedling me-1"></i>Ration</a>
-                    </li>
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="/medication"><i class="fas fa-atom me-1"></i>Medication</a>
-                    </li>
-                    <li class="nav-item dropdown me-3">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-dollar-sign me-1"></i>Finances
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/finances/transactions"><i class="fas fa-money-check-alt me-2"></i>Transactions</a>        
-                            <a class="dropdown-item" href="/finances/projects"><i class="far fa-list-alt me-2"></i>Project Planning</a>                                
-                        </div>
-                    </li>
-
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="#"><i class="far fa-calendar-alt me-1"></i></i>Events</a>
-                    </li>                  
-
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="/contacts"><i class="far fa-id-card me-1"></i>Contacts</a>
-                    </li>
-                </ul>               
-            </div>
-        </div>
-    </nav>
-{% endif %} #}
