@@ -3,6 +3,8 @@ const transactions = {
         return {
             transactions: [],           
             transaction_record : {},
+            transaction_item : {},
+
             start_date : new Date().getFullYear()  + '-01-01', //format yyyy + '-' + mm + '-' + dd;
             end_date:  new Date().getFullYear()  + '-12-31', //format yyyy + '-' + mm + '-' + dd;
             transaction_category_selected : '',
@@ -10,10 +12,9 @@ const transactions = {
             transaction_sub_category : [],
             transaction_sub_category_disabled : true,
             search_term : '',
+            
             action: '',
-            action_item: false,
-
-            transaction_item : {},
+            action_item: false           
         }
     },   
     created () { 
@@ -357,6 +358,10 @@ const transactions = {
 
             //show new transaction for action                       
             self.action = action;
+
+            // if(self.action == 'edit'){
+            //     self.showEditForm();
+            // }
         },
         /**
          * -------------------------------------------------------------

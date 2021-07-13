@@ -16,28 +16,25 @@
 CREATE TABLE IF NOT EXISTS `contact` (
   `id` char(36) NOT NULL DEFAULT uuid(),
   `name` varchar(100) NOT NULL,
-  `address` varchar(50) DEFAULT NULL,
-  `city` varchar(50) DEFAULT NULL,
-  `postal` varchar(10) DEFAULT NULL,
-  `country` varchar(50) DEFAULT 'Canada',
-  `province` varchar(50) DEFAULT 'On',
+  `address` varchar(250) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `note` varchar(250) DEFAULT NULL,
+  `is_vendor` tinyint(4) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Keeps contacts for contact book and vendors (for transactions and others)';
 
 -- Dumping data for table farmwork.contact: ~7 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
-INSERT INTO `contact` (`id`, `name`, `address`, `city`, `postal`, `country`, `province`, `phone`, `email`, `note`, `created_at`) VALUES
-	('81a77d42-a76d-11eb-80d2-d8cb8ac0caec', 'Little Bit Western', '372 Algonquin Boulevard W', 'Timmins', 'P4N 2S2', 'Canada', 'On', '705-268-0822', '', 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', '2019-04-29 21:31:35'),
-	('81a77fe9-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Allied', '352 Railway St', 'Timmins', 'P4N 2P6', 'Canada', 'On', '7052645291', '', 'Metal supply company. The only one in Timmins.', '2020-02-18 23:39:43'),
-	('81a781a5-a76d-11eb-80d2-d8cb8ac0caec', 'Mark', 'n/a', 'Matheson', 'p0k 1n0', 'Canada', 'On', '705-262-3433', '', '<p>Neighbour farmer. Wants to buy cattle. May not keep the word.</p>', '2020-02-27 10:59:32'),
-	('81a78279-a76d-11eb-80d2-d8cb8ac0caec', 'Railside General Supplies', '3272 Monahan Rd', 'Val Gagne', 'P0K 1W0', 'Canada', 'On', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', '2020-01-05 07:01:53'),
-	('81a78332-a76d-11eb-80d2-d8cb8ac0caec', 'Samuel M.', '', '', '', 'Canada', 'On', '705-232-2380', '', '<p>Manonite. Sells lumber and posts for fencing or/and construction.</p>', '2020-04-08 17:19:45'),
-	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln', 'Val Gagne', '', 'Canada', 'On', '705-232-2039', '', '<p>Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.</p>', '2020-04-08 17:23:04'),
-	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67', 'Iroquois Falls', 'P0K1G0', 'Canada', 'On', '705-232-7700', NULL, NULL, '2020-01-05 12:08:41');
+INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`) VALUES
+	('81a77d42-a76d-11eb-80d2-d8cb8ac0caec', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', '705-268-0822', NULL, 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', 1, '2019-04-29 21:31:35'),
+	('81a77fe9-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', '7052645291', NULL, 'Metal supply company. The only one in Timmins.', 1, '2020-02-18 23:39:43'),
+	('81a781a5-a76d-11eb-80d2-d8cb8ac0caec', 'Mark', 'Matheson, On, p0k 1n0, Canada', '705-262-3433', NULL, '<p>Neighbour farmer. Wants to buy cattle. May not keep the word.</p>', 0, '2020-02-27 10:59:32'),
+	('81a78279-a76d-11eb-80d2-d8cb8ac0caec', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', 1, '2020-01-05 07:01:53'),
+	('81a78332-a76d-11eb-80d2-d8cb8ac0caec', 'Samuel M.', 'On, Canada', '705-232-2380', NULL, '<p>Manonite. Sells lumber and posts for fencing or/and construction.</p>', 1, '2020-04-08 17:19:45'),
+	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln, Val Gagne, On, , Canada', '705-232-2039', NULL, '<p>Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.</p>', 1, '2020-04-08 17:23:04'),
+	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67, Iroquois Falls, On, P0K1G0, Canada', '705-232-7700', NULL, NULL, 1, '2020-01-05 12:08:41');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.event
@@ -282,7 +279,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
 -- Dumping data for table farmwork.transaction_category: ~31 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
@@ -318,7 +315,9 @@ INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `categor
 	(40, 32, 'Insurance', '', '2021-03-07 10:41:28'),
 	(41, 1, 'Milk Replacer', '', '2021-03-14 22:37:01'),
 	(45, 0, 'Vehicle', 'Car used for business expenses, such as cattle transportation and feed pickup.', '2021-04-13 14:07:25'),
-	(46, 45, 'Gasoline', '', '2021-04-13 14:07:35');
+	(46, 45, 'Gasoline', '', '2021-04-13 14:07:35'),
+	(47, 1, 'Salt', 'Salt for livestock', '2021-07-06 09:38:28'),
+	(48, 1, 'Mineral Mix', 'Mineral mix to give animals with mixed feed.', '2021-07-06 09:39:07');
 /*!40000 ALTER TABLE `transaction_category` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_item
@@ -493,24 +492,29 @@ CREATE TABLE `v_livestock` (
 	`is_active` TINYINT(4) NOT NULL
 ) ENGINE=MyISAM;
 
+-- Dumping structure for view farmwork.v_transactions
+-- Creating temporary table to overcome VIEW dependency errors
+CREATE TABLE `v_transactions` (
+	`id` CHAR(36) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`trans_name` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`item_name` VARCHAR(150) NOT NULL COLLATE 'utf8mb4_general_ci'
+) ENGINE=MyISAM;
+
 -- Dumping structure for procedure farmwork.contactAdd
 DELIMITER //
 CREATE PROCEDURE `contactAdd`(
 	IN `contact_name` VARCHAR(50),
 	IN `address` VARCHAR(50),
-	IN `city` VARCHAR(50),
-	IN `postal` VARCHAR(50),
-	IN `country` VARCHAR(50),
-	IN `province` VARCHAR(50),
 	IN `phone` VARCHAR(50),
 	IN `email` VARCHAR(50),
-	IN `note` VARCHAR(250)
+	IN `note` VARCHAR(250),
+	IN `is_vendor` TINYINT
 )
 BEGIN
 
 	INSERT INTO 
-		contact (`name`, address, city, postal, country, province, phone, email, note)
-	VALUES (contact_name, address, city, postal, country, province, phone, email, note);
+		contact (`name`, address, phone, email, note, is_vendor)
+	VALUES (contact_name, address, phone, email, note, is_vendor );
 
 END//
 DELIMITER ;
@@ -538,14 +542,11 @@ BEGIN
 
 	select contact.id, 
 			contact.name, 
-			contact.address, 
-			contact.city, 
-			contact.postal, 
-			contact.province, 
-			contact.country, 
+			contact.address, 		
 			contact.phone, 
 			contact.email, 
-			contact.note
+			contact.note,
+			contact.is_vendor
 	FROM contact
 	WHERE contact.id = contact_id;
 
@@ -560,14 +561,11 @@ BEGIN
 
 	select contact.id, 
 			contact.name, 
-			contact.address, 
-			contact.city, 
-			contact.postal, 
-			contact.province, 
-			contact.country, 
+			contact.address, 		
 			contact.phone, 
 			contact.email, 
-			contact.note
+			contact.note,
+			contact.is_vendor
 	FROM contact
 	ORDER BY contact.name ASC;
 
@@ -580,28 +578,20 @@ CREATE PROCEDURE `contactUpdate`(
 	IN `id` INT,
 	IN `contact_name` VARCHAR(100),
 	IN `address` VARCHAR(50),
-	IN `city` VARCHAR(50),
-	IN `postal` VARCHAR(10),
-	IN `country` VARCHAR(50),
-	IN `province` VARCHAR(50),
 	IN `phone` VARCHAR(50),
 	IN `email` VARCHAR(50),
-	IN `note` VARCHAR(250)
-
-
+	IN `note` VARCHAR(250),
+	IN `is_vendor` TINYINT
 )
 BEGIN
 
 	UPDATE contact 
 	SET contact.name = contact_name, 
-		 contact.address = address, 
-		 contact.city = city,
-		 contact.postal = postal,
-		 contact.country = country,
-		 contact.province = province,
+		 contact.address = address, 	
 		 contact.phone = phone,
 		 contact.email = email,
-		 contact.note = note
+		 contact.note = note,
+		 contact.is_vendor = is_vendor
 	WHERE contact.id = id;
 	
 END//
@@ -1397,6 +1387,16 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_livestock` AS SELECT
 	livestock.is_active
 FROM livestock
 INNER JOIN livestock_type ON livestock.livestock_type = livestock_type.id ;
+
+-- Dumping structure for view farmwork.v_transactions
+-- Removing temporary table and create final VIEW structure
+DROP TABLE IF EXISTS `v_transactions`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_transactions` AS SELECT 
+	transaction.id,
+	transaction.trans_name,
+	transaction_item.item_name
+FROM transaction 
+INNER JOIN transaction_item ON transaction.id = transaction_item.transaction_id ;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

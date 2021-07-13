@@ -13,7 +13,7 @@ class ContactsController extends BaseController
      * -----------------------------------------------------
      */
     public function index(){
-        echo $this->view->render('Contacts/index.twig');
+        echo $this->view->render('/Contacts/contacts/index.twig');
     }
 
     /*

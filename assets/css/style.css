@@ -20,7 +20,7 @@ body {
     display: none !important;
 }
 
-/****** side menu ***************/
+/* ***** side menu ************** */
 .container-menu {
     min-height: 100vh;
     padding-top: 80px;
@@ -66,10 +66,9 @@ strong.brand-text{
 }
 
 /************************** TOP MENU *************************************/
-
 .dropdown-item:hover {
-    background-color: #323232;
-    color: rgba(255,255,255,.55);
+    background-color: #33b35a !important;
+    color: #fff;
 }
 /********************* modal ****************************************/
 .modal-content {
@@ -147,36 +146,6 @@ strong.brand-text{
     background: #28a745;
     border-color: #23923d;
 }
-
-/***** collouts ***********************/
-/* .callout.callout-info {
-    border-left-color: #117a8b;
-}
-
-.callout.callout-danger {
-    border-left-color: #bd2130;
-}
-
-.callout.callout-warning {
-    border-left-color: #d39e00;
-}
-
-.callout.callout-success {
-    border-left-color: #1e7e34;
-}
-
-.callout-info i.fas {
-    color: #117a8b;
-}
-
-.callout {
-    border-radius: .25rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
-    background-color: #fff;
-    border-left: 5px solid #e9ecef;
-    margin-bottom: 1rem;
-    padding: 1rem;
-} */
 
 /************ other things *****************************/
 .remove-line {

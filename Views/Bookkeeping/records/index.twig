@@ -66,8 +66,9 @@
    
 
     <!-- header and search form inputs -->
+    <div class="row mt-3"></div> 
     <div class="row g-0 mt-5" v-if="action=='' && action_item==false">
-        <div class="col-3">
+        <div class="col-5">
              <h3>Transactions
                 <a href="#" v-on:click="setAction('new')">
                     <i class="far fa-plus-square btn-sm text-success align-middle"
@@ -76,15 +77,15 @@
             </h3>
         </div>
          <!-- transaction category and other search parameters -->
-        <div class="col-2">
-            <select class="form-select w-100 rounded-0" aria-label="Select group" v-model="transaction_category_selected" v-on:change="categoryChanged()">
+        <div class="col-1">
+            <select class="form-select w-100 rounded-0 form-select-sm" aria-label="Select group" v-model="transaction_category_selected" v-on:change="categoryChanged()">
                 <option v-for="item in transaction_category" v-bind:value="item.id">
                     {{ '{{ item.category_name }}' }}
                 </option>            
             </select>
         </div>
-        <div class="col-2">
-            <select class="form-select w-100 rounded-0" aria-label="Select sub group" v-bind:disabled="transaction_sub_category_disabled">
+        <div class="col-1">
+            <select class="form-select w-100 rounded-0 form-select-sm" aria-label="Select sub group" v-bind:disabled="transaction_sub_category_disabled">
                 <option v-for="item in transaction_sub_category" v-bind:value="item.id">
                     {{ '{{ item.category_name }}' }}
                 </option>            
@@ -93,7 +94,7 @@
         <div class="col-2 pe-2">
             <div class="has-search rounded-0 w-100">
                 <span class="fa fa-search form-control-feedback"></span>
-                <input type="text" class="form-control w-100"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
+                <input type="text" class="form-control w-100 form-control-sm rounded-0"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
             </div>
         </div>       
     </div>
@@ -134,8 +135,7 @@
    
    <!-- transaction display table and delete modal -->
     <div class="row mt-2">
-        <div class="col-9">            
-        
+        <div class="col-9">                    
             <table class="table table-sm bg-white table-borderless shadow-sm w-100">                
                 <thead class="table-dark">
                     <tr>                           
@@ -190,7 +190,7 @@
             </table>
 
             <!-- pagination for records -->
-             <nav aria-label="vehicle log book pagination">
+             <nav aria-label="transaction pagination">
                 <ul class="pagination justify-content-end">
                     <li class="page-item disabled text-dark">
                         <a class="page-link text-secondary" href="#" tabindex="-1">Previous</a>
