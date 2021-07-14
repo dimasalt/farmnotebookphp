@@ -19,6 +19,7 @@ $r->addRoute(['GET', 'POST'], '/medication/delete', 'FarmWork\Controllers\Medica
 
 //contacts page
 $r->addRoute(['GET', 'POST'], '/contacts/getList', 'FarmWork\Controllers\ContactsController:getList');
+$r->addRoute(['GET', 'POST'], '/contacts/getVendors', 'FarmWork\Controllers\ContactsController:getVendorList');
 $r->addRoute(['GET', 'POST'], '/contacts/delete', 'FarmWork\Controllers\ContactsController:deleteContact');
 $r->addRoute(['GET', 'POST'], '/contacts/update/action', 'FarmWork\Controllers\ContactsController:updateAction');
 $r->addRoute(['GET', 'POST'], '/contacts/update/{id}', 'FarmWork\Controllers\ContactsController:update');
@@ -45,7 +46,7 @@ $r->addRoute(['GET', 'POST'], '/bookkeeping/records', 'FarmWork\Controllers\Reco
  */
 $r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/get', 'FarmWork\Controllers\RecordsController:transactionltemsGet');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/add', 'FarmWork\Controllers\RecordsController:transactionItemAdd');
-//$r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/delete', 'FarmWork\Controllers\RecordsController:transactionItemDelete');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/del', 'FarmWork\Controllers\RecordsController:transactionItemDelete');
 
 
 //finances categories

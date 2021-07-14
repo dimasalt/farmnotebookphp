@@ -26,6 +26,9 @@ class RecordsHelper
             $items = $this->transactionltemsGet($result[$i]['id']);
 
             $result[$i]['items'] = $items;
+
+            //convert date to more readable format
+            $result[$i]["trans_read_date"] = date("M d, Y", strtotime($result[$i]["trans_date"])); 
         }
 
         // for($i = 0; $i< count($result); $i++){
@@ -44,13 +47,12 @@ class RecordsHelper
     {
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call transactionCreate(?,?,?,?,?,?)');
+        $stmt = $pdo->prepare('call transactionCreate(?,?,?,?,?)');
         $stmt->execute(array(
-            $data->trans_name,
+            $data->vendor_name,
+            $data->vendor_address,
             $data->trans_desc,
-            $data->trans_address_name,
-            $data->trans_address,
-            $data->currency,
+            $data->trans_currency,
             $data->trans_date
         ));
 
@@ -85,7 +87,7 @@ class RecordsHelper
     
     /*
      * ---------------------------------------------------------
-     * Gets one main transaction from database
+     * Delete main transaction from database
      * ---------------------------------------------------------
      */
     public function transactionDelete($id) : bool
@@ -186,6 +188,21 @@ class RecordsHelper
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);                    
 
         return $result;
+    }
+      /*
+     * ---------------------------------------------------------
+     * Delete transaction a sub item from main transaction record
+     * ---------------------------------------------------------
+     */
+    public function transactionItemDelete($id) : bool
+    {
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call transactionItemDelete(?)');
+        $stmt->execute(array($id));
+
+        if($stmt->rowCount() > 0) return true;
+        else return false;        
     }
 
     /**

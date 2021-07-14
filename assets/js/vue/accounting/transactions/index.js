@@ -4,6 +4,7 @@ const transactions = {
             transactions: [],           
             transaction_record : {},
             transaction_item : {},
+            vendors : [], 
 
             start_date : new Date().getFullYear()  + '-01-01', //format yyyy + '-' + mm + '-' + dd;
             end_date:  new Date().getFullYear()  + '-12-31', //format yyyy + '-' + mm + '-' + dd;
@@ -28,6 +29,9 @@ const transactions = {
 
         //get transaction categories
         self.getCategories();
+
+        //get all vendors
+        self.vendorsGetAll();
     },
     methods: {    
         /**
@@ -64,6 +68,33 @@ const transactions = {
             });
     
             projectsList.always(function () { });
+        },
+        /**
+         * -------------------------------------------------------------
+         *      get vendor list
+         * -------------------------------------------------------------
+         */
+        vendorsGetAll(){
+            var self = this;
+
+              //gets all project items
+              var self = this;           
+    
+              var data = {};
+  
+              data = JSON.stringify(data);
+      
+              var result = $.post("/contacts/getVendors", data);
+      
+              result.done(function (data) {
+                  if (data.length > 0) {
+                      data = JSON.parse(data);                         
+                      
+                      self.vendors = data;
+                  }
+              });
+      
+              result.always(function () { });
         },
         /**
          * -------------------------------------------------------------
@@ -131,6 +162,13 @@ const transactions = {
         transactionAdd(){
             var self = this;
 
+            //find and assign a vendor address         
+            for(var i = 0; i < self.vendors.length; i++)
+                if(self.vendors[i].vendor_name == self.transaction_record.vendor_name){
+                    self.transaction_record.vendor_address = self.vendors[i].vendor_address;
+                    break;
+                }
+
             var data = self.transaction_record;
             data = JSON.stringify(data);
 
@@ -186,7 +224,7 @@ const transactions = {
                         self.resetTransactionRecord();
 
                         //get updated list of transactions
-                        //self.transactionsGetAll();
+                        self.transactionsGetAll();
 
                         //Display a success toast, with a title
                         toastr.success("You have successfully have added a main transaction item");                                              
@@ -201,6 +239,52 @@ const transactions = {
     
             result.always(function () { });
          },
+           /**
+         * ------------------------------------------------------------------------------
+         * remove a sub item from the main transaction record
+         * ------------------------------------------------------------------------------
+         */
+        delTransactionItem(){
+            var self = this;
+
+            var data = {id : self.transaction_item.id };
+            data = JSON.stringify(data);
+
+            //reset transaction record
+            self.resetTransactionRecord();
+    
+            var result = $.post("/bookkeeping/record/item/del", data);
+    
+            result.done(function (data) {
+                if (data.length > 0) {
+                    
+                    data = JSON.parse(data);   
+                    
+                    if (data == true) {                       
+
+                        //hide the modal
+                        $('#deleteModalItem').modal('hide');
+
+                        //get updated list of transactions
+                        self.transactionsGetAll();
+
+                        //Display a success toast, with a title
+                        toastr.success("You have successfully have removed an item from transaction record");                                              
+                    }
+                    else if(data == false){
+                        // Display an error toast, with a title
+                        toastr.error("Ops! There appears to be an error and selected item coudln't t be removed from the transaction record");
+                    }                    
+                }                
+            });
+    
+            result.always(function () {
+                var self = this;
+
+                //reset transaction record and action
+               self.resetTransactionRecord();
+            });
+        },
         /**
          * -------------------------------------------------------------------------------------
          * edit main transaction record
@@ -243,7 +327,7 @@ const transactions = {
     
             result.always(function () { });
         },
-            /**
+        /**
          * ------------------------------------------------------------------------------
          * remove main transaction items and all sub items
          * ------------------------------------------------------------------------------
@@ -267,7 +351,7 @@ const transactions = {
                     if (data == true) {                       
 
                         //hide the modal
-                        $('#deleteModal').modal('hide');
+                        $('#deleteModalRecord').modal('hide');
 
                         //get updated list of transactions
                         self.transactionsGetAll();
@@ -324,17 +408,17 @@ const transactions = {
          },
         /**
          * -------------------------------------------------------------------------------
-         * show delete modal for transaction
+         * show delete modal for transaction record
          * -------------------------------------------------------------------------------
          */
-        delOneShow (id, name){
+        delTransactionShow (id, vendor_name){
             var self = this;
 
             self.transaction_record.id = id;
-            self.transaction_record.trans_name = name;         
+            self.transaction_record.vendor_name = vendor_name;         
 
              //show the modal
-             $('#deleteModal').modal('show');
+             $('#deleteModalRecord').modal('show');
         },
          /**
          * -------------------------------------------------------------------------------
@@ -348,8 +432,39 @@ const transactions = {
             self.resetTransactionRecord();
 
              //show the modal
-             $('#deleteModal').modal('toggle');
+             $('#deleteModalRecord').modal('toggle');
+        },  
+        
+        
+          /**
+         * -------------------------------------------------------------------------------
+         * show delete modal for transaction record Item
+         * -------------------------------------------------------------------------------
+         */
+           delTransactionItemShow (id, item_name){
+            var self = this;
+
+            self.transaction_item.id = id;
+            self.transaction_item.item_name = item_name;         
+
+             //show the modal
+             $('#deleteModalItem').modal('show');
+        },
+         /**
+         * -------------------------------------------------------------------------------
+         * Hide delete modal for transaction Item
+         * -------------------------------------------------------------------------------
+         */
+        delTransactionItemHide (){
+            var self = this;
+
+            //reset transaction object and action
+            self.resetTransactionRecord();
+
+             //show the modal
+             $('#deleteModalItem').modal('toggle');
         },    
+
         setAction (action){
             var self = this;          
 
@@ -357,11 +472,7 @@ const transactions = {
             self.resetTransactionRecord();
 
             //show new transaction for action                       
-            self.action = action;
-
-            // if(self.action == 'edit'){
-            //     self.showEditForm();
-            // }
+            self.action = action;         
         },
         /**
          * -------------------------------------------------------------
@@ -422,10 +533,9 @@ const transactions = {
             //reset transaction record
             self.transaction_record = {
                 id : 0,
-                trans_name : '',
+                vendor_name : '',
+                vendor_address: '',
                 trans_desc : '',
-                trans_address_name : '',
-                trans_address : '',
                 trans_currency: 'C$',
                 trans_date : today.getFullYear() + '-' + mm + '-' + dd
             };

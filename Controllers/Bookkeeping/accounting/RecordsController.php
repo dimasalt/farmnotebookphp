@@ -111,6 +111,24 @@ class RecordsController extends BaseController
         echo json_encode($result);
     }
 
+      /**
+     * -----------------------------------------------------------
+     * function to remove a sub item from main transaction record
+     * -----------------------------------------------------------
+     */
+    public function transactionItemDelete(){
+
+        // Takes raw data from the request
+        $json = file_get_contents('php://input');
+
+        // Converts it into a PHP object
+        $data = json_decode($json);      
+
+        $helper = new RecordsHelper();
+        $result = $helper->transactionItemDelete($data->id);
+
+        echo json_encode($result);
+    }
 
     /**
      * -----------------------------------------------------------
@@ -134,5 +152,6 @@ class RecordsController extends BaseController
        
         echo json_encode($result);
     }
-    
+
+
 }

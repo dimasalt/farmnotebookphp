@@ -33,7 +33,7 @@ INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_ve
 	('81a781a5-a76d-11eb-80d2-d8cb8ac0caec', 'Mark', 'Matheson, On, p0k 1n0, Canada', '705-262-3433', NULL, '<p>Neighbour farmer. Wants to buy cattle. May not keep the word.</p>', 0, '2020-02-27 10:59:32'),
 	('81a78279-a76d-11eb-80d2-d8cb8ac0caec', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', 1, '2020-01-05 07:01:53'),
 	('81a78332-a76d-11eb-80d2-d8cb8ac0caec', 'Samuel M.', 'On, Canada', '705-232-2380', NULL, '<p>Manonite. Sells lumber and posts for fencing or/and construction.</p>', 1, '2020-04-08 17:19:45'),
-	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln, Val Gagne, On, , Canada', '705-232-2039', NULL, '<p>Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.</p>', 1, '2020-04-08 17:23:04'),
+	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln, Val Gagne, On, Canada', '705-232-2039', NULL, '<p>Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.</p>', 1, '2020-04-08 17:23:04'),
 	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67, Iroquois Falls, On, P0K1G0, Canada', '705-232-7700', NULL, NULL, 1, '2020-01-05 12:08:41');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
@@ -253,10 +253,9 @@ CREATE TABLE IF NOT EXISTS `planning_project` (
 -- Dumping structure for table farmwork.transaction
 CREATE TABLE IF NOT EXISTS `transaction` (
   `id` char(36) NOT NULL DEFAULT uuid(),
-  `trans_name` varchar(50) NOT NULL,
   `trans_desc` varchar(250) DEFAULT NULL,
-  `trans_address_name` varchar(50) DEFAULT NULL,
-  `trans_address` varchar(250) DEFAULT NULL,
+  `vendor_name` varchar(50) DEFAULT NULL,
+  `vendor_address` varchar(250) DEFAULT NULL,
   `trans_currency` varchar(10) NOT NULL DEFAULT 'C$',
   `trans_image` varchar(250) DEFAULT NULL,
   `trans_date` datetime NOT NULL DEFAULT current_timestamp(),
@@ -265,10 +264,10 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~1 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~0 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` (`id`, `trans_name`, `trans_desc`, `trans_address_name`, `trans_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('2c049cf2-dac7-11eb-bd7f-d8cb8ac0caec', 'Gasoline', 'fueling vehicle', 'Petro-Canada', '4310 Harold Ave, South Porcupine, On, P0N 1H0', 'C$', NULL, '2021-06-24 00:00:00', '2021-07-01 19:50:53', '2021-07-01 19:50:53');
+INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
+	('8bca8a3d-e43a-11eb-8619-d8cb8ac0caec', 'fueling vehicle', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', 'C$', NULL, '2021-07-13 00:00:00', '2021-07-13 20:29:26', '2021-07-13 20:29:26');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -338,11 +337,8 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~2 rows (approximately)
+-- Dumping data for table farmwork.transaction_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
-INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `created_at`) VALUES
-	('5ba15129-daea-11eb-bd7f-d8cb8ac0caec', '2c049cf2-dac7-11eb-bd7f-d8cb8ac0caec', 'fuel', 'gasoline', 'Vehicle', 'Gasoline', 79.01, 0.00, 0.00, 0.00, '2021-07-02 00:02:45'),
-	('bf88c816-db39-11eb-bd7f-d8cb8ac0caec', '2c049cf2-dac7-11eb-bd7f-d8cb8ac0caec', 'sdfadf', 'sdfdsaf', 'Equipment', 'Oil', 10.00, 1.00, 4.00, 67.00, '2021-07-02 09:30:58');
 /*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.user
@@ -494,10 +490,7 @@ CREATE TABLE `v_livestock` (
 
 -- Dumping structure for view farmwork.v_transactions
 -- Creating temporary table to overcome VIEW dependency errors
-CREATE TABLE `v_transactions` (
-	`id` CHAR(36) NOT NULL COLLATE 'utf8mb4_general_ci',
-	`trans_name` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
-	`item_name` VARCHAR(150) NOT NULL COLLATE 'utf8mb4_general_ci'
+CREATE TABLE `v_transactions` 
 ) ENGINE=MyISAM;
 
 -- Dumping structure for procedure farmwork.contactAdd
@@ -595,6 +588,21 @@ BEGIN
 	WHERE contact.id = id;
 	
 END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.contactVendorsGetAll
+DELIMITER //
+CREATE PROCEDURE `contactVendorsGetAll`()
+select contact.id, 
+			contact.name AS vendor_name, 
+			contact.address AS vendor_address, 		
+			contact.phone, 
+			contact.email, 
+			contact.note,
+			contact.is_vendor
+	FROM contact
+	WHERE contact.is_vendor = 1
+	ORDER BY contact.name ASC//
 DELIMITER ;
 
 -- Dumping structure for procedure farmwork.eventAddType
@@ -1019,10 +1027,9 @@ DELIMITER ;
 -- Dumping structure for procedure farmwork.transactionCreate
 DELIMITER //
 CREATE PROCEDURE `transactionCreate`(
-	IN `trans_name` VARCHAR(50),
+	IN `vendor_name` VARCHAR(50),
+	IN `vendor_address` VARCHAR(250),
 	IN `trans_desc` VARCHAR(250),
-	IN `trans_address_name` VARCHAR(50),
-	IN `trans_address` VARCHAR(250),
 	IN `trans_currency` VARCHAR(10),
 	IN `trans_date` DATETIME
 )
@@ -1031,19 +1038,17 @@ BEGIN
 
 	INSERT INTO transaction
 			(			
-				transaction.trans_name,
+				transaction.vendor_name,			
+				transaction.vendor_address,			
 				transaction.trans_desc,
-				transaction.trans_address_name,
-				transaction.trans_address,
 				transaction.trans_currency,
 				transaction.trans_date
 			)
 	VALUES
-		  (
-				trans_name,
-				trans_desc,
-				trans_address_name,
-				trans_address,
+		  (		
+	  			vendor_name,
+				vendor_address,
+				trans_desc,			
 				trans_currency,
 				trans_date
 		  );
@@ -1168,19 +1173,18 @@ BEGIN
 
 	SELECT 
 		transaction.id,
-		transaction.trans_name,
 		transaction.trans_desc,
-		transaction.trans_address_name,
-		transaction.trans_address,
+		transaction.vendor_name,
+		transaction.vendor_address,	
 		transaction.trans_image,
 		transaction.trans_currency,
 		DATE(transaction.trans_date) AS trans_date
 	FROM 
 		transaction
 	WHERE 		
-			transaction.trans_name LIKE search_term
+			transaction.vendor_name LIKE search_term
+			OR transaction.vendor_address LIKE search_term
 			OR transaction.trans_desc LIKE search_term
-			OR transaction.trans_address LIKE search_term
 	ORDER BY transaction.trans_date DESC;
 		
 END//
@@ -1190,10 +1194,9 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `transactionUpdate`(
 	IN `id` CHAR(36),
-	IN `trans_name` VARCHAR(150),
+	IN `vendor_name` VARCHAR(150),
+	IN `vendor_address` VARCHAR(250),
 	IN `trans_desc` VARCHAR(250),
-	IN `trans_address_name` VARCHAR(150),
-	IN `trans_address` VARCHAR(250),
 	IN `trans_currency` VARCHAR(10),
 	IN `trans_date` DATETIME
 )
@@ -1202,10 +1205,9 @@ BEGIN
 
 		UPDATE transaction
 		SET 
-			transaction.trans_name = trans_name,
+			transaction.vendor_name = vendor_name,
+			transaction.vendor_address = vendor_address,
 			transaction.trans_desc = trans_desc,
-			transaction.trans_address_name = trans_address_name,
-			transaction.trans_address = trans_address,
 			transaction.trans_currency = trans_currency,
 			transaction.trans_date = trans_date
 		WHERE transaction.id = id;			

@@ -205,4 +205,19 @@ class ContactsController extends BaseController
 
         echo $result;
     }
+
+    /**
+     * -------------------------------------------------------------------
+     * Get Vendor List
+     * -------------------------------------------------------------------
+     */
+    public function getVendorList(){
+
+        $contHelper = new ContactsHelper();
+        $contlist = $contHelper->getVendorList();
+
+        $contlist = json_encode($contlist);
+
+        echo $contlist;
+    }
 }

@@ -17,6 +17,23 @@ class ContactsHelper
 
         return $result;
     }
+    
+    /**
+     * ---------------------------------------------------------
+     * Get list of Vendors
+     * ---------------------------------------------------------
+     */
+    public function getVendorList() : array
+    {
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call contactVendorsGetAll()');
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $result;
+    }
 
     /*
      * ---------------------------------------------------------
