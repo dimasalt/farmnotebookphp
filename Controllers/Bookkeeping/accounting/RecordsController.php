@@ -26,13 +26,13 @@ class RecordsController extends BaseController
 
         // Converts it into a PHP object
         $data = json_decode($json);
-
+        
         //prepare search term variable 
         // if($data->search_term == '') 
         //     $data->search_term = '%' . $data->search_term . '%';
    
         $helper = new RecordsHelper();
-        $result = $helper->transactionsGetAll($data->search_term);
+        $result = $helper->transactionsGetAll($data->search_term, $data->start_date, $data->end_date);
 
         echo json_encode($result);
     }

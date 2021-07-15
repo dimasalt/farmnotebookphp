@@ -29,7 +29,7 @@ var Contacts = new Vue({
                     self.contacts = JSON.parse(data);
 
                     for(var i = 0; i< self.contacts.length; i++){
-                        var link = self.contacts[i].address + ', ' + self.contacts[i].city + ', ' + self.contacts[i].province + ', ' + self.contacts[i].country;
+                        var link = self.contacts[i].address;
                         self.contacts[i].link = 'http://maps.google.com/maps?q=' + encodeURIComponent(link);
                     }                   
                 }

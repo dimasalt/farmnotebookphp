@@ -12,12 +12,12 @@ class RecordsHelper
     * term, dates and other selected parameters
     -----------------------------------------------------------
     */
-    public function transactionsGetAll($search_term){
+    public function transactionsGetAll($search_term, $start_date, $end_date){
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call transactionsGetAll(?,?,?)');      
-        $stmt->execute([$search_term, 1, 1]);
+        $stmt = $pdo->prepare('call transactionsGetAll(?,?,?,?,?)');      
+        $stmt->execute([$search_term, 1, 1, $start_date, $end_date]);
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 

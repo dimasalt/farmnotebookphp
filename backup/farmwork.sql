@@ -267,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 -- Dumping data for table farmwork.transaction: ~0 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('8bca8a3d-e43a-11eb-8619-d8cb8ac0caec', 'fueling vehicle', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', 'C$', NULL, '2021-07-13 00:00:00', '2021-07-13 20:29:26', '2021-07-13 20:29:26');
+	('b37cb488-e448-11eb-8619-d8cb8ac0caec', 'dsfsdffads', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', 'C$', NULL, '2021-02-13 00:00:00', '2021-07-13 22:10:46', '2021-07-13 23:10:23');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -337,7 +337,7 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~0 rows (approximately)
+-- Dumping data for table farmwork.transaction_item: ~1 rows (approximately)
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
 
@@ -1160,7 +1160,9 @@ DELIMITER //
 CREATE PROCEDURE `transactionsGetAll`(
 	IN `search_term` VARCHAR(50),
 	IN `page_num` INT,
-	IN `records_take` INT
+	IN `records_take` INT,
+	IN `start_date` VARCHAR(50),
+	IN `end_date` VARCHAR(50)
 )
 BEGIN
 
@@ -1182,9 +1184,10 @@ BEGIN
 	FROM 
 		transaction
 	WHERE 		
-			transaction.vendor_name LIKE search_term
+		 	(transaction.vendor_name LIKE search_term
 			OR transaction.vendor_address LIKE search_term
-			OR transaction.trans_desc LIKE search_term
+			OR transaction.trans_desc LIKE search_term)
+		AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date)
 	ORDER BY transaction.trans_date DESC;
 		
 END//

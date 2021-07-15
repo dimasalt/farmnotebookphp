@@ -46,7 +46,7 @@ const transactions = {
             //gets all project items
             var self = this;           
     
-            var data = {search_term : self.search_term};
+            var data = {search_term : self.search_term, start_date: self.start_date, end_date :  self.end_date };
 
             data = JSON.stringify(data);
     
