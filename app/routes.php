@@ -16,7 +16,6 @@ $r->addRoute(['GET', 'POST'] , '/medication/getOne', 'FarmWork\Controllers\Medic
 $r->addRoute(['GET', 'POST'], '/medication/delete', 'FarmWork\Controllers\MedicationController:deleteAction');
 
 
-
 //contacts page
 $r->addRoute(['GET', 'POST'], '/contacts/getList', 'FarmWork\Controllers\ContactsController:getList');
 $r->addRoute(['GET', 'POST'], '/contacts/getVendors', 'FarmWork\Controllers\ContactsController:getVendorList');
@@ -71,11 +70,6 @@ $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/get/all', 'FarmWork\C
 $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/add/booklog', 'FarmWork\Controllers\VehicleLogBookController:booklogItemAdd');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/del/booklog', 'FarmWork\Controllers\VehicleLogBookController:booklogItemDel');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook', 'FarmWork\Controllers\VehicleLogBookController:index');
-
-// upload pages
-$r->addRoute('GET', '/upload/{name}/{item_type}/{item_id}', 'FarmWork\Controllers\UploadController:index');
-$r->addRoute('GET', '/upload', 'FarmWork\Controllers\UploadController:index');
-
 
 
 // login page

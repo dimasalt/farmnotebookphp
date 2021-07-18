@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `event_type` (
   PRIMARY KEY (`ev_type_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
 
--- Dumping data for table farmwork.event_type: ~4 rows (approximately)
+-- Dumping data for table farmwork.event_type: ~5 rows (approximately)
 /*!40000 ALTER TABLE `event_type` DISABLE KEYS */;
 INSERT INTO `event_type` (`ev_type_id`, `ev_type_name`, `ev_type_desc`, `place`, `created_at`) VALUES
 	('006e21ef-acfc-11eb-a999-d8cb8ac0caec', 'Birth Date', 'Used to associate an animal’s birth date with its unique approved tag number.', 11, '2019-05-05 21:00:17'),
@@ -264,10 +264,11 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~0 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~2 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('b37cb488-e448-11eb-8619-d8cb8ac0caec', 'dsfsdffads', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', 'C$', NULL, '2021-02-13 00:00:00', '2021-07-13 22:10:46', '2021-07-13 23:10:23');
+	('b37cb488-e448-11eb-8619-d8cb8ac0caec', 'dsfsdffads', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', 'C$', NULL, '2021-02-13 00:00:00', '2021-07-13 22:10:46', '2021-07-13 23:10:23'),
+	('d940b9ff-e760-11eb-8df3-d8cb8ac0caec', 'none', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', 'C$', NULL, '2021-07-17 00:00:00', '2021-07-17 20:41:10', '2021-07-17 20:41:10');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -280,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~31 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~34 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -331,14 +332,21 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   `hst_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
   `gst_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
   `pst_tax` decimal(19,2) NOT NULL DEFAULT 0.00,
+  `is_expence` tinyint(4) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `FK_transaction_item_transaction` (`transaction_id`) USING BTREE,
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~1 rows (approximately)
+-- Dumping data for table farmwork.transaction_item: ~5 rows (approximately)
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
+INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
+	('29ef6da1-e754-11eb-8df3-d8cb8ac0caec', 'b37cb488-e448-11eb-8619-d8cb8ac0caec', 'dafsfasd', 'none', 'Livestock', 'Cattle', 33.00, 0.00, 22.00, 1.00, 0, '2021-07-17 19:10:22'),
+	('46008d0f-e754-11eb-8df3-d8cb8ac0caec', 'b37cb488-e448-11eb-8619-d8cb8ac0caec', '1111', 'none', 'Equipment', 'Gasoline and diesel fuel', 22.00, 2.00, 1.00, 22.00, 0, '2021-07-17 19:11:09'),
+	('4924409b-e6af-11eb-84a8-d8cb8ac0caec', 'b37cb488-e448-11eb-8619-d8cb8ac0caec', 'test', 'dsfsdffads', 'Feed', 'Cracked Corn', 12.00, 0.00, 3.00, 0.00, 1, '2021-07-16 23:29:56'),
+	('4be46019-e76e-11eb-8df3-d8cb8ac0caec', 'd940b9ff-e760-11eb-8df3-d8cb8ac0caec', 'kjkjjk', 'fueling vehicle', 'Farm', 'Insurance', -11.00, 0.00, 0.00, 0.00, 1, '2021-07-17 22:17:26'),
+	('f5cf22fb-e765-11eb-8df3-d8cb8ac0caec', 'd940b9ff-e760-11eb-8df3-d8cb8ac0caec', 'dfadfsd', 'asdfasdfa', 'Vehicle', 'Gasoline', 33.10, 2.00, 2.00, 3.00, 0, '2021-07-17 21:17:45');
 /*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.user
@@ -352,7 +360,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~0 rows (approximately)
+-- Dumping data for table farmwork.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -435,7 +443,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~2 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 184200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -456,7 +464,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
 
--- Dumping data for table farmwork.vehicle_log_book_item: ~11 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book_item: ~14 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
 	(1, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
@@ -1081,7 +1089,8 @@ CREATE PROCEDURE `transactionItemCreate`(
 	IN `amount` DECIMAL(19,2),
 	IN `hst_tax` DECIMAL(19,2),
 	IN `gst_tax` DECIMAL(19,2),
-	IN `pst_tax` DECIMAL(19,2)
+	IN `pst_tax` DECIMAL(19,2),
+	IN `is_expence` TINYINT
 )
 BEGIN
 
@@ -1096,7 +1105,8 @@ BEGIN
 		amount,
 		hst_tax,
 		gst_tax,
-		pst_tax
+		pst_tax,
+		is_expence
 	)
 	VALUES 
 	(
@@ -1109,7 +1119,8 @@ BEGIN
 		amount,
 		hst_tax,
 		gst_tax,
-		pst_tax
+		pst_tax,
+		is_expence
 	);
 		
 END//
@@ -1145,7 +1156,8 @@ BEGIN
 		transaction_item.amount,
 		transaction_item.hst_tax,
 		transaction_item.gst_tax,
-		transaction_item.pst_tax
+		transaction_item.pst_tax,
+		transaction_item.is_expence
 	FROM 
 		transaction_item
 	WHERE 		

@@ -15,7 +15,8 @@ const transactions = {
             search_term : '',
             
             action: '',
-            action_item: false           
+            action_item: false,
+            is_vendor: true           
         }
     },   
     created () { 
@@ -274,15 +275,14 @@ const transactions = {
                     else if(data == false){
                         // Display an error toast, with a title
                         toastr.error("Ops! There appears to be an error and selected item coudln't t be removed from the transaction record");
-                    }                    
+                    }  
+                    
+                    //reset transaction record and action
+                    self.resetTransactionRecord();
                 }                
             });
     
-            result.always(function () {
-                var self = this;
-
-                //reset transaction record and action
-               self.resetTransactionRecord();
+            result.always(function () {                     
             });
         },
         /**
@@ -482,6 +482,9 @@ const transactions = {
         showTransactionItemForm(action, transaction_id){
             var self = this;
 
+             //reset transaction item record
+             self.resetTransactionRecord();
+
             self.action_item = action;
             self.transaction_item.transaction_id = transaction_id;                  
         },
@@ -515,7 +518,7 @@ const transactions = {
     
             //booklogitem
             //self.booklog_item.travel_date = yyyy + '-' + mm + '-' + dd;
-        },
+        },      
         /**
          * ------------------------------------------------------
          * reset for transaction and transaction item
@@ -555,7 +558,8 @@ const transactions = {
                 amount : 0,
                 hst_tax : 0,
                 gst_tax : 0,
-                pst_tax : 0              
+                pst_tax : 0,
+                is_expence: false             
             };
         }
     }

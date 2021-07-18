@@ -3,6 +3,11 @@
 /* @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap'); */
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
 
+
+[v-cloak] {
+    display: none !important;
+}
+
 body {
     /* font-family: "Roboto", sans-serif !important; */
     margin: 0;
@@ -14,10 +19,6 @@ body {
     color: #323232;
     text-align: left;
     background-color: #f2f7f8;
-}
-
-[v-cloak] {
-    display: none !important;
 }
 
 /* ***** side menu ************** */
@@ -88,39 +89,12 @@ strong.brand-text{
     color: #f3f3f3;
 }
 
-/* .form-control {
-    border-radius: unset !important;
+/************************** Forms ************************************/
+.form-check-input:checked {
+    background-color: #079c2c;
+    background-color: #079c2c;
+    border-color: #079c2c;
 }
-
-.form-signin {
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    margin: auto;
-}
-.form-signin .checkbox {
-    font-weight: 400;
-}
-.form-signin .form-control {
-    position: relative;
-    box-sizing: border-box;
-    height: auto;
-    padding: 10px;
-    font-size: 16px;
-}
-.form-signin .form-control:focus {
-    z-index: 2;
-}
-.form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-} */
 
 
 /**************** alerts **************************/

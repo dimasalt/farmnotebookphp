@@ -103,7 +103,17 @@ class RecordsController extends BaseController
         $json = file_get_contents('php://input');
 
         // Converts it into a PHP object
-        $data = json_decode($json);      
+        $data = json_decode($json);   
+        
+        //set proper is_expence value and if expence is true than add -1 to an amount
+        $data->is_expence = (bool)$data->is_expence;
+        if($data->is_expence == true) {
+            
+            $data->is_expence = 1;
+            // $data->amount = (-1 * floatval($data->amount));           
+            $data->amount = (-1 * (float)$data->amount);           
+        }
+        else $data->is_expence = 0;
 
         $helper = new RecordsHelper();
         $result = $helper->transactionItemAdd($data);

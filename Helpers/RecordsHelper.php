@@ -156,7 +156,7 @@ class RecordsHelper
     {
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call transactionItemCreate(?,?,?,?,?,?,?,?,?)');
+        $stmt = $pdo->prepare('call transactionItemCreate(?,?,?,?,?,?,?,?,?,?)');
         $stmt->execute(array(            
             $item->transaction_id,
             $item->item_name,
@@ -166,7 +166,8 @@ class RecordsHelper
             $item->amount,
             $item->hst_tax,
             $item->gst_tax,
-            $item->pst_tax
+            $item->pst_tax,
+            $item->is_expence
         ));    
 
         if($stmt->rowCount() > 0) return true;
