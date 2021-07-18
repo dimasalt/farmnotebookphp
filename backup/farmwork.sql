@@ -267,8 +267,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 -- Dumping data for table farmwork.transaction: ~2 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('b37cb488-e448-11eb-8619-d8cb8ac0caec', 'dsfsdffads', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', 'C$', NULL, '2021-02-13 00:00:00', '2021-07-13 22:10:46', '2021-07-13 23:10:23'),
-	('d940b9ff-e760-11eb-8df3-d8cb8ac0caec', 'none', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', 'C$', NULL, '2021-07-17 00:00:00', '2021-07-17 20:41:10', '2021-07-17 20:41:10');
+	('b37cb488-e448-11eb-8619-d8cb8ac0caec', 'dsfsdffads', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', 'C$', NULL, '2021-02-13 00:00:00', '2021-07-13 22:10:46', '2021-07-13 23:10:23');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -344,9 +343,7 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
 INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
 	('29ef6da1-e754-11eb-8df3-d8cb8ac0caec', 'b37cb488-e448-11eb-8619-d8cb8ac0caec', 'dafsfasd', 'none', 'Livestock', 'Cattle', 33.00, 0.00, 22.00, 1.00, 0, '2021-07-17 19:10:22'),
 	('46008d0f-e754-11eb-8df3-d8cb8ac0caec', 'b37cb488-e448-11eb-8619-d8cb8ac0caec', '1111', 'none', 'Equipment', 'Gasoline and diesel fuel', 22.00, 2.00, 1.00, 22.00, 0, '2021-07-17 19:11:09'),
-	('4924409b-e6af-11eb-84a8-d8cb8ac0caec', 'b37cb488-e448-11eb-8619-d8cb8ac0caec', 'test', 'dsfsdffads', 'Feed', 'Cracked Corn', 12.00, 0.00, 3.00, 0.00, 1, '2021-07-16 23:29:56'),
-	('4be46019-e76e-11eb-8df3-d8cb8ac0caec', 'd940b9ff-e760-11eb-8df3-d8cb8ac0caec', 'kjkjjk', 'fueling vehicle', 'Farm', 'Insurance', -11.00, 0.00, 0.00, 0.00, 1, '2021-07-17 22:17:26'),
-	('f5cf22fb-e765-11eb-8df3-d8cb8ac0caec', 'd940b9ff-e760-11eb-8df3-d8cb8ac0caec', 'dfadfsd', 'asdfasdfa', 'Vehicle', 'Gasoline', 33.10, 2.00, 2.00, 3.00, 0, '2021-07-17 21:17:45');
+	('4924409b-e6af-11eb-84a8-d8cb8ac0caec', 'b37cb488-e448-11eb-8619-d8cb8ac0caec', 'test', 'dsfsdffads', 'Feed', 'Cracked Corn', 12.00, 0.00, 3.00, 0.00, 1, '2021-07-16 23:29:56');
 /*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.user
