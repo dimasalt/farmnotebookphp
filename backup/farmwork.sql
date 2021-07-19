@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`) VALUES
 	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
 	('11d2fef9-e813-11eb-8df3-d8cb8ac0caec', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', '705-647-5415', '', 'barn sale of livestock', 1, '2021-07-18 17:56:49'),
+	('797e5e64-e83d-11eb-8df3-d8cb8ac0caec', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', '705-235-4797', '', 'One of the local gas stations', 1, '2021-07-18 23:00:22'),
 	('81a77d42-a76d-11eb-80d2-d8cb8ac0caec', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', '705-268-0822', NULL, 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', 1, '2019-04-29 21:31:35'),
 	('81a77fe9-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', '7052645291', NULL, 'Metal supply company. The only one in Timmins.', 1, '2020-02-18 23:39:43'),
 	('81a781a5-a76d-11eb-80d2-d8cb8ac0caec', 'Mark', 'Matheson, On, p0k 1n0, Canada', '705-262-3433', NULL, 'Neighbour farmer. Wants to buy cattle. May not keep the word.', 0, '2020-02-27 10:59:32'),
@@ -266,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~1 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~3 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
 	('3a7c2b51-e827-11eb-8df3-d8cb8ac0caec', 'feed purchase', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', NULL, '2021-07-12 00:00:00', '2021-07-18 20:21:07', '2021-07-18 20:21:07'),
@@ -282,9 +283,9 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~34 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~37 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -322,7 +323,8 @@ INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `categor
 	(49, 1, 'Calf Starter', '', '2021-07-18 20:26:51'),
 	(50, 1, 'Chicken Layer Feed', '', '2021-07-18 20:29:12'),
 	(51, 1, 'Wood Shavings', '', '2021-07-18 20:31:12'),
-	(52, 1, 'Straw', '', '2021-07-18 20:31:19');
+	(52, 1, 'Straw', '', '2021-07-18 20:31:19'),
+	(53, 26, 'Office Supplies', '', '2021-07-18 21:15:57');
 /*!40000 ALTER TABLE `transaction_category` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_item
@@ -344,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~3 rows (approximately)
+-- Dumping data for table farmwork.transaction_item: ~7 rows (approximately)
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
 INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
 	('29672f5b-e829-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'calf starter', '', 'Feed', 'Calf Starter', -63.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:34:57'),

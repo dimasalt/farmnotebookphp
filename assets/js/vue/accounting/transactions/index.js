@@ -162,14 +162,7 @@ const transactions = {
          */
         transactionAdd(){
             var self = this;
-
-            //find and assign a vendor address         
-            for(var i = 0; i < self.vendors.length; i++)
-                if(self.vendors[i].vendor_name == self.transaction_record.vendor_name){
-                    self.transaction_record.vendor_address = self.vendors[i].vendor_address;
-                    break;
-                }
-
+                
             var data = self.transaction_record;
             data = JSON.stringify(data);
 
@@ -518,7 +511,25 @@ const transactions = {
     
             //booklogitem
             //self.booklog_item.travel_date = yyyy + '-' + mm + '-' + dd;
-        },      
+        }, 
+        /**
+         * ------------------------------------------------------
+         * get vendor address
+         * ------------------------------------------------------
+         */     
+         getVendorAddress(){
+             var self = this;
+
+             //clear any existing address from old selections
+             self.transaction_record.vendor_address = '';
+
+            //find and assign a vendor address         
+            for(var i = 0; i < self.vendors.length; i++)
+            if(self.vendors[i].vendor_name == self.transaction_record.vendor_name){
+                self.transaction_record.vendor_address = self.vendors[i].vendor_address;
+                break;
+            }
+         },
         /**
          * ------------------------------------------------------
          * reset for transaction and transaction item
