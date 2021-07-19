@@ -17,15 +17,12 @@ $r->addRoute(['GET', 'POST'], '/medication/delete', 'FarmWork\Controllers\Medica
 
 
 //contacts page
-$r->addRoute(['GET', 'POST'], '/contacts/getList', 'FarmWork\Controllers\ContactsController:getList');
+$r->addRoute(['GET', 'POST'], '/contacts/get/all', 'FarmWork\Controllers\ContactsController:contactsGetAll');
 $r->addRoute(['GET', 'POST'], '/contacts/getVendors', 'FarmWork\Controllers\ContactsController:getVendorList');
 $r->addRoute(['GET', 'POST'], '/contacts/delete', 'FarmWork\Controllers\ContactsController:deleteContact');
-$r->addRoute(['GET', 'POST'], '/contacts/update/action', 'FarmWork\Controllers\ContactsController:updateAction');
-$r->addRoute(['GET', 'POST'], '/contacts/update/{id}', 'FarmWork\Controllers\ContactsController:update');
-$r->addRoute(['GET', 'POST'], '/contacts/add/action', 'FarmWork\Controllers\ContactsController:addAction');
-$r->addRoute(['GET', 'POST'], '/contacts/add', 'FarmWork\Controllers\ContactsController:add');
+$r->addRoute(['GET', 'POST'], '/contacts/update', 'FarmWork\Controllers\ContactsController:contactUpdate');
+$r->addRoute(['GET', 'POST'], '/contacts/add', 'FarmWork\Controllers\ContactsController:contactAdd');
 $r->addRoute('GET', '/contacts', 'FarmWork\Controllers\ContactsController:index');
-$r->addRoute(['GET', 'POST'], '/contacts/view/{id}', 'FarmWork\Controllers\ContactsController:view');
 
 /**
  * ------------------------------------------------------------------

@@ -20,20 +20,22 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `phone` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `note` varchar(250) DEFAULT NULL,
-  `is_vendor` tinyint(4) NOT NULL DEFAULT 1,
+  `is_vendor` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Keeps contacts for contact book and vendors (for transactions and others)';
 
--- Dumping data for table farmwork.contact: ~7 rows (approximately)
+-- Dumping data for table farmwork.contact: ~10 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`) VALUES
+	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
+	('11d2fef9-e813-11eb-8df3-d8cb8ac0caec', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', '705-647-5415', '', 'barn sale of livestock', 1, '2021-07-18 17:56:49'),
 	('81a77d42-a76d-11eb-80d2-d8cb8ac0caec', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', '705-268-0822', NULL, 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', 1, '2019-04-29 21:31:35'),
 	('81a77fe9-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', '7052645291', NULL, 'Metal supply company. The only one in Timmins.', 1, '2020-02-18 23:39:43'),
-	('81a781a5-a76d-11eb-80d2-d8cb8ac0caec', 'Mark', 'Matheson, On, p0k 1n0, Canada', '705-262-3433', NULL, '<p>Neighbour farmer. Wants to buy cattle. May not keep the word.</p>', 0, '2020-02-27 10:59:32'),
+	('81a781a5-a76d-11eb-80d2-d8cb8ac0caec', 'Mark', 'Matheson, On, p0k 1n0, Canada', '705-262-3433', NULL, 'Neighbour farmer. Wants to buy cattle. May not keep the word.', 0, '2020-02-27 10:59:32'),
 	('81a78279-a76d-11eb-80d2-d8cb8ac0caec', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', 1, '2020-01-05 07:01:53'),
-	('81a78332-a76d-11eb-80d2-d8cb8ac0caec', 'Samuel M.', 'On, Canada', '705-232-2380', NULL, '<p>Manonite. Sells lumber and posts for fencing or/and construction.</p>', 1, '2020-04-08 17:19:45'),
-	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln, Val Gagne, On, Canada', '705-232-2039', NULL, '<p>Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.</p>', 1, '2020-04-08 17:23:04'),
+	('81a78332-a76d-11eb-80d2-d8cb8ac0caec', 'Samuel M.', 'On, Canada', '705-232-2380', NULL, 'Manonite. Sells lumber and posts for fencing or/and construction.', 1, '2020-04-08 17:19:45'),
+	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln, Val Gagne, On, Canada', '705-232-2039', NULL, 'Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.', 1, '2020-04-08 17:23:04'),
 	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67, Iroquois Falls, On, P0K1G0, Canada', '705-232-7700', NULL, NULL, 1, '2020-01-05 12:08:41');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
@@ -66,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `event_type` (
   PRIMARY KEY (`ev_type_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
 
--- Dumping data for table farmwork.event_type: ~5 rows (approximately)
+-- Dumping data for table farmwork.event_type: ~4 rows (approximately)
 /*!40000 ALTER TABLE `event_type` DISABLE KEYS */;
 INSERT INTO `event_type` (`ev_type_id`, `ev_type_name`, `ev_type_desc`, `place`, `created_at`) VALUES
 	('006e21ef-acfc-11eb-a999-d8cb8ac0caec', 'Birth Date', 'Used to associate an animal’s birth date with its unique approved tag number.', 11, '2019-05-05 21:00:17'),
@@ -264,7 +266,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~2 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~1 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
 	('b37cb488-e448-11eb-8619-d8cb8ac0caec', 'dsfsdffads', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', 'C$', NULL, '2021-02-13 00:00:00', '2021-07-13 22:10:46', '2021-07-13 23:10:23');
@@ -280,7 +282,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~34 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~31 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -338,11 +340,11 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~5 rows (approximately)
+-- Dumping data for table farmwork.transaction_item: ~3 rows (approximately)
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
 INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
+	('0f76dce6-e78d-11eb-8df3-d8cb8ac0caec', 'b37cb488-e448-11eb-8619-d8cb8ac0caec', 'puppies vacination', 'dsfsdffads', 'Equipment', 'Repairs', -360.00, 41.00, 0.00, 0.00, 1, '2021-07-18 01:57:39'),
 	('29ef6da1-e754-11eb-8df3-d8cb8ac0caec', 'b37cb488-e448-11eb-8619-d8cb8ac0caec', 'dafsfasd', 'none', 'Livestock', 'Cattle', 33.00, 0.00, 22.00, 1.00, 0, '2021-07-17 19:10:22'),
-	('46008d0f-e754-11eb-8df3-d8cb8ac0caec', 'b37cb488-e448-11eb-8619-d8cb8ac0caec', '1111', 'none', 'Equipment', 'Gasoline and diesel fuel', 22.00, 2.00, 1.00, 22.00, 0, '2021-07-17 19:11:09'),
 	('4924409b-e6af-11eb-84a8-d8cb8ac0caec', 'b37cb488-e448-11eb-8619-d8cb8ac0caec', 'test', 'dsfsdffads', 'Feed', 'Cracked Corn', 12.00, 0.00, 3.00, 0.00, 1, '2021-07-16 23:29:56');
 /*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
 
@@ -357,7 +359,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~1 rows (approximately)
+-- Dumping data for table farmwork.user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -440,7 +442,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~2 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 184200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -461,7 +463,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
 
--- Dumping data for table farmwork.vehicle_log_book_item: ~14 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book_item: ~11 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
 	(1, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
@@ -520,8 +522,9 @@ DELIMITER ;
 -- Dumping structure for procedure farmwork.contactDeleteOne
 DELIMITER //
 CREATE PROCEDURE `contactDeleteOne`(
-	IN `contact_id` INT
+	IN `contact_id` CHAR(36)
 )
+    COMMENT 'remoes selected contact ot vendor from database'
 BEGIN
 
 	DELETE 
@@ -553,27 +556,52 @@ DELIMITER ;
 
 -- Dumping structure for procedure farmwork.contactsGetAll
 DELIMITER //
-CREATE PROCEDURE `contactsGetAll`()
+CREATE PROCEDURE `contactsGetAll`(
+	IN `search_term` VARCHAR(50),
+	IN `is_vendor` TINYINT
+)
     COMMENT 'get various contacts information'
 BEGIN
 
-	select contact.id, 
+	-- prepare search term
+	IF LENGTH(search_term) < 2 THEN
+		SET search_term = "%";
+	ELSE
+		SET search_term = CONCAT('%', search_term, '%') ;
+	END IF;
+
+	-- execute search based on vendor and search parameter
+	IF is_vendor = -1 THEN
+		select contact.id, 
 			contact.name, 
 			contact.address, 		
 			contact.phone, 
 			contact.email, 
 			contact.note,
 			contact.is_vendor
-	FROM contact
-	ORDER BY contact.name ASC;
-
+		FROM contact
+		WHERE contact.name LIKE search_term
+		ORDER BY contact.name ASC;
+	ELSE 
+		select contact.id, 
+			contact.name, 
+			contact.address, 		
+			contact.phone, 
+			contact.email, 
+			contact.note,
+			contact.is_vendor
+		FROM contact
+		WHERE contact.name LIKE search_term AND contact.is_vendor = is_vendor
+		ORDER BY contact.name ASC;
+	END IF;
+		
 END//
 DELIMITER ;
 
 -- Dumping structure for procedure farmwork.contactUpdate
 DELIMITER //
 CREATE PROCEDURE `contactUpdate`(
-	IN `id` INT,
+	IN `id` CHAR(36),
 	IN `contact_name` VARCHAR(100),
 	IN `address` VARCHAR(50),
 	IN `phone` VARCHAR(50),

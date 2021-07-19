@@ -3,7 +3,7 @@
 {% block title %} Contacts {% endblock %}
 
 {% block header_scripts %}
-    {# <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet"> #}
+   <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
  {% endblock %}
 
 
@@ -14,112 +14,188 @@
 {{ include('Contacts/_sidenav.twig') }}
 
 <!-- page content -->
-<div class="container-fluid">
-    <div class="pt-4" id="contacts" v-cloak>
+<div class="container-fluid" id="contacts" v-cloak>
+    
+    <!-- csrf protection -->
+    <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
 
-        <div class="row mb-2">
-            <div class="col-12 border-bottom">
-                <h2 class="text-dark mb-4">Contacts
-                    <a href="/contacts/add">
-                        <i class="far fa-plus-square btn-sm text-success align-middle"
-                           data-toggle="tooltip" data-placement="top" title="Add contact"></i>
-                    </a>                 
-                </h2>                               
+    <div class="row border-bottom pt-4">
+        <div class="col-8">
+            <h1 class="text-dark mb-2">
+                Contacts
+                <a href="#" v-on:click="action = 'new'">
+                    <i class="far fa-plus-square btn-sm text-success align-middle"
+                        data-toggle="tooltip" data-placement="top" title="Add contact"></i>
+                </a>                 
+            </h1>   
+        </div>
+        <!-- controls -->
+        <div class="col-2 pe-0">
+            <select class="form-select w-100 rounded-0 form-select-sm" aria-label="Select sub group" v-model="contact_selected" v-on:change="contactsGetAll()">
+                <option value="-1"></option>            
+                <option v-for="item in contact_select" v-bind:value="item.is_vendor">{{ '{{ item.name }}' }}</option>                
+            </select>
+        </div>
+        <div class="col-2 ps-0">                     
+            <div class="has-search rounded-0 w-100">
+                <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" class="form-control w-100 form-control-sm rounded-0"  placeholder="Search" v-model="search_term" v-on:keyup="contactsGetAll()">
             </div>
+              
+        </div>           
+    </div>  
 
-            <div class="col-12" v-if="alert.success">
-                <div id="success-alert" class="alert alert-success shadow-sm" role="alert" >
-                    <i class="far fa-check-circle fa-2x me-2 align-middle"></i>
-                    {{ '{{ alert.message }}' }}
-                </div>
-            </div>
+    <div class="row">           
 
-            <div class="col-12" v-if="alert.error">
-                <div id="error-alert" class="alert alert-danger shadow-sm" role="alert">
-                    <i class="fas fa-times-circle fa-2x me-2 align-middle"></i>
-                    {{ '{{ alert.message }}' }}
-                </div>
+        <div class="col-12 mt-4">
+            <div class="callout callout-info">                                
+                <i class="fas fa-info-circle fa-2x me-2 align-middle"></i>
+                Contact information of people and organization for quick access.
             </div>
         </div>
-       
-        <div class="row">           
-
-            <div class="col-12">
-                 <div class="callout callout-info">                                
-                   <i class="fas fa-info-circle fa-2x me-2 align-middle"></i>
-                   Contact information of people and organization for quick access.
-                </div>
-            </div>
-
-
-            <div class="col-sm-2 mt-3" v-for="(item, index) in contacts">               
-                <!-- contact cards -->
-                <div class="card h-100 w-100 text-white bg-secondary mb-3 shadow-sm">
-                    <div class="card-body">
-                        <b class="card-title text-small" style="font-size: 15px;">{{ "{{ item.name }}" }}</b>                     
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item text-white bg-secondary"></li>
-                            <li class="list-group-item text-white bg-secondary">
-                                <a v-bind:href="item.link" target="_blank" style="color: #ffffff;">
-                                    {# {{ "{{ item.address }}, {{ item.city }} , {{ item.province }}, {{ item.country }}, {{ item.postal }}" }} #}
-                                    {{ '{{ item.address }}' }}
-                                </a>
-                            </li>
-                            <li class="list-group-item text-white bg-secondary">{{ "{{ item.phone }}" }}</li>                                                                         
-                       </ul>
-                       <div class="d-flex  justify-content-end mt-3">
-                             <a href="#">
-                                <i class="far fa-trash-alt text-small text-danger me-2" data-toggle="tooltip" data-placement="top" title="Remove contact"
-                                v-on:click="deleteContacModal(index)"></i>
-                            </a>                               
-                             <a v-bind:href="'/contacts/update/' + item.id">
-                                    <i class="far fa-edit text-small text-warning me-2" data-toggle="tooltip" data-placement="top" title="Edit contact"></i>
-                            </a>     
-                              <a v-bind:href="'/contacts/view/' + item.id">
-                                    <i class="far fa-eye text-small text-info me-2" data-toggle="tooltip" data-placement="top" title="View information"></i>
-                            </a>                                              
-                        </div>                       
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Remove contact Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger">
-                        <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
-                            Remove contact "<b> {{ '{{ contact_delete.name }}' }} </b>"</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to remove contact named <b>"{{ '{{ contact_delete.name }}' }}"</b> ?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <i class="fas fa-times-circle text-small me-1"></i>Cancel</button>
-                        <button type="button" class="btn btn-danger" v-on:click="deleteContact()">
-                            <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
+
+      <!-- new/edit contact form -->
+    <div class="row bg-dark py-2 pb-2 mx-1 mt-4" v-if="action != ''">
+        <div class="col-2 pe-0">
+             <input type="text" class="form-control rounded-0 mx-0" placeholder="contact name" aria-label="Vendor" v-model="contact_item.name" required>
+        </div>
+            <div class="col-2 px-0">
+             <input type="text" class="form-control rounded-0 mx-0" placeholder="contact address" aria-label="Vendor" v-model="contact_item.address" required>
+        </div>
+            <div class="col-1 px-0">
+             <input type="text" class="form-control rounded-0 mx-0" placeholder="contact phone" aria-label="Vendor" v-model="contact_item.phone" required>
+        </div>
+        <div class="col-2 px-0">
+             <input type="text" class="form-control rounded-0 mx-0" placeholder="contact note" aria-label="Vendor" v-model="contact_item.note" required>
+        </div>
+        <div class="col-2 px-0">
+             <input type="text" class="form-control rounded-0 mx-0" placeholder="contact email" aria-label="Vendor" v-model="contact_item.email" required>
+        </div>
+         <div class="col-1">
+            <input class="form-check-input me-1 mt-2" type="checkbox" id="is_expence" v-model="contact_item.is_vendor">
+            <label class="form-check-label text-white mt-1 ms-1" for="is_expence">Is Vendor</label>
+        </div>
+        <div class="col-2 mt-0 d-flex justify-content-end">                                   
+            <a href="#" class="btn btn-warning rounded-0" v-on:click="action = ''">
+                <i class="fas fa-times-circle text-small me-1"></i>
+                Cancel           
+            </a>   
+            <a href="#" class="btn btn-success rounded-0" v-on:click="contactAddOrEdit()">
+                <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                Save           
+            </a>               
+        </div>
+    </div>
+
+    <!-- new contact design table -->
+     <div class="row mt-4">       
+        <div class="col-12">                    
+            <table class="table bg-white table-borderless shadow-sm w-100">                               
+                <tbody v-for="(item, index) in contacts">
+                    <tr class="border">                     
+                        <td class="ps-4 w-30">
+                            <div> 
+                                <strong>{{ '{{item.name}}' }}</strong>
+                                <i class="fas fa-asterisk text-success ms-2" style="font-size:10px " v-if="item.is_vendor == 1"></i>
+                                <a v-bind:href="'https://www.google.com/maps/place/' + item.address" class="text-dark" target="_blank">
+                                    <small class="fw-light ms-3">{{ '{{item.address}}' }}</small>                      
+                                </a>
+                            </div>                                         
+                        </td>    
+                        <td class="w-10">
+                           {{ '{{item.phone}}' }}                           
+                        </td>                                            
+                        <td class="w-10">
+                            {{ '{{ item.email }}' }}
+                        </td>  
+                        <td class="w-25">
+                           <small>{{ '{{item.note}}' }}</small>
+                        </td>                                                                
+                        <td class="pt-1 w-15">                               
+                             <a href="#" class="float-end" v-on:click="deleteContacModalShow(index)">
+                                <i class="far fa-trash-alt text-small text-danger me-2" data-toggle="tooltip" data-placement="top" title="Remove contact"></i>
+                            </a>                                                            
+                            <a href="#" class="float-end" v-on:click="contactEditFormShow(index)">
+                                <i class="far fa-edit text-small text-warning me-2" data-toggle="tooltip" data-placement="top" title="Edit contact"></i>
+                            </a>                                           
+                            {# <a v-bind:href="'/contacts/view/' + item.id" class="float-end">
+                                <i class="far fa-eye text-small text-info me-2" data-toggle="tooltip" data-placement="top" title="View information"></i>
+                            </a>      #}
+                        </td>
+                    </tr>                       
+                </tbody>
+            </table>         
+        </div>
+    </div>
+
+    <div class="row" style="display:none">
+        <div class="col-sm-2 mt-3" v-for="(item, index) in contacts">               
+            <!-- contact cards -->
+            <div class="card h-100 w-100 text-white bg-secondary mb-3 shadow-sm">
+                <div class="card-body">
+                    <b class="card-title text-small" style="font-size: 15px;">{{ "{{ item.name }}" }}</b>                     
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item text-white bg-secondary"></li>
+                        <li class="list-group-item text-white bg-secondary">
+                            <a v-bind:href="item.link" target="_blank" style="color: #ffffff;">
+                                {# {{ "{{ item.address }}, {{ item.city }} , {{ item.province }}, {{ item.country }}, {{ item.postal }}" }} #}
+                                {{ '{{ item.address }}' }}
+                            </a>
+                        </li>
+                        <li class="list-group-item text-white bg-secondary">{{ "{{ item.phone }}" }}</li>                                                                         
+                    </ul>
+                    <div class="d-flex  justify-content-end mt-3">                                               
+                        <a v-bind:href="'/contacts/view/' + item.id">
+                            <i class="far fa-eye text-small text-info me-2" data-toggle="tooltip" data-placement="top" title="View information"></i>
+                        </a>                      
+                        <a v-bind:href="'/contacts/update/' + item.id">
+                            <i class="far fa-edit text-small text-warning me-2" data-toggle="tooltip" data-placement="top" title="Edit contact"></i>
+                        </a>                                           
+                        <a href="#">
+                            <i class="far fa-trash-alt text-small text-danger me-2" data-toggle="tooltip" data-placement="top" title="Remove contact"
+                            v-on:click="deleteContacModalShow(index)"></i>
+                        </a>                
+                    </div>                       
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remove contact Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white" id="exampleModalCenterTitle">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Remove contact "<b> {{ '{{ contact_delete.name }}' }} </b>"</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove contact named <b>"{{ '{{ contact_delete.name }}' }}"</b> ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal" v-on:click="deleteContacModalHide()">
+                        <i class="fas fa-times-circle text-small me-1"></i>Cancel</button>
+                    <button type="button" class="btn btn-danger" v-on:click="deleteContact()">
+                        <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>      
+
 </div>
 
 {% endblock %}
 
 {% block custom_scripts %}
 
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    {# <script src="/assets/components/toastr/toastr.min.js"></script> #}
+    <script src="/assets/components/toastr/toastr.min.js"></script>
 
-    <script src="/assets/js/vue/contacts/contacts/index.js"></script>
+    <script src="/assets/js/vue/contacts/index.js"></script>
 
     <script type="application/javascript">
         $(function () {
