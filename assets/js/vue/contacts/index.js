@@ -117,43 +117,6 @@ const contacts = {
             //set action
             self.action = 'edit';
         },
-        // contactUpdate() {
-        //     var self = this;
-
-        //     //assign contact data
-        //     var data = {
-        //         id : $('#inputid').val(),
-        //         name : $('#inputname').val(),
-        //         address : $('#inputaddress').val(),               
-        //         phone : $('#inputphone').val(),
-        //         email : $('#inputpemail').val(),                 
-        //         note: tinyMCE.get('contact_note').getContent(),             
-        //         csrf : $('#csrf').val()
-        //     };
-
-        //     //prepare data
-        //     data = JSON.stringify(data);
-
-        //     //submit data and update contact
-        //     var update = $.post('/contacts/update', data);
-
-        //     //get results
-        //     update.done(function (data){              
-
-        //         //turn result into javascript workable variable
-        //         data = JSON.parse(data);
-
-        //        if(data === true){
-        //             toastr.success("Contact has been successfully updated.");                       
-        //        }
-        //        else if(data == false){
-        //         toastr.error("Ops..., there appears to be an issue with udating this contact");          
-        //        }
-        //     });
-
-        //     update.always(function (data) {
-        //     });
-        // },
         deleteContacModalShow(index){
             var self = this;           
 

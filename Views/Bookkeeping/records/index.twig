@@ -193,7 +193,7 @@
                                         <span v-if="item.gst_tax > 0"><u>{{ '{{ "GST $" +  item.gst_tax }}' }}</u></span>
                                         <span class="ms-2" v-if="item.hst_tax > 0"><u>{{ '{{ "HST $" +  item.hst_tax }}' }}</u></span>
                                         <span class="ms-2" v-if="item.pst_tax > 0"><u>{{ '{{ "PST $" +  item.pst_tax }}' }}</u></span>
-                                        <span class="ms-5">{{ '{{ item.currency }}' }} {{ '{{ item.amount }}' }}</span>
+                                        <span class="ms-5">{{ '{{ record.trans_currency }}' }} {{ '{{ item.amount }}' }}</span>
                                     </div>                                   
                                 </li>                             
                             </ul>                                                    
