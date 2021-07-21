@@ -164,4 +164,75 @@ class RecordsController extends BaseController
     }
 
 
+    /**
+     * Receipt image upload for transaction
+     */
+    public function transactionReceiptUpload(){
+
+        //set upload dir
+        $uploaddir = $this->config["upload_url"];
+
+        // $test1 = $_POST["test1"];
+        // echo $test1;
+
+        // mkdir($uploaddir . (string)$test1, 0777, true);
+
+        //current year directory
+        $year = date('Y');
+
+        //current month directory
+        $month = date('m');     
+
+        //current day directory
+        $day = date('d');
+
+        //full upload folder
+        $uploadFolder = $uploaddir . 'transactions/' . (string)$year . '/' . (string)$month . '/' . (string)$day;
+
+        if(!file_exists($uploadFolder))
+            mkdir($uploadFolder, 0777, true);
+      
+
+        $allowedfileExtensions = array('jpg', 'gif', 'png', 'zip', 'txt', 'xls', 'doc');
+
+        $uploaddir = $this->config["upload_url"];
+
+        //file destination
+        $uploadfile = $uploaddir . basename($_FILES['file']['name']);
+
+        //temporary file location
+        $fileTempPath = $_FILES['file']['tmp_name'];
+
+        //check on the file 
+        $fileName = $_FILES['file']['name'];
+
+        //extention
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+
+        if(in_array($fileExtension, $allowedfileExtensions)){
+            if (move_uploaded_file($fileTempPath, $uploadfile)) {
+                echo "File is valid, and was successfully uploaded.\n";
+            } else {
+                echo "Possible file upload attack!\n";
+            }
+        }
+        
+       
+
+        // //working code
+        // $uploaddir = $this->config["upload_url"];
+
+        // $uploadfile = $uploaddir . basename($_FILES['file']['name']);
+        
+        // if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
+        //     echo "File is valid, and was successfully uploaded.\n";
+        // } else {
+        //     echo "Possible file upload attack!\n";
+        // }
+
+
+       
+    }
+
 }

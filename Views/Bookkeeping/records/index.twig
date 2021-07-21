@@ -3,7 +3,9 @@
 {% block title %} Transactions {% endblock %}
 
 {% block header_scripts %}
-    <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
+
+    <!-- file uploading -->
+    <link href="/assets/components/dropzone/min/dropzone.min.css" rel="stylesheet">
  {% endblock %}
 
 {% block body %}
@@ -76,28 +78,29 @@
                 </a>                 
             </h3>
         </div>
-        <div class="form-check form-switch col-2 d-flex justify-content-end pe-3" v-if="action=='' && action_item==false && transactions.length > 0">
+        {# v-if="action=='' && action_item==false && transactions.length > 0" #}
+        <div class="form-check form-switch col-2 d-flex justify-content-end pe-3">
             <input class="form-check-input me-1" type="checkbox" id="vendor"  v-model="is_vendor">
             <label class="form-check-label" for="vendor">
                 Display vendors
             </label>
         </div>
         <!-- transaction category and other search parameters -->
-        <div class="col-1" v-if="action=='' && action_item==false && transactions.length > 0">
+        <div class="col-1">
             <select class="form-select w-100 rounded-0 form-select-sm" aria-label="Select group" v-model="transaction_category_selected" v-on:change="categoryChanged()">
                 <option v-for="item in transaction_category" v-bind:value="item.id">
                     {{ '{{ item.category_name }}' }}
                 </option>            
             </select>
         </div>
-        <div class="col-1" v-if="action=='' && action_item==false && transactions.length > 0">
+        <div class="col-1">
             <select class="form-select w-100 rounded-0 form-select-sm" aria-label="Select sub group" v-bind:disabled="transaction_sub_category_disabled">
                 <option v-for="item in transaction_sub_category" v-bind:value="item.id">
                     {{ '{{ item.category_name }}' }}
                 </option>            
             </select>
         </div>
-        <div class="col-2 pe-2" v-if="action=='' && action_item==false && transactions.length > 0">
+        <div class="col-2 pe-2">
             <div class="has-search rounded-0 w-100">
                 <span class="fa fa-search form-control-feedback"></span>
                 <input type="text" class="form-control w-100 form-control-sm rounded-0"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
@@ -105,44 +108,8 @@
         </div>       
     </div>
 
-
-    <!-- NEW TRANSACTION FORM FOR MAIN TRANSACTION RECORD / OLD FORM -->
-    {# <div class="row ms-1" v-if="action=='new' || action=='edit'">
-        <div class="col-2 px-0">
-            <input type="text" class="form-control mx-0" placeholder="Vendor" aria-label="Vendor" v-model="transaction_record.trans_name" required>
-        </div>
-        <div class="col-2 px-0">
-            <input type="text" class="form-control mx-0" placeholder="Vendor" list="vendors" v-model="transaction_record.trans_name" required>
-            <datalist id="vendors">
-                <option value="AL">Nortern Feed Supply</option>
-                <option value="AK">General Railside Store</option>                 
-            </datalist>
-        </div>
-        <div class="col-3 px-0">
-            <input type="text" class="form-control mx-0" placeholder="Description" aria-label="Name" v-model="transaction_record.trans_desc" required>
-        </div>       
-        <div class="col-1 px-0">
-            <input class="form-control mx-0" type="date" aria-label="Start date" v-model="transaction_record.trans_date">
-        </div>
-        <div class="col-2 px-0">
-            <button class="btn btn-warning rounded-0" type="button" v-on:click="setAction('')">
-                <i class="fas fa-times-circle text-small mr-1"></i>
-                Cancel           
-            </button>                  
-            <button class="btn btn-success rounded-0" type="button" v-on:click="transactionAdd" v-if="action == 'new'">
-                <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
-                Save           
-            </button>  
-              <button class="btn btn-success rounded-0" type="button" v-on:click="transactionEdit" v-if="action=='edit'">
-                <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
-                Update           
-            </button>                                          
-        </div>
-    </div>    #}
-   
-
     <!-- transaction display table -->
-    <div class="row mt-2">       
+    <div class="row mt-2">           
         <div class="col-9">                    
             <table class="table table-sm bg-white table-borderless shadow-sm w-100">                               
                 <tbody v-for="(record, index) in transactions">
@@ -219,6 +186,11 @@
                 </ul>
             </nav>
         </div>
+
+        <!-- receipt upload form -->
+        <div class="col-3 mt-0">
+            <form action="/bookkeeping/records/receipt/upload" class="dropzone" id="transaction-upload"></form>
+        </div>
         
         <!-- transaction record form/ new or edit -->
         <div class="col-3 mt-0" v-if="action=='new' || action=='edit'">
@@ -227,7 +199,7 @@
                     <span v-if="action=='new'">New</span>
                     <span v-if="action=='edit'">Edit</span>
                     Transaction
-                </h5>
+                <h5 />
                 <hr class="bg-secondary" />
                 <form class="mt-0 mb-3 mx-3"> 
                     <div class="row">                 
@@ -240,7 +212,7 @@
                             <small id="trans_name_id" class="form-text text-muted float-end">50 characters max</small>
                         </div>
                     </div>
-                     <div class="row">         
+                     <div class="row">                     
                         <div class="col">
                             <label for="trans_desc">Address</label>
                             <input type="text" class="form-control bg-secondary text-white border-dark" id="trans_desc" aria-describedby="trans_desc" v-model="transaction_record.vendor_address">
@@ -427,20 +399,40 @@
         <!-- end of item modal -->
  
     </div>  
+
 </div>
 {% endblock %}
 
 {% block custom_scripts %}
 
-    <script src="/assets/components/toastr/toastr.min.js"></script>
+    <!-- file uploading -->
+    <script src="/assets/components/dropzone/min/dropzone.min.js"></script>
 
     <script src="/assets/js/vue/accounting/transactions/index.js"></script>
 
 
      <script type="application/javascript">
+        
+        Dropzone.autoDiscover = false;
+
         $(function () {
-            $('[data-bs-toggle="tooltip"]').tooltip();
+            $('[data-bs-toggle="tooltip"]').tooltip();                        
+            
+            var myDropzone = new Dropzone("#transaction-upload", {
+                params : {
+                    test1 : "test"
+                }
+            });
+
+            myDropzone.on("complete", function(file) {
+                
+                console.log(file);
+                alert(file);
+
+            });
+            
         });
+
     </script>
 
 {% endblock %}

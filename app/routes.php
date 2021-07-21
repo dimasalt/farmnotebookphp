@@ -35,6 +35,9 @@ $r->addRoute(['GET', 'POST'], '/bookkeeping/records/add', 'FarmWork\Controllers\
 $r->addRoute(['GET', 'POST'], '/bookkeeping/records/edit', 'FarmWork\Controllers\RecordsController:transactionUpdate');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/records', 'FarmWork\Controllers\RecordsController:index');
 
+//transaction image upload
+$r->addRoute(['GET', 'POST'], '/bookkeeping/records/receipt/upload', 'FarmWork\Controllers\RecordsController:transactionReceiptUpload');
+
 /**
  * ------------------------------------------------------------------
  * transaction record items

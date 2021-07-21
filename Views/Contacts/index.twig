@@ -3,7 +3,6 @@
 {% block title %} Contacts {% endblock %}
 
 {% block header_scripts %}
-   <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
  {% endblock %}
 
 
@@ -29,7 +28,7 @@
                 </a>                 
             </h1>   
         </div>
-        <!-- controls -->
+        <!-- sorting and search controls -->
         <div class="col-2 pe-0">
             <select class="form-select w-100 rounded-0 form-select-sm" aria-label="Select sub group" v-model="contact_selected" v-on:change="contactsGetAll()">
                 <option value="-1"></option>            
@@ -46,12 +45,19 @@
     </div>  
 
     <div class="row">           
-
         <div class="col-12 mt-4">
             <div class="callout callout-info">                                
                 <i class="fas fa-info-circle fa-2x me-2 align-middle text-success"></i>
                 Contact information of people and organization for quick access.
             </div>
+        </div>
+    </div>
+
+    <!-- alert if no contacts found either initially or through the search -->
+    <div class="col-12 mt-4" v-if="contacts.length == 0">
+        <div class="alert alert-warning shadow-sm" role="alert">
+            <i class="fas fa-exclamation-triangle me-3"></i>
+            <b>Sorry but no contacts has been found.</b>
         </div>
     </div>
 
@@ -118,10 +124,7 @@
                             </a>                                                            
                             <a href="#" class="float-end" v-on:click="contactEditFormShow(index)">
                                 <i class="far fa-edit text-small text-warning me-2" data-toggle="tooltip" data-placement="top" title="Edit contact"></i>
-                            </a>                                           
-                            {# <a v-bind:href="'/contacts/view/' + item.id" class="float-end">
-                                <i class="far fa-eye text-small text-info me-2" data-toggle="tooltip" data-placement="top" title="View information"></i>
-                            </a>      #}
+                            </a>                                                               
                         </td>
                     </tr>                       
                 </tbody>
@@ -129,7 +132,7 @@
         </div>
     </div>
 
-    <div class="row" style="display:none">
+    {# <div class="row" style="display:none">
         <div class="col-sm-2 mt-3" v-for="(item, index) in contacts">               
             <!-- contact cards -->
             <div class="card h-100 w-100 text-white bg-secondary mb-3 shadow-sm">
@@ -138,8 +141,7 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item text-white bg-secondary"></li>
                         <li class="list-group-item text-white bg-secondary">
-                            <a v-bind:href="item.link" target="_blank" style="color: #ffffff;">
-                                {# {{ "{{ item.address }}, {{ item.city }} , {{ item.province }}, {{ item.country }}, {{ item.postal }}" }} #}
+                            <a v-bind:href="item.link" target="_blank" style="color: #ffffff;">                                
                                 {{ '{{ item.address }}' }}
                             </a>
                         </li>
@@ -160,7 +162,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> #}
 
     <!-- Remove contact Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -192,8 +194,6 @@
 {% endblock %}
 
 {% block custom_scripts %}
-
-    <script src="/assets/components/toastr/toastr.min.js"></script>
 
     <script src="/assets/js/vue/contacts/index.js"></script>
 
