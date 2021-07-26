@@ -169,68 +169,89 @@ class RecordsController extends BaseController
      */
     public function transactionReceiptUpload(){
 
-        //set upload dir
+        //security
+        session_regenerate_id();
+
+        //get csrf tocket and check if it's valid/ if not throw an error
+        $csrf = $_POST["csrf"];
+        if(!CSRFToken::isValid($csrf)){
+            http_response_code(403);
+            echo "Upload did not pass security";
+            die();
+        }
+
+        //get file and check if extention is allowed
+        $allowedfileExtensions = array('jpg', 'gif', 'png', 'jpeg');
+
+        $fileName = $_FILES['file']['name'];
+        
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+        if(!in_array($fileExtension, $allowedfileExtensions)){
+            http_response_code(403);
+            echo "Extention not supported";
+            die();
+        }
+
+
+        // //set upload dir
         $uploaddir = $this->config["upload_url"];
-
-        // $test1 = $_POST["test1"];
-        // echo $test1;
-
-        // mkdir($uploaddir . (string)$test1, 0777, true);
-
-        //current year directory
-        $year = date('Y');
-
-        //current month directory
-        $month = date('m');     
-
-        //current day directory
-        $day = date('d');
-
-        //full upload folder
-        $uploadFolder = $uploaddir . 'transactions/' . (string)$year . '/' . (string)$month . '/' . (string)$day;
-
+               
+        //getting transaction date and creating folders accordingly
+        $time = strtotime($_POST["transaction_date"]);
+        $uploadFolder =  $uploaddir . 'transactions/' . (string)date('Y', $time) . '/' . (string)date('m', $time) . '/' . (string)date('d', $time);
+        
+        //if folder doesn't exist let's create one
         if(!file_exists($uploadFolder))
-            mkdir($uploadFolder, 0777, true);
-      
+            mkdir($uploadFolder, 0777, true);    
 
-        $allowedfileExtensions = array('jpg', 'gif', 'png', 'zip', 'txt', 'xls', 'doc');
+        //check if an old file already exist, if yes remove
 
-        $uploaddir = $this->config["upload_url"];
+        
 
-        //file destination
-        $uploadfile = $uploaddir . basename($_FILES['file']['name']);
+ 
 
         //temporary file location
         $fileTempPath = $_FILES['file']['tmp_name'];
 
-        //check on the file 
-        $fileName = $_FILES['file']['name'];
+  
 
         //extention
         $fileNameCmps = explode(".", $fileName);
         $fileExtension = strtolower(end($fileNameCmps));
 
+        //new file location
+        $newFileName = $uploadFolder . '/'. $_POST["vendor_name"] . '-' . $_POST["transaction_id"] . '.' . $fileExtension;
+
         if(in_array($fileExtension, $allowedfileExtensions)){
-            if (move_uploaded_file($fileTempPath, $uploadfile)) {
+            if (move_uploaded_file($fileTempPath, $newFileName)) {
+                http_response_code(200);
                 echo "File is valid, and was successfully uploaded.\n";
             } else {
+                http_response_code(403);
                 echo "Possible file upload attack!\n";
             }
         }
+
+        //shell_exec("rm -rf " . $dir);
         
-       
 
-        // //working code
-        // $uploaddir = $this->config["upload_url"];
 
-        // $uploadfile = $uploaddir . basename($_FILES['file']['name']);
-        
-        // if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
-        //     echo "File is valid, and was successfully uploaded.\n";
-        // } else {
-        //     echo "Possible file upload attack!\n";
-        // }
-
+        //remove all files and directorise in cpecific path / recursive function
+        // function rrmdir($dir) { 
+        //     if (is_dir($dir)) { 
+        //       $objects = scandir($dir);
+        //       foreach ($objects as $object) { 
+        //         if ($object != "." && $object != "..") { 
+        //           if (is_dir($dir. DIRECTORY_SEPARATOR .$object) && !is_link($dir."/".$object))
+        //             rrmdir($dir. DIRECTORY_SEPARATOR .$object);
+        //           else
+        //             unlink($dir. DIRECTORY_SEPARATOR .$object); 
+        //         } 
+        //       }
+        //       rmdir($dir); 
+        //     } 
+        //   }
 
        
     }

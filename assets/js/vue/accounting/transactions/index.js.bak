@@ -14,16 +14,9 @@ const transactions = {
             transaction_sub_category_disabled : true,
             search_term : '',
             
-            //action: '',
-            action : {
-                new : false,
-                edit: false,
-                new_item : false,
-                image : false,
-                image_view : false
-            },
-            //action_item: false,
-            is_vendor: true           
+            action: '',
+            action_item: false,
+            is_vendor: true,
         }
     },   
     created () { 
@@ -465,41 +458,44 @@ const transactions = {
              $('#deleteModalItem').modal('toggle');
         },    
 
-        setAction (action, index){
+        setAction (action){
             var self = this;          
 
             //reset transaction record
             self.resetTransactionRecord();
 
             //show new transaction for action                       
-            //self.action = action;         
-            if(action == 'new') self.action.new = true;
-            else if(action == 'edit'){
+            self.action = action;         
+        },
+        /**
+         * -------------------------------------------------------------
+         * show new transaction item form
+         * -------------------------------------------------------------
+         */
+        showTransactionItemForm(action, transaction_id){
+            var self = this;
 
-                self.action.new = true;
-                self.transaction_record = Object.assign({}, self.transactions[index] );                    
+             //reset transaction item record
+             self.resetTransactionRecord();
 
-                // for(var i = 0; i < self.transactions.length; i++){
-                //     if(self.transactions[i].id == record.id){
-                //         self.transaction_record = Object.assign({}, self.transactions[i] );      
-                //         self.action.edit = true;
+            self.action_item = action;
+            self.transaction_item.transaction_id = transaction_id;                  
+        },
+        /**
+         * -------------------------------------------------------
+         * shows edit form for transaction item
+         * -------------------------------------------------------
+         */
+        showEditForm(index){
 
-                //         break;
-                //     }
-                // }               
-            } 
-            else if(action == 'new_item'){
+            var self = this;
 
-                self.transaction_item.transaction_id = self.transactions[index].id;              
-                self.action.new_item = true;
-            }
-            else if(action == 'image') {
-                self.action.image = true;                                    
+            //coppy record and set action to update
+            self.transaction_record = Object.assign({}, self.transactions[index] );            
 
-                //assign transaction id
-                //self.transaction_item.transaction_id = record.id;
-                self.transaction_record = Object.assign({}, self.transactions[index] );        
-            }
+             //show new transaction form
+           self.action = 'edit';
+
         },
         assignDates(){
             var self = this;
@@ -559,16 +555,8 @@ const transactions = {
             };
 
             //reset actions for record and item
-            // self.action = '';
-            // self.action_item = false;
-
-            self.action = {
-                new : false,
-                edit: false,
-                new_item : false,
-                image : false,
-                image_view : false
-            };
+            self.action = '';
+            self.action_item = false;
 
             //transaction item
             self.transaction_item = {

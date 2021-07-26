@@ -72,13 +72,13 @@
     <div class="row g-0 mt-5">
         <div class="col-3">
              <h3>Transactions
-                <a href="#" v-on:click="setAction('new', -1)">
+                <a href="#" v-on:click="setAction('new')">
                     <i class="far fa-plus-square btn-sm text-success align-middle"
                         data-bs-toggle="tooltip" data-bs-placement="top" title="Add transaction"></i>
                 </a>                 
             </h3>
         </div>
-       
+        {# v-if="action=='' && action_item==false && transactions.length > 0" #}
         <div class="form-check form-switch col-2 d-flex justify-content-end pe-3">
             <input class="form-check-input me-1" type="checkbox" id="vendor"  v-model="is_vendor">
             <label class="form-check-label" for="vendor">
@@ -121,7 +121,7 @@
                             </div>                         
                         </td>                                                                              
                         <td class="pt-1 w-15">   
-                             <a href="#" v-on:click="setAction('new_item', index)" v-if="action.new == false ">
+                             <a href="#" v-on:click="showTransactionItemForm(true, record.id)" v-if="action==''">
                                 <i class="far fa-plus-square btn-sm text-success align-middle"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Add transaction item"></i>
                             </a>                                    
@@ -129,16 +129,15 @@
                                 <i class="far fa-trash-alt btn-sm text-danger align-middle float-right" 
                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Remove transaction"></i>
                             </a>
-                                <a href="#" v-on:click="setAction('edit', index)">
+                                <a href="#" v-on:click="showEditForm(index)">
                                 <i class="fa fa-edit btn-sm text-warning align-middle pe-0 float-right"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Edit transaction"></i>
                             </a>
-                             <a href="#" v-on:click="setAction('image', index)">
+                             <a href="#">
                                 <i class="fa fa-upload btn-sm text-secondary pe-0 float-right" data-bs-toggle="tooltip" data-bs-placement="top" title="upload transaction image" aria-hidden="true"></i>
                             </a>
-                            {# v-if="record.trans_image" #}
-                            <a href="#">                                
-                                <i data-bs-toggle="tooltip" data-bs-placement="top" title="View transaction image" class="fas fa-image text-small text-info float-right ms-2"></i>
+                            <a href="#">
+                                <i data-bs-toggle="tooltip" data-bs-placement="top" title="View transaction" class="far fa-eye text-small text-info float-right ms-2"></i>
                             </a>                           
                         </td>
                     </tr>    
@@ -189,29 +188,16 @@
         </div>
 
         <!-- receipt upload form -->
-        {# <div class="col-3 mt-0" id="dropzone_div" v-show="action.image==true">
-            <form action="/bookkeeping/records/receipt/upload" class="dropzone" id="transaction-upload"></form>            
-        </div> #}
-        
-        <div class="col-3 mt-0" id="dropzone_div" v-show="action.image==true">
-             <div class="card col-12 bg-dark text-white rounded shadow-sm">
-                <h5 class="mt-3 mb-1 ms-3">
-                    <span v-if="action.new==true">New</span>
-                    <span v-if="action.edit==true">Edit</span>
-                    Transaction Receipt Upload
-                <h5 />
-                <hr class="bg-secondary" />
-                <form action="/bookkeeping/records/receipt/upload" class="dropzone m-2 text-dark" id="transaction-upload"></form>    
-                <hr class="bg-secondary" />        
-            </div>
+        <div class="col-3 mt-0">
+            <form action="/bookkeeping/records/receipt/upload" class="dropzone" id="transaction-upload"></form>
         </div>
-
+        
         <!-- transaction record form/ new or edit -->
-        <div class="col-3 mt-0" v-if="action.new==true || action.edit==true">
+        <div class="col-3 mt-0" v-if="action=='new' || action=='edit'">
             <div class="card col-12 bg-dark text-white rounded shadow-sm">
                 <h5 class="mt-3 mb-1 ms-3">
-                    <span v-if="action.new==true">New</span>
-                    <span v-if="action.edit==true">Edit</span>
+                    <span v-if="action=='new'">New</span>
+                    <span v-if="action=='edit'">Edit</span>
                     Transaction
                 <h5 />
                 <hr class="bg-secondary" />
@@ -228,8 +214,8 @@
                     </div>
                      <div class="row">                     
                         <div class="col">
-                            <label for="vendor_address">Address</label>
-                            <input type="text" class="form-control bg-secondary text-white border-dark" id="vendor_address" aria-describedby="vendor_address" v-model="transaction_record.vendor_address">
+                            <label for="trans_desc">Address</label>
+                            <input type="text" class="form-control bg-secondary text-white border-dark" id="trans_desc" aria-describedby="trans_desc" v-model="transaction_record.vendor_address">
                             <small id="cat_desc_warrning" class="form-text text-muted float-end">250 characters max</small>
                         </div>    
                     </div>                 
@@ -260,15 +246,15 @@
                     </div>             
                      <hr class="bg-secondary" />
                     <div class="col mt-3 d-flex justify-content-end">                                   
-                        <a href="#" class="btn btn-warning rounded-0" v-on:click="resetTransactionRecord()">
+                        <a href="#" class="btn btn-warning rounded-0" v-on:click="setAction('')">
                             <i class="fas fa-times-circle text-small me-1"></i>
                             Cancel           
                         </a>    
-                        <a href="#" class="btn btn-success rounded-0" v-on:click="transactionEdit" v-if="action.edit==true">
+                        <a href="#" class="btn btn-success rounded-0" v-on:click="transactionEdit" v-if="action=='edit'">
                             <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
                             Update              
                         </a>                                                     
-                        <a href="#" class="btn btn-success rounded-0" v-on:click="transactionAdd" v-if="action.new == true">
+                        <a href="#" class="btn btn-success rounded-0" v-on:click="transactionAdd" v-if="action == 'new'">
                             <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
                             Save           
                         </a>               
@@ -278,7 +264,7 @@
         </div>  
 
         <!-- transaction item form /new only/ items cannot be edited. Only created or removed -->
-        <div class="col-3 mt-0" v-if="action.new_item==true">
+        <div class="col-3 mt-0" v-if="action_item==true">
             <div class="card col-12 bg-dark text-white rounded shadow-sm">
                 <h5 class="mt-3 mb-1 ms-3">
                     New Transaction Item
@@ -339,7 +325,7 @@
                     {# <div class="clearfix mt-4"></div>   #}
                      <hr class="bg-secondary" />            
                     <div class="col mt-2 d-flex justify-content-end">                                   
-                        <a href="#" class="btn btn-warning rounded-0" v-on:click="resetTransactionRecord()">
+                        <a href="#" class="btn btn-warning rounded-0" v-on:click="action_item = false">
                             <i class="fas fa-times-circle text-small me-1"></i>
                             Cancel           
                         </a>   
@@ -431,31 +417,19 @@
 
         $(function () {
             $('[data-bs-toggle="tooltip"]').tooltip();                        
-                        
-            var myDropzone = new Dropzone("#transaction-upload", {
-                //params : {
-                //    test1 : "test"
-                //}
-            });
-
-            myDropzone.on("sending", function (data, xhr, formData){
-                  formData.append('transaction_id', app.transaction_record.id);
-                  formData.append('transaction_date', app.transaction_record.trans_date);
-                  formData.append('vendor_name', app.transaction_record.vendor_name);
-                  formData.append('csrf', $('#csrf').val());                
-            });
-
             
+            var myDropzone = new Dropzone("#transaction-upload", {
+                params : {
+                    test1 : "test"
+                }
+            });
+
             myDropzone.on("complete", function(file) {
                 
-                if(file.status == 'error')
-                     toastr.error(file.xhr.response);
-                else toastr.success(file.xhr.response);
-
-                //console.log(file);             
+                console.log(file);
+                alert(file);
 
             });
-        
             
         });
 
