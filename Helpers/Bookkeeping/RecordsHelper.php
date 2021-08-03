@@ -60,6 +60,25 @@ class RecordsHelper
         else return false;        
     }
 
+    /**
+     * -------------------------------------------------------------------
+     * Updates image receipt for transaction record
+     * -------------------------------------------------------------------
+     */
+    public function transactionAddImage($id, $trans_image) : bool 
+    {
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call transactionUpdateImage(?,?)');
+        $stmt->execute(array(
+            $id,
+            $trans_image
+        ));
+
+        if($stmt->rowCount() > 0) return true;
+        else return false;        
+    }
+
      /**
      * ------------------------------------------------------------------
      * updates main transaction record

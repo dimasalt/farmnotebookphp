@@ -173,7 +173,7 @@ class RecordsController extends BaseController
         session_regenerate_id();
 
         //get csrf tocket and check if it's valid/ if not throw an error
-        $csrf = $_POST["csrf"];
+        $csrf = (string)$_POST["csrf"];
         if(!CSRFToken::isValid($csrf)){
             http_response_code(403);
             echo "Upload did not pass security";
@@ -182,14 +182,13 @@ class RecordsController extends BaseController
 
         //get file and check if extention is allowed
         $allowedfileExtensions = array('jpg', 'gif', 'png', 'jpeg');
-
         $fileName = $_FILES['file']['name'];
         
         $fileNameCmps = explode(".", $fileName);
         $fileExtension = strtolower(end($fileNameCmps));
         if(!in_array($fileExtension, $allowedfileExtensions)){
             http_response_code(403);
-            echo "Extention not supported";
+            echo "File extention is not supported";
             die();
         }
 
@@ -206,32 +205,54 @@ class RecordsController extends BaseController
             mkdir($uploadFolder, 0777, true);    
 
         //check if an old file already exist, if yes remove
+         //new file location //replce spaces in vendor name //preg_replace('/\s+/', '_', $_POST["vendor_name"])
+         $vendor_name = str_replace(' ', '_', $_POST["vendor_name"]);
+         $vendor_name = strtolower($vendor_name);
+         $newFileName = $uploadFolder . '/'. $vendor_name . '-' . $_POST["transaction_id"] . '.' . $fileExtension;
 
+         //call function to remove the file
+         $this->deleteFile($newFileName);
+        //  if(file_exists($newFileName)) 
+        //     unlink($newFileName);
         
-
- 
 
         //temporary file location
         $fileTempPath = $_FILES['file']['tmp_name'];
 
-  
-
         //extention
-        $fileNameCmps = explode(".", $fileName);
-        $fileExtension = strtolower(end($fileNameCmps));
+        // $fileNameCmps = explode(".", $fileName);
+        // $fileExtension = strtolower(end($fileNameCmps));
+        if(move_uploaded_file($fileTempPath, $newFileName)){           
 
-        //new file location
-        $newFileName = $uploadFolder . '/'. $_POST["vendor_name"] . '-' . $_POST["transaction_id"] . '.' . $fileExtension;
+            //update image in database
+            $rcHelper = new RecordsHelper();
+            $imageResult = $rcHelper->transactionAddImage($_POST["transaction_id"], $newFileName);
 
-        if(in_array($fileExtension, $allowedfileExtensions)){
-            if (move_uploaded_file($fileTempPath, $newFileName)) {
+            if($imageResult == true){
+
+                $result = [
+                    'message' => 'File is valid and has been successfully uploaded',
+                    'filePath' => $newFileName
+                ];
+
                 http_response_code(200);
-                echo "File is valid, and was successfully uploaded.\n";
-            } else {
-                http_response_code(403);
-                echo "Possible file upload attack!\n";
+                echo json_encode($result); //"File is valid and has been successfully uploaded";
             }
         }
+        else {
+            http_response_code(403);
+            echo "Possible file upload attack!\n";
+        }
+       
+
+        // if(in_array($fileExtension, $allowedfileExtensions)){
+        //     if (move_uploaded_file($fileTempPath, $newFileName)) {
+        //         http_response_code(200);
+        //         echo "File is valid, and was successfully uploaded.\n";
+        //     } else {
+                
+        //     }
+        // }
 
         //shell_exec("rm -rf " . $dir);
         
@@ -254,6 +275,30 @@ class RecordsController extends BaseController
         //   }
 
        
+    }
+
+    public function deleteFile($filePath = null) 
+    {
+        //check if ajax call or call within (if null, then it's call from ajax)
+        if($filePath == null){
+
+            // Takes raw data from the request
+            $json = file_get_contents('php://input');
+
+            // Converts it into a PHP object
+            $data = json_decode($json);      
+
+            $filePath = $data->filePath;
+        }
+
+        //if file exist please remove
+        if(file_exists($filePath)) {
+            
+            unlink($filePath);
+
+            return true;
+        }
+        else return false;
     }
 
 }

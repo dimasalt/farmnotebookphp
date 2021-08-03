@@ -10,8 +10,10 @@
 - add paging functionality
 - add validation for inputs
 
-- add ability to create vendor on the fly while adding transaction
-
 NOTE: Try to add display of common statistics between 2 selected dates
 
 **Important : Add checks for duplicate transactions and transaction items**
+
+### Contacts Page
+
+- add checks for duplicate

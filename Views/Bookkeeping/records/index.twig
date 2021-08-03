@@ -120,7 +120,7 @@
                                 <small class="fw-light ms-3">{{ '{{record.trans_read_date}}' }}</small>
                             </div>                         
                         </td>                                                                              
-                        <td class="pt-1 w-15">   
+                        <td class="pt-1 w-15">    <!-- action buttons -->
                              <a href="#" v-on:click="setAction('new_item', index)" v-if="action.new == false ">
                                 <i class="far fa-plus-square btn-sm text-success align-middle"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Add transaction item"></i>
@@ -135,9 +135,8 @@
                             </a>
                              <a href="#" v-on:click="setAction('image', index)">
                                 <i class="fa fa-upload btn-sm text-secondary pe-0 float-right" data-bs-toggle="tooltip" data-bs-placement="top" title="upload transaction image" aria-hidden="true"></i>
-                            </a>
-                            {# v-if="record.trans_image" #}
-                            <a href="#">                                
+                            </a>                         
+                            <a href="#" v-on:click="setAction('image_view', index)" v-if="record.trans_image">                                
                                 <i data-bs-toggle="tooltip" data-bs-placement="top" title="View transaction image" class="fas fa-image text-small text-info float-right ms-2"></i>
                             </a>                           
                         </td>
@@ -188,21 +187,40 @@
             </nav>
         </div>
 
-        <!-- receipt upload form -->
-        {# <div class="col-3 mt-0" id="dropzone_div" v-show="action.image==true">
-            <form action="/bookkeeping/records/receipt/upload" class="dropzone" id="transaction-upload"></form>            
-        </div> #}
+
+        <!-- image view and removal -->
+        <div class="col-3 mt-0" id="dropzone_div" v-show="action.image_view==true">
+                <div class="card col-12 bg-dark text-white rounded shadow-sm">
+                <h5 class="mt-3 mb-1 ms-3">Transaction Receipt Images<h5 />
+                <hr class="bg-secondary" />
+                <div class="ms-2 font-16"><small>Transaction # {{ '{{ transaction_record.id }}' }}</small></div>
+                {# <form action="/bookkeeping/records/receipt/upload" class="dropzone m-2 text-dark" id="transaction-upload"></form>     #}
+
+
+                <hr class="bg-secondary" />  
+                <div class="d-flex justify-content-end py-1">
+                     <a href="#" class="btn btn-warning me-2 rounded-0" v-on:click="resetTransactionRecord()">
+                        <i class="fas fa-times-circle text-small me-1"></i>
+                        Close           
+                    </a>                       
+                </div>      
+            </div>
+        </div>     
         
+         <!-- receipt upload form -->
         <div class="col-3 mt-0" id="dropzone_div" v-show="action.image==true">
              <div class="card col-12 bg-dark text-white rounded shadow-sm">
-                <h5 class="mt-3 mb-1 ms-3">
-                    <span v-if="action.new==true">New</span>
-                    <span v-if="action.edit==true">Edit</span>
-                    Transaction Receipt Upload
-                <h5 />
+                <h5 class="mt-3 mb-1 ms-3">Transaction Receipt Upload<h5 />
                 <hr class="bg-secondary" />
+                <div class="ms-2 font-16"><small>Transaction # {{ '{{ transaction_record.id }}' }}</small></div>
                 <form action="/bookkeeping/records/receipt/upload" class="dropzone m-2 text-dark" id="transaction-upload"></form>    
-                <hr class="bg-secondary" />        
+                <hr class="bg-secondary" />  
+                <div class="d-flex justify-content-end py-1">
+                     <a href="#" class="btn btn-warning me-2 rounded-0" v-on:click="resetTransactionRecord()">
+                        <i class="fas fa-times-circle text-small me-1"></i>
+                        Close           
+                    </a>                       
+                </div>      
             </div>
         </div>
 
@@ -447,18 +465,28 @@
 
             
             myDropzone.on("complete", function(file) {
-                
-                if(file.status == 'error')
-                     toastr.error(file.xhr.response);
-                else toastr.success(file.xhr.response);
+                var self = this;
 
-                //console.log(file);             
+                if(file.status == 'error'){
+                    toastr.error(file.xhr.response);                                   
+                }
+                else {
+                    toastr.success(file.xhr.response);
+
+                   //update image in transaction
+                   app.transactionsGetAll();
+                    //app.transactionUpdateImage(app.transaction_record.id, response.filePath);  
+                } 
+   
+                //removeThumbnail         
+                setTimeout(function() { 
+                    myDropzone.removeFile(file);
+                },10000);
 
             });
         
             
         });
-
     </script>
 
 {% endblock %}

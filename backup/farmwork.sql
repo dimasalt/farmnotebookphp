@@ -270,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 -- Dumping data for table farmwork.transaction: ~3 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('3a7c2b51-e827-11eb-8df3-d8cb8ac0caec', 'feed purchase', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', NULL, '2021-07-12 00:00:00', '2021-07-18 20:21:07', '2021-07-18 20:21:07'),
+	('3a7c2b51-e827-11eb-8df3-d8cb8ac0caec', 'feed purchase', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', '', '2021-07-12 00:00:00', '2021-07-18 20:21:07', '2021-07-30 09:32:52'),
 	('d653a723-e826-11eb-8df3-d8cb8ac0caec', 'took calf for sale', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', NULL, '2021-06-28 00:00:00', '2021-07-18 20:18:19', '2021-07-18 20:18:19'),
 	('dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'feed and bedding supplies', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', NULL, '2021-05-17 00:00:00', '2021-07-18 20:25:39', '2021-07-18 20:25:39');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
@@ -1261,7 +1261,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `transactionUpdateImage`(
 	IN `id` CHAR(36),
-	IN `trans_imge` VARCHAR(250)
+	IN `trans_image` VARCHAR(250)
 )
 BEGIN
 

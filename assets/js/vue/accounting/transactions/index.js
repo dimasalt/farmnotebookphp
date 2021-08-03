@@ -202,6 +202,22 @@ const transactions = {
             result.always(function () { });
         },
         /**
+         * ------------------------------------------------------------------------------
+         * Transaction freshly uploaded image update
+         * ------------------------------------------------------------------------------
+         */
+        // transactionUpdateImage(id, filepath){
+        //     var self = this;
+
+        //     //assing image to transaction
+        //     for(var i = 0; i < self.transactions.length; i++){
+        //         if(self.transactions[i].id == id){
+        //             self.transactions[i].trans_img = filepath;
+        //             break;
+        //         }
+        //     }
+        // },
+        /**
          * --------------------------------------------------------------------------------------
          * add item to main transaction record
          * ---------------------------------------------------------------------------------------
@@ -464,29 +480,18 @@ const transactions = {
              //show the modal
              $('#deleteModalItem').modal('toggle');
         },    
-
         setAction (action, index){
             var self = this;          
 
             //reset transaction record
             self.resetTransactionRecord();
 
-            //show new transaction for action                       
-            //self.action = action;         
+            //show new transaction for action                                  
             if(action == 'new') self.action.new = true;
             else if(action == 'edit'){
 
                 self.action.new = true;
-                self.transaction_record = Object.assign({}, self.transactions[index] );                    
-
-                // for(var i = 0; i < self.transactions.length; i++){
-                //     if(self.transactions[i].id == record.id){
-                //         self.transaction_record = Object.assign({}, self.transactions[i] );      
-                //         self.action.edit = true;
-
-                //         break;
-                //     }
-                // }               
+                self.transaction_record = Object.assign({}, self.transactions[index] );                                 
             } 
             else if(action == 'new_item'){
 
@@ -496,8 +501,11 @@ const transactions = {
             else if(action == 'image') {
                 self.action.image = true;                                    
 
-                //assign transaction id
-                //self.transaction_item.transaction_id = record.id;
+                //assign transaction id                
+                self.transaction_record = Object.assign({}, self.transactions[index] );        
+            }
+            else if(action == 'image_view'){
+                self.action.image_view = true;
                 self.transaction_record = Object.assign({}, self.transactions[index] );        
             }
         },
