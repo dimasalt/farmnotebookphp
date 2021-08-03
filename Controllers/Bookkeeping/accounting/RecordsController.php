@@ -277,6 +277,45 @@ class RecordsController extends BaseController
        
     }
 
+    /**
+     * ----------------------------------------------------------------------------
+     * Remove image from server and database
+     * ---------------------------------------------------------------------------
+     */
+    public function transactionReceiptRemove(){
+
+        //security
+        session_regenerate_id(); 
+        
+        //translate paremeters from json
+         // Takes raw data from the request
+         $json = file_get_contents('php://input');
+
+         // Converts it into a PHP object
+         $data = json_decode($json);      
+
+
+        //get csrf tocket and check if it's valid/ if not throw an error
+        if(!CSRFToken::isValid($data->csrf)){
+            http_response_code(403);
+            echo "File removal did not pass security";
+            die();
+        }        
+
+        //call for file removal
+        $result = $this->deleteFile($data->trans_image);
+
+        //if removed, then remove from database
+        if($result == true){
+
+            $rcHelper = new RecordsHelper();
+            $imageResult = $rcHelper->transactionAddImage($data->id, null);
+
+            echo json_encode($imageResult);
+        }
+        else echo json_encode($result);
+    }
+
     public function deleteFile($filePath = null) 
     {
         //check if ajax call or call within (if null, then it's call from ajax)

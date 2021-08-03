@@ -12,6 +12,8 @@
 
 NOTE: Try to add display of common statistics between 2 selected dates
 
+IMPORTANT: Remove empty folders after receipt image removal
+
 **Important : Add checks for duplicate transactions and transaction items**
 
 ### Contacts Page

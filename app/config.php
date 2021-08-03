@@ -21,7 +21,6 @@ return [
     "password" => 'Q74V(;7P8;F6xEk',
     "from" => 'dmitri@better-life-tips.com'
 ],
-    // "upload_url" => 'C:/Users/PC5/Desktop/FarmWork/uploads/',
     "upload_url" => 'uploads/',
     "website_url" => '',
     "app_token" => '51092c5b070f25d9c4eef87d08f3b86decad4570'

@@ -194,15 +194,20 @@
                 <h5 class="mt-3 mb-1 ms-3">Transaction Receipt Images<h5 />
                 <hr class="bg-secondary" />
                 <div class="ms-2 font-16"><small>Transaction # {{ '{{ transaction_record.id }}' }}</small></div>
-                {# <form action="/bookkeeping/records/receipt/upload" class="dropzone m-2 text-dark" id="transaction-upload"></form>     #}
+               
+                <img v-bind:src="'/' + transaction_record.trans_image" class="img-thumbnail" alt=""  />
 
 
                 <hr class="bg-secondary" />  
                 <div class="d-flex justify-content-end py-1">
-                     <a href="#" class="btn btn-warning me-2 rounded-0" v-on:click="resetTransactionRecord()">
+                     <a href="#" class="btn btn-warning rounded-0" v-on:click="resetTransactionRecord()">
                         <i class="fas fa-times-circle text-small me-1"></i>
                         Close           
-                    </a>                       
+                    </a>                                                                    
+                    <a href="#" class="btn btn-danger rounded-0 me-2" v-on:click="transactionImageRemove()">
+                        <i class="fas fa-times-circle text-small me-1"></i>
+                        Remove           
+                    </a>                        
                 </div>      
             </div>
         </div>     
@@ -467,14 +472,25 @@
             myDropzone.on("complete", function(file) {
                 var self = this;
 
+                var data = JSON.parse(file.xhr.response);          
+
                 if(file.status == 'error'){
-                    toastr.error(file.xhr.response);                                   
+                    toastr.error(data.message);                                   
                 }
                 else {
-                    toastr.success(file.xhr.response);
+                    toastr.success(data.message);
 
                    //update image in transaction
-                   app.transactionsGetAll();
+                   for(var i = 0; i < app.transactions.length; i++){
+                       if(app.transactions[i].id == app.transaction_record.id){
+
+                           app.transactions[i].trans_image = data.filePath;
+                           break;
+                       }
+                   }
+                   
+                   
+                   //app.transactionsGetAll();
                     //app.transactionUpdateImage(app.transaction_record.id, response.filePath);  
                 } 
    

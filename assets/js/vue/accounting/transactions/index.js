@@ -106,6 +106,49 @@ const transactions = {
         },
         /**
          * -------------------------------------------------------------
+         * remove transaction image receipt
+         * -------------------------------------------------------------
+         */
+        transactionImageRemove(){
+          
+            //gets all project items
+            var self = this;           
+    
+            var data = {
+                id : self.transaction_record.id, 
+                trans_image :  self.transaction_record.trans_image,
+                csrf : $('#csrf').val() 
+            };
+
+            data = JSON.stringify(data);
+    
+            var result = $.post("/bookkeeping/records/receipt/remove", data);
+    
+            result.done(function (data) {
+                data = JSON.parse(data);              
+
+                if (data == true) {   
+                                                
+                    //reset transaction record and item 
+                    self.resetTransactionRecord();
+
+                    //get updated list of transactions
+                    self.transactionsGetAll();
+
+                    //Display a success toast, with a title
+                    toastr.success("You have successfully have remove transaction receipt image");                                              
+                }
+                else if(data == false){
+                    // Display an error toast, with a title
+                    toastr.error("Ops! There appears to be an error and selected transaction receipt image couldn't be removed");
+                }
+            });
+    
+            result.always(function () { });
+        
+        },
+        /**
+         * -------------------------------------------------------------
          * get transaction categories
          * -------------------------------------------------------------
          */
@@ -201,22 +244,6 @@ const transactions = {
     
             result.always(function () { });
         },
-        /**
-         * ------------------------------------------------------------------------------
-         * Transaction freshly uploaded image update
-         * ------------------------------------------------------------------------------
-         */
-        // transactionUpdateImage(id, filepath){
-        //     var self = this;
-
-        //     //assing image to transaction
-        //     for(var i = 0; i < self.transactions.length; i++){
-        //         if(self.transactions[i].id == id){
-        //             self.transactions[i].trans_img = filepath;
-        //             break;
-        //         }
-        //     }
-        // },
         /**
          * --------------------------------------------------------------------------------------
          * add item to main transaction record
