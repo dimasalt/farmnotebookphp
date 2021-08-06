@@ -8,7 +8,8 @@ const transactions = {
 
             start_date : new Date().getFullYear()  + '-01-01', //format yyyy + '-' + mm + '-' + dd;
             end_date:  new Date().getFullYear()  + '-12-31', //format yyyy + '-' + mm + '-' + dd;
-            transaction_category_selected : '',
+            category_selected : '',
+            sub_category_selected : '',
             transaction_category : [],
             transaction_sub_category : [],
             transaction_sub_category_disabled : true,
@@ -54,7 +55,15 @@ const transactions = {
             //gets all project items
             var self = this;           
     
-            var data = {search_term : self.search_term, start_date: self.start_date, end_date :  self.end_date };
+            //prepare data object 
+            //includes search term, date and selected categories and sub categories
+            var data = {
+                search_term : self.search_term, 
+                category_selected : self.category_selected,
+                sub_category_selected: self.sub_category_selected,
+                start_date: self.start_date, 
+                end_date :  self.end_date 
+            };
 
             data = JSON.stringify(data);
     
@@ -79,7 +88,7 @@ const transactions = {
         },
         /**
          * -------------------------------------------------------------
-         *      get vendor list
+         * get vendor list
          * -------------------------------------------------------------
          */
         vendorsGetAll(){
@@ -426,14 +435,32 @@ const transactions = {
             var self = this;
 
             for(var i = 0; i < self.transaction_category.length; i++)
-                if(self.transaction_category[i].id == self.transaction_category_selected){
-                    self.transaction_sub_category = self.transaction_category[i].sub_category;                   
+                if(self.transaction_category[i].category_name == self.category_selected)
+                {
+                    //push empty element to the first place of array
+                    self.transaction_sub_category = [];
+                    self.transaction_sub_category.push({
+                        id : 0,
+                        category_name : ''
+                    });
+
+                    //push the rest of sub categories               
+                    if(self.category_selected.length > 0)
+                        for(var y=0; y < self.transaction_category[i].sub_category.length; y++)
+                            self.transaction_sub_category.push(self.transaction_category[i].sub_category[y]);                   
+
+                    //select first value from sub categories (empty value)
+                    self.sub_category_selected = '';
+
                     break;                    
                 }   
                 
-            if(self.transaction_category_selected == '0')
+            if(self.category_selected === '')
                 self.transaction_sub_category_disabled = true;
             else self.transaction_sub_category_disabled = false;
+
+            //initiate records pulling in accordance to the changed parameters
+            self.transactionsGetAll();
         },
         /**
          *----------------------------------------------------------------------------
@@ -476,10 +503,8 @@ const transactions = {
 
              //show the modal
              $('#deleteModalRecord').modal('toggle');
-        },  
-        
-        
-          /**
+        },                  
+        /**
          * -------------------------------------------------------------------------------
          * show delete modal for transaction record Item
          * -------------------------------------------------------------------------------

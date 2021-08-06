@@ -12,7 +12,7 @@ class RecordsHelper
     * term, dates and other selected parameters
     -----------------------------------------------------------
     */
-    public function transactionsGetAll($search_term, $start_date, $end_date){
+    public function transactionsGetAll($search_term, $start_date, $end_date, $category_selected, $sub_category_selected){
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
@@ -21,22 +21,60 @@ class RecordsHelper
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        //get items for transaction record
-        for($i = 0; $i < count($result); $i++){
-            $items = $this->transactionltemsGet($result[$i]['id']);
+        //get items for transaction record and remove ones that do not fit search parameters
+        foreach($result as $key=>$value){
+            $items =  $this->transactionltemsGet($result[$key]['id'], $category_selected, $sub_category_selected);
 
-            $result[$i]['items'] = $items;
+            if(count($items) == 0)
+                unset($result[$key]);
+            else {
+                $result[$key]['items'] = $items;
 
-            //convert date to more readable format
-            $result[$i]["trans_read_date"] = date("M d, Y", strtotime($result[$i]["trans_date"])); 
+                //set more readable date
+                $result[$key]["trans_read_date"] = date("M d, Y", strtotime($result[$key]["trans_date"]));    
+            }
         }
 
-        // for($i = 0; $i< count($result); $i++){
-        //     if(strlen($result[$i]["desc"]) > 100 )
-        //         $result[$i]['desc'] = substr($result[$i]['desc'], 0, 110) . '...';
-        // }
 
-       return $result;
+        // for($i = 0; $i < count($result); $i++){
+        //     $items = $this->transactionltemsGet($result[$i]['id'], $category_selected, $sub_category_selected);
+
+        //     $result[$i]['items'] = $items;          
+                
+        //     //convert date to more readable format
+        //     $result[$i]["trans_read_date"] = date("M d, Y", strtotime($result[$i]["trans_date"]));                       
+        // }
+        
+        // foreach($result as $key=>$value)
+        // {
+        //     if(count($value['items']) == 0)
+        //         unset($result[$key]);
+        // }       
+
+        //rearange results from transactions
+        //$result = array_values($result);
+
+        return $result;
+    }
+    /**
+     * ----------------------------------------------------------------------------------
+     * Gets all transaction items for specific transaction record
+     * -----------------------------------------------------------------------------------
+     */
+    public function transactionltemsGet($transaction_id, $category_selected, $sub_category_selected): array
+    {
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call transactionItemsGet(?,?,?)');
+        $stmt->execute([
+            $transaction_id,
+            $category_selected,
+            $sub_category_selected
+        ]);       
+
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);                    
+
+        return $result;
     }
     /**
      * ------------------------------------------------------------------
@@ -191,24 +229,7 @@ class RecordsHelper
 
         if($stmt->rowCount() > 0) return true;
         else return false; 
-    }
-    
-    /**
-     * ----------------------------------------------------------------------------------
-     * Gets all transaction items for specific transaction record
-     * -----------------------------------------------------------------------------------
-     */
-    public function transactionltemsGet($transaction_id): array
-    {
-        $db = new DBConnection();
-        $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call transactionItemsGet(?)');
-        $stmt->execute(array($transaction_id));       
-
-        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);                    
-
-        return $result;
-    }
+    }    
       /*
      * ---------------------------------------------------------
      * Delete transaction a sub item from main transaction record

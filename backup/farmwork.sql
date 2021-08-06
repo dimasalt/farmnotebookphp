@@ -270,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 -- Dumping data for table farmwork.transaction: ~3 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('3a7c2b51-e827-11eb-8df3-d8cb8ac0caec', 'feed purchase', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', NULL, '2021-07-12 00:00:00', '2021-07-18 20:21:07', '2021-08-03 11:01:13'),
+	('3a7c2b51-e827-11eb-8df3-d8cb8ac0caec', 'feed purchase', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', NULL, '2021-07-12 00:00:00', '2021-07-18 20:21:07', '2021-08-04 10:40:21'),
 	('d653a723-e826-11eb-8df3-d8cb8ac0caec', 'took calf for sale', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', NULL, '2021-06-28 00:00:00', '2021-07-18 20:18:19', '2021-08-03 11:00:22'),
 	('dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'feed and bedding supplies', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', NULL, '2021-05-17 00:00:00', '2021-07-18 20:25:39', '2021-08-03 11:00:50');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
@@ -503,23 +503,6 @@ CREATE TABLE `v_livestock` (
 	`price` FLOAT(10,2) NULL,
 	`type_name` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
 	`is_active` TINYINT(4) NOT NULL
-) ENGINE=MyISAM;
-
--- Dumping structure for view farmwork.v_transactions
--- Creating temporary table to overcome VIEW dependency errors
-CREATE TABLE `v_transactions` (
-	`id` CHAR(36) NOT NULL COLLATE 'utf8mb4_general_ci',
-	`vendor_name` VARCHAR(50) NULL COLLATE 'utf8mb4_general_ci',
-	`trans_currency` VARCHAR(10) NOT NULL COLLATE 'utf8mb4_general_ci',
-	`trans_image` VARCHAR(250) NULL COLLATE 'utf8mb4_general_ci',
-	`trans_date` DATETIME NOT NULL,
-	`item_name` VARCHAR(150) NOT NULL COLLATE 'utf8mb4_general_ci',
-	`item_category` VARCHAR(150) NOT NULL COLLATE 'utf8mb4_general_ci',
-	`item_subcategory` VARCHAR(150) NOT NULL COLLATE 'utf8mb4_general_ci',
-	`amount` DECIMAL(19,2) NOT NULL,
-	`hst_tax` DECIMAL(19,2) NOT NULL,
-	`gst_tax` DECIMAL(19,2) NOT NULL,
-	`pst_tax` DECIMAL(19,2) NOT NULL
 ) ENGINE=MyISAM;
 
 -- Dumping structure for procedure farmwork.contactAdd
@@ -1169,9 +1152,26 @@ DELIMITER ;
 -- Dumping structure for procedure farmwork.transactionItemsGet
 DELIMITER //
 CREATE PROCEDURE `transactionItemsGet`(
-	IN `transaction_id` CHAR(36)
+	IN `transaction_id` CHAR(36),
+	IN `category_selected` VARCHAR(150),
+	IN `sub_category_selected` VARCHAR(150)
 )
 BEGIN
+
+	-- prepare category item search
+	IF LENGTH(category_selected) = 0 THEN
+		SET category_selected = "%";
+	ELSE
+		SET category_selected = CONCAT('%', category_selected, '%') ;
+	END IF;
+	
+	-- prepare sub category item search
+	IF LENGTH(sub_category_selected) = 0 THEN
+		SET sub_category_selected = "%";
+	ELSE
+		SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;
+	END IF;
+	
 
 	SELECT 
 		transaction_item.id,
@@ -1188,7 +1188,9 @@ BEGIN
 	FROM 
 		transaction_item
 	WHERE 		
-		transaction_item.transaction_id = transaction_id
+		transaction_item.transaction_id = transaction_id 
+		AND transaction_item.item_category LIKE category_selected 
+		AND transaction_item.item_subcategory LIKE sub_category_selected
 	ORDER BY transaction_item.item_name ASC;
 		
 END//
@@ -1211,6 +1213,7 @@ BEGIN
 	ELSE
 		SET search_term = CONCAT('%', search_term, '%') ;
 	END IF;
+	
 
 	SELECT 
 		transaction.id,
@@ -1455,25 +1458,6 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_livestock` AS SELECT
 	livestock.is_active
 FROM livestock
 INNER JOIN livestock_type ON livestock.livestock_type = livestock_type.id ;
-
--- Dumping structure for view farmwork.v_transactions
--- Removing temporary table and create final VIEW structure
-DROP TABLE IF EXISTS `v_transactions`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_transactions` AS SELECT 
-	transaction.id,
-	transaction.vendor_name,
-	transaction.trans_currency,
-	transaction.trans_image,
-	transaction.trans_date,
-	transaction_item.item_name,
-	transaction_item.item_category,
-	transaction_item.item_subcategory,
-	transaction_item.amount,
-	transaction_item.hst_tax,
-	transaction_item.gst_tax,
-	transaction_item.pst_tax
-FROM transaction 
-INNER JOIN transaction_item ON transaction.id = transaction_item.transaction_id ;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

@@ -32,7 +32,7 @@ class RecordsController extends BaseController
         //     $data->search_term = '%' . $data->search_term . '%';
    
         $helper = new RecordsHelper();
-        $result = $helper->transactionsGetAll($data->search_term, $data->start_date, $data->end_date);
+        $result = $helper->transactionsGetAll($data->search_term, $data->start_date, $data->end_date, $data->category_selected, $data->sub_category_selected);
 
         echo json_encode($result);
     }
@@ -165,7 +165,9 @@ class RecordsController extends BaseController
 
 
     /**
+     * ------------------------------------------------------
      * Receipt image upload for transaction
+     * ------------------------------------------------------
      */
     public function transactionReceiptUpload(){
 
@@ -212,16 +214,12 @@ class RecordsController extends BaseController
 
          //call function to remove the file
          $this->deleteFile($newFileName);
-        //  if(file_exists($newFileName)) 
-        //     unlink($newFileName);
         
 
         //temporary file location
         $fileTempPath = $_FILES['file']['tmp_name'];
 
-        //extention
-        // $fileNameCmps = explode(".", $fileName);
-        // $fileExtension = strtolower(end($fileNameCmps));
+        //move newly uploaded file to its permament location
         if(move_uploaded_file($fileTempPath, $newFileName)){           
 
             //update image in database
@@ -243,16 +241,6 @@ class RecordsController extends BaseController
             http_response_code(403);
             echo "Possible file upload attack!\n";
         }
-       
-
-        // if(in_array($fileExtension, $allowedfileExtensions)){
-        //     if (move_uploaded_file($fileTempPath, $newFileName)) {
-        //         http_response_code(200);
-        //         echo "File is valid, and was successfully uploaded.\n";
-        //     } else {
-                
-        //     }
-        // }
 
         //shell_exec("rm -rf " . $dir);
         
@@ -302,7 +290,7 @@ class RecordsController extends BaseController
             die();
         }        
 
-        //call for file removal
+        //call for physical file removal
         $result = $this->deleteFile($data->trans_image);
 
         //if removed, then remove from database
@@ -316,25 +304,17 @@ class RecordsController extends BaseController
         else echo json_encode($result);
     }
 
-    public function deleteFile($filePath = null) 
-    {
-        //check if ajax call or call within (if null, then it's call from ajax)
-        if($filePath == null){
-
-            // Takes raw data from the request
-            $json = file_get_contents('php://input');
-
-            // Converts it into a PHP object
-            $data = json_decode($json);      
-
-            $filePath = $data->filePath;
-        }
-
+    /**
+     * --------------------------------------------------------------------
+     * Physically remove file from the system
+     * --------------------------------------------------------------------
+     */
+    public function deleteFile($filePath) : bool
+    {     
         //if file exist please remove
         if(file_exists($filePath)) {
             
             unlink($filePath);
-
             return true;
         }
         else return false;
