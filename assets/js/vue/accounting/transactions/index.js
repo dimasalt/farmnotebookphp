@@ -22,9 +22,7 @@ const transactions = {
                 new_item : false,
                 image : false,
                 image_view : false
-            },
-            //action_item: false,
-            is_vendor: true           
+            }        
         }
     },   
     created () { 
@@ -67,24 +65,26 @@ const transactions = {
 
             data = JSON.stringify(data);
     
-            var projectsList = $.post("/bookkeeping/records/get/all", data);
+            var result = $.post("/bookkeeping/records/get/all", data);
     
-            projectsList.done(function (data) {
+            result.done(function (data) {
                 if (data.length > 0) {
                     data = JSON.parse(data);
     
-                    for (var i = 0; i < data.length; i++) {
+                    // for (var i = 0; i < data.length; i++) {
     
-                        //check for red or green success class styling
-                        if (data[i].trans_ammount < 0) data[i].class = "text-danger";
-                        else if (data[i].trans_ammount > 0) data[i].class = "text-success";
-                    }
+                    //     //check for red or green success class styling
+                    //     if (data[i].trans_ammount < 0) data[i].class = "text-danger";
+                    //     else if (data[i].trans_ammount > 0) data[i].class = "text-success";
+                    // }
                     
                     self.transactions = data;
+
+
                 }
             });
     
-            projectsList.always(function () { });
+            result.always(function () { });
         },
         /**
          * -------------------------------------------------------------

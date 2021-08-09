@@ -7,53 +7,53 @@ use FarmWork\Libraries\DBConnection;
 class RecordsHelper
 {
     /**
-    -----------------------------------------------------------
+    * -----------------------------------------------------------
     * get list of all available transactions items based on search
     * term, dates and other selected parameters
-    -----------------------------------------------------------
+    * -----------------------------------------------------------
     */
     public function transactionsGetAll($search_term, $start_date, $end_date, $category_selected, $sub_category_selected){
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call transactionsGetAll(?,?,?,?,?)');      
-        $stmt->execute([$search_term, 1, 1, $start_date, $end_date]);
+        $stmt = $pdo->prepare('call transactionsGetAll(?,?,?,?,?,?,?)');      
+        $stmt->execute([
+            $search_term, 
+            $category_selected,
+            $sub_category_selected,
+            1, 
+            25, 
+            $start_date, 
+            $end_date
+        ]);
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         //get items for transaction record and remove ones that do not fit search parameters
-        foreach($result as $key=>$value){
-            $items =  $this->transactionltemsGet($result[$key]['id'], $category_selected, $sub_category_selected);
+        $count = count($result);
+        for ($i = 0; $i < $count; $i++){
+            
+            //get items for transaction/vendor record
+            $result[$i]['items'] = $this->transactionltemsGet($result[$i]['id'], $category_selected, $sub_category_selected);
 
-            if(count($items) == 0)
-                unset($result[$key]);
-            else {
-                $result[$key]['items'] = $items;
-
-                //set more readable date
-                $result[$key]["trans_read_date"] = date("M d, Y", strtotime($result[$key]["trans_date"]));    
-            }
+            //create more readable date format
+            $result[$i]["trans_read_date"] = date("M d, Y", strtotime($result[$i]["trans_date"]));    
         }
 
+        //FOREACH 
+        // foreach($result as $key=>$value){
+        //     $items =  $this->transactionltemsGet($result[$key]['id'], $category_selected, $sub_category_selected);
 
-        // for($i = 0; $i < count($result); $i++){
-        //     $items = $this->transactionltemsGet($result[$i]['id'], $category_selected, $sub_category_selected);
+        //     if(count($items) == 0)
+        //         unset($result[$key]);
+        //     else {
+        //         $result[$key]['items'] = $items;
 
-        //     $result[$i]['items'] = $items;          
-                
-        //     //convert date to more readable format
-        //     $result[$i]["trans_read_date"] = date("M d, Y", strtotime($result[$i]["trans_date"]));                       
+        //         //set more readable date
+        //         $result[$key]["trans_read_date"] = date("M d, Y", strtotime($result[$key]["trans_date"]));    
+        //     }
         // }
         
-        // foreach($result as $key=>$value)
-        // {
-        //     if(count($value['items']) == 0)
-        //         unset($result[$key]);
-        // }       
-
-        //rearange results from transactions
-        //$result = array_values($result);
-
         return $result;
     }
     /**
