@@ -13,7 +13,7 @@ class RecordsTypeController extends BaseController
      */
     public function index() {         
 
-        echo $this->view->render('Bookkeeping\types\index.twig', [
+        echo $this->view->render('Accounting\types\index.twig', [
             'csrf' => CSRFToken::getToken()
         ]);
     }

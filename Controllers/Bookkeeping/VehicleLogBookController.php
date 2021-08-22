@@ -17,7 +17,7 @@ class VehicleLogBookController extends BaseController {
         //security
         session_regenerate_id();
 
-        echo $this->view->render('Bookkeeping\vehiclelogbook\index.twig',            
+        echo $this->view->render('Accounting\vehiclelogbook\index.twig',            
             [ 'csrf' => CSRFToken::getToken()]
         );
     }

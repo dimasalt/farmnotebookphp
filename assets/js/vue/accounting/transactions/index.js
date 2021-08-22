@@ -69,18 +69,9 @@ const transactions = {
     
             result.done(function (data) {
                 if (data.length > 0) {
-                    data = JSON.parse(data);
-    
-                    // for (var i = 0; i < data.length; i++) {
-    
-                    //     //check for red or green success class styling
-                    //     if (data[i].trans_ammount < 0) data[i].class = "text-danger";
-                    //     else if (data[i].trans_ammount > 0) data[i].class = "text-success";
-                    // }
+                    data = JSON.parse(data);                  
                     
                     self.transactions = data;
-
-
                 }
             });
     

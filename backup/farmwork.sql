@@ -139,6 +139,26 @@ CREATE TABLE IF NOT EXISTS `feed_type` (
 /*!40000 ALTER TABLE `feed_type` DISABLE KEYS */;
 /*!40000 ALTER TABLE `feed_type` ENABLE KEYS */;
 
+-- Dumping structure for table farmwork.financial_planning
+CREATE TABLE IF NOT EXISTS `financial_planning` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `planning_name` varchar(250) CHARACTER SET utf8 NOT NULL,
+  `planning_amount` decimal(10,0) NOT NULL DEFAULT 0,
+  `planning_amount_actual` decimal(10,0) NOT NULL DEFAULT 0,
+  `is_start` tinyint(4) NOT NULL DEFAULT 0,
+  `is_done` tinyint(4) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
+
+-- Dumping data for table farmwork.financial_planning: ~2 rows (approximately)
+/*!40000 ALTER TABLE `financial_planning` DISABLE KEYS */;
+INSERT INTO `financial_planning` (`id`, `planning_name`, `planning_amount`, `planning_amount_actual`, `is_start`, `is_done`, `created_at`) VALUES
+	(129, 'test', 20, 20, 1, 0, '2021-08-22 00:00:00'),
+	(130, 'sdfasdf', 23, 0, 0, 0, '2021-08-04 00:00:00'),
+	(131, 'asdfaf', 34, 0, 0, 0, '2021-08-19 00:00:00');
+/*!40000 ALTER TABLE `financial_planning` ENABLE KEYS */;
+
 -- Dumping structure for table farmwork.livestock
 CREATE TABLE IF NOT EXISTS `livestock` (
   `id` char(36) NOT NULL DEFAULT uuid(),
@@ -237,22 +257,6 @@ INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `
 	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'In accordance with Beef Quality Assurance guidelines, this product should be adminsitered 2 mL subcutaneously in the neck region.', '/uploads/medication/Bovi_Shield_Gold_5.jpg', NULL, 0, '2020-03-08 21:44:04');
 /*!40000 ALTER TABLE `medication` ENABLE KEYS */;
 
--- Dumping structure for table farmwork.planning_project
-CREATE TABLE IF NOT EXISTS `planning_project` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_name` varchar(250) CHARACTER SET utf8 NOT NULL,
-  `project_price` decimal(10,0) NOT NULL DEFAULT 0,
-  `project_price_actual` decimal(10,0) NOT NULL DEFAULT 0,
-  `is_start` tinyint(4) NOT NULL DEFAULT 0,
-  `is_done` tinyint(4) NOT NULL DEFAULT 0,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
-
--- Dumping data for table farmwork.planning_project: ~0 rows (approximately)
-/*!40000 ALTER TABLE `planning_project` DISABLE KEYS */;
-/*!40000 ALTER TABLE `planning_project` ENABLE KEYS */;
-
 -- Dumping structure for table farmwork.transaction
 CREATE TABLE IF NOT EXISTS `transaction` (
   `id` char(36) NOT NULL DEFAULT uuid(),
@@ -270,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 -- Dumping data for table farmwork.transaction: ~3 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('3a7c2b51-e827-11eb-8df3-d8cb8ac0caec', 'feed purchase', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', NULL, '2021-07-12 00:00:00', '2021-07-18 20:21:07', '2021-08-04 10:40:21'),
+	('3a7c2b51-e827-11eb-8df3-d8cb8ac0caec', 'feed purchase', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', NULL, '2021-07-12 00:00:00', '2021-07-18 20:21:07', '2021-08-20 09:22:49'),
 	('d653a723-e826-11eb-8df3-d8cb8ac0caec', 'took calf for sale', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', NULL, '2021-06-28 00:00:00', '2021-07-18 20:18:19', '2021-08-03 11:00:22'),
 	('dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'feed and bedding supplies', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', NULL, '2021-05-17 00:00:00', '2021-07-18 20:25:39', '2021-08-03 11:00:50');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
@@ -651,6 +655,119 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure farmwork.financialPlanningAdd
+DELIMITER //
+CREATE PROCEDURE `financialPlanningAdd`(
+	IN `planning_name` VARCHAR(250),
+	IN `planning_amount` DECIMAL(10,0),
+	IN `planning_amount_actual` DECIMAL(10,0),
+	IN `is_start` TINYINT,
+	IN `created_at` DATETIME
+)
+BEGIN
+
+	-- Removes starting budget point if that's what we're adding
+	IF is_start = 1 THEN
+		DELETE FROM financial_planning
+		WHERE financial_planning.is_start = 1;	
+	END IF;
+	
+
+	-- inserts new project item
+	INSERT INTO financial_planning
+		(
+			financial_planning.planning_name, 
+			financial_planning.planning_amount, 
+			financial_planning.planning_amount_actual, 
+			financial_planning.is_start,
+			financial_planning.created_at
+		)
+	VALUES
+		(
+			planning_name, 
+			planning_amount, 
+			planning_amount_actual, 
+			is_start,
+			created_at
+		);
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.financialPlanningDelOne
+DELIMITER //
+CREATE PROCEDURE `financialPlanningDelOne`(
+	IN `id` INT
+)
+    COMMENT 'removes one item from project list'
+BEGIN
+
+	DELETE FROM financial_planning
+	WHERE financial_planning.id = id;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.financialPlanningGetAll
+DELIMITER //
+CREATE PROCEDURE `financialPlanningGetAll`()
+    COMMENT 'Gets project list with their predicted and actual financial information'
+BEGIN
+
+	SELECT 
+		financial_planning.id,
+		financial_planning.planning_name,
+		financial_planning.planning_amount,
+		financial_planning.planning_amount_actual,
+		financial_planning.is_start,
+		financial_planning.is_done,
+		DATE(financial_planning.created_at) AS created_at						
+	FROM 
+		financial_planning
+	ORDER BY created_at ASC; 	
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.financialPlanningUpdateOne
+DELIMITER //
+CREATE PROCEDURE `financialPlanningUpdateOne`(
+	IN `id` INT,
+	IN `planning_name` VARCHAR(250),
+	IN `planning_amount` DECIMAL(10,0),
+	IN `planning_amount_actual` DECIMAL(10,0),
+	IN `created_at` DATETIME
+)
+BEGIN
+
+	UPDATE financial_planning
+	SET	
+		financial_planning.planning_name = planning_name,
+		financial_planning.planning_amount = planning_amount,
+		financial_planning.planning_amount_actual = planning_amount_actual,
+		financial_planning.created_at = created_at		
+	WHERE financial_planning.id = id;	
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.financialPlanningUpdateStatus
+DELIMITER //
+CREATE PROCEDURE `financialPlanningUpdateStatus`(
+	IN `id` INT,
+	IN `is_done` TINYINT
+)
+BEGIN
+
+	UPDATE financial_planning
+	SET 
+		financial_planning.is_done = is_done	
+	WHERE 
+		financial_planning.id = id;
+
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure farmwork.livestockGetAll
 DELIMITER //
 CREATE PROCEDURE `livestockGetAll`(
@@ -825,119 +942,6 @@ BEGIN
 		medication.`desc` = med_desc,
 		medication.instruction = med_instruction
 	WHERE medication.id = id;	
-
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.projectAdd
-DELIMITER //
-CREATE PROCEDURE `projectAdd`(
-	IN `project_name` VARCHAR(250),
-	IN `project_price` DECIMAL(10,0),
-	IN `project_price_actual` DECIMAL(10,0),
-	IN `is_start` TINYINT,
-	IN `created_at` DATETIME
-)
-BEGIN
-
-	-- Removes starting budget point if that's what we're adding
-	IF is_start = 1 THEN
-		DELETE FROM planning_project
-		WHERE planning_project.is_start = 1;	
-	END IF;
-	
-
-	-- inserts new project item
-	INSERT INTO planning_project
-		(
-			planning_project.project_name, 
-			planning_project.project_price, 
-			planning_project.project_price_actual, 
-			planning_project.is_start,
-			planning_project.created_at
-		)
-	VALUES
-		(
-			project_name, 
-			project_price, 
-			project_price_actual, 
-			is_start,
-			created_at
-		);
-
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.projectDelOne
-DELIMITER //
-CREATE PROCEDURE `projectDelOne`(
-	IN `id` INT
-)
-    COMMENT 'removes one item from project list'
-BEGIN
-
-	DELETE FROM planning_project
-	WHERE planning_project.id = id;
-
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.projectGetAll
-DELIMITER //
-CREATE PROCEDURE `projectGetAll`()
-    COMMENT 'Gets project list with their predicted and actual financial information'
-BEGIN
-
-	SELECT 
-		planning_project.id,
-		planning_project.project_name,
-		planning_project.project_price,
-		planning_project.project_price_actual,
-		planning_project.is_start,
-		planning_project.is_done,
-		DATE(planning_project.created_at) AS created_at						
-	FROM 
-		planning_project
-	ORDER BY created_at ASC; 	
-
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.projectUpdateOne
-DELIMITER //
-CREATE PROCEDURE `projectUpdateOne`(
-	IN `id` INT,
-	IN `project_name` VARCHAR(250),
-	IN `project_price` DECIMAL(10,0),
-	IN `project_price_actual` DECIMAL(10,0),
-	IN `created_at` DATETIME
-)
-BEGIN
-
-	UPDATE planning_project
-	SET	
-		planning_project.project_name = project_name,
-		planning_project.project_price = project_price,
-		planning_project.project_price_actual = project_price_actual,
-		planning_project.created_at = created_at		
-	WHERE planning_project.id = id;	
-
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.projectUpdateStatus
-DELIMITER //
-CREATE PROCEDURE `projectUpdateStatus`(
-	IN `id` INT,
-	IN `is_done` TINYINT
-)
-BEGIN
-
-	UPDATE planning_project
-	SET 
-		planning_project.is_done = is_done	
-	WHERE 
-		planning_project.id = id;
 
 END//
 DELIMITER ;
@@ -1238,7 +1242,7 @@ BEGIN
 	END IF;
 	
 
-	CREATE TEMPORARY TABLE transaction_batch 
+	CREATE TEMPORARY TABLE transaction_tmp
 	(
 		SELECT 
 			transaction.id,
@@ -1262,7 +1266,7 @@ BEGIN
 	);
 	
 	-- COUNT total NUMBER of records FOR this selection
-	SET total_records = (SELECT COUNT(transaction_batch.id) FROM transaction_batch);
+	SET total_records = (SELECT COUNT(transaction_tmp.id) FROM transaction_tmp);
 	
 	-- find how many pages there is
 	IF total_records > take_records THEN
@@ -1272,7 +1276,7 @@ BEGIN
 	-- select all the records
 	SELECT *, 
 		total_records AS 'total_records',
-		total_pages AS 'total_pages' FROM transaction_batch; 
+		total_pages AS 'total_pages' FROM transaction_tmp; 
 		
 END//
 DELIMITER ;

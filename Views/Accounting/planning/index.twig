@@ -4,36 +4,24 @@
 
 {% block header_scripts %}
     <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
-     <link href="/assets/components/chartjs/Chart.min.css"  rel="stylesheet">
  {% endblock %}
 
 
 {% block body %}       
 <!-- side nav menu -->
 {# {% include '/Bookkeeping/_sidenav.twig' %} #}
-{{ include('Bookkeeping/_sidenav.twig') }}
+{{ include('Accounting/_sidenav.twig') }}
 
 <!-- page content -->
 <div class="container-fluid">
     <div class=" pt-4 h-100" id="projects" v-cloak>                
-        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
-        {# <div class="row mb-2">
-            <div class="col-12">
-                <h2 class="text-dark">Project planner</h2>            
+        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">       
 
-                 <div class="callout callout-info">
-                    <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
-                    This page contains future projects planning and their financial information.
-                </div>
-            </div>
-        </div>  #}
-
-
-        <!-- start point -->
+        <!-- planning start point -->
         <div class="row">
             <div class="col-12 border-bottom">          
-                <h2 class="text-dark">Project Planner
-                    <a href="#" v-if='Object.keys(starting_expence).length > 0' v-on:click="delOneShow(starting_expence.id, starting_expence.project_name)">
+                <h2 class="text-dark">Financial Planner
+                    <a href="#" v-if='Object.keys(starting_expence).length > 0' v-on:click="delOneShow(starting_expence.id, starting_expence.planning_name)">
                         <i class="far fa-trash-alt btn-sm text-danger align-middle ml-1"
                             data-toggle="tooltip" data-placement="top" title="remove starting finance point"></i>
                     </a>
@@ -43,34 +31,36 @@
                 <table class="table bg-white table-bordered shadow-sm">              
                     <tbody>
                         <tr v-bind:class='starting_expence.class' >
-                            <td scope="row" style="width:90%">{{ '{{starting_expence.project_name}}' }}</td>                                   
-                            <td>{{ '{{starting_expence.project_price_formated}}' }}</td>
+                            <td scope="row" style="width:90%">{{ '{{starting_expence.planning_name}}' }}</td>                                   
+                            <td>{{ '{{starting_expence.planning_price_formated}}' }}</td>
                         </tr>                                   
                     </tbody>
                 </table>
             </div>
             <div class="col-12 mb-3" v-if='Object.keys(starting_expence).length === 0'>
-                <div class="alert alert-info">Please add starting bugdet point</div>
+                <div class="alert alert-warning shadow-sm mt-2">
+                    <i class="fas fa-exclamation-triangle me-1"></i>
+                    Please add starting planning point.
+                </div>
                 <div class="input-group">
-                    <input type="text" class="form-control col-7" placeholder="Project name" aria-label="Project name" aria-describedby="button-addon4" v-model="project_item_new.project_name">
-                    <input type="text" class="form-control col-3" placeholder="Starting budget" aria-label="Starting budget" aria-describedby="button-addon4" v-model="project_item_new.project_price">
-                    <input type="date" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_new.created_at">
+                    <input type="text" class="form-control col-7 rounded-0 shadow-sm" placeholder="Name" aria-label="Name" aria-describedby="button-addon4" v-model="project_item_new.planning_name">
+                    <input type="text" class="form-control col-3 shadow-sm" placeholder="Starting budget" aria-label="Starting budget" aria-describedby="button-addon4" v-model="project_item_new.planning_amount">
+                    <input type="date" class="form-control col-2 shadow-sm" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_new.created_at">
                     <div class="input-group-append" id="button-addon4">                       
-                        <button class="btn btn-success" type="button" v-on:click="addNew(1)">
-                            <i class="far fa-plus-square btn-sm text-white pl-0" title="Add starting finance point"></i>
+                        <button class="btn btn-success rounded-0 shadow-sm" type="button" v-on:click="addNew(1)">
+                            <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
                             Add           
-                        </button>
-                        
+                        </button>                        
                     </div>
                 </div>
             </div>    
         </div>   
 
 
-        <!-- ongoing expences -->
+        <!-- planning items income and expences -->
         <div class="row mt-4">           
             <div class="col-6">
-                <h4>Projects
+                <h4>Items
                      <a href="#" v-on:click="addNewShow()">
                         <i class="far fa-plus-square btn-sm text-success ml-1 align-middle"
                            data-toggle="tooltip" data-placement="top" title="Add project"></i>
@@ -81,17 +71,17 @@
         <div class="row">
             <div class="col-12 mb-3" v-if="project_item_new_visible == true" >               
                 <div class="input-group">
-                    <input type="text" class="form-control col-6" placeholder="Project name" aria-label="Project name" aria-describedby="button-addon4" v-model="project_item_new.project_name" required>
-                    <input type="text" class="form-control col-2" placeholder="Projected expence" aria-label="Projected expence" aria-describedby="button-addon4" v-model="project_item_new.project_price" required>
-                    <input type="text" class="form-control col-2" placeholder="Actual expence" aria-label="Actual expence" aria-describedby="button-addon4" v-model="project_item_new.project_price_actual" required>
-                    <input type="date" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_new.created_at">
+                    <input type="text" class="form-control col-6 rounded-0 shadow-sm" placeholder="Item name" aria-label="Item name" aria-describedby="button-addon4" v-model="project_item_new.planning_name" required>
+                    <input type="text" class="form-control col-2  rounded-0 shadow-sm" placeholder="Projected amount" aria-label="Projected amount" aria-describedby="button-addon4" v-model="project_item_new.planning_amount" required>
+                    <input type="text" class="form-control col-2  rounded-0 shadow-sm" placeholder="Actual Amount" aria-label="Actual amount" aria-describedby="button-addon4" v-model="project_item_new.planning_amount_actual" required>
+                    <input type="date" class="form-control col-2  rounded-0 shadow-sm" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_new.created_at">
                     <div class="input-group-append" id="button-addon4">     
-                         <button class="btn btn-warning" type="button" v-on:click="addNewHide()">
-                             <i class="fas fa-times-circle text-small mr-1"></i>
+                         <button class="btn btn-warning  rounded-0 shadow-sm" type="button" v-on:click="addNewHide()">
+                             <i class="fas fa-times-circle text-small me-1"></i>
                             Cancel           
                         </button>                  
-                        <button class="btn btn-success" type="button" v-on:click="addNew(0)">
-                            <i class="far fa-plus-square btn-sm text-white pl-0" title="Add starting finance point"></i>
+                        <button class="btn btn-success  rounded-0 shadow-sm" type="button" v-on:click="addNew(0)">
+                            <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
                             Add           
                         </button>                       
                     </div>
@@ -100,7 +90,7 @@
         </div>
         <div class="row">
             <div class="col-xl-8 col-lg-12 mt-2" id="projects_table">
-                <table class="table bg-white table-borderless shadow-sm" >              
+                <table class="table bg-white table-borderless rounded-0 shadow-sm" >              
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -115,8 +105,8 @@
                                 <input type="checkbox" v-model="item.checked" v-on:change.prevent="editProjectStatus(item.id, index)" />
                             </td>
                             <td>
-                                {{ '{{item.project_name}}' }}
-                                <a href="#" v-on:click.stop="delOneShow(item.id, item.project_name)">
+                                {{ '{{item.planning_name}}' }}
+                                <a href="#" v-on:click.stop="delOneShow(item.id, item.planning_name)">
                                     <i class="far fa-trash-alt btn-sm text-dark align-middle mr-1 float-right"
                                         data-toggle="tooltip" data-placement="top" title="remove expence point"></i>
                                 </a>
@@ -125,16 +115,16 @@
                                         data-toggle="tooltip" data-placement="top" title="edit expence point"></i>
                                 </a>
                             </td>                                   
-                            <td>{{ '{{item.project_price_formated}}' }} </td>
-                            <td>{{ '{{item.project_price_actual_formated}}' }} </td>
+                            <td>{{ '{{item.planning_amount_formated}}' }} </td>
+                            <td>{{ '{{item.planning_amount_actual_formated}}' }} </td>
                         </tr>    
                         <tr v-if="item.is_edit == true">
                             <td colspan="4">
                                   <div class="input-group">
                                     <input type="hidden" v-model="project_item_edit.id" />
-                                    <input type="text" class="form-control col-6" placeholder="Project name" aria-label="Project name" aria-describedby="button-addon4" v-model="project_item_edit.project_name" required>
-                                    <input type="text" class="form-control col-2" placeholder="Projected expence" aria-label="Projected expence" aria-describedby="button-addon4" v-model="project_item_edit.project_price" required>
-                                    <input type="text" class="form-control col-2" placeholder="Actual expence" aria-label="Actual expence" aria-describedby="button-addon4" v-model="project_item_edit.project_price_actual" required>
+                                    <input type="text" class="form-control col-6" placeholder="Project name" aria-label="Project name" aria-describedby="button-addon4" v-model="project_item_edit.planning_name" required>
+                                    <input type="text" class="form-control col-2" placeholder="Projected expence" aria-label="Projected expence" aria-describedby="button-addon4" v-model="project_item_edit.planning_amount" required>
+                                    <input type="text" class="form-control col-2" placeholder="Actual expence" aria-label="Actual expence" aria-describedby="button-addon4" v-model="project_item_edit.planning_amount_actual" required>
                                     <input type="date" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="project_item_edit.created_at">
                                     <div class="input-group-append" id="button-addon4">     
                                         <a href="#" class="btn btn-warning" v-on:click="editCancel(index)">
@@ -152,7 +142,8 @@
                     </tbody>
                 </table>
             </div>
-               <!-- Charts -->       
+            
+            <!-- Charts -->       
             <div class="col-xl-4 col-lg-12" >         
                 {# <div class="col" v-show="chart_data.length > 0"> #}
                 <canvas id="canvas_line" class="shadow-sm mt-2"  style="background-color:white; display:none;"></canvas>    
@@ -164,8 +155,8 @@
             <div class="row mt-3">
                 <div class=" col-lg-6 col-md-12" >
                     <!-- small box -->
-                    <div class="small-box bg-info rounded text-white shadow-sm">
-                        <div class="inner">
+                    <div class="small-box bg-secondary bg-gradient text-white rounded-0 shadow-sm">
+                        <div class="inner shadow-sm">
                             <h3 class="pt-3 text-center">{{ '{{projects_total.predicted_expences_formated}}' }}</h3>
 
                             <p class="pb-3 text-center text-uppercase">Total projected</p>
@@ -178,8 +169,8 @@
                 
                 <div class="col-lg-6 col-md-12">
                     <!-- small box -->
-                    <div class="small-box bg-success rounded text-white shadow-sm">
-                    <div class="inner">
+                    <div class="small-box bg-success bg-gradient text-white rounded-0 shadow-sm">
+                    <div class="inner shadow-sm">
                         <h3 class="pt-3 text-center">{{ '{{projects_total.actual_expences_formated}}' }}</h3>
 
                         <p class=" text-center pb-3 text-uppercase">Total actual</p>
@@ -217,7 +208,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to remove project named <b>"{{ '{{ project_item_delete.project_name }}' }}"</b> ?
+                        Are you sure you want to remove project named <b>"{{ '{{ project_item_delete.planning_name }}' }}"</b> ?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-dismiss="modal">
@@ -239,12 +230,9 @@
  
 
     <!-- chart -->
-    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q==" crossorigin="anonymous"></script> #}
-    <script src='/assets/components/chartjs/Chart.bundle.min.js'></script>
-    <!-- plotly -->
-    <script src='/assets/components/plotly/plotly-latest.min.js'></script>
+    <script src='/assets/components/chartjs/chart.min.js'></script>   
     
-    <script src="/assets/js/vue/accounting/planning/projects.js"></script>
+    <script src="/assets/js/vue/accounting/planning/index.js"></script>
 
     <script src="/assets/components/toastr/toastr.min.js"></script>   
 

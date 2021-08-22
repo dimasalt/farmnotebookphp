@@ -3,9 +3,9 @@ const app = Vue.createApp({
         return {
             starting_expence: {},
             project_item_new : {
-                project_name : '',
-                project_price : '',
-                project_price_actual : '',
+                planning_name : '',
+                planning_amount : '',
+                planning_amount_actual : '',
                 is_start : 0,
                 created_at : ''
             },
@@ -66,12 +66,12 @@ const app = Vue.createApp({
                     for (var i = 0; i < data.length; i++) {
 
                         //check for red or green success class styling
-                        if (data[i].project_price < 0) data[i].class = "text-danger";
-                        else if (data[i].project_price > 0) data[i].class = "text-success";
+                        if (data[i].planning_amount < 0) data[i].class = "text-danger";
+                        else if (data[i].planning_amount > 0) data[i].class = "text-success";
 
                         //convert money to familiar usd format
-                        data[i].project_price_formated = formatter.format(data[i].project_price);
-                        data[i].project_price_actual_formated = formatter.format(data[i].project_price_actual);
+                        data[i].planning_amount_formated = formatter.format(data[i].planning_amount);
+                        data[i].planning_amount_actual_formated = formatter.format(data[i].planning_amount_actual);
 
 
                         //check if project is done
@@ -96,10 +96,10 @@ const app = Vue.createApp({
                         //calculate predicted and actual expences
                         self.projects_total.predicted_expences =
                             self.projects_total.predicted_expences +
-                            parseInt(data[i].project_price);
+                            parseInt(data[i].planning_amount);
                         self.projects_total.actual_expences =
                             self.projects_total.actual_expences +
-                            parseInt(data[i].project_price_actual);                                                                          
+                            parseInt(data[i].planning_amount_actual);                                                                          
                     }                                                                                           
 
                     //format total numbers to usd currency
@@ -109,9 +109,7 @@ const app = Vue.createApp({
 
                 //assign information for the chart
                 self.chart_data = data;
-                self.chartJSLine();        
-                
-                self.plotlyTimeChart();
+                self.chartJSLine();                        
             });
 
             projectsList.always(function () { });
@@ -217,7 +215,7 @@ const app = Vue.createApp({
 
             projectedit.always(function () { });
         },
-        delOneShow: function (id, project_name){ 
+        delOneShow: function (id, planning_name){ 
             //show remove item modal
             var self = this;
        
@@ -226,7 +224,7 @@ const app = Vue.createApp({
 
             //assing values to the delete item
             self.project_item_delete.id = id;
-            self.project_item_delete.project_name = project_name;
+            self.project_item_delete.planning_name = planning_name;
 
             //show the modal
              $('#deleteModal').modal('show');
@@ -294,13 +292,13 @@ const app = Vue.createApp({
             self.project_item_new_visible = false;
            
             //set an actual expence if none been inserted
-            if(self.project_item_new.project_price_actual == '')            
-                self.project_item_new.project_price_actual = 0;        
+            if(self.project_item_new.planning_amount_actual == '')            
+                self.project_item_new.planning_amount_actual = 0;        
 
             var data = self.project_item_new; 
  
             if(is_start == 1)
-                data.project_price_actual = parseInt(data.project_price);                 
+                data.planning_amount_actual = parseInt(data.planning_amount);                 
                         
             
             data.is_start = is_start;
@@ -335,79 +333,6 @@ const app = Vue.createApp({
 
             projectdel.always(function () { });
         },  
-        plotlyTimeChart: function()  {
-            var self = this;
-
-            //assing data for labels and datasets
-            var data_predicted = [], data_actual = [], projects_date = [];            
-            for(var i = 0; i < self.chart_data.length; i++){
-                
-                //labels.push(self.chart_data[i].project_name);
-
-                projects_date.push(self.chart_data[i].created_at);
-
-                if(data_predicted.length == 0 && data_actual.length == 0){
-                    data_predicted.push(self.chart_data[i].project_price);
-                    data_actual.push(self.chart_data[i].project_price);
-                }
-                else 
-                {
-                    var sum_predicted = parseInt(self.chart_data[i].project_price) + parseInt(data_predicted[i-1]); 
-                    data_predicted.push(sum_predicted);
-
-                    var sum_actual = parseInt(self.chart_data[i].project_price_actual) + parseInt(data_actual[i-1]); 
-                    data_actual.push(sum_actual);
-                }
-
-            }
-
-
-            var trace1 = {
-                type: "scatter",               
-                mode: 'lines+markers',            
-                line: {
-                    dash: 'dot',
-                    width: 2,
-                    color: '#FF0000'
-                },                  
-                name: 'Predicted',
-                x: projects_date,
-                y: data_predicted,                
-            }
-         
-            var trace2 = {
-                type: "scatter",               
-                mode: 'lines+markers',            
-                line: {
-                    dash: 'dot',
-                    width: 2,
-                    color: '#008000'
-                },                  
-                name: 'Actual',
-                x: projects_date,
-                y: data_actual               
-            }
-              
-            var data = [trace1,trace2];
-              
-            var layout = {
-                title: 'Projected and Actual Expenses',
-                 margin: {
-                    l: 50,
-                    r: 50,
-                    b: 50,
-                    t: 60,
-                    pad: 4
-                }             
-            };
-
-            var config = {
-                responsive: true,
-                displayModeBar: false
-            }
-              
-            Plotly.newPlot('myDiv', data, layout, config);
-        },
         chartJSLine : function(){   
             
             var self = this;            
@@ -415,18 +340,18 @@ const app = Vue.createApp({
             //assing data for labels and datasets
             var data_predicted = [], data_actual = [];            
             for(var i = 0; i < self.chart_data.length; i++){
-                //labels.push(self.chart_data[i].project_name);
+                //labels.push(self.chart_data[i].planning_name);
 
                 if(data_predicted.length == 0 && data_actual.length == 0){
-                    data_predicted.push({ x: self.chart_data[i].created_at, y: self.chart_data[i].project_price  });
-                    data_actual.push({ x: self.chart_data[i].created_at, y: self.chart_data[i].project_price  });
+                    data_predicted.push({ x: self.chart_data[i].created_at, y: self.chart_data[i].planning_amount  });
+                    data_actual.push({ x: self.chart_data[i].created_at, y: self.chart_data[i].planning_amount  });
                 }
                 else 
                 {
-                    var sum_predicted = parseInt(self.chart_data[i].project_price) + parseInt(data_predicted[i-1].y); 
+                    var sum_predicted = parseInt(self.chart_data[i].planning_amount) + parseInt(data_predicted[i-1].y); 
                     data_predicted.push({ x: self.chart_data[i].created_at, y: sum_predicted  });
 
-                    var sum_actual = parseInt(self.chart_data[i].project_price_actual) + parseInt(data_actual[i-1].y); 
+                    var sum_actual = parseInt(self.chart_data[i].planning_amount_actual) + parseInt(data_actual[i-1].y); 
                     data_actual.push({ x: self.chart_data[i].created_at, y: sum_actual });
                 }
 
@@ -497,9 +422,9 @@ const app = Vue.createApp({
             var self = this;
 
             self.project_item_new = {
-                project_name : '',
-                project_price : '',
-                project_price_actual : 0,
+                planning_name : '',
+                planning_amount : '',
+                planning_amount_actual : 0,
                 is_start : 0,
                 created_at : ''
             };

@@ -13,7 +13,7 @@ class FinancesPlanningHelper
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call projectGetAll()');
+        $stmt = $pdo->prepare('call financialPlanningGetAll()');
         $stmt->execute();
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);      
@@ -29,7 +29,7 @@ class FinancesPlanningHelper
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call projectDelOne(?)');
+        $stmt = $pdo->prepare('call financialPlanningDelOne(?)');
         $stmt->execute(array($id));
 
         if($stmt->rowCount() > 0) return true;
@@ -39,13 +39,13 @@ class FinancesPlanningHelper
      /*
     * Adds one item to the project list
     */
-    public function addNew($project_name, $project_price, $project_price_actual, $is_start, $created_at) : bool
+    public function addNew($planning_name, $planning_amount, $planning_amount_actual, $is_start, $created_at) : bool
     {
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call projectAdd(?,?,?,?,?)');
-        $stmt->execute(array($project_name, $project_price, $project_price_actual, $is_start, $created_at));
+        $stmt = $pdo->prepare('call financialPlanningAdd(?,?,?,?,?)');
+        $stmt->execute(array($planning_name, $planning_amount, $planning_amount_actual, $is_start, $created_at));
 
         if($stmt->rowCount() > 0) return true;
         else return false;
@@ -54,13 +54,13 @@ class FinancesPlanningHelper
      /*
     * updates one item from the project list
     */
-    public function updateOne($project_id, $project_name, $project_price, $project_price_actual, $created_at) : bool
+    public function updateOne($project_id, $planning_name, $planning_amount, $planning_amount_actual, $created_at) : bool
     {
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call projectUpdateOne(?,?,?,?,?)');
-        $stmt->execute(array($project_id, $project_name, $project_price, $project_price_actual, $created_at));
+        $stmt = $pdo->prepare('call financialPlanningUpdateOne(?,?,?,?,?)');
+        $stmt->execute(array($project_id, $planning_name, $planning_amount, $planning_amount_actual, $created_at));
 
         if($stmt->rowCount() > 0) return true;
         else return false;
@@ -75,7 +75,7 @@ class FinancesPlanningHelper
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call projectUpdateStatus(?,?)');
+        $stmt = $pdo->prepare('call financialPlanningUpdateStatus(?,?)');
         $stmt->execute(array($project_id, $is_done));
 
         if($stmt->rowCount() > 0) return true;

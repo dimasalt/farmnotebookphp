@@ -13,7 +13,7 @@ class FinancesPlanningController extends BaseController {
     *---------------------------------------------------------
     */
     public function projects(){       
-        echo $this->view->render('Bookkeeping\planning\projects.twig',            
+        echo $this->view->render('Accounting\planning\index.twig',            
             [ 'csrf' => CSRFToken::getToken()]
         );
     }
@@ -73,9 +73,9 @@ class FinancesPlanningController extends BaseController {
          $data = json_decode($json);
 
          if(CSRFToken::isValid($data->csrf)){
-            $project_name = $data->project_name;
-            $project_price = $data->project_price;
-            $project_price_actual = $data->project_price_actual;
+            $planning_name = $data->planning_name;
+            $planning_amount = $data->planning_amount;
+            $planning_amount_actual = $data->planning_amount_actual;
             $is_start = $data->is_start;
 
           //check if date is empty or null. If yes assign current date value
@@ -86,7 +86,7 @@ class FinancesPlanningController extends BaseController {
           $created_at = $data->created_at;
     
           $phelper = new FinancesPlanningHelper();
-          $result = $phelper->addNew($project_name, $project_price, $project_price_actual, $is_start, $created_at);
+          $result = $phelper->addNew($planning_name, $planning_amount, $planning_amount_actual, $is_start, $created_at);
    
           echo json_encode($result);
         } 
@@ -112,13 +112,13 @@ class FinancesPlanningController extends BaseController {
 
          if(CSRFToken::isValid($data->csrf)){
             $project_id = $data->id;
-            $project_name = $data->project_name;
-            $project_price = $data->project_price;
-            $project_price_actual = $data->project_price_actual;        
+            $planning_name = $data->planning_name;
+            $planning_amount = $data->planning_amount;
+            $planning_amount_actual = $data->planning_amount_actual;        
             $created_at = $data->created_at;
     
            $phelper = new FinancesPlanningHelper();
-           $result = $phelper->updateOne($project_id, $project_name, $project_price, $project_price_actual, $created_at);
+           $result = $phelper->updateOne($project_id, $planning_name, $planning_amount, $planning_amount_actual, $created_at);
    
            echo json_encode($result);
          } 

@@ -10,7 +10,7 @@ class RecordsController extends BaseController
 {
     public function index(){            
 
-        echo $this->view->render('bookkeeping\records\index.twig', [
+        echo $this->view->render('Accounting\records\index.twig', [
             'csrf' => CSRFToken::getToken()
         ]);
     }
@@ -302,6 +302,21 @@ class RecordsController extends BaseController
             echo json_encode($imageResult);
         }
         else echo json_encode($result);
+    }
+
+    /** 
+     * -----------------------------------------------------------------------
+     *  Empty forlder remove 
+     * -----------------------------------------------------------------------
+     */
+    protected function emptyFolderRemove(){
+        $dir_iterator = new \RecursiveDirectoryIterator("/path");
+        $iterator = new \RecursiveIteratorIterator($dir_iterator, \RecursiveIteratorIterator::SELF_FIRST);
+        // could use CHILD_FIRST if you so wish
+
+        foreach ($iterator as $file) {
+            echo $file, "\n";
+        }
     }
 
     /**
