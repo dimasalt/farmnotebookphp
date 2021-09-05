@@ -55,13 +55,23 @@ $r->addRoute(['GET', 'POST'], '/bookkeeping/categories/get/all', 'FarmWork\Contr
 $r->addRoute(['GET', 'POST'], '/bookkeeping/categories/save', 'FarmWork\Controllers\RecordsTypeController:transactionCatSave');
 $r->addRoute(['GET'], '/bookkeeping/categories', 'FarmWork\Controllers\RecordsTypeController:index');
 
-// finances projects
-$r->addRoute(['GET', 'POST'], '/bookkeeping/projects/updatestatus', 'FarmWork\Controllers\FinancesPlanningController:projectUpdateStatus');
-$r->addRoute(['GET', 'POST'], '/bookkeeping/projects/update', 'FarmWork\Controllers\FinancesPlanningController:updateOne');
-$r->addRoute(['GET', 'POST'], '/bookkeeping/projects/add', 'FarmWork\Controllers\FinancesPlanningController:addNew');
-$r->addRoute(['GET', 'POST'], '/bookkeeping/projects/delete', 'FarmWork\Controllers\FinancesPlanningController:delOne');
-$r->addRoute(['GET', 'POST'], '/bookkeeping/projects/get/all', 'FarmWork\Controllers\FinancesPlanningController:getList');
-$r->addRoute(['GET', 'POST'], '/bookkeeping/projects', 'FarmWork\Controllers\FinancesPlanningController:projects');
+
+//budget planning
+$r->addRoute(['GET', 'POST'], '/bookkeeping/budget/update/status', 'FarmWork\Controllers\BudgetController:budgetUpdateStatus');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/budget/update', 'FarmWork\Controllers\BudgetController:budgetUpdate');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/budget/delete', 'FarmWork\Controllers\BudgetController:budgetDelete');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/budget/add', 'FarmWork\Controllers\BudgetController:budgetCreateItem');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/budget/get/all', 'FarmWork\Controllers\BudgetController:budgetGetAll');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/budget', 'FarmWork\Controllers\BudgetController:index');
+
+
+// finances planning //planning
+$r->addRoute(['GET', 'POST'], '/bookkeeping/planning/updatestatus', 'FarmWork\Controllers\FinancesPlanningController:projectUpdateStatus');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/planning/update', 'FarmWork\Controllers\FinancesPlanningController:updateOne');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/planning/add', 'FarmWork\Controllers\FinancesPlanningController:addNew');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/planning/delete', 'FarmWork\Controllers\FinancesPlanningController:delOne');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/planning/get/all', 'FarmWork\Controllers\FinancesPlanningController:getList');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/planning', 'FarmWork\Controllers\FinancesPlanningController:index');
 
 // vehicle log book
 $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/get/odometer', 'FarmWork\Controllers\VehicleLogBookController:getOdometer');

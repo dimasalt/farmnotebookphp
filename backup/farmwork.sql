@@ -12,6 +12,28 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- Dumping structure for table farmwork.budget
+CREATE TABLE IF NOT EXISTS `budget` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `budget_name` varchar(150) NOT NULL,
+  `budget_amount` decimal(19,2) NOT NULL,
+  `budget_amount_actual` decimal(19,2) NOT NULL,
+  `is_start` tinyint(4) NOT NULL DEFAULT 0,
+  `is_done` tinyint(4) NOT NULL DEFAULT 0,
+  `budget_date` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps financial planning and budgeting records';
+
+-- Dumping data for table farmwork.budget: ~5 rows (approximately)
+/*!40000 ALTER TABLE `budget` DISABLE KEYS */;
+INSERT INTO `budget` (`id`, `budget_name`, `budget_amount`, `budget_amount_actual`, `is_start`, `is_done`, `budget_date`) VALUES
+	(10, 'Gross budget for year 2022', 0.00, 0.00, 1, 0, '2022-01-01 00:00:00'),
+	(11, '60 head of cattle gross after taxes', 54000.00, 0.00, 0, 0, '2023-05-01 00:00:00'),
+	(12, 'German Shepherd puppies 12', 12000.00, 0.00, 0, 0, '2022-12-01 00:00:00'),
+	(13, 'Dmitri Salary after the tax', 27000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
+	(14, 'Ilana Salary after the tax', 12000.00, 0.00, 0, 0, '2022-12-31 00:00:00');
+/*!40000 ALTER TABLE `budget` ENABLE KEYS */;
+
 -- Dumping structure for table farmwork.contact
 CREATE TABLE IF NOT EXISTS `contact` (
   `id` char(36) NOT NULL DEFAULT uuid(),
@@ -25,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Keeps contacts for contact book and vendors (for transactions and others)';
 
--- Dumping data for table farmwork.contact: ~11 rows (approximately)
+-- Dumping data for table farmwork.contact: ~10 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`) VALUES
 	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
@@ -69,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `event_type` (
   PRIMARY KEY (`ev_type_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
 
--- Dumping data for table farmwork.event_type: ~4 rows (approximately)
+-- Dumping data for table farmwork.event_type: ~5 rows (approximately)
 /*!40000 ALTER TABLE `event_type` DISABLE KEYS */;
 INSERT INTO `event_type` (`ev_type_id`, `ev_type_name`, `ev_type_desc`, `place`, `created_at`) VALUES
 	('006e21ef-acfc-11eb-a999-d8cb8ac0caec', 'Birth Date', 'Used to associate an animal’s birth date with its unique approved tag number.', 11, '2019-05-05 21:00:17'),
@@ -149,14 +171,10 @@ CREATE TABLE IF NOT EXISTS `financial_planning` (
   `is_done` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
+) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
 
--- Dumping data for table farmwork.financial_planning: ~2 rows (approximately)
+-- Dumping data for table farmwork.financial_planning: ~0 rows (approximately)
 /*!40000 ALTER TABLE `financial_planning` DISABLE KEYS */;
-INSERT INTO `financial_planning` (`id`, `planning_name`, `planning_amount`, `planning_amount_actual`, `is_start`, `is_done`, `created_at`) VALUES
-	(129, 'test', 20, 20, 1, 0, '2021-08-22 00:00:00'),
-	(130, 'sdfasdf', 23, 0, 0, 0, '2021-08-04 00:00:00'),
-	(131, 'asdfaf', 34, 0, 0, 0, '2021-08-19 00:00:00');
 /*!40000 ALTER TABLE `financial_planning` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.livestock
@@ -271,11 +289,9 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~3 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~1 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('3a7c2b51-e827-11eb-8df3-d8cb8ac0caec', 'feed purchase', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', NULL, '2021-07-12 00:00:00', '2021-07-18 20:21:07', '2021-08-20 09:22:49'),
-	('d653a723-e826-11eb-8df3-d8cb8ac0caec', 'took calf for sale', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', NULL, '2021-06-28 00:00:00', '2021-07-18 20:18:19', '2021-08-03 11:00:22'),
 	('dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'feed and bedding supplies', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', NULL, '2021-05-17 00:00:00', '2021-07-18 20:25:39', '2021-08-03 11:00:50');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
@@ -287,9 +303,9 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~35 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~37 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -350,16 +366,14 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~8 rows (approximately)
+-- Dumping data for table farmwork.transaction_item: ~5 rows (approximately)
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
 INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
 	('29672f5b-e829-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'calf starter', '', 'Feed', 'Calf Starter', -63.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:34:57'),
 	('383099b7-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'beef supplement', '', 'Feed', 'Mineral Mix', -19.60, 0.00, 0.00, 0.00, 1, '2021-07-18 20:28:13'),
-	('5767d63b-e827-11eb-8df3-d8cb8ac0caec', '3a7c2b51-e827-11eb-8df3-d8cb8ac0caec', '1 tone feed', 'mix of corn and soybean meal', 'Feed', 'Cracked Corn', -566.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:21:55'),
 	('789fb0cf-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'chicken layer feed', '', 'Feed', 'Chicken Layer Feed', -18.50, 0.00, 0.00, 0.00, 1, '2021-07-18 20:30:01'),
 	('d72bbc4e-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'straw', '', 'Feed', 'Straw', -8.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:32:39'),
-	('f15defa3-e827-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'milk replacer', '', 'Feed', 'Milk Replacer', -216.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:26:14'),
-	('f43a5c9a-e826-11eb-8df3-d8cb8ac0caec', 'd653a723-e826-11eb-8df3-d8cb8ac0caec', 'calf', 'calf 520lb ', 'Livestock', 'Cattle', 770.08, 0.00, 0.00, 0.00, 0, '2021-07-18 20:19:09');
+	('f15defa3-e827-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'milk replacer', '', 'Feed', 'Milk Replacer', -216.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:26:14');
 /*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.user
@@ -373,7 +387,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~0 rows (approximately)
+-- Dumping data for table farmwork.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -456,7 +470,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~2 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 184200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -477,7 +491,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
 
--- Dumping data for table farmwork.vehicle_log_book_item: ~11 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book_item: ~14 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
 	(1, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
@@ -496,18 +510,120 @@ INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`,
 	(25, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'cattle feed purchase', 26, '2021-05-26 13:42:06', '2021-05-25 00:00:00');
 /*!40000 ALTER TABLE `vehicle_log_book_item` ENABLE KEYS */;
 
--- Dumping structure for view farmwork.v_livestock
--- Creating temporary table to overcome VIEW dependency errors
-CREATE TABLE `v_livestock` (
-	`id` CHAR(36) NOT NULL COLLATE 'utf8mb4_general_ci',
-	`tag` VARCHAR(50) NULL COLLATE 'utf8mb4_general_ci',
-	`barn_tag` VARCHAR(10) NULL COLLATE 'utf8mb4_general_ci',
-	`sex` VARCHAR(10) NULL COLLATE 'utf8mb4_general_ci',
-	`weight` INT(11) NULL,
-	`price` FLOAT(10,2) NULL,
-	`type_name` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
-	`is_active` TINYINT(4) NOT NULL
-) ENGINE=MyISAM;
+-- Dumping structure for procedure farmwork.budgetCreate
+DELIMITER //
+CREATE PROCEDURE `budgetCreate`(
+	IN `budget_name` VARCHAR(250),
+	IN `budget_amount` DECIMAL(19,2),
+	IN `budget_amount_actual` DECIMAL(19,2),
+	IN `is_done` TINYINT,
+	IN `is_start` TINYINT,
+	IN `budget_date` DATETIME
+)
+    COMMENT 'creates new budget record'
+BEGIN
+
+INSERT INTO budget
+(
+	budget.budget_name,
+	budget.budget_amount,
+	budget.budget_amount_actual,
+	budget.is_start,
+	budget.is_done,
+	budget.budget_date
+)
+VALUES 
+(
+	budget_name,
+	budget_amount,
+	budget_amount_actual,
+	is_start,
+	is_done,
+	budget_date
+);
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.budgetDelete
+DELIMITER //
+CREATE PROCEDURE `budgetDelete`(
+	IN `id` INT
+)
+BEGIN
+
+	DELETE FROM budget
+	WHERE budget.id = id;
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.budgetGetAll
+DELIMITER //
+CREATE PROCEDURE `budgetGetAll`()
+    COMMENT 'selects all records from budget'
+BEGIN
+
+-- 	DECLARE budget_amount_total INT DEFAULT 0;
+-- 	DECLARE budget_amount_actual_total INT DEFAULT 0;
+
+	SELECT 
+		budget.id,
+		budget.budget_name,
+		budget.budget_amount,
+		budget.budget_amount_actual,
+		budget.is_start,
+		budget.is_done,
+		DATE(budget.budget_date) AS budget_date,	
+		(SELECT SUM(budget.budget_amount) FROM budget) AS budget_amount_total,
+		(SELECT SUM(budget.budget_amount_actual) FROM budget) AS budget_amount_actual_total
+	FROM budget
+	ORDER BY budget.budget_date ASC;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.budgetUpdate
+DELIMITER //
+CREATE PROCEDURE `budgetUpdate`(
+	IN `id` INT,
+	IN `budget_name` VARCHAR(250),
+	IN `budget_amount` DECIMAL(19,2),
+	IN `budget_amount_actual` DECIMAL(19,2),
+	IN `budget_date` DATETIME
+)
+    COMMENT 'updates budget record'
+BEGIN
+
+	UPDATE 
+		budget
+	SET 
+		budget.budget_name = budget_name,
+		budget.budget_amount = budget_amount,
+		budget.budget_amount_actual = budget_amount_actual,
+		budget.budget_date = budget_date
+	WHERE budget.id = id;
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.budgetUpdateStatus
+DELIMITER //
+CREATE PROCEDURE `budgetUpdateStatus`(
+	IN `id` INT,
+	IN `is_done` TINYINT
+)
+    COMMENT 'updates status to done or not done'
+BEGIN
+
+	UPDATE 
+		budget
+	SET 
+		budget.is_done = is_done
+	WHERE
+		budget.id = id; 
+END//
+DELIMITER ;
 
 -- Dumping structure for procedure farmwork.contactAdd
 DELIMITER //
@@ -625,147 +741,6 @@ select contact.id,
 	FROM contact
 	WHERE contact.is_vendor = 1
 	ORDER BY contact.name ASC//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.eventAddType
-DELIMITER //
-CREATE PROCEDURE `eventAddType`(
-	IN `ev_type_name` VARCHAR(20),
-	IN `ev_type_value` VARCHAR(25),
-	IN `ev_type_desc` VARCHAR(300)
-)
-    COMMENT 'allows to add event type'
-BEGIN
-	
-	INSERT INTO event_type 
-		 (
-				ev_type_id,
-				ev_type_name,
-				ev_type_value,
-				ev_type_desc			
-		 )
-		 VALUES
-		 (
-		 		UUID(),
-		 		ev_type_name,
-		 		ev_type_value,
-		 		ev_type_desc
-		 );
-
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.financialPlanningAdd
-DELIMITER //
-CREATE PROCEDURE `financialPlanningAdd`(
-	IN `planning_name` VARCHAR(250),
-	IN `planning_amount` DECIMAL(10,0),
-	IN `planning_amount_actual` DECIMAL(10,0),
-	IN `is_start` TINYINT,
-	IN `created_at` DATETIME
-)
-BEGIN
-
-	-- Removes starting budget point if that's what we're adding
-	IF is_start = 1 THEN
-		DELETE FROM financial_planning
-		WHERE financial_planning.is_start = 1;	
-	END IF;
-	
-
-	-- inserts new project item
-	INSERT INTO financial_planning
-		(
-			financial_planning.planning_name, 
-			financial_planning.planning_amount, 
-			financial_planning.planning_amount_actual, 
-			financial_planning.is_start,
-			financial_planning.created_at
-		)
-	VALUES
-		(
-			planning_name, 
-			planning_amount, 
-			planning_amount_actual, 
-			is_start,
-			created_at
-		);
-
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.financialPlanningDelOne
-DELIMITER //
-CREATE PROCEDURE `financialPlanningDelOne`(
-	IN `id` INT
-)
-    COMMENT 'removes one item from project list'
-BEGIN
-
-	DELETE FROM financial_planning
-	WHERE financial_planning.id = id;
-
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.financialPlanningGetAll
-DELIMITER //
-CREATE PROCEDURE `financialPlanningGetAll`()
-    COMMENT 'Gets project list with their predicted and actual financial information'
-BEGIN
-
-	SELECT 
-		financial_planning.id,
-		financial_planning.planning_name,
-		financial_planning.planning_amount,
-		financial_planning.planning_amount_actual,
-		financial_planning.is_start,
-		financial_planning.is_done,
-		DATE(financial_planning.created_at) AS created_at						
-	FROM 
-		financial_planning
-	ORDER BY created_at ASC; 	
-
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.financialPlanningUpdateOne
-DELIMITER //
-CREATE PROCEDURE `financialPlanningUpdateOne`(
-	IN `id` INT,
-	IN `planning_name` VARCHAR(250),
-	IN `planning_amount` DECIMAL(10,0),
-	IN `planning_amount_actual` DECIMAL(10,0),
-	IN `created_at` DATETIME
-)
-BEGIN
-
-	UPDATE financial_planning
-	SET	
-		financial_planning.planning_name = planning_name,
-		financial_planning.planning_amount = planning_amount,
-		financial_planning.planning_amount_actual = planning_amount_actual,
-		financial_planning.created_at = created_at		
-	WHERE financial_planning.id = id;	
-
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.financialPlanningUpdateStatus
-DELIMITER //
-CREATE PROCEDURE `financialPlanningUpdateStatus`(
-	IN `id` INT,
-	IN `is_done` TINYINT
-)
-BEGIN
-
-	UPDATE financial_planning
-	SET 
-		financial_planning.is_done = is_done	
-	WHERE 
-		financial_planning.id = id;
-
-END//
 DELIMITER ;
 
 -- Dumping structure for procedure farmwork.livestockGetAll
@@ -1549,21 +1524,6 @@ ORDER BY vehicle_log_book_item.travel_date DESC;
 
 END//
 DELIMITER ;
-
--- Dumping structure for view farmwork.v_livestock
--- Removing temporary table and create final VIEW structure
-DROP TABLE IF EXISTS `v_livestock`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_livestock` AS SELECT 
-	livestock.id,
-	livestock.tag,
-	livestock.barn_tag,
-	livestock.sex,
-	livestock.weight,
-	livestock.price,
-	livestock_type.type_name,
-	livestock.is_active
-FROM livestock
-INNER JOIN livestock_type ON livestock.livestock_type = livestock_type.id ;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
