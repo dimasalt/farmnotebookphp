@@ -17,6 +17,7 @@ IMPORTANT: Remove empty folders after receipt image removal
 
 - add checks for duplicate
 
-### Project Planning Page
+### Budger planning page
 
-Needs to be rewriten for a financial planning page to be more universal and usefull
+Need to think of possibly adding functionality to display and have multiple budgets to work with
+rather than one like it's right now.

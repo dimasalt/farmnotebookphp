@@ -48,20 +48,26 @@
         <!-- Transaction totals -->
         <div class="col-3">
             <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Exprences Total</strong> </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Income Total</strong> </li>                         
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Exprences Total </strong> 
+                    {{ '{{ transaction_totals.total_expences }}' }}
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Income Total</strong>  
+                    {{ '{{ transaction_totals.total_income }}' }}
+                </li>                         
             </ul>
         </div>       
         <div class="col-3">
             <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Feed Expences</strong> </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Cattle Purchace Expences</strong></li>              
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Feed Expences</strong>{{ '{{ transaction_totals.total_feed_expences }}' }} </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Cattle Purchace Expences</strong>{{ '{{ transaction_totals.total_cattle_expences }}' }}</li>              
             </ul>
         </div>     
             <div class="col-3">
             <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Veterinary </strong> </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Other</strong></li>              
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Veterinary </strong> {{ '{{ transaction_totals.total_veterinary_expences }}' }} </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Fuel</strong>{{ '{{ transaction_totals.total_gasoline_expences }}' }}</li>              
             </ul>
         </div>       
     </div>
@@ -122,7 +128,7 @@
                 <tbody v-for="(record, index) in transactions">
                     <tr class="border">                     
                         <td class="ps-4 w-85" v-bind:class="record.class">
-                            <div> 
+                            <div class="my-1"> 
                                 <strong>{{ '{{record.vendor_name}}' }}</strong>
                                 <small class="fw-light ms-3">{{ '{{record.trans_read_date}}' }}</small>
                             </div>                         
@@ -149,8 +155,7 @@
                         </td>
                     </tr>    
                     <tr class="border-0">
-                        <td colspan="2">
-                            {# v-bind:class="{ 'ps-5' : is_vendor == true }" #}
+                        <td colspan="2">                          
                             <ul class="list-group list-group-flush col-12 me-1 ps-5">
                                 <li class="list-group-item d-flex justify-content-between align-items-start small border-0 py-0" v-for="item in record.items">                                    
                                     <div class="col-2 border-bottom">
@@ -164,7 +169,7 @@
                                         <span class="badge bg-primary ms-5">{{ '{{ item.item_category }}' }}</span> /
                                         <span class="badge bg-success ms-1">{{ '{{ item.item_subcategory }}' }}</span>
                                     </div>
-                                    <div class="col-6 d-flex justify-content-end align-items-end">
+                                    <div class="col-6 d-flex justify-content-end align-items-end" v-bind:class="item.amount > 0 ? 'text-success' : 'text-danger'">
                                         <span v-if="item.gst_tax > 0"><u>{{ '{{ "GST $" +  item.gst_tax }}' }}</u></span>
                                         <span class="ms-2" v-if="item.hst_tax > 0"><u>{{ '{{ "HST $" +  item.hst_tax }}' }}</u></span>
                                         <span class="ms-2" v-if="item.pst_tax > 0"><u>{{ '{{ "PST $" +  item.pst_tax }}' }}</u></span>
@@ -197,7 +202,7 @@
 
 
         <!-- image view and removal -->
-        <div class="col-3 mt-0" id="dropzone_div" v-show="action.image_view==true">
+        <div class="col-3 mt-0" id="dropzone_image_view" v-show="action.image_view==true">
                 <div class="card col-12 bg-dark text-white rounded shadow-sm">
                 <h5 class="mt-3 mb-1 ms-3">Transaction Receipt Images<h5 />
                 <hr class="bg-secondary" />

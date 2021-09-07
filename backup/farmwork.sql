@@ -24,12 +24,12 @@ CREATE TABLE IF NOT EXISTS `budget` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps financial planning and budgeting records';
 
--- Dumping data for table farmwork.budget: ~5 rows (approximately)
+-- Dumping data for table farmwork.budget: ~4 rows (approximately)
 /*!40000 ALTER TABLE `budget` DISABLE KEYS */;
 INSERT INTO `budget` (`id`, `budget_name`, `budget_amount`, `budget_amount_actual`, `is_start`, `is_done`, `budget_date`) VALUES
 	(10, 'Gross budget for year 2022', 0.00, 0.00, 1, 0, '2022-01-01 00:00:00'),
-	(11, '60 head of cattle gross after taxes', 54000.00, 0.00, 0, 0, '2023-05-01 00:00:00'),
-	(12, 'German Shepherd puppies 12', 12000.00, 0.00, 0, 0, '2022-12-01 00:00:00'),
+	(11, '60 head of cattle gross after taxes', 54000.00, 0.00, 0, 0, '2023-04-30 00:00:00'),
+	(12, 'German Shepherd puppies 12', 12000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
 	(13, 'Dmitri Salary after the tax', 27000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
 	(14, 'Ilana Salary after the tax', 12000.00, 0.00, 0, 0, '2022-12-31 00:00:00');
 /*!40000 ALTER TABLE `budget` ENABLE KEYS */;
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Keeps contacts for contact book and vendors (for transactions and others)';
 
--- Dumping data for table farmwork.contact: ~10 rows (approximately)
+-- Dumping data for table farmwork.contact: ~11 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`) VALUES
 	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `event_type` (
   PRIMARY KEY (`ev_type_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
 
--- Dumping data for table farmwork.event_type: ~5 rows (approximately)
+-- Dumping data for table farmwork.event_type: ~4 rows (approximately)
 /*!40000 ALTER TABLE `event_type` DISABLE KEYS */;
 INSERT INTO `event_type` (`ev_type_id`, `ev_type_name`, `ev_type_desc`, `place`, `created_at`) VALUES
 	('006e21ef-acfc-11eb-a999-d8cb8ac0caec', 'Birth Date', 'Used to associate an animal’s birth date with its unique approved tag number.', 11, '2019-05-05 21:00:17'),
@@ -160,22 +160,6 @@ CREATE TABLE IF NOT EXISTS `feed_type` (
 -- Dumping data for table farmwork.feed_type: ~0 rows (approximately)
 /*!40000 ALTER TABLE `feed_type` DISABLE KEYS */;
 /*!40000 ALTER TABLE `feed_type` ENABLE KEYS */;
-
--- Dumping structure for table farmwork.financial_planning
-CREATE TABLE IF NOT EXISTS `financial_planning` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `planning_name` varchar(250) CHARACTER SET utf8 NOT NULL,
-  `planning_amount` decimal(10,0) NOT NULL DEFAULT 0,
-  `planning_amount_actual` decimal(10,0) NOT NULL DEFAULT 0,
-  `is_start` tinyint(4) NOT NULL DEFAULT 0,
-  `is_done` tinyint(4) NOT NULL DEFAULT 0,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4 COMMENT='financial information for project planning';
-
--- Dumping data for table farmwork.financial_planning: ~0 rows (approximately)
-/*!40000 ALTER TABLE `financial_planning` DISABLE KEYS */;
-/*!40000 ALTER TABLE `financial_planning` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.livestock
 CREATE TABLE IF NOT EXISTS `livestock` (
@@ -289,10 +273,13 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~1 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~2 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
-	('dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'feed and bedding supplies', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', NULL, '2021-05-17 00:00:00', '2021-07-18 20:25:39', '2021-08-03 11:00:50');
+	('685915ae-0f8c-11ec-8491-d8cb8ac0caec', '', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', 'C$', NULL, '2021-09-01 00:00:00', '2021-09-06 23:33:45', '2021-09-06 23:33:45'),
+	('7b3d4fcd-0f8d-11ec-8491-d8cb8ac0caec', '', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', 'C$', NULL, '2021-08-26 00:00:00', '2021-09-06 23:41:26', '2021-09-06 23:41:26'),
+	('ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', NULL, '2021-03-08 00:00:00', '2021-09-06 23:50:00', '2021-09-06 23:50:00'),
+	('dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'feed and bedding supplies', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', NULL, '2021-05-17 00:00:00', '2021-07-18 20:25:39', '2021-09-06 12:04:08');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -305,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~37 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~35 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -369,10 +356,15 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
 -- Dumping data for table farmwork.transaction_item: ~5 rows (approximately)
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
 INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
+	('031bd18b-0f8f-11ec-8491-d8cb8ac0caec', 'ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', 'black calf', 'day old milk calf', 'Livestock', 'Cattle', -374.00, 0.00, 0.00, 0.00, 1, '2021-09-06 23:52:24'),
 	('29672f5b-e829-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'calf starter', '', 'Feed', 'Calf Starter', -63.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:34:57'),
 	('383099b7-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'beef supplement', '', 'Feed', 'Mineral Mix', -19.60, 0.00, 0.00, 0.00, 1, '2021-07-18 20:28:13'),
 	('789fb0cf-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'chicken layer feed', '', 'Feed', 'Chicken Layer Feed', -18.50, 0.00, 0.00, 0.00, 1, '2021-07-18 20:30:01'),
+	('992b1cbb-0f8d-11ec-8491-d8cb8ac0caec', '7b3d4fcd-0f8d-11ec-8491-d8cb8ac0caec', 'gasoline', '', 'Vehicle', 'Gasoline', -100.79, 0.00, 0.00, 0.00, 1, '2021-09-06 23:42:17'),
+	('a479b0a9-0f8c-11ec-8491-d8cb8ac0caec', '685915ae-0f8c-11ec-8491-d8cb8ac0caec', 'gasoline', 'fuel for the vehicle', 'Vehicle', 'Gasoline', -109.21, 0.00, 0.00, 0.00, 1, '2021-09-06 23:35:26'),
 	('d72bbc4e-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'straw', '', 'Feed', 'Straw', -8.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:32:39'),
+	('de75365e-0f8e-11ec-8491-d8cb8ac0caec', 'ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', 'black calf', 'day old milk calf', 'Livestock', 'Cattle', -264.50, 0.00, 0.00, 0.00, 1, '2021-09-06 23:51:22'),
+	('eef5ce0e-0f8e-11ec-8491-d8cb8ac0caec', 'ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', 'black calf', 'day old milk calf', 'Livestock', 'Cattle', -270.00, 0.00, 0.00, 0.00, 1, '2021-09-06 23:51:50'),
 	('f15defa3-e827-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'milk replacer', '', 'Feed', 'Milk Replacer', -216.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:26:14');
 /*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
 
@@ -387,7 +379,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~1 rows (approximately)
+-- Dumping data for table farmwork.user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -470,7 +462,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~2 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 184200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -491,7 +483,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
 
--- Dumping data for table farmwork.vehicle_log_book_item: ~14 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book_item: ~11 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
 	(1, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
@@ -550,6 +542,7 @@ DELIMITER //
 CREATE PROCEDURE `budgetDelete`(
 	IN `id` INT
 )
+    COMMENT 'Removes budget item from the list'
 BEGIN
 
 	DELETE FROM budget
@@ -1202,43 +1195,64 @@ BEGIN
 		SET search_term = CONCAT('%', search_term, '%') ;
 	END IF;
 	
+	-- prepare sub category item search
+	IF LENGTH(sub_category_selected) = 0 THEN
+		SET sub_category_selected = "%";	
+	ELSE
+		SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;				
+	END IF;
+	
 	-- prepare category item search
 	IF LENGTH(category_selected) = 0 THEN
 		SET category_selected = "%";
+					
+		CREATE TEMPORARY TABLE transaction_tmp
+		(
+			SELECT 
+				transaction.id,
+				transaction.trans_desc,
+				transaction.vendor_name,
+				transaction.vendor_address,	
+				transaction.trans_image,
+				transaction.trans_currency,
+				DATE(transaction.trans_date) AS trans_date
+			FROM 
+				transaction
+			WHERE 		
+				(transaction.vendor_name LIKE search_term
+				OR transaction.vendor_address LIKE search_term
+				OR transaction.trans_desc LIKE search_term)
+				AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 													
+			ORDER BY transaction.trans_date DESC
+		);
 	ELSE
 		SET category_selected = CONCAT('%', category_selected, '%') ;
-	END IF;
+		
+		CREATE TEMPORARY TABLE transaction_tmp
+		(
+			SELECT 
+				transaction.id,
+				transaction.trans_desc,
+				transaction.vendor_name,
+				transaction.vendor_address,	
+				transaction.trans_image,
+				transaction.trans_currency,
+				DATE(transaction.trans_date) AS trans_date
+			FROM 
+				transaction
+			WHERE 		
+				(transaction.vendor_name LIKE search_term
+				OR transaction.vendor_address LIKE search_term
+				OR transaction.trans_desc LIKE search_term)
+				AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 		
+				AND transaction.id IN (SELECT transaction_item.transaction_id 
+												FROM transaction_item 
+												WHERE transaction_item.item_category LIKE category_selected AND transaction_item.item_subcategory LIKE sub_category_selected) 											
+			ORDER BY transaction.trans_date DESC
+		);
+	END IF;	
 	
-	-- prepare sub category item search
-	IF LENGTH(sub_category_selected) = 0 THEN
-		SET sub_category_selected = "%";
-	ELSE
-		SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;
-	END IF;
 	
-
-	CREATE TEMPORARY TABLE transaction_tmp
-	(
-		SELECT 
-			transaction.id,
-			transaction.trans_desc,
-			transaction.vendor_name,
-			transaction.vendor_address,	
-			transaction.trans_image,
-			transaction.trans_currency,
-			DATE(transaction.trans_date) AS trans_date
-		FROM 
-			transaction
-		WHERE 		
-			(transaction.vendor_name LIKE search_term
-			OR transaction.vendor_address LIKE search_term
-			OR transaction.trans_desc LIKE search_term)
-			AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 
-			AND transaction.id IN (SELECT transaction_item.transaction_id 
-											FROM transaction_item 
-											WHERE transaction_item.item_category LIKE category_selected AND transaction_item.item_subcategory LIKE sub_category_selected) 											
-		ORDER BY transaction.trans_date DESC
-	);
 	
 	-- COUNT total NUMBER of records FOR this selection
 	SET total_records = (SELECT COUNT(transaction_tmp.id) FROM transaction_tmp);
@@ -1256,9 +1270,69 @@ BEGIN
 END//
 DELIMITER ;
 
--- Dumping structure for procedure farmwork.transactionsGetAll-bak
+-- Dumping structure for procedure farmwork.transactionsGetAll-bak1
 DELIMITER //
-CREATE PROCEDURE `transactionsGetAll-bak`(
+CREATE PROCEDURE `transactionsGetAll-bak1`(
+	IN `search_term` VARCHAR(50),
+	IN `current_page` INT,
+	IN `take_records` INT,
+	IN `start_date` VARCHAR(50),
+	IN `end_date` VARCHAR(50)
+)
+BEGIN
+
+	DECLARE offset_rows INT DEFAULT (current_page -1) * take_records;	
+	
+	DECLARE total_records INT DEFAULT 0;
+	DECLARE total_pages INT DEFAULT 1;
+	
+-- 	SET total = (SELECT count(livestock.id) FROM livestock WHERE livestock.is_active = is_active);		 
+-- 
+-- 		 	
+-- 	IF total_records > take_records THEN
+-- 		SET total_pages = (total / records) + 1;
+-- 	END IF;
+-- 
+
+	-- prepare search term
+	IF LENGTH(search_term) < 2 THEN
+		SET search_term = "%";
+	ELSE
+		SET search_term = CONCAT('%', search_term, '%') ;
+	END IF;
+	
+
+	CREATE TEMPORARY TABLE transaction_batch 
+	(
+		SELECT 
+			transaction.id,
+			transaction.trans_desc,
+			transaction.vendor_name,
+			transaction.vendor_address,	
+			transaction.trans_image,
+			transaction.trans_currency,
+			DATE(transaction.trans_date) AS trans_date
+		FROM 
+			transaction
+		WHERE 		
+			(transaction.vendor_name LIKE search_term
+			OR transaction.vendor_address LIKE search_term
+			OR transaction.trans_desc LIKE search_term)
+			AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 
+		ORDER BY transaction.trans_date DESC
+	);
+	
+	-- COUNT total NUMBER of records FOR this selection
+	SET total_records = (SELECT COUNT(transaction_batch.id) FROM transaction_batch);
+	
+	SELECT *, total_records AS 'total_records' FROM transaction_batch; 
+		
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionsGetAll-bak2
+DELIMITER //
+CREATE PROCEDURE `transactionsGetAll-bak2`(
 	IN `search_term` VARCHAR(50),
 	IN `current_page` INT,
 	IN `take_records` INT,

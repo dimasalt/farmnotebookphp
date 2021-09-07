@@ -22,14 +22,24 @@ const transactions = {
                 new_item : false,
                 image : false,
                 image_view : false
-            }        
+            },
+            
+            //transactions totals for selected period of time and according to search terms
+            transaction_totals : {
+                total_expences : 0,
+                total_income : 0,
+                total_feed_expences : 0,
+                total_cattle_expences : 0,
+                total_veterinary_expences : 0,
+                total_gasoline_expences : 0
+            }
         }
     },   
     created () { 
         var self = this;
 
         //reset transaction record and item 
-        self.resetTransactionRecord();
+        self.resetVariables();
 
         //get all transactions     
         self.transactionsGetAll(); 
@@ -51,7 +61,17 @@ const transactions = {
         },
         transactionsGetAll () {
             //gets all project items
-            var self = this;           
+            var self = this;   
+            
+            //reset totals
+            self.transaction_totals = {
+                total_expences : 0,
+                total_income : 0,
+                total_feed_expences : 0,
+                total_cattle_expences : 0,
+                total_veterinary_expences : 0,
+                total_gasoline_expences : 0
+            }
     
             //prepare data object 
             //includes search term, date and selected categories and sub categories
@@ -72,6 +92,41 @@ const transactions = {
                     data = JSON.parse(data);                  
                     
                     self.transactions = data;
+
+                    for(var i = 0; i < self.transactions.length; i++){
+                        for(var y = 0; y < self.transactions[i].items.length; y++){
+                            if(self.transactions[i].items[y].is_expence == 1){
+
+                                var amount = self.transactions[i].items[y].amount;
+                                self.transaction_totals.total_expences = Number(self.transaction_totals.total_expences) + Number(amount);
+
+                                if(self.transactions[i].items[y].item_category == 'Feed'){
+                                    var feed_expences = self.transactions[i].items[y].amount;
+                                    self.transaction_totals.total_feed_expences = Number(self.transaction_totals.total_feed_expences) + Number(feed_expences);
+                                }
+                                else if(self.transactions[i].items[y].item_category == 'Livestock'){
+                                    if(self.transactions[i].items[y].item_subcategory == 'Cattle'){
+                                        var catle_expences = self.transactions[i].items[y].amount;
+                                        self.transaction_totals.total_cattle_expences = Number(self.transaction_totals.total_cattle_expences) + Number(catle_expences);   
+                                    }
+                                }                                
+                                else if(self.transactions[i].items[y].item_category == 'Veterinary'){
+                                    var vet_expences = self.transactions[i].items[y].amount;
+                                    self.transaction_totals.total_veterinary_expences = Number(self.transaction_totals.total_veterinary_expences) + Number(vet_expences);   
+                                }
+                                else if(self.transactions[i].items[y].item_category == 'Vehicle'){
+                                    if(self.transactions[i].items[y].item_subcategory == 'Gasoline'){
+                                        var total_gasoline_expences = self.transactions[i].items[y].amount;
+                                        self.transaction_totals.total_gasoline_expences = Number(self.transaction_totals.total_gasoline_expences) + Number(total_gasoline_expences);   
+                                    }
+                                }                                
+                            }  
+                            else {
+                                var amount = self.transactions[i].items[y].amount;
+                                self.transaction_totals.total_income = Number(self.transaction_totals.total_income) + Number(amount);
+                            }                          
+                        }
+                    }
                 }
             });
     
@@ -130,7 +185,7 @@ const transactions = {
                 if (data == true) {   
                                                 
                     //reset transaction record and item 
-                    self.resetTransactionRecord();
+                    self.resetVariables();
 
                     //get updated list of transactions
                     self.transactionsGetAll();
@@ -226,7 +281,7 @@ const transactions = {
                     if (data == true) {   
                                                 
                         //reset transaction record and item 
-                        self.resetTransactionRecord();
+                        self.resetVariables();
 
                         //get updated list of transactions
                         self.transactionsGetAll();
@@ -265,7 +320,7 @@ const transactions = {
                     if (data == true) {   
                                            
                         //reset form values                        
-                        self.resetTransactionRecord();
+                        self.resetVariables();
 
                         //get updated list of transactions
                         self.transactionsGetAll();
@@ -295,7 +350,7 @@ const transactions = {
             data = JSON.stringify(data);
 
             //reset transaction record
-            self.resetTransactionRecord();
+            self.resetVariables();
     
             var result = $.post("/bookkeeping/record/item/del", data);
     
@@ -321,7 +376,7 @@ const transactions = {
                     }  
                     
                     //reset transaction record and action
-                    self.resetTransactionRecord();
+                    self.resetVariables();
                 }                
             });
     
@@ -352,7 +407,7 @@ const transactions = {
                         //self.showForm(false);
 
                         //reset transaction record
-                        self.resetTransactionRecord();
+                        self.resetVariables();
 
                         //get updated list of transactions
                         self.transactionsGetAll();
@@ -382,7 +437,7 @@ const transactions = {
             data = JSON.stringify(data);
 
             //reset transaction record
-            self.resetTransactionRecord();
+            self.resetVariables();
     
             var result = $.post("/bookkeeping/records/del", data);
     
@@ -414,7 +469,7 @@ const transactions = {
                 var self = this;
 
                 //reset transaction record and action
-               self.resetTransactionRecord();
+               self.resetVariables();
             });
         },
         /**
@@ -490,7 +545,7 @@ const transactions = {
             var self = this;
 
             //reset transaction object and action
-            self.resetTransactionRecord();
+            self.resetVariables();
 
              //show the modal
              $('#deleteModalRecord').modal('toggle');
@@ -518,7 +573,7 @@ const transactions = {
             var self = this;
 
             //reset transaction object and action
-            self.resetTransactionRecord();
+            self.resetVariables();
 
              //show the modal
              $('#deleteModalItem').modal('toggle');
@@ -527,7 +582,7 @@ const transactions = {
             var self = this;          
 
             //reset transaction record
-            self.resetTransactionRecord();
+            self.resetVariables();
 
             //show new transaction for action                                  
             if(action == 'new') self.action.new = true;
@@ -590,7 +645,7 @@ const transactions = {
          * reset for transaction and transaction item
          * ------------------------------------------------------
          */
-        resetTransactionRecord(){
+        resetVariables(){
             var self = this;                     
 
             //set today date
@@ -608,10 +663,6 @@ const transactions = {
                 trans_currency: 'C$',
                 trans_date : today.getFullYear() + '-' + mm + '-' + dd
             };
-
-            //reset actions for record and item
-            // self.action = '';
-            // self.action_item = false;
 
             self.action = {
                 new : false,
@@ -634,7 +685,7 @@ const transactions = {
                 gst_tax : 0,
                 pst_tax : 0,
                 is_expence: false             
-            };
+            };          
         }
     }
 };
