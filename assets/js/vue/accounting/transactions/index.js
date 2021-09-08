@@ -16,13 +16,14 @@ const transactions = {
             search_term : '',
             
             //action: '',
-            action : {
-                new : false,
-                edit: false,
-                new_item : false,
-                image : false,
-                image_view : false
-            },
+            action : {},
+            // action : {
+            //     new : false,
+            //     edit: false,
+            //     new_item : false,
+            //     image : false,
+            //     image_view : false
+            // },
             
             //transactions totals for selected period of time and according to search terms
             transaction_totals : {
@@ -127,6 +128,10 @@ const transactions = {
                             }                          
                         }
                     }
+
+                    //draw chart
+                    self.barChartTotalsJS();
+                    self.barChartPercentageJS();                    
                 }
             });
     
@@ -588,7 +593,7 @@ const transactions = {
             if(action == 'new') self.action.new = true;
             else if(action == 'edit'){
 
-                self.action.new = true;
+                self.action.edit = true;
                 self.transaction_record = Object.assign({}, self.transactions[index] );                                 
             } 
             else if(action == 'new_item'){
@@ -640,6 +645,95 @@ const transactions = {
                 break;
             }
          },
+         /**
+          * --------------------------------------------------
+          * displays chart with total income and expences
+          * at glance.
+          * --------------------------------------------------
+          */
+         barChartTotalsJS (){
+            var self = this;
+
+            //remove old canvas and create new
+            $('#barChartTotalAmount').remove();
+            $('#chartWrapper').append('<canvas id="barChartTotalAmount" class="shadow-sm border bg-white my-1"></canvas>');
+
+            const labels = ['Expences', 'Income'];
+            const data = {
+              labels: labels,
+              datasets: [{
+                label: 'Expences and Income Totals',
+                data: [self.transaction_totals.total_expences, self.transaction_totals.total_income],
+                backgroundColor: [                
+                  '#dc3545',
+                  'rgba(7, 156, 44)'
+                ],
+                borderColor: [
+                    '#dc3545',
+                    'rgba(7, 156, 44)'
+                ],
+                borderWidth: 1
+              }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                  scales: {
+                    y: {
+                      beginAtZero: true
+                    }
+                  }
+                },
+            };
+
+            var ctx = document.getElementById('barChartTotalAmount');
+            var myChart = new Chart(ctx, config);
+         },
+          /**
+          * --------------------------------------------------
+          * displays chart with total income and expences
+          * at glance.
+          * --------------------------------------------------
+          */
+           barChartPercentageJS (){
+            var self = this;
+
+            //remove old canvas and create new
+            $('#barChartTotalPercentage').remove();
+            $('#chartWrapper').append('<canvas id="barChartTotalPercentage" class="shadow-sm bg-white border my-3"></canvas>');            
+
+            let cattle_expences = self.transaction_totals.total_cattle_expences * 100 / self.transaction_totals.total_expences;
+            let feed_expences = self.transaction_totals.total_feed_expences * 100 / self.transaction_totals.total_expences;
+            let fuel_expences = self.transaction_totals.total_gasoline_expences * 100 / self.transaction_totals.total_expences;
+
+            const data = {
+                labels: [
+                  'Cattle expences %',
+                  'Feed expences %',
+                  'Fuel expences %'
+                ],
+                datasets: [{
+                  label: 'Total percentage',
+                  data: [cattle_expences, feed_expences, fuel_expences],
+                  backgroundColor: [
+                    '#dc3545',
+                    'rgba(7, 156, 44)',
+                    '#FFCC00' 
+                  ],
+                  hoverOffset: 4
+                }]
+            };
+
+            const config = {
+                type: 'pie',
+                data: data,
+              };
+
+            var ctx = document.getElementById('barChartTotalPercentage');
+            var myChart = new Chart(ctx, config);
+         },
         /**
          * ------------------------------------------------------
          * reset for transaction and transaction item
@@ -669,7 +763,8 @@ const transactions = {
                 edit: false,
                 new_item : false,
                 image : false,
-                image_view : false
+                image_view : false,
+                chart : false
             };
 
             //transaction item

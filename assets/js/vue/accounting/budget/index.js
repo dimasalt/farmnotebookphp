@@ -318,52 +318,51 @@ const app = Vue.createApp({
                 data: {
                     //labels: labels,
                     datasets: [{
-                        label: 'Projected',                                
-                        backgroundColor : "#FF0000",                
-                        borderColor: "#FF0000",
-                        borderDash: [5, 5],
-                        borderWidth : 2,
-                        tension : 0.5,                    
-                        fill: false,
-                        data: data_predicted
-                    },
-                    {
-                        label: 'Actual',                                
-                        backgroundColor : "#008000",                
-                        borderColor: "#008000",
-                        borderDash: [5, 5],
-                        borderWidth : 2,   
-                        tension : 0.5,                             
-                        fill: false,
-                        data: data_actual
-                    }
-                ]
-                },
-                options: {
-                    responsive: true,
-                    title: {
-                        text: 'Projected and Actual expenses',
-                        display: true
-                    },
-                    scales:     {
-                        xAxes: [{
-                            type:       "time",
-                            distribution: 'series',
-                            time:       
-                            {
-                                format: timeFormat,
-                                tooltipFormat: 'll'
-                            },
-                            scaleLabel: {
-                                display:     true,
-                                labelString: 'Date'
-                            }
-                        }],
-                        yAxes: [{
-                            scaleLabel: {
-                                display:     true,
-                                labelString: '$'
-                            }
+                            label: 'Projected',                                
+                            backgroundColor : "#FF0000",                
+                            borderColor: "#FF0000",
+                            borderDash: [5, 5],
+                            borderWidth : 2,
+                            tension : 0.5,                    
+                            fill: false,
+                            data: data_predicted
+                        },
+                        {
+                            label: 'Actual',                                
+                            backgroundColor : "#008000",                
+                            borderColor: "#008000",
+                            borderDash: [5, 5],
+                            borderWidth : 2,   
+                            tension : 0.5,                             
+                            fill: false,
+                            data: data_actual
+                        }
+                    ]},
+                    options: {
+                        responsive: true,
+                        title: {
+                            text: 'Projected and Actual expenses',
+                            display: true
+                        },
+                        scales:     {
+                            xAxes: [{
+                                type:       "time",
+                                distribution: 'series',
+                                time:       
+                                {
+                                    format: timeFormat,
+                                    tooltipFormat: 'll'
+                                },
+                                scaleLabel: {
+                                    display:     true,
+                                    labelString: 'Date'
+                                }
+                            }],
+                            yAxes: [{
+                                scaleLabel: {
+                                    display:     true,
+                                    labelString: '$'
+                                }
                         }]
                     }
                 }

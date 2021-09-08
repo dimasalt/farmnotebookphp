@@ -213,7 +213,7 @@
 
                 <hr class="bg-secondary" />  
                 <div class="d-flex justify-content-end py-1">
-                     <a href="#" class="btn btn-warning rounded-0" v-on:click="resetTransactionRecord()">
+                     <a href="#" class="btn btn-warning rounded-0" v-on:click="resetVariables()">
                         <i class="fas fa-times-circle text-small me-1"></i>
                         Close           
                     </a>                                                                    
@@ -234,12 +234,18 @@
                 <form action="/bookkeeping/records/receipt/upload" class="dropzone m-2 text-dark" id="transaction-upload"></form>    
                 <hr class="bg-secondary" />  
                 <div class="d-flex justify-content-end py-1">
-                     <a href="#" class="btn btn-warning me-2 rounded-0" v-on:click="resetTransactionRecord()">
+                     <a href="#" class="btn btn-warning me-2 rounded-0" v-on:click="resetVariables()">
                         <i class="fas fa-times-circle text-small me-1"></i>
                         Close           
                     </a>                       
                 </div>      
             </div>
+        </div>
+
+        <!-- chart js for visual display of statistics -->         
+        <div class="col-3 mt-0" id="chartWrapper" v-show='!action.new && !action.edit && !action.new_item && !action.image && !action.image_view'>
+            <canvas id="barChartTotalAmount"></canvas>
+            <canvas id="barChartTotalPercentage"></canvas>
         </div>
 
         <!-- transaction record form/ new or edit -->
@@ -296,7 +302,7 @@
                     </div>             
                      <hr class="bg-secondary" />
                     <div class="col mt-3 d-flex justify-content-end">                                   
-                        <a href="#" class="btn btn-warning rounded-0" v-on:click="resetTransactionRecord()">
+                        <a href="#" class="btn btn-warning rounded-0" v-on:click="resetVariables()">
                             <i class="fas fa-times-circle text-small me-1"></i>
                             Cancel           
                         </a>    
@@ -375,7 +381,7 @@
                     {# <div class="clearfix mt-4"></div>   #}
                      <hr class="bg-secondary" />            
                     <div class="col mt-2 d-flex justify-content-end">                                   
-                        <a href="#" class="btn btn-warning rounded-0" v-on:click="resetTransactionRecord()">
+                        <a href="#" class="btn btn-warning rounded-0" v-on:click="resetVariables()">
                             <i class="fas fa-times-circle text-small me-1"></i>
                             Cancel           
                         </a>   
@@ -454,6 +460,9 @@
 {% endblock %}
 
 {% block custom_scripts %}
+
+    <!-- chart -->
+    <script src='/assets/components/chartjs/chart.min.js'></script>   
 
     <!-- file uploading -->
     <script src="/assets/components/dropzone/min/dropzone.min.js"></script>

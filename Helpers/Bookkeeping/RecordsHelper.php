@@ -126,13 +126,12 @@ class RecordsHelper
     {
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call transactionUpdate(?,?,?,?,?,?,?)');
+        $stmt = $pdo->prepare('call transactionUpdate(?,?,?,?,?,?)');
         $stmt->execute(array(
             $data->id,
-            $data->trans_name,
             $data->trans_desc,
-            $data->trans_address_name,
-            $data->trans_address,
+            $data->vendor_name,
+            $data->vendor_address,
             $data->trans_currency,
             $data->trans_date
         ));
