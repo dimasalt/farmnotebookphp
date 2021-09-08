@@ -4,18 +4,11 @@
 
 ### Transaction page
 
-- add charts
-- add common statistics
-- add validation for inputs
+- Add validation for inputs
+- Add pagination
 
-NOTE: Try to add display of common statistics between 2 selected dates
+IMPORTANT : Remove empty folders after receipt image removal
 
-IMPORTANT: Remove empty folders after receipt image removal
-
-
-### Contacts Page
-
-- add checks for duplicate
 
 ### Budger planning page
 
