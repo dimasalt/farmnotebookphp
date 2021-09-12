@@ -6,6 +6,7 @@
 
     <!-- file uploading -->
     <link href="/assets/components/dropzone/min/dropzone.min.css" rel="stylesheet">
+    <link href="/assets/components/lightbox2/css/lightbox.min.css" rel="stylesheet">
  {% endblock %}
 
 {% block body %}
@@ -127,7 +128,7 @@
             <table class="table table-sm bg-white table-borderless shadow-sm w-100">                               
                 <tbody v-for="(record, index) in transactions">
                     <tr class="border">                     
-                        <td class="ps-4 w-85" v-bind:class="record.class">
+                        <td class="ps-4 w-85 bg-light" v-bind:class="record.class">
                             <div class="my-1"> 
                                 <strong>{{ '{{record.vendor_name}}' }}</strong>
                                 <small class="fw-light ms-3">{{ '{{record.trans_read_date}}' }}</small>
@@ -208,7 +209,7 @@
                 <hr class="bg-secondary" />
                 <div class="ms-2 font-16"><small>Transaction # {{ '{{ transaction_record.id }}' }}</small></div>
                
-                <img v-bind:src="'/' + transaction_record.trans_image" class="img-thumbnail" alt=""  />
+                <img v-bind:src="'/' + transaction_record.trans_image" id="img_preview_link" class="img-thumbnail" alt="" v-on:click="receiptPreview()"  />
 
 
                 <hr class="bg-secondary" />  
@@ -377,9 +378,8 @@
                             <input class="form-check-input me-1" type="checkbox" id="is_expence" v-model="transaction_item.is_expence">
                             <label class="form-check-label" for="is_expence">Expence</label>
                         </div>
-                    </div>                
-                    {# <div class="clearfix mt-4"></div>   #}
-                     <hr class="bg-secondary" />            
+                    </div>                                   
+                    <hr class="bg-secondary" />            
                     <div class="col mt-2 d-flex justify-content-end">                                   
                         <a href="#" class="btn btn-warning rounded-0" v-on:click="resetVariables()">
                             <i class="fas fa-times-circle text-small me-1"></i>
@@ -453,6 +453,26 @@
             </div>
         </div>
         <!-- end of item modal -->
+
+
+        <!-- image/receipt preview modal --> 
+        <div class="modal fade" tabindex="-1" id="imagePreviewModal">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Large view receipt 
+                        </h5>
+                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p> <img src="" id="img_preview_modal" style="width: 100%;" /></p>
+                    </div>                
+                </div>
+            </div>
+        </div>            
+        <!-- end image/receipt preview modal -->
  
     </div>  
 
@@ -468,6 +488,9 @@
     <script src="/assets/components/dropzone/min/dropzone.min.js"></script>
 
     <script src="/assets/js/vue/accounting/transactions/index.js"></script>
+
+    <!-- lightbox2 -->
+    <script src="/assets/components/lightbox2/js/lightbox.min.js"></script>
 
 
      <script type="application/javascript">

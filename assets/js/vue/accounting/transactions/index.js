@@ -209,6 +209,15 @@ const transactions = {
         },
         /**
          * -------------------------------------------------------------
+         * transaction image englarge view
+         * -------------------------------------------------------------
+         */
+        receiptPreview(){
+            $('#img_preview_modal').attr('src', $('#img_preview_link').attr('src'));
+			$('#imagePreviewModal').modal('show');   
+        },
+        /**
+         * -------------------------------------------------------------
          * get transaction categories
          * -------------------------------------------------------------
          */
