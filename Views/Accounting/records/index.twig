@@ -201,6 +201,7 @@
             </nav>
         </div>
 
+        {# ################# Right side of the page ####################### #}
 
         <!-- image view and removal -->
         <div class="col-3 mt-0" id="dropzone_image_view" v-show="action.image_view==true">
@@ -210,7 +211,6 @@
                 <div class="ms-2 font-16"><small>Transaction # {{ '{{ transaction_record.id }}' }}</small></div>
                
                 <img v-bind:src="'/' + transaction_record.trans_image" id="img_preview_link" class="img-thumbnail" alt="" v-on:click="receiptPreview()"  />
-
 
                 <hr class="bg-secondary" />  
                 <div class="d-flex justify-content-end py-1">

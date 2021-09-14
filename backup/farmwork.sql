@@ -273,12 +273,14 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~4 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~6 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
+	('48bd28aa-110c-11ec-808f-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', NULL, '2021-08-18 00:00:00', '2021-09-08 21:21:23', '2021-09-08 21:31:50'),
 	('685915ae-0f8c-11ec-8491-d8cb8ac0caec', '', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', 'C$', NULL, '2021-09-01 00:00:00', '2021-09-06 23:33:45', '2021-09-07 16:10:21'),
 	('7b3d4fcd-0f8d-11ec-8491-d8cb8ac0caec', '', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', 'C$', NULL, '2021-08-26 00:00:00', '2021-09-06 23:41:26', '2021-09-06 23:41:26'),
-	('ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/03/08/temiskaming_livestock_exchange_ltd_1992-ad855fb8-0f8e-11ec-8491-d8cb8ac0caec.jpg', '2021-03-08 00:00:00', '2021-09-06 23:50:00', '2021-09-07 12:44:14'),
+	('9a817fdd-110b-11ec-808f-d8cb8ac0caec', '', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', 'C$', NULL, '2021-09-08 00:00:00', '2021-09-08 21:16:31', '2021-09-12 15:03:03'),
+	('ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', NULL, '2021-03-08 00:00:00', '2021-09-06 23:50:00', '2021-09-08 05:08:54'),
 	('dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'feed and bedding supplies', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', NULL, '2021-05-17 00:00:00', '2021-07-18 20:25:39', '2021-09-06 12:04:08');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
@@ -353,15 +355,17 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~10 rows (approximately)
+-- Dumping data for table farmwork.transaction_item: ~12 rows (approximately)
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
 INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
 	('031bd18b-0f8f-11ec-8491-d8cb8ac0caec', 'ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', 'black calf', 'day old milk calf', 'Livestock', 'Cattle', -374.00, 0.00, 0.00, 0.00, 1, '2021-09-06 23:52:24'),
 	('29672f5b-e829-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'calf starter', '', 'Feed', 'Calf Starter', -63.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:34:57'),
 	('383099b7-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'beef supplement', '', 'Feed', 'Mineral Mix', -19.60, 0.00, 0.00, 0.00, 1, '2021-07-18 20:28:13'),
+	('63c5bcc5-110c-11ec-808f-d8cb8ac0caec', '48bd28aa-110c-11ec-808f-d8cb8ac0caec', 'tote - soybean/corn mix', '', 'Feed', 'Cracked Corn', -566.00, 0.00, 0.00, 0.00, 1, '2021-09-08 21:22:08'),
 	('789fb0cf-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'chicken layer feed', '', 'Feed', 'Chicken Layer Feed', -18.50, 0.00, 0.00, 0.00, 1, '2021-07-18 20:30:01'),
 	('992b1cbb-0f8d-11ec-8491-d8cb8ac0caec', '7b3d4fcd-0f8d-11ec-8491-d8cb8ac0caec', 'gasoline', '', 'Vehicle', 'Gasoline', -100.79, 0.00, 0.00, 0.00, 1, '2021-09-06 23:42:17'),
 	('a479b0a9-0f8c-11ec-8491-d8cb8ac0caec', '685915ae-0f8c-11ec-8491-d8cb8ac0caec', 'gasoline', 'fuel for the vehicle', 'Vehicle', 'Gasoline', -109.21, 0.00, 0.00, 0.00, 1, '2021-09-06 23:35:26'),
+	('bd9005bf-110b-11ec-808f-d8cb8ac0caec', '9a817fdd-110b-11ec-808f-d8cb8ac0caec', 'gasoline', '', 'Vehicle', 'Gasoline', -100.11, 0.00, 0.00, 0.00, 1, '2021-09-08 21:17:29'),
 	('d72bbc4e-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'straw', '', 'Feed', 'Straw', -8.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:32:39'),
 	('de75365e-0f8e-11ec-8491-d8cb8ac0caec', 'ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', 'black calf', 'day old milk calf', 'Livestock', 'Cattle', -264.50, 0.00, 0.00, 0.00, 1, '2021-09-06 23:51:22'),
 	('eef5ce0e-0f8e-11ec-8491-d8cb8ac0caec', 'ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', 'black calf', 'day old milk calf', 'Livestock', 'Cattle', -270.00, 0.00, 0.00, 0.00, 1, '2021-09-06 23:51:50'),
@@ -379,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~1 rows (approximately)
+-- Dumping data for table farmwork.user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -462,7 +466,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 184200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');

@@ -15,15 +15,7 @@ const transactions = {
             transaction_sub_category_disabled : true,
             search_term : '',
             
-            //action: '',
             action : {},
-            // action : {
-            //     new : false,
-            //     edit: false,
-            //     new_item : false,
-            //     image : false,
-            //     image_view : false
-            // },
             
             //transactions totals for selected period of time and according to search terms
             transaction_totals : {
@@ -120,7 +112,7 @@ const transactions = {
                                         var total_gasoline_expences = self.transactions[i].items[y].amount;
                                         self.transaction_totals.total_gasoline_expences = Number(self.transaction_totals.total_gasoline_expences) + Number(total_gasoline_expences);   
                                     }
-                                }                                
+                                }                                                                              
                             }  
                             else {
                                 var amount = self.transactions[i].items[y].amount;
