@@ -4,8 +4,8 @@ const vehiclebooklogs = {
             odometer : {},
             odometer_item : {
                 id: 0,
-                year_start_odometer : '',
-                year_end_odometer : '',
+                year_start_odometer : 0,
+                year_end_odometer : 0,
                 vehicle_desc : '',
                 is_addoredit : false       
             },
@@ -134,8 +134,8 @@ const vehiclebooklogs = {
                 //reset odometer_item
                 self.odometer_item = {
                     id: 0,
-                    year_start_odometer : '',
-                    year_end_odometer : '',
+                    year_start_odometer : 0,
+                    year_end_odometer : 0,
                     vehicle_desc : '',
                     is_addoredit : false       
                 };
@@ -156,7 +156,6 @@ const vehiclebooklogs = {
 
             //show form
             self.odometer_item.is_addoredit = true;
-
         },
           /**
          * -------------------------------------------------------
@@ -169,8 +168,8 @@ const vehiclebooklogs = {
              //reset odometer_item
              self.odometer_item = {
                 id: 0,
-                year_start_odometer : '',
-                year_end_odometer : '',
+                year_start_odometer : 0,
+                year_end_odometer : 0,
                 vehicle_desc : '',
                 is_addoredit : false       
             };
@@ -358,6 +357,16 @@ const vehiclebooklogs = {
                 travel_date : yyyy + '-' + mm + '-' + dd,
                 is_new : false
             }         
+        },
+        /**
+         * ----------------------------------------------------------------
+         * Reset odometer item
+         * ----------------------------------------------------------------
+         */
+        resetOdometer(){
+            var self = this;
+
+            
         }
     }
 };

@@ -663,7 +663,7 @@ const transactions = {
             const data = {
               labels: labels,
               datasets: [{
-                label: 'Expences and Income Totals',
+                label: 'Expences and Income',
                 data: [self.transaction_totals.total_expences, self.transaction_totals.total_income],
                 backgroundColor: [                
                   '#dc3545',
@@ -708,20 +708,23 @@ const transactions = {
             let cattle_expences = self.transaction_totals.total_cattle_expences * 100 / self.transaction_totals.total_expences;
             let feed_expences = self.transaction_totals.total_feed_expences * 100 / self.transaction_totals.total_expences;
             let fuel_expences = self.transaction_totals.total_gasoline_expences * 100 / self.transaction_totals.total_expences;
+            let vet_expences = self.transaction_totals.total_veterinary_expences * 100 / self.transaction_totals.total_expences;
 
             const data = {
                 labels: [
-                  'Cattle expences %',
-                  'Feed expences %',
-                  'Fuel expences %'
+                  'Cattle %',
+                  'Feed %',
+                  'Fuel %',
+                  'Veterinary %'
                 ],
                 datasets: [{
                   label: 'Total percentage',
-                  data: [cattle_expences, feed_expences, fuel_expences],
+                  data: [cattle_expences, feed_expences, fuel_expences, vet_expences],
                   backgroundColor: [
                     '#dc3545',
                     'rgba(7, 156, 44)',
-                    '#FFCC00' 
+                    '#FFCC00',
+                    '#33A1DE' 
                   ],
                   hoverOffset: 4
                 }]

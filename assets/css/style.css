@@ -31,9 +31,14 @@ body {
     background-color: white;
 }
 
-
+/******** background colors ****************/
 .bg-dark {
     background-color: #323232;
+}
+
+.bg-secondary-light {
+    color : #41464b;
+    background-color: #e2e3e5;    
 }
 
 .w-5  { width: 5%; }

@@ -47,11 +47,12 @@ CREATE TABLE IF NOT EXISTS `contact` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Keeps contacts for contact book and vendors (for transactions and others)';
 
--- Dumping data for table farmwork.contact: ~10 rows (approximately)
+-- Dumping data for table farmwork.contact: ~11 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`) VALUES
 	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
 	('11d2fef9-e813-11eb-8df3-d8cb8ac0caec', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', '705-647-5415', '', 'Livestock Exchange. Barn sale of livestock.', 1, '2021-07-18 17:56:49'),
+	('40233c6c-142e-11ec-808f-d8cb8ac0caec', 'Thornloe Farm Supply Inc', '31 Main St, Thornloe, ON, P0J 1S0', '705-563-2555', '', 'Farm supply store', 1, '2021-09-12 21:01:29'),
 	('797e5e64-e83d-11eb-8df3-d8cb8ac0caec', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', '705-235-4797', '', 'One of the local gas stations', 1, '2021-07-18 23:00:22'),
 	('81a77d42-a76d-11eb-80d2-d8cb8ac0caec', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', '705-268-0822', NULL, 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', 1, '2019-04-29 21:31:35'),
 	('81a77fe9-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', '7052645291', NULL, 'Metal supply company. The only one in Timmins.', 1, '2020-02-18 23:39:43'),
@@ -273,15 +274,17 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~6 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~8 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
 	('48bd28aa-110c-11ec-808f-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', NULL, '2021-08-18 00:00:00', '2021-09-08 21:21:23', '2021-09-08 21:31:50'),
+	('62603121-142e-11ec-808f-d8cb8ac0caec', '', 'Thornloe Farm Supply Inc', '31 Main St, Thornloe', 'C$', 'uploads/transactions/2021/03/15/thornloe_farm_supply_inc-62603121-142e-11ec-808f-d8cb8ac0caec.jpg', '2021-03-15 00:00:00', '2021-09-12 21:02:27', '2021-09-12 21:04:22'),
 	('685915ae-0f8c-11ec-8491-d8cb8ac0caec', '', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', 'C$', NULL, '2021-09-01 00:00:00', '2021-09-06 23:33:45', '2021-09-07 16:10:21'),
 	('7b3d4fcd-0f8d-11ec-8491-d8cb8ac0caec', '', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', 'C$', NULL, '2021-08-26 00:00:00', '2021-09-06 23:41:26', '2021-09-06 23:41:26'),
+	('8bbc8a1f-142c-11ec-808f-d8cb8ac0caec', 'Cattle sale', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/06/28/temiskaming_livestock_exchange_ltd_1992-8bbc8a1f-142c-11ec-808f-d8cb8ac0caec.jpg', '2021-06-28 00:00:00', '2021-09-12 20:49:17', '2021-09-12 20:53:55'),
 	('9a817fdd-110b-11ec-808f-d8cb8ac0caec', '', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', 'C$', NULL, '2021-09-08 00:00:00', '2021-09-08 21:16:31', '2021-09-12 15:03:03'),
-	('ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', NULL, '2021-03-08 00:00:00', '2021-09-06 23:50:00', '2021-09-08 05:08:54'),
-	('dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'feed and bedding supplies', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', NULL, '2021-05-17 00:00:00', '2021-07-18 20:25:39', '2021-09-06 12:04:08');
+	('ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/03/08/temiskaming_livestock_exchange_ltd_1992-ad855fb8-0f8e-11ec-8491-d8cb8ac0caec.jpg', '2021-03-08 00:00:00', '2021-09-06 23:50:00', '2021-09-12 17:54:40'),
+	('dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'feed and bedding supplies', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', NULL, '2021-05-17 00:00:00', '2021-07-18 20:25:39', '2021-09-12 20:53:49');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -292,9 +295,9 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~37 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~38 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -333,7 +336,8 @@ INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `categor
 	(50, 1, 'Chicken Layer Feed', '', '2021-07-18 20:29:12'),
 	(51, 1, 'Wood Shavings', '', '2021-07-18 20:31:12'),
 	(52, 1, 'Straw', '', '2021-07-18 20:31:19'),
-	(53, 26, 'Office Supplies', '', '2021-07-18 21:15:57');
+	(53, 26, 'Office Supplies', '', '2021-07-18 21:15:57'),
+	(55, 9, 'Tube Feeder', '', '2021-09-12 21:17:49');
 /*!40000 ALTER TABLE `transaction_category` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_item
@@ -355,15 +359,17 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~12 rows (approximately)
+-- Dumping data for table farmwork.transaction_item: ~14 rows (approximately)
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
 INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
 	('031bd18b-0f8f-11ec-8491-d8cb8ac0caec', 'ad855fb8-0f8e-11ec-8491-d8cb8ac0caec', 'black calf', 'day old milk calf', 'Livestock', 'Cattle', -374.00, 0.00, 0.00, 0.00, 1, '2021-09-06 23:52:24'),
 	('29672f5b-e829-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'calf starter', '', 'Feed', 'Calf Starter', -63.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:34:57'),
 	('383099b7-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'beef supplement', '', 'Feed', 'Mineral Mix', -19.60, 0.00, 0.00, 0.00, 1, '2021-07-18 20:28:13'),
 	('63c5bcc5-110c-11ec-808f-d8cb8ac0caec', '48bd28aa-110c-11ec-808f-d8cb8ac0caec', 'tote - soybean/corn mix', '', 'Feed', 'Cracked Corn', -566.00, 0.00, 0.00, 0.00, 1, '2021-09-08 21:22:08'),
+	('764bda0b-142e-11ec-808f-d8cb8ac0caec', '62603121-142e-11ec-808f-d8cb8ac0caec', 'Tube Feeder', '', 'Veterinary', '', -32.00, 0.00, 0.00, 0.00, 1, '2021-09-12 21:03:00'),
 	('789fb0cf-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'chicken layer feed', '', 'Feed', 'Chicken Layer Feed', -18.50, 0.00, 0.00, 0.00, 1, '2021-07-18 20:30:01'),
 	('992b1cbb-0f8d-11ec-8491-d8cb8ac0caec', '7b3d4fcd-0f8d-11ec-8491-d8cb8ac0caec', 'gasoline', '', 'Vehicle', 'Gasoline', -100.79, 0.00, 0.00, 0.00, 1, '2021-09-06 23:42:17'),
+	('9d543e3c-142c-11ec-808f-d8cb8ac0caec', '8bbc8a1f-142c-11ec-808f-d8cb8ac0caec', 'Angus Steer', '', 'Livestock', 'Cattle', 770.08, 0.00, 0.00, 0.00, 0, '2021-09-12 20:49:47'),
 	('a479b0a9-0f8c-11ec-8491-d8cb8ac0caec', '685915ae-0f8c-11ec-8491-d8cb8ac0caec', 'gasoline', 'fuel for the vehicle', 'Vehicle', 'Gasoline', -109.21, 0.00, 0.00, 0.00, 1, '2021-09-06 23:35:26'),
 	('bd9005bf-110b-11ec-808f-d8cb8ac0caec', '9a817fdd-110b-11ec-808f-d8cb8ac0caec', 'gasoline', '', 'Vehicle', 'Gasoline', -100.11, 0.00, 0.00, 0.00, 1, '2021-09-08 21:17:29'),
 	('d72bbc4e-e828-11eb-8df3-d8cb8ac0caec', 'dc8eee4f-e827-11eb-8df3-d8cb8ac0caec', 'straw', '', 'Feed', 'Straw', -8.00, 0.00, 0.00, 0.00, 1, '2021-07-18 20:32:39'),
