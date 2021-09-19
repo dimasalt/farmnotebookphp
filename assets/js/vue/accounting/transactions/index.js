@@ -432,53 +432,6 @@ const transactions = {
             result.always(function () { });
         },
         /**
-         * ------------------------------------------------------------------------------
-         * remove main transaction items and all sub items
-         * ------------------------------------------------------------------------------
-         */
-        delTransactionMain(){
-            var self = this;
-
-            var data = self.transaction_record;
-            data = JSON.stringify(data);
-
-            //reset transaction record
-            self.resetVariables();
-    
-            var result = $.post("/bookkeeping/records/del", data);
-    
-            result.done(function (data) {
-                if (data.length > 0) {
-                    
-                    data = JSON.parse(data);   
-                    
-                    if (data == true) {                       
-
-                        //hide the modal
-                        $('#deleteModalRecord').modal('hide');
-
-                        //get updated list of transactions
-                        self.transactionsGetAll();
-
-                        //Display a success toast, with a title
-                        toastr.success("You have successfully have removed main transaction item");                                              
-                    }
-                    else if(data == false){
-                        // Display an error toast, with a title
-                        toastr.error("Ops! There appears to be an error and selected transaction item coudln't t be removed");
-                    }
-                    
-                }                
-            });
-    
-            result.always(function () {
-                var self = this;
-
-                //reset transaction record and action
-               self.resetVariables();
-            });
-        },
-        /**
          * -----------------------------------------------------------------------------------
          * when selected category in drop down has changed
          * -----------------------------------------------------------------------------------
@@ -528,16 +481,67 @@ const transactions = {
                     break;                    
                 }   
          },
+                /**
+         * ------------------------------------------------------------------------------
+         * remove main transaction items and all sub items
+         * ------------------------------------------------------------------------------
+         */
+        delTransactionMain(){
+            var self = this;
+
+            var data = self.transaction_record;
+            data = JSON.stringify(data);
+
+            //reset transaction record
+            //self.resetVariables();
+    
+            var result = $.post("/bookkeeping/records/del", data);
+    
+            result.done(function (data) {
+                if (data.length > 0) {
+                    
+                    data = JSON.parse(data);   
+                    
+                    if (data == true) {                       
+
+                        //hide the modal
+                        $('#deleteModalRecord').modal('hide');
+
+                        //remove transaction image receipt
+                        self.transactionImageRemove();
+
+                        //get updated list of transactions
+                        self.transactionsGetAll();
+
+                        //Display a success toast, with a title
+                        toastr.success("You have successfully have removed main transaction item");                                              
+                    }
+                    else if(data == false){
+                        // Display an error toast, with a title
+                        toastr.error("Ops! There appears to be an error and selected transaction item coudln't t be removed");
+                    }                    
+                } 
+                
+                //reset transaction record and action
+                self.resetVariables();
+            });
+    
+            result.always(function () {
+                var self = this;
+
+                //reset transaction record and action
+               //self.resetVariables();
+            });
+        },
         /**
          * -------------------------------------------------------------------------------
          * show delete modal for transaction record
          * -------------------------------------------------------------------------------
          */
-        delTransactionShow (id, vendor_name){
+        delTransactionShow (index){
             var self = this;
 
-            self.transaction_record.id = id;
-            self.transaction_record.vendor_name = vendor_name;         
+            self.transaction_record = Object.assign({}, self.transactions[index] );         
 
              //show the modal
              $('#deleteModalRecord').modal('show');
@@ -559,7 +563,7 @@ const transactions = {
         /**
          * -------------------------------------------------------------------------------
          * show delete modal for transaction record Item
-         * -------------------------------------------------------------------------------
+         * -------------------------------------------------------------------------------      
          */
            delTransactionItemShow (id, item_name){
             var self = this;
@@ -758,6 +762,7 @@ const transactions = {
                 vendor_name : '',
                 vendor_address: '',
                 trans_desc : '',
+                trans_image : '',
                 trans_currency: 'C$',
                 trans_date : today.getFullYear() + '-' + mm + '-' + dd
             };

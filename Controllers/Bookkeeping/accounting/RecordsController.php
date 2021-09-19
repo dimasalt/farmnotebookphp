@@ -207,13 +207,15 @@ class RecordsController extends BaseController
             mkdir($uploadFolder, 0777, true);    
 
         //check if an old file already exist, if yes remove
-         //new file location //replce spaces in vendor name //preg_replace('/\s+/', '_', $_POST["vendor_name"])
-         $vendor_name = str_replace(' ', '_', $_POST["vendor_name"]);
-         $vendor_name = strtolower($vendor_name);
-         $newFileName = $uploadFolder . '/'. $vendor_name . '-' . $_POST["transaction_id"] . '.' . $fileExtension;
+        //new file location //replce spaces in vendor name //preg_replace('/\s+/', '_', $_POST["vendor_name"])
+        $vendor_name = str_replace(' ', '_', $_POST["vendor_name"]);
+        $vendor_name = strtolower($vendor_name);
+        $newFileName = $uploadFolder . '/'. $vendor_name . '-' . $_POST["transaction_id"] . '.' . $fileExtension;
 
-         //call function to remove the file
-         $this->deleteFile($newFileName);
+        /**
+         * we don't need to remove old image file as the new file
+         * will just overrride the old one
+         */
         
 
         //temporary file location
@@ -240,29 +242,7 @@ class RecordsController extends BaseController
         else {
             http_response_code(403);
             echo "Possible file upload attack!\n";
-        }
-
-        //shell_exec("rm -rf " . $dir);
-        
-
-
-        //remove all files and directorise in cpecific path / recursive function
-        // function rrmdir($dir) { 
-        //     if (is_dir($dir)) { 
-        //       $objects = scandir($dir);
-        //       foreach ($objects as $object) { 
-        //         if ($object != "." && $object != "..") { 
-        //           if (is_dir($dir. DIRECTORY_SEPARATOR .$object) && !is_link($dir."/".$object))
-        //             rrmdir($dir. DIRECTORY_SEPARATOR .$object);
-        //           else
-        //             unlink($dir. DIRECTORY_SEPARATOR .$object); 
-        //         } 
-        //       }
-        //       rmdir($dir); 
-        //     } 
-        //   }
-
-       
+        }               
     }
 
     /**
@@ -275,12 +255,13 @@ class RecordsController extends BaseController
         //security
         session_regenerate_id(); 
         
-        //translate paremeters from json
-         // Takes raw data from the request
-         $json = file_get_contents('php://input');
+   
+        // Takes raw data from the request
+        $json = file_get_contents('php://input');
 
-         // Converts it into a PHP object
-         $data = json_decode($json);      
+        //translate paremeters from json
+        // Converts it into a PHP object
+        $data = json_decode($json);      
 
 
         //get csrf tocket and check if it's valid/ if not throw an error
@@ -302,37 +283,41 @@ class RecordsController extends BaseController
             echo json_encode($imageResult);
         }
         else echo json_encode($result);
-    }
-
-    /** 
-     * -----------------------------------------------------------------------
-     *  Empty forlder remove 
-     * -----------------------------------------------------------------------
-     */
-    protected function emptyFolderRemove(){
-        $dir_iterator = new \RecursiveDirectoryIterator("/path");
-        $iterator = new \RecursiveIteratorIterator($dir_iterator, \RecursiveIteratorIterator::SELF_FIRST);
-        // could use CHILD_FIRST if you so wish
-
-        foreach ($iterator as $file) {
-            echo $file, "\n";
-        }
-    }
+    }    
 
     /**
      * --------------------------------------------------------------------
      * Physically remove file from the system
      * --------------------------------------------------------------------
      */
-    public function deleteFile($filePath) : bool
-    {     
-        //if file exist please remove
-        if(file_exists($filePath)) {
-            
-            unlink($filePath);
-            return true;
-        }
-        else return false;
-    }
+    private function deleteFile($filePath) 
+    {       
+        $result = true;   
+        //if file exist remove
+        if(is_file($filePath))
+            $result = unlink($filePath);
+        else if(is_dir($filePath))
+        {
+            /**
+             * in case if php still has the folder as an open it will not remove it
+             * so we need to close it first and only then can we remove
+             */
+            $handle = opendir($filePath);            
+            closedir($handle);
 
+            $result = rmdir($filePath);
+        }
+
+        $folders = explode('/', $filePath);
+        array_pop($folders);
+        $filePath = join('/', $folders);        
+
+        if(count($folders) > 1 && $result == true)
+            $this->deleteFile($filePath);        
+        
+        //return $result;
+            
+            
+        //shell_exec("rm -rf " . $dir);
+    }   
 }
