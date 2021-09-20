@@ -49,6 +49,10 @@ $r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/add', 'FarmWork\Controll
 $r->addRoute(['GET', 'POST'], '/bookkeeping/record/item/del', 'FarmWork\Controllers\RecordsController:transactionItemDelete');
 
 
+//Transactions reports
+$r->addRoute(['GET'], '/bookkeeping/reports', 'FarmWork\Controllers\ReportsController:index');
+
+
 //finances categories
 $r->addRoute(['GET', 'POST'], '/bookkeeping/categories/delete', 'FarmWork\Controllers\RecordsTypeController:transactionCatsDelete');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/categories/get/all', 'FarmWork\Controllers\RecordsTypeController:transactionCatsGetAll');

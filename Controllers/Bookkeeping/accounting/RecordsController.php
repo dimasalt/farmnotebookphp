@@ -292,7 +292,8 @@ class RecordsController extends BaseController
      */
     private function deleteFile($filePath) 
     {       
-        $result = true;   
+        $result = true;  
+
         //if file exist remove
         if(is_file($filePath))
             $result = unlink($filePath);
@@ -313,11 +314,10 @@ class RecordsController extends BaseController
         $filePath = join('/', $folders);        
 
         if(count($folders) > 1 && $result == true)
-            $this->deleteFile($filePath);        
+            $this->deleteFile($filePath);     
         
-        //return $result;
-            
-            
+        return $result;
+                      
         //shell_exec("rm -rf " . $dir);
     }   
 }
