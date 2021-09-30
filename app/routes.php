@@ -29,6 +29,7 @@ $r->addRoute('GET', '/contacts', 'FarmWork\Controllers\ContactsController:index'
  * transaction records
  * -------------------------------------------------------------------
  */
+$r->addRoute(['GET', 'POST'], '/bookkeeping/records/get/totals', 'FarmWork\Controllers\RecordsController:transactionGetTotals');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/records/get/all', 'FarmWork\Controllers\RecordsController:transactionsGetAll');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/records/del', 'FarmWork\Controllers\RecordsController:transactionDelete');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/records/add', 'FarmWork\Controllers\RecordsController:transactionAdd');

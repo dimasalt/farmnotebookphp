@@ -29,13 +29,9 @@
                            data-toggle="tooltip" data-placement="top" title="Add medication"></i>
                     </a>                 
                 </h2>            
-
-                 {# <div class="callout callout-info">
-                    <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
-                    This page contains medication information and usage instructions.
-                </div> #}
             </div> 
-             <!-- Search box -->
+
+            <!-- Search box -->
             <div class="form-group has-search col-2 float-right">
                 <span class="fa fa-search form-control-feedback"></span>
                 <input type="search" class="form-control"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
@@ -49,29 +45,29 @@
             <div class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-xs-12 m-2 p-0" v-for="(item, index) in meds">            
                 <div class="card h-100 w-100">
                     <h5 class="card-header  bg-dark text-white">
-                        <i class="fas fa-pills mr-2"></i>
+                        <i class="fas fa-pills me-2"></i>
                         {{ "{{ item.name }}" }}            
-                        <a href="#" class="float-right btn-sm text-small">
+                        <a href="#" class="float-right btn-sm text-small pe-1">
                             <i class="far fa-trash-alt text-danger" data-toggle="tooltip" data-placement="top" title="Remove medication"
                                 v-on:click="deleteContacModal(index)"></i>
                         </a>                               
-                        <a v-bind:href="'/medication/update/' + item.id" class="float-right btn-sm text-small pr-0">
+                        <a v-bind:href="'/medication/update/' + item.id" class="float-right btn-sm text-small ps-0">
                             <i class="far fa-edit text-warning" data-toggle="tooltip" data-placement="top" title="Edit medication"></i>
                         </a>                                     
                     </h5>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-4">
-                                <img v-bind:src='"https://picsum.photos/96/96?random=" + index' class="mr-3 mt-1 ml-2 mb-3 medication_image" alt="..." v-if="item.img == null">                
-                                <img v-bind:src='item.img' class="mr-3 mt-1 ml-2 mb-3" alt="..." v-else-if="item.img !== null" style="height:96px; width:96px;">    
-                                <select class="form-control-sm float-right ml-2" id="viewoption" v-model="item.selected">
+                                <img v-bind:src='"https://picsum.photos/96/96?random=" + index' class="me-3 mt-1 ms-2 mb-3 medication_image" alt="..." v-if="item.img == null">                
+                                <img v-bind:src='item.img' class="me-3 mt-1 ms-2 mb-3" alt="..." v-else-if="item.img !== null" style="height:96px; width:96px;">    
+                                <select class="form-control-sm float-right ms-2" id="viewoption" v-model="item.selected">
                                     <option>Description</option>
                                     <option>Instructions</option>                    
                                 </select>           
                             </div>
                             <div class="col-8">
-                                <p class="pt-1 mr-3" v-if="item.selected == 'Description'" v-html="item.desc"></p>      
-                                <p class="pt-1 mr-3" v-if="item.selected == 'Instructions'" v-html="item.instruction"></p>        
+                                <p class="pt-1 me-3" v-if="item.selected == 'Description'" v-html="item.desc"></p>      
+                                <p class="pt-1 me-3" v-if="item.selected == 'Instructions'" v-html="item.instruction"></p>        
                             </div>               
                         </div>
                         

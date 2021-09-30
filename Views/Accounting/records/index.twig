@@ -73,7 +73,7 @@
         <div class="col-3">
             <ul class="list-group shadow-sm">
                 <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light"><strong>Repairs </strong>0</li>
-                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light"><strong>Other</strong>0</li>              
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light"><strong>Profit</strong>0</li>              
             </ul>
         </div>            
     </div>
@@ -342,7 +342,8 @@
                         <label for="trans_desc">Description</label>
                         <input type="text" class="form-control bg-secondary text-white border-dark" id="trans_desc" aria-describedby="trans_desc" v-model="transaction_item.item_desc">
                         <small id="cat_desc_warrning" class="form-text text-muted float-end">250 characters max</small>
-                    </div>    
+                    </div>  
+                      
                     <div class="col mt-4">
                         <label for="trans_addr_name">Category</label>                       
                         <select class="form-select w-100 rounded-0 bg-secondary text-white border-dark" aria-label="Select group" v-model="transaction_item.item_category" v-on:change="categoryItemChanged()" id="trans_category">
@@ -378,8 +379,7 @@
                         </div>  
                     </div>     
                     <div class="row align-content-start">
-                        <div class="col-12 mt-4 ms-3 form-check col-2 pe-3">
-                            {# v-on:change="expenceChange()" #}
+                        <div class="col-12 mt-4 ms-3 form-check col-2 pe-3">                           
                             <input class="form-check-input me-1" type="checkbox" id="is_expence" v-model="transaction_item.is_expence">
                             <label class="form-check-label" for="is_expence">Expence</label>
                         </div>

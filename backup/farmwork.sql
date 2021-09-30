@@ -53,6 +53,7 @@ INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_ve
 	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
 	('11d2fef9-e813-11eb-8df3-d8cb8ac0caec', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', '705-647-5415', '', 'Livestock Exchange. Barn sale of livestock.', 1, '2021-07-18 17:56:49'),
 	('40233c6c-142e-11ec-808f-d8cb8ac0caec', 'Thornloe Farm Supply Inc', '31 Main St, Thornloe, ON, P0J 1S0', '705-563-2555', '', 'Farm supply store', 1, '2021-09-12 21:01:29'),
+	('42e3cf72-1a10-11ec-9d60-d8cb8ac0caec', 'Ontario Stockyards Inc', '3807 ON-89, Cookstown, ON L0L 1L0', '705-458-4000', '', 'Livestock auction. Barn livestock sales.', 1, '2021-09-20 08:42:46'),
 	('797e5e64-e83d-11eb-8df3-d8cb8ac0caec', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', '705-235-4797', '', 'One of the local gas stations', 1, '2021-07-18 23:00:22'),
 	('81a77d42-a76d-11eb-80d2-d8cb8ac0caec', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', '705-268-0822', NULL, 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', 1, '2019-04-29 21:31:35'),
 	('81a77fe9-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', '7052645291', NULL, 'Metal supply company. The only one in Timmins.', 1, '2020-02-18 23:39:43'),
@@ -60,7 +61,7 @@ INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_ve
 	('81a78279-a76d-11eb-80d2-d8cb8ac0caec', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', 1, '2020-01-05 07:01:53'),
 	('81a78332-a76d-11eb-80d2-d8cb8ac0caec', 'Samuel M.', 'On, Canada', '705-232-2380', NULL, 'Manonite. Sells lumber and posts for fencing or/and construction.', 1, '2020-04-08 17:19:45'),
 	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln, Val Gagne, On, Canada', '705-232-2039', NULL, 'Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.', 1, '2020-04-08 17:23:04'),
-	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67, Iroquois Falls, On, P0K1G0, Canada', '705-232-7700', NULL, NULL, 1, '2020-01-05 12:08:41');
+	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67, Iroquois Falls, On, P0K1G0, Canada', '705-232-7700', NULL, 'Cattle and dog vaccinations', 1, '2020-01-05 12:08:41');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.event
@@ -274,8 +275,11 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~1 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~2 rows (approximately)
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
+INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
+	('13866f6e-1a11-11ec-9d60-d8cb8ac0caec', 'livestock feed', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/01/02/railside_general_supplies-13866f6e-1a11-11ec-9d60-d8cb8ac0caec.jpg', '2021-01-02 00:00:00', '2021-09-20 08:48:36', '2021-09-20 08:55:27'),
+	('7b1bb52c-1a10-11ec-9d60-d8cb8ac0caec', 'livestock sale', 'Ontario Stockyards Inc', '3807 ON-89, Cookstown, ON L0L 1L0', 'C$', 'uploads/transactions/2021/01/14/ontario_stockyards_inc-7b1bb52c-1a10-11ec-9d60-d8cb8ac0caec.jpg', '2021-01-14 00:00:00', '2021-09-20 08:44:21', '2021-09-20 08:47:36');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_category
@@ -286,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
 -- Dumping data for table farmwork.transaction_category: ~37 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
@@ -324,11 +328,11 @@ INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `categor
 	(47, 1, 'Salt', 'Salt for livestock', '2021-07-06 09:38:28'),
 	(48, 1, 'Mineral Mix', 'Mineral mix to give animals with mixed feed.', '2021-07-06 09:39:07'),
 	(49, 1, 'Calf Starter', '', '2021-07-18 20:26:51'),
-	(50, 1, 'Chicken Layer Feed', '', '2021-07-18 20:29:12'),
 	(51, 1, 'Wood Shavings', '', '2021-07-18 20:31:12'),
 	(52, 1, 'Straw', '', '2021-07-18 20:31:19'),
 	(53, 26, 'Office Supplies', '', '2021-07-18 21:15:57'),
-	(55, 9, 'Tube Feeder', '', '2021-09-12 21:17:49');
+	(55, 9, 'Tube Feeder', '', '2021-09-12 21:17:49'),
+	(56, 1, 'Soybean meal', 'Protein supplement for a feed.', '2021-09-20 08:50:46');
 /*!40000 ALTER TABLE `transaction_category` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction_item
@@ -350,8 +354,13 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~0 rows (approximately)
+-- Dumping data for table farmwork.transaction_item: ~4 rows (approximately)
 /*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
+INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
+	('287936b1-1a11-11ec-9d60-d8cb8ac0caec', '13866f6e-1a11-11ec-9d60-d8cb8ac0caec', 'Cracked Corn 8 bgs', '', 'Feed', 'Cracked Corn', -124.00, 0.00, 0.00, 0.00, 1, '2021-09-20 08:49:11'),
+	('782013e0-1a11-11ec-9d60-d8cb8ac0caec', '13866f6e-1a11-11ec-9d60-d8cb8ac0caec', 'Soybean meal 2 bgs', '', 'Feed', 'Soybean meal', -52.00, 0.00, 0.00, 0.00, 1, '2021-09-20 08:51:25'),
+	('ad6de632-1a10-11ec-9d60-d8cb8ac0caec', '7b1bb52c-1a10-11ec-9d60-d8cb8ac0caec', '2 Steers and 2 Heifers. Average weight 614 lb', '', 'Livestock', 'Cattle', 3882.24, 0.00, 0.00, 0.00, 0, '2021-09-20 08:45:45'),
+	('b46a94f2-1a11-11ec-9d60-d8cb8ac0caec', '13866f6e-1a11-11ec-9d60-d8cb8ac0caec', '40% Beef Supplement - 1bg ', '', 'Feed', 'Mineral Mix', -18.00, 0.00, 0.00, 0.00, 1, '2021-09-20 08:53:06');
 /*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.user
@@ -1046,6 +1055,71 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure farmwork.transactionGetTotals
+DELIMITER //
+CREATE PROCEDURE `transactionGetTotals`(
+	IN `search_term` VARCHAR(50),
+	IN `category_selected` VARCHAR(150),
+	IN `sub_category_selected` VARCHAR(150),
+	IN `start_date` VARCHAR(50),
+	IN `end_date` VARCHAR(50)
+)
+    COMMENT 'selects totals for stats based on search parameters and selected categories and dates'
+BEGIN
+
+	-- prepare search term
+	SET search_term = CONCAT('%', search_term, '%') ;
+	
+-- 	IF LENGTH(search_term) < 2 THEN
+-- 		SET search_term = "%";
+-- 	ELSE
+-- 		SET search_term = CONCAT('%', search_term, '%') ;
+-- 	END IF;
+	
+	SET category_selected = CONCAT('%', category_selected, '%') ;
+	
+	-- prepare sub category item search
+-- 	IF LENGTH(sub_category_selected) = 0 THEN
+-- 		SET sub_category_selected = "%";	
+-- 	ELSE
+-- 		SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;				
+-- 	END IF;
+	
+	SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;
+		
+	
+	-- drop temporary table if exists
+	DROP TEMPORARY TABLE IF EXISTS transaction_totals_tmp;
+
+	-- create temporary table for all required information
+	CREATE TEMPORARY TABLE transaction_totals_tmp
+	(
+		SELECT 
+			transaction.id,
+			transaction.trans_desc,
+			transaction.vendor_name,
+			transaction_item.item_category,
+			transaction_item.item_subcategory,
+			transaction.trans_date,
+			transaction_item.amount
+		FROM 
+			transaction INNER JOIN transaction_item 
+			ON transaction.id = transaction_item.transaction_id 
+		WHERE 	
+			(transaction.vendor_name LIKE search_term
+				OR transaction.vendor_address LIKE search_term
+				OR transaction.trans_desc LIKE search_term)
+				AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 		
+				AND (transaction_item.item_category LIKE category_selected AND transaction_item.item_subcategory LIKE sub_category_selected) 											
+			ORDER BY transaction.trans_date DESC
+	);
+	
+	SELECT SUM(amount) AS amount
+	FROM transaction_totals_tmp;
+
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure farmwork.transactionItemCreate
 DELIMITER //
 CREATE PROCEDURE `transactionItemCreate`(
@@ -1165,6 +1239,80 @@ CREATE PROCEDURE `transactionsGetAll`(
 	IN `start_date` VARCHAR(50),
 	IN `end_date` VARCHAR(50)
 )
+    COMMENT 'selects all transaction records acording to the search term, categories selected and date span '
+BEGIN
+
+	-- set pager variables
+	DECLARE offset_rows INT DEFAULT (current_page -1) * take_records;		
+	DECLARE total_records INT DEFAULT 0;
+	DECLARE total_pages INT DEFAULT 1;
+
+	
+	SET search_term = CONCAT('%', search_term, '%') ;	
+	SET category_selected = CONCAT('%', category_selected, '%') ;
+	SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;			
+	
+	
+	-- drop temporary table if exists (sometimes mysql will wait before it drops it automatically
+	-- so we need to force the table dropping
+	DROP TEMPORARY TABLE IF EXISTS transaction_tmp;
+		
+	-- place information into temporary table		
+	CREATE TEMPORARY TABLE transaction_tmp
+	(
+		SELECT 
+			transaction.id,
+			transaction.trans_desc,
+			transaction.vendor_name,
+			transaction.vendor_address,	
+			transaction.trans_image,
+			transaction.trans_currency,
+			DATE(transaction.trans_date) AS trans_date
+		FROM 
+			transaction
+		WHERE 		
+			(transaction.vendor_name LIKE search_term
+			OR transaction.vendor_address LIKE search_term
+			OR transaction.trans_desc LIKE search_term)
+			AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 		
+			AND transaction.id IN (SELECT transaction_item.transaction_id 
+											FROM transaction_item 
+											WHERE transaction_item.item_category LIKE category_selected AND transaction_item.item_subcategory LIKE sub_category_selected) 											
+		ORDER BY transaction.trans_date DESC
+	);
+
+	
+
+	-- COUNT total NUMBER of records FOR this selection
+	SET total_records = (SELECT COUNT(transaction_tmp.id) FROM transaction_tmp);
+	
+	-- find how many pages there is
+	IF total_records > take_records THEN
+		SET total_pages = (total_records / take_records) + 1;
+	END IF;
+	
+	
+	-- select all the records
+	SELECT *, 
+		total_records AS 'total_records',
+		total_pages AS 'total_pages' 
+	FROM transaction_tmp; 
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionsGetAll-bak
+DELIMITER //
+CREATE PROCEDURE `transactionsGetAll-bak`(
+	IN `search_term` VARCHAR(50),
+	IN `category_selected` VARCHAR(150),
+	IN `sub_category_selected` VARCHAR(150),
+	IN `current_page` INT,
+	IN `take_records` INT,
+	IN `start_date` VARCHAR(50),
+	IN `end_date` VARCHAR(50)
+)
+    COMMENT 'selects all transaction records acording to the search term, categories selected and date span '
 BEGIN
 
 	-- set pager variables
@@ -1175,18 +1323,28 @@ BEGIN
 	
 
 	-- prepare search term
-	IF LENGTH(search_term) < 2 THEN
-		SET search_term = "%";
-	ELSE
-		SET search_term = CONCAT('%', search_term, '%') ;
-	END IF;
+-- 	IF LENGTH(search_term) < 2 THEN
+-- 		SET search_term = "%";
+-- 	ELSE
+-- 		SET search_term = CONCAT('%', search_term, '%') ;
+-- 	END IF;
+	
+	SET search_term = CONCAT('%', search_term, '%') ;
 	
 	-- prepare sub category item search
-	IF LENGTH(sub_category_selected) = 0 THEN
-		SET sub_category_selected = "%";	
-	ELSE
-		SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;				
-	END IF;
+	-- IF LENGTH(sub_category_selected) = 0 THEN
+-- 		SET sub_category_selected = "%";	
+-- 	ELSE
+-- 		SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;				
+-- 	END IF;
+	
+	SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;			
+	
+	
+	-- drop temporary table if exists (sometimes mysql will wait before it drops it automatically
+	-- so we need to force the table dropping
+	DROP TEMPORARY TABLE IF EXISTS transaction_tmp;
+		
 	
 	-- prepare category item search
 	IF LENGTH(category_selected) = 0 THEN
@@ -1248,11 +1406,15 @@ BEGIN
 		SET total_pages = (total_records / take_records) + 1;
 	END IF;
 	
+	-- select totals
+	--	SET exprences_total = (SELECT SUM(transaction_tmp.
+	
 	-- select all the records
 	SELECT *, 
 		total_records AS 'total_records',
-		total_pages AS 'total_pages' FROM transaction_tmp; 
-		
+		total_pages AS 'total_pages' 
+	FROM transaction_tmp; 
+	
 END//
 DELIMITER ;
 

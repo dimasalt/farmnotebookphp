@@ -38,6 +38,28 @@ class RecordsController extends BaseController
     }
     /**
      * -----------------------------------------------------------
+     * function to get all transaction totals based on selected
+     * parameters
+     * -----------------------------------------------------------
+     */
+    public function transactionGetTotals(){
+          // Takes raw data from the request
+          $json = file_get_contents('php://input');
+
+          // Converts it into a PHP object
+          $data = json_decode($json);
+          
+          //prepare search term variable 
+          // if($data->search_term == '') 
+          //     $data->search_term = '%' . $data->search_term . '%';
+     
+          $helper = new RecordsHelper();
+          $result = $helper->transactionsGetAll($data->search_term, $data->start_date, $data->end_date, $data->category_selected, $data->sub_category_selected);
+  
+          echo json_encode($result);
+    }
+    /**
+     * -----------------------------------------------------------
      * adds main transaction record
      * -----------------------------------------------------------
      */
@@ -290,8 +312,7 @@ class RecordsController extends BaseController
      * Physically remove file from the system
      * --------------------------------------------------------------------
      */
-    private function deleteFile($filePath) 
-    {       
+    private function deleteFile($filePath){       
         $result = true;  
 
         //if file exist remove
