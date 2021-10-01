@@ -19,12 +19,12 @@ const transactions = {
             
             //transactions totals for selected period of time and according to search terms
             transaction_totals : {
-                total_expences : 0,
-                total_income : 0,
-                total_feed_expences : 0,
-                total_cattle_expences : 0,
-                total_veterinary_expences : 0,
-                total_gasoline_expences : 0
+                // total_expences : 0,
+                // total_income : 0,
+                // total_feed_expences : 0,
+                // total_cattle_expences : 0,
+                // total_veterinary_expences : 0,
+                // total_gasoline_expences : 0
             }
         }
     },   
@@ -54,17 +54,7 @@ const transactions = {
         },
         transactionsGetAll () {
             //gets all project items
-            var self = this;   
-            
-            //reset totals
-            self.transaction_totals = {
-                total_expences : 0,
-                total_income : 0,
-                total_feed_expences : 0,
-                total_cattle_expences : 0,
-                total_veterinary_expences : 0,
-                total_gasoline_expences : 0
-            }
+            var self = this;             
     
             //prepare data object 
             //includes search term, date and selected categories and sub categories
@@ -86,44 +76,93 @@ const transactions = {
                     
                     self.transactions = data;
 
-                    for(var i = 0; i < self.transactions.length; i++){
-                        for(var y = 0; y < self.transactions[i].items.length; y++){
-                            if(self.transactions[i].items[y].is_expence == 1){
+                    // for(var i = 0; i < self.transactions.length; i++){
+                    //     for(var y = 0; y < self.transactions[i].items.length; y++){
+                    //         if(self.transactions[i].items[y].is_expence == 1){
 
-                                var amount = self.transactions[i].items[y].amount;
-                                self.transaction_totals.total_expences = Number(self.transaction_totals.total_expences) + Number(amount);
+                    //             var amount = self.transactions[i].items[y].amount;
+                    //             self.transaction_totals.total_expences = Number(self.transaction_totals.total_expences) + Number(amount);
 
-                                if(self.transactions[i].items[y].item_category == 'Feed'){
-                                    var feed_expences = self.transactions[i].items[y].amount;
-                                    self.transaction_totals.total_feed_expences = Number(self.transaction_totals.total_feed_expences) + Number(feed_expences);
-                                }
-                                else if(self.transactions[i].items[y].item_category == 'Livestock'){
-                                    if(self.transactions[i].items[y].item_subcategory == 'Cattle'){
-                                        var catle_expences = self.transactions[i].items[y].amount;
-                                        self.transaction_totals.total_cattle_expences = Number(self.transaction_totals.total_cattle_expences) + Number(catle_expences);   
-                                    }
-                                }                                
-                                else if(self.transactions[i].items[y].item_category == 'Veterinary'){
-                                    var vet_expences = self.transactions[i].items[y].amount;
-                                    self.transaction_totals.total_veterinary_expences = Number(self.transaction_totals.total_veterinary_expences) + Number(vet_expences);   
-                                }
-                                else if(self.transactions[i].items[y].item_category == 'Vehicle'){
-                                    if(self.transactions[i].items[y].item_subcategory == 'Gasoline'){
-                                        var total_gasoline_expences = self.transactions[i].items[y].amount;
-                                        self.transaction_totals.total_gasoline_expences = Number(self.transaction_totals.total_gasoline_expences) + Number(total_gasoline_expences);   
-                                    }
-                                }                                                                              
-                            }  
-                            else {
-                                var amount = self.transactions[i].items[y].amount;
-                                self.transaction_totals.total_income = Number(self.transaction_totals.total_income) + Number(amount);
-                            }                          
-                        }
-                    }
+                    //             if(self.transactions[i].items[y].item_category == 'Feed'){
+                    //                 var feed_expences = self.transactions[i].items[y].amount;
+                    //                 self.transaction_totals.total_feed_expences = Number(self.transaction_totals.total_feed_expences) + Number(feed_expences);
+                    //             }
+                    //             else if(self.transactions[i].items[y].item_category == 'Livestock'){
+                    //                 if(self.transactions[i].items[y].item_subcategory == 'Cattle'){
+                    //                     var catle_expences = self.transactions[i].items[y].amount;
+                    //                     self.transaction_totals.total_cattle_expences = Number(self.transaction_totals.total_cattle_expences) + Number(catle_expences);   
+                    //                 }
+                    //             }                                
+                    //             else if(self.transactions[i].items[y].item_category == 'Veterinary'){
+                    //                 var vet_expences = self.transactions[i].items[y].amount;
+                    //                 self.transaction_totals.total_veterinary_expences = Number(self.transaction_totals.total_veterinary_expences) + Number(vet_expences);   
+                    //             }
+                    //             else if(self.transactions[i].items[y].item_category == 'Vehicle'){
+                    //                 if(self.transactions[i].items[y].item_subcategory == 'Gasoline'){
+                    //                     var total_gasoline_expences = self.transactions[i].items[y].amount;
+                    //                     self.transaction_totals.total_gasoline_expences = Number(self.transaction_totals.total_gasoline_expences) + Number(total_gasoline_expences);   
+                    //                 }
+                    //             }                                                                              
+                    //         }  
+                    //         else {
+                    //             var amount = self.transactions[i].items[y].amount;
+                    //             self.transaction_totals.total_income = Number(self.transaction_totals.total_income) + Number(amount);
+                    //         }                          
+                    //     }
+                    // }
 
-                    //draw chart
-                    self.barChartTotalsJS();
-                    self.barChartPercentageJS();                    
+                    //get transaction totals
+                    self.transactionsGetTotals();                         
+                }
+            });
+    
+            result.always(function () { });
+        },
+        /**
+         * -----------------------------------------------------------------------------------------------
+         * function to get totals for all transactions based on selected category,
+         * date and search term
+         * ----------------------------------------------------------------------------------------------
+         */
+        transactionsGetTotals () {
+            //gets all project items
+            var self = this;   
+            
+            //reset totals
+            self.transaction_totals = {
+                total_expences : 0,
+                total_income : 0,
+                total_feed_expences : 0,
+                total_cattle_expences : 0,
+                total_veterinary_expences : 0,
+                total_gasoline_expences : 0,
+                total_equipment : 0,
+                total_profit : 0
+            }
+    
+            //prepare data object 
+            //includes search term, date and selected categories and sub categories
+            var data = {
+                search_term : self.search_term, 
+                category_selected : self.category_selected,
+                sub_category_selected: self.sub_category_selected,
+                start_date: self.start_date, 
+                end_date :  self.end_date 
+            };
+
+            data = JSON.stringify(data);
+    
+            var result = $.post("/bookkeeping/records/get/totals", data);
+    
+            result.done(function (data) {
+                if (data.length > 0) {
+                    data = JSON.parse(data);                  
+                    
+                    self.transaction_totals = data[0];       
+                    
+                     //draw chart
+                     self.barChartTotalsJS();
+                     self.barChartPercentageJS();              
                 }
             });
     
@@ -565,7 +604,7 @@ const transactions = {
          * show delete modal for transaction record Item
          * -------------------------------------------------------------------------------      
          */
-           delTransactionItemShow (id, item_name){
+        delTransactionItemShow (id, item_name){
             var self = this;
 
             self.transaction_item.id = id;
@@ -587,7 +626,12 @@ const transactions = {
 
              //show the modal
              $('#deleteModalItem').modal('toggle');
-        },    
+        }, 
+        /**
+         * -------------------------------------------------------------------------------
+         * displays side bar with selected panel based on action chosen
+         * -------------------------------------------------------------------------------
+         */   
         setAction (action, index){
             var self = this;          
 
@@ -617,6 +661,11 @@ const transactions = {
                 self.transaction_record = Object.assign({}, self.transactions[index] );        
             }
         },
+        /**
+         * -------------------------------------------------------------------------------
+         * assigns start and end date to the date input fields
+         * -------------------------------------------------------------------------------
+         */
         assignDates(){
             var self = this;
 

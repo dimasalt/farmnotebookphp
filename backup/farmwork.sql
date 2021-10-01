@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Keeps contacts for contact book and vendors (for transactions and others)';
 
--- Dumping data for table farmwork.contact: ~10 rows (approximately)
+-- Dumping data for table farmwork.contact: ~12 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`) VALUES
 	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~37 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~38 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -374,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~0 rows (approximately)
+-- Dumping data for table farmwork.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -457,7 +457,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 184200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -1067,24 +1067,19 @@ CREATE PROCEDURE `transactionGetTotals`(
     COMMENT 'selects totals for stats based on search parameters and selected categories and dates'
 BEGIN
 
+	-- DECLARE total_expences 
+	DECLARE total_expences DECIMAL(19,2) DEFAULT 0;
+	DECLARE total_income DECIMAL(19,2) DEFAULT 0;
+	DECLARE total_feed_expences DECIMAL(19,2) DEFAULT 0;
+	DECLARE total_cattle_expences DECIMAL(19,2) DEFAULT 0;
+	DECLARE total_veterinary_expences DECIMAL(19,2) DEFAULT 0;
+	DECLARE total_gasoline_expences DECIMAL(19,2) DEFAULT 0;
+	DECLARE total_equipment DECIMAL(19,2) DEFAULT 0;
+	DECLARE total_profit DECIMAL(19,2) DEFAULT 0;
+
 	-- prepare search term
 	SET search_term = CONCAT('%', search_term, '%') ;
-	
--- 	IF LENGTH(search_term) < 2 THEN
--- 		SET search_term = "%";
--- 	ELSE
--- 		SET search_term = CONCAT('%', search_term, '%') ;
--- 	END IF;
-	
-	SET category_selected = CONCAT('%', category_selected, '%') ;
-	
-	-- prepare sub category item search
--- 	IF LENGTH(sub_category_selected) = 0 THEN
--- 		SET sub_category_selected = "%";	
--- 	ELSE
--- 		SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;				
--- 	END IF;
-	
+	SET category_selected = CONCAT('%', category_selected, '%') ;	
 	SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;
 		
 	
@@ -1101,7 +1096,8 @@ BEGIN
 			transaction_item.item_category,
 			transaction_item.item_subcategory,
 			transaction.trans_date,
-			transaction_item.amount
+			transaction_item.amount,
+			transaction_item.is_expence
 		FROM 
 			transaction INNER JOIN transaction_item 
 			ON transaction.id = transaction_item.transaction_id 
@@ -1114,8 +1110,50 @@ BEGIN
 			ORDER BY transaction.trans_date DESC
 	);
 	
-	SELECT SUM(amount) AS amount
-	FROM transaction_totals_tmp;
+	SET total_expences = (SELECT SUM(transaction_totals_tmp.amount)
+							    	FROM transaction_totals_tmp
+							    	WHERE transaction_totals_tmp.is_expence = 1);
+							    	
+	SET total_income = (SELECT SUM(transaction_totals_tmp.amount)
+						    	FROM transaction_totals_tmp
+						    	WHERE transaction_totals_tmp.is_expence = 0);
+							    	
+	SET total_feed_expences = (SELECT SUM(transaction_totals_tmp.amount)
+								    	FROM transaction_totals_tmp
+								    	WHERE transaction_totals_tmp.is_expence = 1 AND transaction_totals_tmp.item_category LIKE 'Feed');
+								    	
+	SET total_cattle_expences = (SELECT SUM(transaction_totals_tmp.amount)
+								    	FROM transaction_totals_tmp
+								    	WHERE transaction_totals_tmp.is_expence = 1 AND transaction_totals_tmp.item_category LIKE 'Livestock' AND transaction_totals_tmp.item_subcategory LIKE 'Cattle');
+							    	
+	SET total_veterinary_expences = (SELECT SUM(transaction_totals_tmp.amount)
+										    	FROM transaction_totals_tmp
+										    	WHERE transaction_totals_tmp.is_expence = 1 AND transaction_totals_tmp.item_category LIKE 'Veterinary');				
+										 
+	
+	SET total_gasoline_expences = (SELECT SUM(transaction_totals_tmp.amount)
+							   		 	FROM transaction_totals_tmp
+							    			WHERE transaction_totals_tmp.is_expence = 1 AND transaction_totals_tmp.item_category LIKE 'Vehicle' AND transaction_totals_tmp.item_subcategory LIKE 'Gasoline');	
+							    			
+		SET total_equipment = (SELECT SUM(transaction_totals_tmp.amount)
+						   		 	FROM transaction_totals_tmp
+						    			WHERE transaction_totals_tmp.is_expence = 1 AND transaction_totals_tmp.item_category LIKE 'Equipment');	
+							    			
+							    		
+											 
+	SET total_profit = total_income - (-1 * total_expences);												 
+								
+							    	
+	SELECT IFNULL(total_expences, 0) AS total_expences,
+			 IFNULL(total_income, 0) AS total_income,
+			 IFNULL(total_feed_expences, 0) AS total_feed_expences,
+			 IFNULL(total_cattle_expences, 0) AS total_cattle_expences,
+			 IFNULL(total_veterinary_expences, 0) AS total_veterinary_expences,
+			 IFNULL(total_gasoline_expences, 0) AS total_gasoline_expences,
+			 IFNULL(total_equipment, 0) AS total_equipment,
+			 IFNULL(total_profit, 0) AS total_profit;
+			 
+			 
 
 END//
 DELIMITER ;
@@ -1243,13 +1281,28 @@ CREATE PROCEDURE `transactionsGetAll`(
 BEGIN
 
 	-- set pager variables
-	DECLARE offset_rows INT DEFAULT (current_page -1) * take_records;		
+	DECLARE offset_rows INT DEFAULT (current_page -1) * take_records;	
+	
 	DECLARE total_records INT DEFAULT 0;
 	DECLARE total_pages INT DEFAULT 1;
-
 	
-	SET search_term = CONCAT('%', search_term, '%') ;	
-	SET category_selected = CONCAT('%', category_selected, '%') ;
+
+	-- prepare search term
+-- 	IF LENGTH(search_term) < 2 THEN
+-- 		SET search_term = "%";
+-- 	ELSE
+-- 		SET search_term = CONCAT('%', search_term, '%') ;
+-- 	END IF;
+	
+	SET search_term = CONCAT('%', search_term, '%') ;
+	
+	-- prepare sub category item search
+	-- IF LENGTH(sub_category_selected) = 0 THEN
+-- 		SET sub_category_selected = "%";	
+-- 	ELSE
+-- 		SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;				
+-- 	END IF;
+	
 	SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;			
 	
 	
@@ -1257,32 +1310,59 @@ BEGIN
 	-- so we need to force the table dropping
 	DROP TEMPORARY TABLE IF EXISTS transaction_tmp;
 		
-	-- place information into temporary table		
-	CREATE TEMPORARY TABLE transaction_tmp
-	(
-		SELECT 
-			transaction.id,
-			transaction.trans_desc,
-			transaction.vendor_name,
-			transaction.vendor_address,	
-			transaction.trans_image,
-			transaction.trans_currency,
-			DATE(transaction.trans_date) AS trans_date
-		FROM 
-			transaction
-		WHERE 		
-			(transaction.vendor_name LIKE search_term
-			OR transaction.vendor_address LIKE search_term
-			OR transaction.trans_desc LIKE search_term)
-			AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 		
-			AND transaction.id IN (SELECT transaction_item.transaction_id 
-											FROM transaction_item 
-											WHERE transaction_item.item_category LIKE category_selected AND transaction_item.item_subcategory LIKE sub_category_selected) 											
-		ORDER BY transaction.trans_date DESC
-	);
-
 	
-
+	-- prepare category item search
+	IF LENGTH(category_selected) = 0 THEN
+		SET category_selected = "%";
+					
+		CREATE TEMPORARY TABLE transaction_tmp
+		(
+			SELECT 
+				transaction.id,
+				transaction.trans_desc,
+				transaction.vendor_name,
+				transaction.vendor_address,	
+				transaction.trans_image,
+				transaction.trans_currency,
+				DATE(transaction.trans_date) AS trans_date
+			FROM 
+				transaction
+			WHERE 		
+				(transaction.vendor_name LIKE search_term
+				OR transaction.vendor_address LIKE search_term
+				OR transaction.trans_desc LIKE search_term)
+				AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 													
+			ORDER BY transaction.trans_date DESC
+		);
+	ELSE
+		SET category_selected = CONCAT('%', category_selected, '%') ;
+		
+		CREATE TEMPORARY TABLE transaction_tmp
+		(
+			SELECT 
+				transaction.id,
+				transaction.trans_desc,
+				transaction.vendor_name,
+				transaction.vendor_address,	
+				transaction.trans_image,
+				transaction.trans_currency,
+				DATE(transaction.trans_date) AS trans_date
+			FROM 
+				transaction
+			WHERE 		
+				(transaction.vendor_name LIKE search_term
+				OR transaction.vendor_address LIKE search_term
+				OR transaction.trans_desc LIKE search_term)
+				AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 		
+				AND transaction.id IN (SELECT transaction_item.transaction_id 
+												FROM transaction_item 
+												WHERE transaction_item.item_category LIKE category_selected AND transaction_item.item_subcategory LIKE sub_category_selected) 											
+			ORDER BY transaction.trans_date DESC
+		);
+	END IF;	
+	
+	
+	
 	-- COUNT total NUMBER of records FOR this selection
 	SET total_records = (SELECT COUNT(transaction_tmp.id) FROM transaction_tmp);
 	
@@ -1291,6 +1371,8 @@ BEGIN
 		SET total_pages = (total_records / take_records) + 1;
 	END IF;
 	
+	-- select totals
+	--	SET exprences_total = (SELECT SUM(transaction_tmp.
 	
 	-- select all the records
 	SELECT *, 

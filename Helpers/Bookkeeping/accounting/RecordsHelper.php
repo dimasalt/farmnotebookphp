@@ -282,5 +282,27 @@ class RecordsHelper
         else return false;
     }
 
+    /**
+    * -----------------------------------------------------------
+    * get total stats for all transactions within date, search_term
+    * and categories selected
+    * -----------------------------------------------------------
+    */
+    public function transactionGetTotals($search_term, $start_date, $end_date, $category_selected, $sub_category_selected){
 
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call transactionGetTotals(?,?,?,?,?)');      
+        $stmt->execute([
+            $search_term, 
+            $category_selected,
+            $sub_category_selected,           
+            $start_date, 
+            $end_date
+        ]);
+
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);     
+        
+        return $result;
+    }
 }
