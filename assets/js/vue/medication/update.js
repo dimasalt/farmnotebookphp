@@ -1,16 +1,17 @@
-var UpdateMedication = new Vue({
-    el: '#medication',
-    data: {     
-        medication: {}     
+const UpdateMedication = {
+    data() {     
+        return {
+            medication: {}     
+        }
     },
-    created: function () {
+    mounted () {
         var self = this;
 
         //populate list of medications
         self.getMedication();
     },
     methods: {      
-        getMedication: function(){     //gets one medication item
+        getMedication(){     //gets one medication item
             var self = this;
 
             var id = $('#id').val();
@@ -28,23 +29,34 @@ var UpdateMedication = new Vue({
             medOne.always(function () {
             });          
         },       
-        updateMed: function(){
+        updateMed(){
             var self = this;            
 
-              var data = {id : self.medication.id };
+            let data = {
+                id : self.medication.id,
+                med_name : self.medication.name,             
+                med_desc:  tinymce.get("med_desc").getContent(),
+                med_instruction: tinymce.get("med_instr").getContent(),
+                med_price : self.medication.price,
+                on_hand_doses : self.medication.on_hand_doses,
+                csrf : $('#csrf').val()
+            };
 
-              data = JSON.stringify(data);
+            //example of reading only text
+            //   med_desc:  tinymce.get("med_desc").getContent({ format: "text"}),
 
-              var del = $.post("/medication/delete", data);
+            data = JSON.stringify(data);
 
-              del.done(function (data) {
+            var result = $.post("/medication/update/action", data);
+
+            result.done(function (data) {
                 
                self.medication = {} ;
 
                data = JSON.parse(data);
                 //if successfully removed remove from the local javascript array
                if(data == true){
-                    self.getList();
+                    self.getMedication();
 
                     //Display a success toast, with a title
                     toastr.success("Selected medication has been successfully removed.");                                                   
@@ -55,8 +67,11 @@ var UpdateMedication = new Vue({
                }
             });
 
-            del.always(function () {
+            result.always(function () {
             });
         }
     }
-});
+};
+
+const app = Vue.createApp(UpdateMedication)
+                .mount('#medication');

@@ -2,6 +2,12 @@
 
 ---
 
+### Medication page
+
+- need to rewrite page design. Remove card and implement row and columns instead.
+- Action buttons need to be moved to right side, while name should be on left. 
+
+
 ### Transaction page
 
 - Add validation for inputs

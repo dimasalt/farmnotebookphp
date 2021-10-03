@@ -35,6 +35,9 @@ class MedicationController extends BaseController
         
         session_regenerate_id();
 
+        // var_dump($id);
+        // die();
+
         echo $this->view->render('Medication\update.twig', [
             'csrf' => CSRFToken::getToken(),
             'id' => $id
@@ -121,15 +124,22 @@ class MedicationController extends BaseController
          //cast into object
          $data = (object)$data;
 
-        //check if token is valid and name not empty and update the contact
-        if(CSRFToken::isValid($data->csrf)){
-            
+          //check if csrf token is valid
+          if(CSRFToken::isValid($data->csrf)){
+          
             $medHelper = new MedicationHelper();
-            $result = $medHelper->addAction($data);
-
-            echo json_encode($result);
+            $result = $medHelper->addAction(
+                $data->med_name, 
+                $data->med_desc, 
+                $data->med_instruction,
+                $data->med_price,
+                $data->med_on_hand
+            );
+    
+            $result = json_encode($result);
+            echo $result;
         }
-        else echo json_encode("false");
+        else return json_encode('false');
     }
    
 
@@ -141,10 +151,33 @@ class MedicationController extends BaseController
     public function updateAction(){
         
         session_regenerate_id();
+        
+        // Takes raw data from the request
+        $json = file_get_contents('php://input');
 
-        echo $this->view->render('Medication\update.twig', [
-            'csrf' => CSRFToken::getToken()
-        ]);
+        // Converts it into a PHP object
+        $data = json_decode($json);         
+
+        //check if csrf token is valid
+        if(CSRFToken::isValid($data->csrf)){
+          
+            $medHelper = new MedicationHelper();
+            $result = $medHelper->updateAction(
+                $data->id, 
+                $data->med_name, 
+                $data->med_desc, 
+                $data->med_instruction,
+                $data->med_price,
+                $data->on_hand_doses,
+            );
+    
+            $result = json_encode($result);
+            echo $result;
+        }
+        else {
+            $result = json_encode(false);
+            return $result;
+        }   
     }
 
 

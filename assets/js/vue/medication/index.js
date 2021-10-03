@@ -1,24 +1,25 @@
-var ForgotPassword = new Vue({
-    el: '#medication',
-    data: {
-        meds : [],
-        medication: {},     
-        search_term: ''
+const Medication = {   
+    data() {
+        return {
+            meds : [],
+            medication: {},     
+            search_term: ''
+        }
     },
-    created: function () {
+    created () {
         var self = this;
 
         //populate list of medications
         self.getList();
     },
     methods: {
-        goSearch : function(){
+        goSearch (){
             var self = this;
 
             // if(self.search_term.length >= 2)
             self.getList();
         },
-        getList: function(){ //gets all medication items
+        getList(){ //gets all medication items
             var self = this;
 
             var data = {search_term : self.search_term };
@@ -47,7 +48,7 @@ var ForgotPassword = new Vue({
             // // Prevent default posting of form
             //event.preventDefault();
         },
-        getOne: function(){     //gets one medication item
+        getOne(){     //gets one medication item
             var self = this;
 
             var data = {};
@@ -63,7 +64,7 @@ var ForgotPassword = new Vue({
             medOne.always(function () {
             });          
         },
-        deleteContacModal: function(index){
+        deleteMedicationModal(index){
             var self = this;
 
             self.medication = self.meds[index];
@@ -72,7 +73,15 @@ var ForgotPassword = new Vue({
              $('#deleteModal').modal('show');
 
         },
-        deleteMedication: function(){
+        deleteMedicationModalHide(){
+            var self = this;
+
+            self.medication = {};
+
+            //show the modal
+            $('#deleteModal').modal('hide');
+        },
+        deleteMedication(){
             var self = this;
 
               //hide the modal
@@ -106,4 +115,7 @@ var ForgotPassword = new Vue({
             });
         }
     }
-});
+};
+
+const app = Vue.createApp(Medication)
+                .mount('#medication');

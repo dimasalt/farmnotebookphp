@@ -2,67 +2,76 @@
 
 {% block title %} Medication Update {% endblock %}
 
+{% block header_scripts %}
+    {# <link href="/assets/toastr/toastr.min.css"  rel="stylesheet"> #}
+ {% endblock %}
+
 {% block body %}
 
-    <div class="container" id="medication" v-cloak>      
-        <div class="row mb-2">
-            <div class="col-12">
-                <h2 class="text-dark mb-4">Medication update</h2>            
+<!-- side nav menu -->
+{# {% include '/Medication/_sidenav.twig' %} #}
+{{ include('Medication/_sidenav.twig') }}
 
-                 <div class="callout callout-info">
-                    <i class="fas fa-info-circle fa-2x mr-2 align-middle"></i>
+
+<!-- page content -->
+<div class="container-fluid">
+    <div class=" pt-4 h-100 shadow-sm" id="medication" v-cloak>                
+        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">     
+        <input type="hidden" name="id" id="id" value="{{ id }}">  
+
+        <!-- page name and usage instructions -->
+        <div class="row">
+            <div class="col-12 border-bottom">          
+                <h2 class="text-dark">Medication update</h2>                
+            </div>            
+
+            <div class="col-12 mb-3">
+                <div class="alert alert-warning shadow-sm mt-3">
+                    <i class="fas fa-exclamation-triangle me-1"></i>
                     This page contains medication information and usage instructions.
-                </div>
+                </div>                          
+            </div>                       
+        </div>  
+
+        <!-- name, price and quantity -->
+        <div class="row">    
+            <div class="col bg-dark text-white py-2 mx-3">
+                <i class="fas fa-file-medical me-1"></i>
+                <input type="text" name="med_name" class="col-5 ms-2" id="imputname" placeholder="name" v-model="medication.name">     
+                <input type="text" name="med_on_hand" class="col-3 ms-2" id="imputname" placeholder="on hand doses" v-model="medication.on_hand_doses">            
+                <input type="text" name="med_price" class="col-2 ms-2" id="imputname" placeholder="price" v-model="medication.price">         
             </div>
+        </div>
 
-            
-            <form>
-                <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
-                 <input type="hidden" name="id" id="id" value="{{ id }}">
-                <!-- new medication items -->
-                <div class="card mb-5">
-
-                    <h5 class="card-header bg-dark text-white">
-                        <i class="fas fa-file-medical mr-1"></i>
-                        <input type="text" name="med_name" class="col-5 ml-2" id="imputname" placeholder="name" v-model="medication.name">     
-                        <input type="text" name="med_on_hand" class="col-3 ml-2" id="imputname" placeholder="on hand doses" v-model="medication.on_hand_doses">            
-                        <input type="text" name="med_price" class="col-2 ml-2" id="imputname" placeholder="price" v-model="medication.price">                          
-                    </h5>
-
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-3">                           
-                                <img v-bind:src="medication.img" class="ml-3" style="height:190px; width:190px;"></img>                          
-                            </div>
-                            <div class="col-9">
-                                <textarea id="med_desc" placeholder="Description" v-model="medication.desc"></textarea>             
-                            </div>  
-                            <div class="col-12 mt-3">
-                                <textarea id="med_instr" placeholder="Instructions" v-model="medication.instruction"></textarea>             
-                            </div>                                          
-                        </div>                    
-
-                        <div class="row mt-3">
-                            <div class="form-group col">
-                                <a href="#"  class="btn btn-success float-right" v-on:click="updateMed()">
-                                    <i class="fas fa-check text-small"></i>
-                                    Update
-                                </a>
-                                <a href="/medication"  class="btn btn-warning float-right mr-2">
-                                    <i class="fas fa-times-circle text-small"></i>
-                                    Cancel/Back
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-            
-                </div>      
-            </form>     
+        <!-- image, description and instructions -->
+        <div class="row bg-white pt-2 mx-2 ps-0">
+            <div class="col-2">                           
+                <img v-bind:src="medication.img" class="ml-3" style="height:190px; width:190px;"></img>                          
+            </div>
+            <div class="col-10">
+                <textarea id="med_desc" placeholder="Description" v-model="medication.desc"></textarea>             
+            </div>  
+            <div class="col-12 mt-3">
+                <textarea id="med_instr" placeholder="Instructions" v-model="medication.instruction"></textarea>             
+            </div>                                          
         </div>    
 
-    </div>
+        <!-- action buttons -->
+        <div class="row  bg-white py-2 mx-2 ps-0">
+            <div class="col-12 d-flex justify-content-end">
+                <a href="/medication"  class="btn btn-warning rounded-0">
+                    <i class="fas fa-times-circle text-small"></i>
+                    Cancel/Back
+                </a>
+                <a href="#" class="btn btn-success rounded-0 me-2" v-on:click="updateMed()">
+                    <i class="fas fa-check text-small"></i>
+                    Update
+                </a>               
+            </div>           
+        </div>                
 
-
+    </div>     
+</div>
 {% endblock %}
 
 
@@ -72,11 +81,9 @@
     <script type="text/javascript" src="/assets/components/tinymce/tinymce.min.js"></script>
     <script type="text/javascript" src="/assets/components/tinymce/jquery.tinymce.min.js"></script>
 
-    <!-- vue js -->
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="/assets/components/toastr/toastr.min.js"></script>
-
+    <!-- vue js -->  
     <script src="/assets/js/vue/medication/update.js"></script>
+    <script src="/assets/components/toastr/toastr.min.js"></script>
 
      <script type="application/javascript">
         $(function () {

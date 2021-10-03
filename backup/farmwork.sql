@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Keeps contacts for contact book and vendors (for transactions and others)';
 
--- Dumping data for table farmwork.contact: ~10 rows (approximately)
+-- Dumping data for table farmwork.contact: ~12 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`) VALUES
 	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
@@ -245,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `medication` (
   `desc` varchar(550) DEFAULT NULL,
   `instruction` varchar(2000) DEFAULT NULL,
   `img` varchar(150) DEFAULT NULL,
-  `price` decimal(10,2) DEFAULT NULL,
+  `price` decimal(19,2) DEFAULT 0.00,
   `on_hand_doses` int(11) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
@@ -254,11 +254,11 @@ CREATE TABLE IF NOT EXISTS `medication` (
 -- Dumping data for table farmwork.medication: ~5 rows (approximately)
 /*!40000 ALTER TABLE `medication` DISABLE KEYS */;
 INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `on_hand_doses`, `created_at`) VALUES
-	(1, 'Tasvax 8', 'For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).', 'Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.', '/uploads/medication/tasvax-8.jpg', NULL, 10, '2019-05-09 23:02:13'),
-	(2, 'Noromectin', 'Each mL contains 0.8 mg of ivermectin.\r\n\r\nTreated animals must not be slaughtered for use in food for at least 14 days after the latest treatment with this drug.', 'Dosage and Administration\r\nNoromectin should be given as a single dose treatment. Administer orally at a dose of 2.5 mL of Noromectin per 10 kg of bodyweight, with any standard drenching equipment which provides a consistent dose volume. Repeat treatment may be necessary when re-exposure to parasite infection occurs.\r\n\r\nNoromectin Drench for Sheep Caution\r\nCoughing, which usually lasts for only a few minutes, may occur in a small percentage of sheep immediately after treatment; this passing response is of no consequence.', 'https://images-na.ssl-images-amazon.com/images/I/81cX3tCC0tL._AC_SY879_.jpg', NULL, 0, '2019-05-09 23:04:31'),
-	(4, 'Tetanus Toxoid', 'Anti-toxing vaccination. Takes 2-3 weeks to take effect.', 'Inject intromascularly 1cc/ml. Repeat vaccination in 3-4 weeks again', 'https://www.valleyvet.com/swatches/40277_L_vvs_000.jpg', NULL, 0, '2020-01-04 22:52:43'),
-	(5, 'Ivomec', 'IVOMEC Pour-On for Cattle is a clear, blue colored liquid containing 5 mg of ivermectin per mL (0.5% w/v). IVOMEC Pour-On for Cattle is formulated to deliver the recommended dose level of 500 µg of ivermectin per kg of body weight in cattle when applied along the top line from the withers to the tail head at the rate of 1 mL per 10 kg.', 'Apply along the top line from the withers to the tail head at the rate of 1 mL per 10 kg (22 lb).', '/uploads/medication/ivomec.jpg', NULL, 0, '2020-02-27 10:11:31'),
-	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'In accordance with Beef Quality Assurance guidelines, this product should be adminsitered 2 mL subcutaneously in the neck region.', '/uploads/medication/Bovi_Shield_Gold_5.jpg', NULL, 0, '2020-03-08 21:44:04');
+	(1, 'Tasvax 8', '<p>For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).</p>', '<p>Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.</p>', '/uploads/medication/tasvax-8.jpg', 0.00, 0, '2019-05-09 23:02:13'),
+	(2, 'Noromectin', '<p>Each mL contains 0.8 mg of ivermectin. Treated animals must not be slaughtered for use in food for at least 14 days after the latest treatment with this drug.</p>', '<p>Dosage and Administration Noromectin should be given as a single dose treatment. Administer orally at a dose of 2.5 mL of Noromectin per 10 kg of bodyweight, with any standard drenching equipment which provides a consistent dose volume. Repeat treatment may be necessary when re-exposure to parasite infection occurs. Noromectin Drench for Sheep Caution Coughing, which usually lasts for only a few minutes, may occur in a small percentage of sheep immediately after treatment; this passing response is of no consequence.</p>', 'https://images-na.ssl-images-amazon.com/images/I/81cX3tCC0tL._AC_SY879_.jpg', 0.00, 0, '2019-05-09 23:04:31'),
+	(4, 'Tetanus Toxoid', 'Anti-toxing vaccination. Takes 2-3 weeks to take effect.', 'Inject intromascularly 1cc/ml. Repeat vaccination in 3-4 weeks again', 'https://www.valleyvet.com/swatches/40277_L_vvs_000.jpg', 0.00, 0, '2020-01-04 22:52:43'),
+	(5, 'Ivomec', '<p>222IVOMEC Pour-On for Cattle is a clear, blue colored liquid containing 5 mg of ivermectin per mL (0.5% w/v). IVOMEC Pour-On for Cattle is formulated to deliver the recommended dose level of 500 &micro;g of ivermectin per kg of body weight in cattle when applied along the top line from the withers to the tail head at the rate of 1 mL per 10 kg.</p>', '<p>Apply along the top line from the withers to the tail head at the rate of 1 mL per 10 kg (22 lb).</p>', '/uploads/medication/ivomec.jpg', 0.00, 0, '2020-02-27 10:11:31'),
+	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'In accordance with Beef Quality Assurance guidelines, this product should be adminsitered 2 mL subcutaneously in the neck region.', '/uploads/medication/Bovi_Shield_Gold_5.jpg', 0.00, 0, '2020-03-08 21:44:04');
 /*!40000 ALTER TABLE `medication` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction
@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~37 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~38 rows (approximately)
 /*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
@@ -374,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~0 rows (approximately)
+-- Dumping data for table farmwork.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -457,7 +457,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 184200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -787,10 +787,10 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE `medicationAdd`(
 	IN `med_name` VARCHAR(50),
-	IN `description` VARCHAR(550),
-	IN `instruction` VARCHAR(2000),
-	IN `price` DECIMAL(10,2),
-	IN `on_hand` INT
+	IN `med_desc` VARCHAR(550),
+	IN `med_instruction` VARCHAR(2000),
+	IN `med_price` DECIMAL(19,2),
+	IN `med_on_hand` INT
 )
     COMMENT 'inserts new medication item'
 BEGIN
@@ -807,19 +807,12 @@ BEGIN
 	VALUES
 		(
 			med_name,
-			description, 
-			instruction,
-			price,
-			on_hand
+			med_desc, 
+			med_instruction,
+			med_price,
+			med_on_hand
 		);
 		
-		
-		-- select last inserted record
-		-- SELECT * 
-		-- FROM 
-		--  	medication
-		-- WHERE 
-		-- 	medication.id = LAST_INSERT_ID();
 		
 		-- get last insert id
 		SELECT LAST_INSERT_ID();
@@ -895,7 +888,9 @@ CREATE PROCEDURE `medicationUpdate`(
 	IN `id` INT,
 	IN `med_name` VARCHAR(50),
 	IN `med_desc` VARCHAR(550),
-	IN `med_instruction` VARCHAR(2000)
+	IN `med_instruction` VARCHAR(2000),
+	IN `med_price` DECIMAL(19,2),
+	IN `on_hand_doses` INT
 )
 BEGIN
 
@@ -903,7 +898,9 @@ BEGIN
 	SET 
 		medication.name = med_name, 
 		medication.`desc` = med_desc,
-		medication.instruction = med_instruction
+		medication.instruction = med_instruction,
+		medication.price = med_price,
+		medication.on_hand_doses = on_hand_doses
 	WHERE medication.id = id;	
 
 END//

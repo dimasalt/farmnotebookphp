@@ -10,8 +10,10 @@ use \MongoDB\BSON\Regex as Regex;
 
 class MedicationHelper
 {
-    /*
+    /**
+     * -----------------------------------------------------
     * get list of all available medication items
+    * -------------------------------------------------------
     */
     public function getList($search_term){      
 
@@ -88,19 +90,21 @@ class MedicationHelper
 
     }
 
-    /*
-    * adds medication item
-    */
-    public function addAction($medication){
+    /**
+     * ----------------------------------------------------------
+     * adds medication item
+     * ----------------------------------------------------------
+     */
+    public function addAction($med_name, $med_desc, $med_instruction, $med_price, $med_on_hand){
         $db = new DBConnection();
         $pdo = $db->getPDO();
         $stmt = $pdo->prepare('call medicationAdd(?,?,?,?,?)');
         $stmt->execute(array(
-            $medication->med_name, 
-            $medication->med_desc, 
-            $medication->med_instr, 
-            $medication->med_price, 
-            $medication->med_on_hand
+            $med_name, 
+            $med_desc, 
+            $med_instruction, 
+            $med_price, 
+            $med_on_hand
         ));
 
         //fetch last insert id 
@@ -114,5 +118,27 @@ class MedicationHelper
         ];
 
         return $result;       
+    }
+    /**
+     * --------------------------------------------------------------
+     * updates medication record
+     * --------------------------------------------------------------
+     */
+    public function updateAction($id, $med_name, $med_desc, $med_instruction, $med_price, $on_hand_doses){
+        
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call medicationUpdate(?,?,?,?,?,?)');
+        $stmt->execute([
+            $id,
+            $med_name,
+            $med_desc,
+            $med_instruction,
+            $med_price,
+            $on_hand_doses
+        ]);
+
+        if($stmt->rowCount() > 0) return true;
+        else return false;
     }
 }

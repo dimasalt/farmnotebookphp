@@ -1,39 +1,39 @@
-var ForgotPassword = new Vue({
-    el: '#medication',
-    data: {        
-        medication: {
-            med_name: '',
-            med_price: '',
-            med_on_hand: '',
-            med_desc: '',
-            med_instr: '',
-            med_img: 'https://via.placeholder.com/250x200.jpg'
-        }        
+const UpdateMedication = {  
+    data() {        
+        return {
+            medication: {
+                med_name: '',
+                med_desc: '',
+                med_instruction: '',
+                med_price: 0,
+                med_on_hand: 0,           
+                med_img: 'https://via.placeholder.com/250x200.jpg'
+            }       
+        } 
     },
-    created: function () {
+    mounted () {
         var self = this;        
     },
     methods: {             
-        addMedication: function(){
+        addMedication(){
             var self = this;
-            
-            //adding csrf to medication object
-            self.medication.csrf = $('#csrf').val();
-            //get text from rich text editors
-            self.medication.med_desc = tinyMCE.get('med_desc').getContent();
-            self.medication.med_instr = tinyMCE.get('med_instr').getContent();
-
-            //prepare data for php
-            var data = self.medication;
+                        
+            let data = {
+                id : self.medication.id,
+                med_name : self.medication.med_name,             
+                med_desc:  tinymce.get("med_desc").getContent(),
+                med_instruction: tinymce.get("med_instr").getContent(),
+                med_price : self.medication.med_price,
+                med_on_hand : self.medication.med_on_hand,
+                csrf : $('#csrf').val()
+            };
+           
+            //prepare data for php          
             data = JSON.stringify(data);
 
             var addMed = $.post("/medication/add/action", data);
 
-            addMed.done(function (data) {
-                
-               //reset medication object 
-               //self.resetMedObj();
-
+            addMed.done(function (data) {                     
                data = JSON.parse(data);
 
                 //if successfully added 
@@ -55,19 +55,9 @@ var ForgotPassword = new Vue({
 
             addMed.always(function () {
             });
-        },
-        resetMedObj: function(){ //reset medication object
-            var self = this;
-
-            //medication object
-            medication = {
-                med_name: '',
-                med_price: '',
-                med_on_hand: '',
-                med_desc: '',
-                med_instr: '',
-                med_img: ''
-            }        
         }
     }
-});
+};
+
+const app = Vue.createApp(UpdateMedication)
+                .mount('#medication');
