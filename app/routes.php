@@ -87,6 +87,9 @@ $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/add/booklog', 'FarmWo
 $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook/del/booklog', 'FarmWork\Controllers\VehicleLogBookController:booklogItemDel');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/vehiclelogbook', 'FarmWork\Controllers\VehicleLogBookController:index');
 
+// Ration
+$r->addRoute(['GET', 'POST'], '/ration/ration_calculator', 'FarmWork\Controllers\RationCalculatorController:index');
+
 
 // login page
 $r->addRoute('GET', '/login', 'FarmWork\Controllers\LoginController:index');

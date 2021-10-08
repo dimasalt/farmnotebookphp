@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `budget` (
 INSERT INTO `budget` (`id`, `budget_name`, `budget_amount`, `budget_amount_actual`, `is_start`, `is_done`, `budget_date`) VALUES
 	(10, 'Gross budget for year 2022', 0.00, 0.00, 1, 0, '2022-01-01 00:00:00'),
 	(11, '60 head of cattle gross after taxes', 54000.00, 0.00, 0, 0, '2023-04-30 00:00:00'),
-	(12, 'German Shepherd puppies 12', 12000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
+	(12, 'German Shepherd puppies 8', 8000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
 	(13, 'Dmitri Salary after the tax', 27000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
 	(14, 'Ilana Salary after the tax', 12000.00, 0.00, 0, 0, '2022-12-31 00:00:00');
 /*!40000 ALTER TABLE `budget` ENABLE KEYS */;
@@ -131,37 +131,82 @@ INSERT INTO `event_type_bak` (`ev_type_id`, `ev_type_name`, `ev_type_value`, `ev
 	('f26cb0aa-2f34-11ea-ac21-d8cb8ac0caec', 'castration', 'Castration/Banding', 'Used to report of castration or banding of livestock', 3, '2020-01-04 15:58:24');
 /*!40000 ALTER TABLE `event_type_bak` ENABLE KEYS */;
 
--- Dumping structure for table farmwork.feed_inventory
-CREATE TABLE IF NOT EXISTS `feed_inventory` (
+-- Dumping structure for table farmwork.feed
+CREATE TABLE IF NOT EXISTS `feed` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `feed_id` int(11) NOT NULL,
-  `feed_lb` decimal(10,2) NOT NULL,
-  `feed_date` datetime NOT NULL DEFAULT current_timestamp(),
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `FK_feed_inventory_feed_type` (`feed_id`),
-  CONSTRAINT `FK_feed_inventory_feed_type` FOREIGN KEY (`feed_id`) REFERENCES `feed_type` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Feed inventory that is currently on the farm. Includes prices and quantity.';
-
--- Dumping data for table farmwork.feed_inventory: ~0 rows (approximately)
-/*!40000 ALTER TABLE `feed_inventory` DISABLE KEYS */;
-/*!40000 ALTER TABLE `feed_inventory` ENABLE KEYS */;
-
--- Dumping structure for table farmwork.feed_type
-CREATE TABLE IF NOT EXISTS `feed_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `feed_name` varchar(50) NOT NULL,
+  `feed_name` varchar(150) NOT NULL,
   `feed_desc` varchar(250) DEFAULT NULL,
-  `cp` tinyint(4) NOT NULL DEFAULT 0,
-  `tdn` tinyint(4) NOT NULL DEFAULT 0,
-  `dm` tinyint(4) NOT NULL DEFAULT 0,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `feed_CP` int(11) NOT NULL,
+  `feed_TDN` int(11) NOT NULL,
+  `feed_type` varchar(25) NOT NULL,
+  `feed_price` decimal(19,2) NOT NULL DEFAULT 0.00,
+  `feed_price_lb` int(11) DEFAULT NULL,
+  `feed_date` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of animal feeds';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='Contains feed information such as CP, TDN and prices';
 
--- Dumping data for table farmwork.feed_type: ~0 rows (approximately)
-/*!40000 ALTER TABLE `feed_type` DISABLE KEYS */;
-/*!40000 ALTER TABLE `feed_type` ENABLE KEYS */;
+-- Dumping data for table farmwork.feed: ~3 rows (approximately)
+/*!40000 ALTER TABLE `feed` DISABLE KEYS */;
+INSERT INTO `feed` (`id`, `feed_name`, `feed_desc`, `feed_CP`, `feed_TDN`, `feed_type`, `feed_price`, `feed_price_lb`, `feed_date`) VALUES
+	(1, 'Corn', NULL, 10, 90, 'Grain', 565.00, 2000, '2021-10-04 15:55:17'),
+	(2, 'Hay', NULL, 7, 55, 'Hay', 5.00, 60, '2021-10-04 15:57:00'),
+	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 0.00, 0, '2021-10-04 18:04:15');
+/*!40000 ALTER TABLE `feed` ENABLE KEYS */;
+
+-- Dumping structure for table farmwork.feed_requirement
+CREATE TABLE IF NOT EXISTS `feed_requirement` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weight` int(11) NOT NULL DEFAULT 0,
+  `animal_type` varchar(50) NOT NULL,
+  `adg` decimal(19,1) NOT NULL,
+  `dm_per_day` decimal(19,1) NOT NULL,
+  `cp` decimal(19,1) NOT NULL DEFAULT 0.0,
+  `tdn` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps information on feed requirements for animals in different stages';
+
+-- Dumping data for table farmwork.feed_requirement: ~38 rows (approximately)
+/*!40000 ALTER TABLE `feed_requirement` DISABLE KEYS */;
+INSERT INTO `feed_requirement` (`id`, `weight`, `animal_type`, `adg`, `dm_per_day`, `cp`, `tdn`) VALUES
+	(1, 200, 'steer/heifer', 3.0, 5.4, 22.0, 58),
+	(2, 300, 'steer/heifer', 1.0, 8.3, 11.5, 58),
+	(3, 300, 'steer/heifer', 1.5, 8.6, 13.7, 63),
+	(4, 300, 'steer/heifer', 2.0, 8.6, 16.2, 68),
+	(5, 300, 'steer/heifer', 2.5, 8.6, 18.7, 73),
+	(6, 300, 'steer/heifer', 3.0, 8.3, 22.0, 80),
+	(7, 400, 'steer/heifer', 1.0, 10.3, 10.4, 58),
+	(8, 400, 'steer/heifer', 1.5, 10.6, 13.3, 63),
+	(9, 400, 'steer/heifer', 2.0, 10.7, 14.1, 68),
+	(10, 400, 'steer/heifer', 2.5, 10.7, 16.1, 73),
+	(11, 400, 'steer/heifer', 3.0, 10.4, 18.7, 80),
+	(12, 500, 'steer/heifer', 1.0, 12.2, 9.8, 58),
+	(13, 500, 'steer/heifer', 1.5, 12.6, 11.2, 63),
+	(14, 500, 'steer/heifer', 2.0, 12.6, 12.9, 68),
+	(15, 500, 'steer/heifer', 2.5, 12.6, 14.6, 73),
+	(16, 500, 'steer/heifer', 3.0, 12.2, 16.8, 80),
+	(17, 600, 'steer/heifer', 1.0, 14.0, 9.3, 58),
+	(18, 600, 'steer/heifer', 1.5, 14.4, 10.6, 63),
+	(19, 600, 'steer/heifer', 2.0, 14.4, 12.1, 68),
+	(20, 600, 'steer/heifer', 2.5, 14.4, 13.5, 73),
+	(21, 600, 'steer/heifer', 3.0, 14.0, 15.4, 80),
+	(22, 700, 'steer/heifer', 1.0, 15.7, 9.0, 58),
+	(23, 700, 'steer/heifer', 1.5, 16.2, 10.1, 63),
+	(24, 700, 'steer/heifer', 2.0, 16.3, 11.3, 68),
+	(25, 700, 'steer/heifer', 2.5, 16.2, 12.7, 73),
+	(26, 700, 'steer/heifer', 3.0, 15.8, 14.4, 80),
+	(27, 840, 'steer/heifer', 2.0, 22.1, 8.8, 60),
+	(28, 840, 'steer/heifer', 3.0, 21.6, 10.8, 70),
+	(29, 840, 'steer/heifer', 3.8, 20.4, 12.8, 80),
+	(30, 840, 'steer/heifer', 4.3, 18.8, 14.7, 90),
+	(31, 900, 'steer/heifer', 2.0, 23.3, 8.4, 60),
+	(32, 900, 'steer/heifer', 3.0, 22.7, 10.2, 70),
+	(33, 900, 'steer/heifer', 3.8, 21.5, 12.0, 80),
+	(34, 900, 'steer/heifer', 4.3, 19.8, 13.8, 90),
+	(35, 960, 'steer/heifer', 2.0, 24.4, 8.1, 60),
+	(36, 960, 'steer/heifer', 3.0, 23.9, 9.7, 70),
+	(37, 960, 'steer/heifer', 3.8, 22.5, 11.3, 80),
+	(38, 960, 'steer/heifer', 4.3, 20.8, 13.0, 90);
+/*!40000 ALTER TABLE `feed_requirement` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.livestock
 CREATE TABLE IF NOT EXISTS `livestock` (
@@ -249,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `medication` (
   `on_hand_doses` int(11) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='list of medication';
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COMMENT='list of medication';
 
 -- Dumping data for table farmwork.medication: ~5 rows (approximately)
 /*!40000 ALTER TABLE `medication` DISABLE KEYS */;

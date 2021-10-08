@@ -1,0 +1,54 @@
+{% extends "Shared/_layout.twig" %}
+
+{% block title %} Ration Calculator {% endblock %}
+
+{% block header_scripts %}
+    <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
+ {% endblock %}
+
+
+{% block body %}
+
+<!-- side nav menu -->
+{# {% include '/Medication/_sidenav.twig' %} #}
+{{ include('Ration/_sidenav.twig') }}    
+    
+
+<div class="container-fluid" id="ration" v-cloak>             
+    <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">    
+
+    <!-- page name and usage instructions -->
+    <div class="row mt-4">
+        <div class="col-12 border-bottom">          
+            <h2 class="text-dark">Ration Calculations</h2>                
+        </div>            
+
+        <div class="col-12 mb-3">
+            <div class="alert alert-warning shadow-sm mt-3">
+                <i class="fas fa-exclamation-triangle me-1"></i>
+                Add a new medication item.  <strong class="text-danger">An image can be added in an edit mode, only after the medication item has been initially created.</strong>
+            </div>                          
+        </div>                       
+    </div>    
+
+    
+      
+       
+       
+       
+</div>
+
+{% endblock %}
+
+{% block custom_scripts %}
+    
+    <script src="/assets/components/toastr/toastr.min.js"></script>
+
+    <script src="/assets/js/vue/ration/index.js"></script>
+
+     <script type="application/javascript">
+        $(function () {
+
+        });
+    </script>
+{% endblock %}

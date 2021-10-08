@@ -18,10 +18,23 @@
                     </li>
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/inventory/livestock"><i class="fas fa-feather me-1"></i>Inventory</a>
-                    </li>                   
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="#"><i class="fas fa-seedling me-1"></i>Ration</a>
-                    </li>
+                    </li>         
+                    <ul class="navbar-nav me-2">                    
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-share-alt me-2"></i>Ration</a>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="/ration/ration_calculator">Feed Calculator</a></li>
+                                <li><a class="dropdown-item" href="/ration/feeds">Feeds</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/ration/feed_requirements">Feed Requirements</a></li>                                                            
+                            </ul>
+                        </li>                      
+                    </ul>                           
+                    {# <li class="nav-item me-3">
+                        <a class="nav-link" href="/ration/ration_calculator"><i class="fas fa-seedling me-1"></i>Ration</a>
+                    </li> #}
                     <li class="nav-item me-3">
                         <a class="nav-link" href="/medication"><i class="fas fa-atom me-2"></i>Medication</a>
                     </li>                  
