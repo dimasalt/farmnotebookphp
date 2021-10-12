@@ -1,0 +1,72 @@
+{% extends "Shared/_layout.twig" %}
+
+{% block title %} Ration Calculator {% endblock %}
+
+{% block header_scripts %}
+    <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
+ {% endblock %}
+
+
+{% block body %}
+
+<!-- side nav menu -->
+{# {% include '/Medication/_sidenav.twig' %} #}
+{{ include('Ration/_sidenav.twig') }}    
+    
+<div class="container-fluid" id="ration">             
+
+    <!-- page name and usage instructions -->
+    <div class="row mt-4">
+        <div class="col-12 border-bottom">          
+            <h2 class="text-dark">Ration Requirements Table</h2>                
+        </div>      
+    </div>           
+  
+
+    <div class="row mt-4">
+        <div class="col-12">
+
+            {# <ul>
+                {% for item in requirements %}
+                    <li>{{ item.weight }}</li>
+                {% endfor %}
+            </ul> #}
+
+            <table class="table bg-white">
+                <thead>
+                    <tr>
+                        <th scope="col">Weight</th>
+                        <th scope="col">Animal Type</th>
+                        <th scope="col">Average Daily Gain</th>
+                        <th scope="col">CP %</th>
+                        <th scope="col">TDN %</th>
+                        <th scope="col">Dry Matter Per Day</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in requirements %}
+                         <tr>
+                            <td>{{ item.weight }}</td>
+                            <td>{{ item.animal_type }}</td>
+                            <td>{{ item.adg }}</td>
+                            <td>{{ item.cp }}</td>
+                            <td>{{ item.tdn }}</td>
+                            <td>{{ item.dm_per_day }}</td>
+                        </tr>
+                    {% endfor %}                
+                </tbody>
+            </table>
+        </div>
+    </div>    
+</div>
+
+{% endblock %}
+
+{% block custom_scripts %}   
+
+     <script type="application/javascript">
+        $(function () {          
+
+        });
+    </script>
+{% endblock %}

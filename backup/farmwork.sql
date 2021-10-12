@@ -136,21 +136,23 @@ CREATE TABLE IF NOT EXISTS `feed` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `feed_name` varchar(150) NOT NULL,
   `feed_desc` varchar(250) DEFAULT NULL,
-  `feed_CP` int(11) NOT NULL,
-  `feed_TDN` int(11) NOT NULL,
+  `feed_cp` int(11) NOT NULL,
+  `feed_tdn` int(11) NOT NULL,
   `feed_type` varchar(25) NOT NULL,
   `feed_price` decimal(19,2) NOT NULL DEFAULT 0.00,
   `feed_price_lb` int(11) DEFAULT NULL,
+  `feed_usage` int(11) NOT NULL DEFAULT 100,
+  `is_default` tinyint(4) NOT NULL DEFAULT 0,
   `feed_date` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='Contains feed information such as CP, TDN and prices';
 
 -- Dumping data for table farmwork.feed: ~3 rows (approximately)
 /*!40000 ALTER TABLE `feed` DISABLE KEYS */;
-INSERT INTO `feed` (`id`, `feed_name`, `feed_desc`, `feed_CP`, `feed_TDN`, `feed_type`, `feed_price`, `feed_price_lb`, `feed_date`) VALUES
-	(1, 'Corn', NULL, 10, 90, 'Grain', 565.00, 2000, '2021-10-04 15:55:17'),
-	(2, 'Hay', NULL, 7, 55, 'Hay', 5.00, 60, '2021-10-04 15:57:00'),
-	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 0.00, 0, '2021-10-04 18:04:15');
+INSERT INTO `feed` (`id`, `feed_name`, `feed_desc`, `feed_cp`, `feed_tdn`, `feed_type`, `feed_price`, `feed_price_lb`, `feed_usage`, `is_default`, `feed_date`) VALUES
+	(1, 'Corn', NULL, 10, 90, 'Grain', 565.00, 2000, 100, 1, '2021-10-11 14:42:28'),
+	(2, 'Hay', NULL, 7, 55, 'Hay', 5.00, 60, 100, 1, '2021-10-11 22:04:11'),
+	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 0.00, 0, 100, 1, '2021-10-11 20:23:45');
 /*!40000 ALTER TABLE `feed` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.feed_requirement
@@ -168,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `feed_requirement` (
 -- Dumping data for table farmwork.feed_requirement: ~38 rows (approximately)
 /*!40000 ALTER TABLE `feed_requirement` DISABLE KEYS */;
 INSERT INTO `feed_requirement` (`id`, `weight`, `animal_type`, `adg`, `dm_per_day`, `cp`, `tdn`) VALUES
-	(1, 200, 'steer/heifer', 3.0, 5.4, 22.0, 58),
+	(1, 200, 'steer/heifer', 3.0, 5.4, 22.0, 80),
 	(2, 300, 'steer/heifer', 1.0, 8.3, 11.5, 58),
 	(3, 300, 'steer/heifer', 1.5, 8.6, 13.7, 63),
 	(4, 300, 'steer/heifer', 2.0, 8.6, 16.2, 68),
@@ -774,6 +776,71 @@ select contact.id,
 	FROM contact
 	WHERE contact.is_vendor = 1
 	ORDER BY contact.name ASC//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.feedGetRequirements
+DELIMITER //
+CREATE PROCEDURE `feedGetRequirements`()
+    COMMENT 'gets nutritional requirements for animals'
+BEGIN
+
+	SELECT 
+		feed_requirement.id,
+		feed_requirement.weight,
+		feed_requirement.animal_type,
+		feed_requirement.adg,
+		feed_requirement.dm_per_day,
+		feed_requirement.cp,
+		feed_requirement.tdn
+	FROM 
+		feed_requirement
+	ORDER BY 
+		feed_requirement.weight, 
+		feed_requirement.adg ASC;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.feedSetDefault
+DELIMITER //
+CREATE PROCEDURE `feedSetDefault`(
+	IN `id` INT,
+	IN `is_default` TINYINT
+)
+    COMMENT 'sets feed as default for ration calculations'
+BEGIN
+
+	UPDATE feed 
+	SET 
+		feed.is_default = is_default 
+	WHERE 
+		feed.id = id;
+	
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.feedsGetAll
+DELIMITER //
+CREATE PROCEDURE `feedsGetAll`()
+    COMMENT 'gets all feeds'
+BEGIN
+
+	SELECT 
+		feed.id,
+		feed.feed_name,
+		feed.feed_desc,
+		feed.feed_cp,
+		feed.feed_tdn,
+		feed.feed_type,
+		feed.feed_price,
+		feed.feed_price_lb,
+		feed.feed_usage,
+		feed.is_default
+	FROM 
+		feed;
+
+END//
 DELIMITER ;
 
 -- Dumping structure for procedure farmwork.livestockGetAll
