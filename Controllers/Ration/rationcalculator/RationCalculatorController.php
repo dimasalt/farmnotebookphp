@@ -74,14 +74,14 @@ class RationCalculatorController extends BaseController
      * Feed requirements page
      * ----------------------------------------------------------
     */
-    public function FeedRequirements($start_weight = 100, $end_weight = 1600){
+    public function FeedRequirements($adg = 3, $start_weight = 100, $end_weight = 1600){
 
         //security
         session_regenerate_id();
 
         //get results
         $helper = new RationCalculatorHelper();
-        $items = $helper->getFeedRequirements();    
+        $items = $helper->getFeedRequirements($adg = 3, $start_weight = 100, $end_weight = 1600);    
 
         echo $this->view->render('Ration\rationcalculator\feedrequirements.twig',
             [ 'requirements' => $items ]
@@ -93,7 +93,7 @@ class RationCalculatorController extends BaseController
      * gets requirements for animals based on weight and other things
      * ---------------------------------------------------------
      */
-    public function getFeedRequirements(){
+    public function getFeedRequirements($adg = 3, $start_weight = 100, $end_weight = 1600){
 
         //security
         session_regenerate_id();
@@ -103,16 +103,37 @@ class RationCalculatorController extends BaseController
   
         // Converts it into a PHP object
         $data = json_decode($json);
+
+        if(isset($data->adg)) $adg = $data->adg;
+        if(isset($data->start_weight)) $start_weight = $data->start_weight;
+        if(isset($data->end_weight)) $end_weight = $data->end_weight;
           
         //check csrf key
         if(CSRFToken::isValid($data->csrf)){
             //get results
             $helper = new RationCalculatorHelper();
-            $items = $helper->getFeedRequirements();
+            $items = $helper->getFeedRequirements($adg, $start_weight, $end_weight);
            
             //convert to json
             $items = json_encode($items);      
             echo $items;
         }
+    }
+    /**
+     * --------------------------------------------------------------
+     * Get List of Available Requirements ADG
+     * --------------------------------------------------------------
+     */
+    public function FeedRequirementsAdg(){
+         //security
+         session_regenerate_id();
+         
+        //get results
+        $helper = new RationCalculatorHelper();
+        $items = $helper->FeedRequirementsAdg();
+    
+        //convert to json
+        $items = json_encode($items);      
+        echo $items;
     }
 }

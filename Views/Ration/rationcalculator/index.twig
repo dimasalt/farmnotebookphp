@@ -52,15 +52,18 @@
                 <div class="input-group">
                     <div class="col-2">
                         <label for="text_adg" class="form-label">ADG (lb)</label>
-                        <input class="form-control rounded-0 shadow-sm" id="text_adg" placeholder="Average Daily Gains" v-model="requirements.adg">
+                        <select class="form-select rounded-0" v-model="adg_selected">
+                            <option v-for="item in adg" v-bind:value="item.adg">{{ '{{ item.adg }}' }}</option>                            
+                        </select>
+                        {# <input class="form-control rounded-0 shadow-sm" id="text_adg" placeholder="Average Daily Gains" v-model="requirements.adg"> #}
                     </div>                  
                     <div class="col-3">
                         <label for="text_range_start" class="form-label">Weight Start</label>
-                        <input class="form-control rounded-0 shadow-sm" id="text_range_start" placeholder="Weight Range Start (lb)" v-model="requirements.range_start">
+                        <input class="form-control rounded-0 shadow-sm" id="text_range_start" placeholder="Weight Range Start (lb)" v-model="requirements.start_weight">
                     </div>
                     <div class="col-3">
                         <label for="text_range_end" class="form-label">Weight End</label>
-                        <input class="form-control rounded-0 shadow-sm" id="text_range_end" placeholder="Weight Range End (lb)" v-model="requirements.range_end">
+                        <input class="form-control rounded-0 shadow-sm" id="text_range_end" placeholder="Weight Range End (lb)" v-model="requirements.end_weight">
                     </div> 
                      
                     <div class="col-2">
@@ -74,7 +77,7 @@
                 </div>                                                                                       
             </div>   
             <div class="mt-2 d-flex justify-content-end" v-if="is_feed_proper==true">
-                <button class="btn bg-dark text-white me-1 rounded-0" type="button" id="button-addon1" v-on:click="calculateFeedRequirement()">
+                <button class="btn bg-dark text-white me-1 rounded-0" type="button" id="button-addon1" v-on:click="getFeedRequirements()">
                     <i class="fas fa-calculator me-2"></i>
                     Calculate Ration
                 </button>
@@ -107,7 +110,7 @@
     </div>    
 
     <!-- results of calculations -->
-    <div class="row mt-5" v-if="results.length > 0">
+    <div class="row mt-5" v-if="nutrition_req.length > 0">
         <div class="col-9">
              <h5>Calculated Feed Proportions</h5>
             <table class="table table-sm table-bordered shadow-sm">
@@ -115,6 +118,7 @@
                     <tr>
                         <th scope="col" class="bg-dark text-white">Weight</th>
                         <th scope="col" class="bg-dark text-white">Animal</th>
+                          <th scope="col" class="bg-dark text-white">ADG</th>
                         <th scope="col" class="bg-dark text-white">DM (lb)</th>
                         <th scope="col" class="bg-dark text-white">Total Grain (lb)</th>
                         <th scope="col" class="bg-dark text-white">Grain (lb)</th>
@@ -126,6 +130,7 @@
                     <tr v-for="(item, index) in results">
                         <td class="bg-white">{{ '{{ item.weight }}' }}</td>
                         <td class="bg-white">{{ '{{ item.animal_type }}' }}</td>
+                        <td class="bg-white">{{ '{{ item.adg }}' }}</td>
                         <td class="bg-white">{{ '{{ item.dm }}' }}</td>
                         <td class="bg-white">{{ '{{ item.grain_tot_lb }}' }}</td>
                         <td class="bg-white">{{ '{{ item.grain_lb }}' }}</td>                 
@@ -139,18 +144,16 @@
         <!-- calculations for multiple heads for totals with price -->
           <div class="col-3">
              <h5>Calculations of Total Feed and Price</h5>
-            <table class="table table-sm table-bordered shadow-sm">
-                {# <thead>
-                    <tr>
-                        <th scope="col" class="bg-dark text-white w-80">Name</th>
-                        <th scope="col" class="bg-dark text-white">#</th>                                                              
-                    </tr>
-                </thead> #}
+            <table class="table table-sm table-bordered shadow-sm">               
                 <tbody>
-                    <tr v-for="(item, index) in results">
-                        <td class="bg-white w-80">Grain total daily</td>
-                        <td class="bg-white">{{ '{{ item.animal_type }}' }}</td>                     
-                    </tr>                 
+                    <tr>
+                        <td class="bg-white w-80">Average Animal Weight</td>
+                        <td class="bg-white">{{ '{{ result_totals.average_weight }}' }}</td>                     
+                    </tr>   
+                     <tr>
+                        <td class="bg-white w-80">Daily Grain Intake</td>
+                        <td class="bg-white">{{ '{{ result_totals.grain_daily }}' }}</td>                     
+                    </tr>                               
                 </tbody>
             </table>
         </div>

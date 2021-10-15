@@ -48,11 +48,30 @@ class RationCalculatorHelper {
      * gets requirements for animals based on weight and other things
      * ---------------------------------------------------------
      */
-    public function getFeedRequirements() : array
+    public function getFeedRequirements($adg, $start_weight, $end_weight) : array
     {
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call feedGetRequirements()');
+        $stmt = $pdo->prepare('call feedGetRequirements(?,?,?)');
+        $stmt->execute([
+            $adg,
+            $start_weight,
+            $end_weight
+        ]);       
+
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);                    
+
+        return $result;
+    }
+     /**
+     * --------------------------------------------------------------
+     * Get List of Available Requirements ADG
+     * --------------------------------------------------------------
+     */
+    public function FeedRequirementsAdg(){
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call feedGetRequirementsAdg()');
         $stmt->execute();       
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);                    

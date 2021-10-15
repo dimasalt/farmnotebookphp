@@ -2,17 +2,32 @@ const Ration = {
     data() {
         return {   
             results: [],
+            result_totals : {
+                grain_daily : 0,
+                hay_daily : 0,
+                grain_twice_day : 0,
+                hay_twice_day : 0,
+                scoops_daily : 0,
+                scoops_twice_day : 0,
+                grain_finish : 0,
+                hay_finish : 0,
+                grain_finish_price : 0,
+                hay_finish_price : 0,
+                average_weight: 0
+            },
             feeds: [],
             default_feeds: [],
             selected_feed : '',
             nutrition_req: [],
             requirements : {
-                adg : 3,              
+                adg : 1,              
                 scoop : 2.5,
-                range_start : 200,
-                range_end : 600,
+                start_weight : 200,
+                end_weight : 600,
                 heads : 1
             },
+            adg : [],
+            adg_selected : '3.0',
             is_feed_proper : false            
         }
     },
@@ -21,8 +36,7 @@ const Ration = {
         
         //get intial information from database
         self.getFeeds();
-        self.getFeedRequirements();
-       
+        self.getRequirementsADG();
     },
     methods: {
         getFeeds (){
@@ -90,7 +104,10 @@ const Ration = {
             self.nutrition_req = [];
 
             //prepare data for php        
-            let data = {               
+            let data = {          
+                adg : self.adg_selected,
+                start_weight : self.requirements.start_weight,
+                end_weight : self.requirements.end_weight,    
                 csrf : $('#csrf').val()
             };  
             data = JSON.stringify(data);
@@ -103,7 +120,37 @@ const Ration = {
                  //if successfully added 
                 if(data.length > 0){  
  
-                    self.nutrition_req = data;                        
+                    self.nutrition_req = data;  
+                    
+                    //display result
+                    self.calculateFeedRequirement();
+                }            
+            });
+ 
+             result.always(function () {
+            });
+        },
+        getRequirementsADG() {
+            var self = this;
+
+            //reset existing adg
+            self.adg = [];
+
+            //prepare data for php        
+            let data = {};  
+            data = JSON.stringify(data);
+
+            var result = $.post("/ration/ration_calculator/FeedRequirementsAdg", data);
+ 
+            result.done(function (data) {                     
+                data = JSON.parse(data);
+ 
+                 //if successfully added 
+                if(data.length > 0){  
+ 
+                    self.adg = data;  
+                    
+                    //display result                   
                 }            
             });
  
@@ -161,6 +208,13 @@ const Ration = {
         calculateFeedRequirement () {
             var self = this;
 
+            //reset totals
+            self.resetVariables();
+            self.result_totals.average_weight = (parseInt(self.requirements.start_weight) + parseInt(self.requirements.end_weight)) / 2;
+
+            //reset results
+            self.results = [];
+
             //define temporary variables
             let grain_temp = {}, protein_temp = {}, hay_temp = {}, result_temp = {};
 
@@ -202,7 +256,6 @@ const Ration = {
                 result_temp.weight = self.nutrition_req[i].weight;
                 result_temp.grain_tot_lb = grain_tot_lb;
                 result_temp.hay_tot_lb = hay_tot_lb; 
-
               
 
                 //calculate CP %
@@ -241,10 +294,40 @@ const Ration = {
                 //add total dry matter needed and animal type
                 result_temp.dm = self.nutrition_req[i].dm_per_day;
                 result_temp.animal_type = self.nutrition_req[i].animal_type;
+                
+                //add ADG
+                result_temp.adg = self.nutrition_req[i].adg;
 
-                self.results.push(Object.assign({}, result_temp));
-            
+                //asing result to the result array object
+                self.results.push(Object.assign({}, result_temp));        
+                
+                //set totals
+                // if(self.result_totals.average_weight <= self.nutrition_req[i].weight){
+                //     self.result_totals.grain_daily = parseFloat(grain_tot_lb) * self.requirements.heads;
+                // }
             }
+        },
+        /**
+         * ---------------------------------
+         * reset variables 
+         * ---------------------------------
+         */
+        resetVariables() {
+            var self = this;
+
+            self.result_totals = {
+                grain_daily : 0,
+                hay_daily : 0,
+                grain_twice_day : 0,
+                hay_twice_day : 0,
+                scoops_daily : 0,
+                scoops_twice_day : 0,
+                grain_finish : 0,
+                hay_finish : 0,
+                grain_finish_price : 0,
+                hay_finish_price : 0,
+                average_weight: 0
+            };
         }
     }
 };
