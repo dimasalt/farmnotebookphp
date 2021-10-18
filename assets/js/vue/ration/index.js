@@ -208,10 +208,6 @@ const Ration = {
         calculateFeedRequirement () {
             var self = this;
 
-            //reset totals
-            self.resetVariables();
-            self.result_totals.average_weight = (parseInt(self.requirements.start_weight) + parseInt(self.requirements.end_weight)) / 2;
-
             //reset results
             self.results = [];
 
@@ -299,13 +295,77 @@ const Ration = {
                 result_temp.adg = self.nutrition_req[i].adg;
 
                 //asing result to the result array object
-                self.results.push(Object.assign({}, result_temp));        
-                
-                //set totals
-                // if(self.result_totals.average_weight <= self.nutrition_req[i].weight){
-                //     self.result_totals.grain_daily = parseFloat(grain_tot_lb) * self.requirements.heads;
-                // }
+                self.results.push(Object.assign({}, result_temp));                 
             }
+
+            //calculate weight
+            self.calculateTotals();
+        },
+        calculateTotals(){
+            var self = this; 
+
+            //reset totals
+            self.resetVariables();
+
+            //find average weight
+            self.result_totals.average_weight = (parseInt(self.requirements.start_weight) + parseInt(self.requirements.end_weight)) / 2;
+
+            let average_weight_temp = Math.floor(self.result_totals.average_weight / 100) * 100;
+            //or 
+            //let average_weight_temp = Math.round(self.result_totals.average_weight / 100) * 100;
+            
+            //find adg and everything else
+            let current_requirement = {};
+            for(let i = 0; i < self.results.length; i++){
+                if(self.results[i].weight == average_weight_temp)
+                    current_requirement = self.results[i];                
+            }
+
+            //calculate daily grain
+            self.result_totals.grain_daily = current_requirement.grain_tot_lb * self.requirements.heads;
+
+            //daily hay
+            self.result_totals.hay_daily = current_requirement.hay_tot_lb * self.requirements.heads;
+
+            //grain twice a day
+            self.result_totals.grain_twice_day = self.result_totals.grain_daily / 2;
+
+            //hay twice a day
+            self.result_totals.hay_twice_day = self.result_totals.hay_daily / 2;
+
+            //grain scoops a day
+            self.result_totals.scoops_daily = parseFloat(self.result_totals.grain_daily / self.requirements.scoop).toFixed(1);
+
+            //grain scoops twice a day
+            self.result_totals.scoops_twice_day = parseFloat(self.result_totals.grain_twice_day / self.requirements.scoop).toFixed(1);
+
+            //calculate grain and hay finish and how much it's going to cost.
+            for(let i = 0; i < self.results.length; i++){
+                
+                //grain total lbs
+                self.result_totals.grain_finish += Number(self.results[i].grain_tot_lb * 30);
+
+                //hay total lbs
+                self.result_totals.hay_finish += Number(self.results[i].hay_tot_lb * 30);
+            }
+
+            //set per heads
+            self.result_totals.grain_finish = self.result_totals.grain_finish * self.requirements.heads
+
+            self.result_totals.hay_finish = self.result_totals.hay_finish * self.requirements.heads
+
+            //cost of grain for total finish weight
+            //grain price per lb
+            let grain_price_lb = 0, hay_price_lb = 0;
+            for(let i = 0; i < self.feeds.length; i++){
+                if (self.feeds[i].feed_type == "Grain")
+                    grain_price_lb = Number(self.feeds[i].feed_price) / Number(self.feeds[i].feed_price_lb);
+                else if (self.feeds[i].feed_type == "Hay")
+                    hay_price_lb = Number(self.feeds[i].feed_price) / Number(self.feeds[i].feed_price_lb);
+            }
+            //price for finish grain and hay
+            self.result_totals.grain_finish_price = (self.result_totals.grain_finish * grain_price_lb).toFixed(0);
+            self.result_totals.hay_finish_price = self.result_totals.hay_finish * hay_price_lb;
         },
         /**
          * ---------------------------------
