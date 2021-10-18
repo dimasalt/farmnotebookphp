@@ -95,6 +95,10 @@ $r->addRoute(['GET', 'POST'], '/ration/ration_calculator/setDefaultFeed', 'FarmW
 $r->addRoute(['GET', 'POST'], '/ration/ration_calculator/getfeeds', 'FarmWork\Controllers\RationCalculatorController:getFeeds');
 $r->addRoute(['GET', 'POST'], '/ration/ration_calculator', 'FarmWork\Controllers\RationCalculatorController:index');
 
+// feeds
+$r->addRoute(['GET', 'POST'], '/ration/feeds/delete', 'FarmWork\Controllers\FeedController:feedDelete');
+$r->addRoute(['GET', 'POST'], '/ration/feeds/get/all', 'FarmWork\Controllers\FeedController:getFeeds');
+$r->addRoute(['GET', 'POST'], '/ration/feeds', 'FarmWork\Controllers\FeedController:index');
 
 // login page
 $r->addRoute('GET', '/login', 'FarmWork\Controllers\LoginController:index');
