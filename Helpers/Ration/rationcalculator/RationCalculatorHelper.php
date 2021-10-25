@@ -15,7 +15,7 @@ class RationCalculatorHelper {
     {
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call feedsGetAll()');
+        $stmt = $pdo->prepare('call feedGetAll()');
         $stmt->execute();       
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);                    

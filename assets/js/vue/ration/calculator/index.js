@@ -322,13 +322,13 @@ const Ration = {
             }
 
             //calculate daily grain
-            self.result_totals.grain_daily = current_requirement.grain_tot_lb * self.requirements.heads;
+            self.result_totals.grain_daily = (current_requirement.grain_tot_lb * self.requirements.heads).toFixed(1);
 
             //daily hay
             self.result_totals.hay_daily = current_requirement.hay_tot_lb * self.requirements.heads;
 
             //grain twice a day
-            self.result_totals.grain_twice_day = self.result_totals.grain_daily / 2;
+            self.result_totals.grain_twice_day = (self.result_totals.grain_daily / 2).toFixed(1);
 
             //hay twice a day
             self.result_totals.hay_twice_day = self.result_totals.hay_daily / 2;
@@ -363,9 +363,19 @@ const Ration = {
                 else if (self.feeds[i].feed_type == "Hay")
                     hay_price_lb = Number(self.feeds[i].feed_price) / Number(self.feeds[i].feed_price_lb);
             }
-            //price for finish grain and hay
-            self.result_totals.grain_finish_price = (self.result_totals.grain_finish * grain_price_lb).toFixed(0);
+
+            //price for finish grain and hay     
+            //formated to USD currency
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'             
+            });
+
+            self.result_totals.grain_finish_price = (self.result_totals.grain_finish * grain_price_lb).toFixed(1);
+            self.result_totals.grain_finish_price = formatter.format(self.result_totals.grain_finish_price);
+            
             self.result_totals.hay_finish_price = self.result_totals.hay_finish * hay_price_lb;
+            self.result_totals.hay_finish_price = formatter.format(self.result_totals.hay_finish_price);
         },
         /**
          * ---------------------------------

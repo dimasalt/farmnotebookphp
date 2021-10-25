@@ -21,7 +21,10 @@ rather than one like it's right now.
     any hay for the last 60 days
 
 
-### Feed Page
+### Feeds Page
+
+- If even there needs to get/store more information on feeds (things such as mineral components etc...), consider moving feed properties to another
+    separate table with structure "name" : "value".
 
 
 

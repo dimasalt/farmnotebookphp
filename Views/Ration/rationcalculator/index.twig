@@ -143,8 +143,44 @@
 
         <!-- calculations for multiple heads for totals with price -->
           <div class="col-3">
-             <h5>Totals for <span class="mx-2">{{ '{{ requirements.heads }}' }}</span> heads in lb</h5>
-            <table class="table table-sm table-bordered shadow-sm ps-2">               
+            <h5>Totals for <span class="mx-2">{{ '{{ requirements.heads }}' }}</span> heads in lb</h5>
+            <ul class="list-group shadow-sm">
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
+                    <strong>Average Animal Weight</strong> {{ '{{ result_totals.average_weight }}' }}
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
+                    <strong>Daily Grain Intake</strong> {{ '{{ result_totals.grain_daily }}' }} lb
+                </li>
+                 <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
+                    <strong>Daily Hay Intake</strong> {{ '{{ result_totals.hay_daily }}' }} lb
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
+                    <strong>Twice a day grain intake</strong> {{ '{{ result_totals.grain_twice_day }}' }} lb
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
+                    <strong>Twice a day hay intake</strong> {{ '{{ result_totals.hay_twice_day }}' }} lb
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
+                    <strong>Daily grain Scoops</strong> {{ '{{ result_totals.scoops_daily }}' }}
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
+                    <strong>Twice a day grain scoops</strong> {{ '{{ result_totals.scoops_twice_day }}' }}
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
+                    <strong>Grain to finish</strong> {{ '{{ result_totals.grain_finish }}' }} lb
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
+                    <strong>Hay to finish</strong> {{ '{{ result_totals.hay_finish }}' }} lb
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
+                    <strong>Grain finish price</strong> C$ {{ '{{ result_totals.grain_finish_price }}' }}
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
+                    <strong>Hay finish price</strong> C$ {{ '{{ result_totals.hay_finish_price }}' }}
+                </li>
+            </ul>
+
+            {# <table class="table table-sm table-bordered shadow-sm ps-2">               
                 <tbody>
                     <tr>
                         <td class=" bg-white w-70">Average Animal Weight</td>
@@ -191,7 +227,7 @@
                         <td class="bg-white">C$ {{ '{{ result_totals.hay_finish_price }}' }}</td>                     
                     </tr>                                                                                                                                    
                 </tbody>
-            </table>
+            </table> #}
         </div>
     </div>
 </div>

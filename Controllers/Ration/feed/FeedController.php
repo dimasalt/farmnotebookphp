@@ -63,7 +63,69 @@ class FeedController extends BaseController
         
             //convert to json
             $result = json_encode($result);
-            
+
+            echo $result;
+        }
+    }
+
+      /**
+     * ----------------------------------------------------------
+     * update feed item
+     * ----------------------------------------------------------
+     */
+    public function feedUpdate(){
+
+        session_regenerate_id();        
+
+        // Takes raw data from the request
+        $json = file_get_contents('php://input');
+
+        // Converts it into a PHP object
+        $data = json_decode($json);
+
+        //get feed item
+        $feed_item = $data->feed_item;
+
+        if(CSRFToken::isValid($data->csrf)){
+            //get results
+            $helper = new FeedHelper();
+            $result = $helper->feedUpdate($feed_item->id, $feed_item->feed_name, $feed_item->feed_desc, $feed_item->feed_cp, $feed_item->feed_tdn, $feed_item->feed_type, 
+                                            $feed_item->feed_price, $feed_item->feed_price_lb, $feed_item->feed_usage);
+        
+            //convert to json
+            $result = json_encode($result);
+
+            echo $result;
+        }
+    }
+
+     /**
+     * -----------------------------------------------------------
+     * create feed item
+     * -----------------------------------------------------------
+     */
+    public function feedCreate(){
+     
+        session_regenerate_id();        
+
+        // Takes raw data from the request
+        $json = file_get_contents('php://input');
+
+        // Converts it into a PHP object
+        $data = json_decode($json);
+
+        //get feed item
+        $feed_item = $data->feed_item;
+
+        if(CSRFToken::isValid($data->csrf)){
+            //get results
+            $helper = new FeedHelper();
+            $result = $helper->feedCreate($feed_item->feed_name, $feed_item->feed_desc, $feed_item->feed_cp, $feed_item->feed_tdn, $feed_item->feed_type, 
+                                            $feed_item->feed_price, $feed_item->feed_price_lb, $feed_item->feed_usage);
+        
+            //convert to json
+            $result = json_encode($result);
+
             echo $result;
         }
     }

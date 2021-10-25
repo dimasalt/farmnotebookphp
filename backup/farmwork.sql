@@ -145,16 +145,14 @@ CREATE TABLE IF NOT EXISTS `feed` (
   `is_default` tinyint(4) NOT NULL DEFAULT 0,
   `feed_date` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='Contains feed information such as CP, TDN and prices';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COMMENT='Contains feed information such as CP, TDN and prices';
 
--- Dumping data for table farmwork.feed: ~3 rows (approximately)
+-- Dumping data for table farmwork.feed: ~4 rows (approximately)
 /*!40000 ALTER TABLE `feed` DISABLE KEYS */;
 INSERT INTO `feed` (`id`, `feed_name`, `feed_desc`, `feed_cp`, `feed_tdn`, `feed_type`, `feed_price`, `feed_price_lb`, `feed_usage`, `is_default`, `feed_date`) VALUES
 	(1, 'Corn', NULL, 10, 90, 'Grain', 565.00, 2000, 100, 1, '2021-10-12 19:15:38'),
 	(2, 'Hay', NULL, 7, 55, 'Hay', 5.00, 60, 100, 1, '2021-10-12 19:15:40'),
-	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 0.00, 0, 100, 1, '2021-10-17 22:33:55'),
-	(4, 'Soybean Meal', NULL, 47, 77, 'Protein', 0.00, 0, 100, 1, '2021-10-17 22:33:55'),
-	(5, 'Soybean Meal', NULL, 47, 77, 'Protein', 0.00, 0, 100, 1, '2021-10-17 22:33:55');
+	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 0.00, 0, 100, 1, '2021-10-17 22:33:55');
 /*!40000 ALTER TABLE `feed` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.feed_requirement
@@ -169,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `feed_requirement` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps information on feed requirements for animals in different stages';
 
--- Dumping data for table farmwork.feed_requirement: ~38 rows (approximately)
+-- Dumping data for table farmwork.feed_requirement: ~35 rows (approximately)
 /*!40000 ALTER TABLE `feed_requirement` DISABLE KEYS */;
 INSERT INTO `feed_requirement` (`id`, `weight`, `animal_type`, `adg`, `dm_per_day`, `cp`, `tdn`) VALUES
 	(1, 200, 'steer/heifer', 3.0, 5.4, 22.0, 80),
@@ -300,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `medication` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COMMENT='list of medication';
 
--- Dumping data for table farmwork.medication: ~5 rows (approximately)
+-- Dumping data for table farmwork.medication: ~6 rows (approximately)
 /*!40000 ALTER TABLE `medication` DISABLE KEYS */;
 INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `on_hand_doses`, `created_at`) VALUES
 	(1, 'Tasvax 8', '<p>For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).</p>', '<p>Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.</p>', '/uploads/medication/tasvax-8.jpg', 0.00, 0, '2019-05-09 23:02:13'),
@@ -423,7 +421,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~1 rows (approximately)
+-- Dumping data for table farmwork.user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -506,7 +504,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 184200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -780,6 +778,46 @@ select contact.id,
 	ORDER BY contact.name ASC//
 DELIMITER ;
 
+-- Dumping structure for procedure farmwork.feedCreate
+DELIMITER //
+CREATE PROCEDURE `feedCreate`(
+	IN `feed_name` VARCHAR(150),
+	IN `feed_desc` VARCHAR(250),
+	IN `feed_cp` INT,
+	IN `feed_tdn` INT,
+	IN `feed_type` VARCHAR(25),
+	IN `feed_price` DECIMAL(19,2),
+	IN `feed_price_lb` INT,
+	IN `feed_usage` INT
+)
+BEGIN
+
+	INSERT INTO feed
+	(
+		feed.feed_name,
+		feed.feed_desc,
+		feed.feed_cp,
+		feed.feed_tdn,
+		feed.feed_type,
+		feed.feed_price,
+		feed.feed_price_lb,
+		feed.feed_usage
+	)
+	VALUES 
+	(
+		feed_name,
+		feed_desc,
+		feed_cp,
+		feed_tdn,
+		feed_type,
+		feed_price,
+		feed_price_lb,
+		feed_usage
+	);
+
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure farmwork.feedDeleteOne
 DELIMITER //
 CREATE PROCEDURE `feedDeleteOne`(
@@ -790,6 +828,30 @@ BEGIN
 
 	DELETE FROM feed
 	WHERE feed.id = id;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.feedGetAll
+DELIMITER //
+CREATE PROCEDURE `feedGetAll`()
+    COMMENT 'gets all feeds'
+BEGIN
+
+	SELECT 
+		feed.id,
+		feed.feed_name,
+		feed.feed_desc,
+		feed.feed_cp,
+		feed.feed_tdn,
+		feed.feed_type,
+		feed.feed_price,
+		feed.feed_price_lb,
+		feed.feed_usage,
+		feed.is_default
+	FROM 
+		feed
+	ORDER BY feed.feed_name ASC;
 
 END//
 DELIMITER ;
@@ -858,26 +920,33 @@ BEGIN
 END//
 DELIMITER ;
 
--- Dumping structure for procedure farmwork.feedsGetAll
+-- Dumping structure for procedure farmwork.feedUpdate
 DELIMITER //
-CREATE PROCEDURE `feedsGetAll`()
-    COMMENT 'gets all feeds'
+CREATE PROCEDURE `feedUpdate`(
+	IN `id` INT,
+	IN `feed_name` VARCHAR(150),
+	IN `feed_desc` VARCHAR(250),
+	IN `feed_cp` INT,
+	IN `feed_tdn` INT,
+	IN `feed_type` VARCHAR(25),
+	IN `feed_price` DECIMAL(19,2),
+	IN `feed_price_lb` INT,
+	IN `feed_usage` INT
+)
 BEGIN
 
-	SELECT 
-		feed.id,
-		feed.feed_name,
-		feed.feed_desc,
-		feed.feed_cp,
-		feed.feed_tdn,
-		feed.feed_type,
-		feed.feed_price,
-		feed.feed_price_lb,
-		feed.feed_usage,
-		feed.is_default
-	FROM 
-		feed
-	ORDER BY feed.feed_name ASC;
+	UPDATE feed 
+	SET 
+		feed.feed_name = feed_name,
+		feed.feed_desc = feed_desc,
+		feed.feed_cp = feed_cp,
+		feed.feed_tdn = feed_tdn,
+		feed.feed_type = feed_type,
+		feed.feed_price = feed_price,
+		feed.feed_price_lb = feed_price_lb,
+		feed.feed_usage = feed_usage
+	WHERE 
+		feed.id = id;
 
 END//
 DELIMITER ;
