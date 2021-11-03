@@ -8,7 +8,6 @@
 - Add pagination
 
 
-
 ### Budger planning page
 
 Need to think of possibly adding functionality to display and have multiple budgets to work with

@@ -11,8 +11,7 @@ const app = Vue.createApp({
                 actual_expences_class: ""
             },
             chart_data : [], //data for the charts
-            myChart : {},
-            budget_selected : ''
+            myChart : {}
         }
     },
     created() {
@@ -67,7 +66,7 @@ const app = Vue.createApp({
                         else data[i].checked = false;
 
                         //check for start point
-                        if (data[i].is_default == 1 && data[i].parent_id == 0) {
+                        if (data[i].is_start == 1) {
                             self.budget_start_item = data[i];                       
                         }
                         else {

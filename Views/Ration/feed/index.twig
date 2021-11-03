@@ -1,6 +1,6 @@
 {% extends "Shared/_layout.twig" %}
 
-{% block title %} Ration Calculator {% endblock %}
+{% block title %} Feeds {% endblock %}
 
 {% block header_scripts %}
     <link href="/assets/components/toastr/toastr.min.css"  rel="stylesheet">
@@ -20,7 +20,7 @@
     <div class="row mt-4">
         <div class="col-12 border-bottom">          
             <h2 class="text-dark">
-                Feeds
+                Feeds Inventory
                 <a href="#" v-on:click="action.new = true">
                     <i class="far fa-plus-square btn-sm text-success align-middle ps-1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Add Feeed" aria-label="Add Feed"></i>
                 </a>
@@ -28,8 +28,16 @@
         </div>      
     </div>
 
-    <div class="row" v-if="action.edit == true || action.new == true">
-        <div class="col-12 mt-4">
+    {# <div class="row mt-4">
+        <div class="col-12">
+            <div class="alert alert-warning shadow-sm">
+                <i class="fas fa-info-circle fa-2x me-2 align-middle text-success"></i>
+            </div>
+        </div>
+    </div> #}
+
+    <div class="row mt-4 mx-2" v-if="action.edit == true || action.new == true">
+        <div class="col-12 ps-1 pb-2 bg-white shadow-sm border border-secondary">
             <div class="input-group">
                 <div class="col-2">
                     <label for="text_heads" class="form-label">Name</label>
@@ -68,15 +76,15 @@
                     <input class="form-control rounded-0 shadow-sm" id="text_feed_usage" placeholder="Usage %" v-model="feed_item.feed_usage">
                 </div>      
                 <div class="col-2 d-flex justify-content-end pt-4">                    
-                    <a href="#" class="btn btn-success rounded-0 form-control mt-2" v-on:click="feedCreate()" v-if="action.new == true">                                   
+                    <a href="#" class="btn btn-success rounded-0 shadow-sm form-control mt-2" v-on:click="feedCreate()" v-if="action.new == true">                                   
                         <i class="far fa-plus-square btn-sm text-white ps-0"></i>
                         Add
                     </a>
-                    <a href="#" class="btn btn-success rounded-0 form-control mt-2" v-on:click="feedUpdate()" v-if="action.edit == true">                                   
+                    <a href="#" class="btn btn-success rounded-0 form-control shadow-sm mt-2" v-on:click="feedUpdate()" v-if="action.edit == true">                                   
                         <i class="far fa-plus-square btn-sm text-white ps-0"></i>
                         Update
                     </a>
-                    <a href="#" class="btn btn-warning rounded-0 form-control mt-2" v-on:click="clearForms()">
+                    <a href="#" class="btn btn-warning rounded-0 form-control mt-2 shadow-sm" v-on:click="clearForms()">
                         <i class="fas fa-times-circle text-small me-1"></i>
                         Cancel           
                     </a>  
@@ -86,8 +94,7 @@
     </div>    
 
     <div class="row mt-4">
-          <div class="col-12" v-if="feeds.length > 0">
-            {# <h5>Feeds</h5> #}
+        <div class="col-12" v-if="feeds.length > 0">           
             
             <table class="table table-sm table-bordered shadow-sm">
                 <thead>
@@ -96,6 +103,8 @@
                         <th scope="col" class="bg-dark text-white">CP %</th>
                         <th scope="col" class="bg-dark text-white">TDN %</th>                                    
                         <th scope="col" class="bg-dark text-white">Feed Type</th>
+                        <th scope="col" class="bg-dark text-white">Price</th>                                    
+                        <th scope="col" class="bg-dark text-white">Price for quantity C$</th>
                         <th scope="col" class="bg-dark text-white">#</th>
                     </tr>
                 </thead>
@@ -105,6 +114,8 @@
                         <td class="bg-white">{{ '{{ item.feed_cp }}' }}</td>
                         <td class="bg-white">{{ '{{ item.feed_tdn }}' }}</td>                 
                         <td class="bg-white">{{ '{{ item.feed_type }}' }}</td>
+                        <td class="bg-white">{{ '{{ item.feed_price }}' }}</td>                 
+                        <td class="bg-white">{{ '{{ item.feed_price_lb }}' }}</td>
                         <td class="bg-white">
                             <a href="#" class="float-right btn-sm text-small ps-0" v-on:click="updateForms(index)">
                                 <i class="far fa-edit text-warning" data-toggle="tooltip" data-placement="top" title="Edit Feed"></i>
