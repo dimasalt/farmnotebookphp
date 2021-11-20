@@ -54,7 +54,7 @@ class BudgetController extends BaseController {
             $budget_amount = $data->budget_amount;
             $budget_amount_actual = $data->budget_amount_actual;
             $is_done = $data->is_done;
-            $is_start = $data->is_start;
+            $is_default = $data->is_default;
 
           //check if date is empty or null. If yes assign current date value
           //if(! isset($data->created_at ) || strlen($data->created_at ) == 0)
@@ -64,7 +64,7 @@ class BudgetController extends BaseController {
           $budget_date = $data->budget_date;
     
           $helper = new BudgetHelper();
-          $result = $helper->budgetCreateItem($budget_name, $budget_amount, $budget_amount_actual, $is_done, $is_start, $budget_date);
+          $result = $helper->budgetCreateItem($budget_name, $budget_amount, $budget_amount_actual, $is_done, $is_default, $budget_date);
    
           echo json_encode($result);
         } 

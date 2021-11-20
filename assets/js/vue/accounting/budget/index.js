@@ -12,6 +12,7 @@ const app = Vue.createApp({
             },
             chart_data : [], //data for the charts
             myChart : {},
+            budget_drpdown : [],
             budget_selected : ''
         }
     },
@@ -19,7 +20,7 @@ const app = Vue.createApp({
         var self = this;
 
         //set the planning item
-        self.resetVariables();
+        //self.resetVariables();
 
         //get all the budgets
         self.getBudget();       
@@ -58,6 +59,9 @@ const app = Vue.createApp({
                         data[i].budget_amount_formated = formatter.format(data[i].budget_amount);
                         data[i].budget_amount_actual_formated = formatter.format(data[i].budget_amount_actual);
 
+                        //add to drop down
+                        if(data[i].parent_id == 0)
+                            self.budget_drpdown.push(data[i]);
 
                         //check if project is done
                         if(data[i].is_done == 1){
@@ -68,7 +72,9 @@ const app = Vue.createApp({
 
                         //check for start point
                         if (data[i].is_default == 1 && data[i].parent_id == 0) {
-                            self.budget_start_item = data[i];                       
+                            self.budget_start_item = data[i];       
+                            
+                            self.budget_selected = data[i].budget_name;
                         }
                         else {
                               //set edit to invisible
@@ -79,12 +85,8 @@ const app = Vue.createApp({
                         }
 
                         //calculate predicted and actual expences
-                        self.budget_total.predicted_expences =
-                            self.budget_total.predicted_expences +
-                            parseInt(data[i].budget_amount);
-                        self.budget_total.actual_expences =
-                            self.budget_total.actual_expences +
-                            parseInt(data[i].budget_amount_actual);                                                                          
+                        self.budget_total.predicted_expences = self.budget_total.predicted_expences + parseInt(data[i].budget_amount);
+                        self.budget_total.actual_expences = self.budget_total.actual_expences + parseInt(data[i].budget_amount_actual);                                                                          
                     }                                                                                           
 
                     //format total numbers to usd currency
@@ -100,7 +102,7 @@ const app = Vue.createApp({
 
             result.always(function () { });
         },
-        budgetCreateItem: function (is_start) {
+        budgetCreateItem: function (is_default) {
             //remove one project item
             var self = this;            
 
@@ -113,18 +115,18 @@ const app = Vue.createApp({
 
             var data = self.budget_item; 
  
-            if(is_start == 1)
+            if(is_default == 1)
                 data.budget_amount_actual = parseInt(data.budget_amount);                 
                         
             
-            data.is_start = is_start;
+            data.is_default = is_default;
             data.csrf = $('#csrf').val();  
 
             data = JSON.stringify(data);
 
-            var projectdel = $.post("/bookkeeping/budget/add", data);
+            var result = $.post("/bookkeeping/budget/add", data);
 
-            projectdel.done(function (data) {
+            result.done(function (data) {
                 data = JSON.parse(data);             
 
                 if (data == true) {                    
@@ -140,7 +142,7 @@ const app = Vue.createApp({
                 }            
             });
 
-            projectdel.always(function () { });
+            result.always(function () { });
         },  
         budgetDeleteModalShow: function (id, budget_name){ 
             //show remove item modal
@@ -283,10 +285,19 @@ const app = Vue.createApp({
             });
 
             result.always(function () { });
-        },        
-        chartJSLine : function(){   
+        },                
+        chartJSLine : function(){               
             
-            var self = this;        
+            var self = this;                          
+                
+            /**
+             * ---------------------------------------------------------------------------------
+             * To be honest, though, in cases like yours, I have often used a container div to wrap my canvas and, 
+             * whenever I needed to create a new chart, I placed a new canvas element in this div. I then used this 
+             * newly created canvas for the new chart. If you ever come across strange behavior, possibly related to 
+             * charts occupying the canvas before the current chart, have this approach in mind too.
+             * ---------------------------------------------------------------------------------
+             */
             
             //remove old canvas and create new
             $('#canvas_line').remove();
@@ -341,31 +352,31 @@ const app = Vue.createApp({
                     ]},
                     options: {
                         responsive: true,
-                        title: {
-                            text: 'Projected and Actual expenses',
-                            display: true
-                        },
-                        scales:     {
-                            xAxes: [{
-                                type:       "time",
-                                distribution: 'series',
-                                time:       
-                                {
-                                    format: timeFormat,
-                                    tooltipFormat: 'll'
-                                },
-                                scaleLabel: {
-                                    display:     true,
-                                    labelString: 'Date'
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
-                                    display:     true,
-                                    labelString: '$'
-                                }
-                        }]
-                    }
+                        // title: {
+                        //     text: 'Projected and Actual expenses',
+                        //     display: true
+                        // }
+                        // scales:     {
+                        //     xAxes: [{
+                        //         type:       "time",
+                        //         distribution: 'series',
+                        //         time:       
+                        //         {
+                        //             format: timeFormat,
+                        //             tooltipFormat: 'll'
+                        //         },
+                        //         scaleLabel: {
+                        //             display:     true,
+                        //             labelString: 'Date'
+                        //         }
+                        //     }],
+                        //     yAxes: [{
+                        //         scaleLabel: {
+                        //             display:     true,
+                        //             labelString: '$'
+                        //         }
+                        // }]
+                    // }
                 }
             };  
             
@@ -374,24 +385,33 @@ const app = Vue.createApp({
             // Chart.defaults.global.defaultFontColor =  '#000000';
             
             var ctx = document.getElementById("canvas_line").getContext("2d");
-            self.myChart = new Chart(ctx, config);   
+            self.myChart = new Chart(ctx, config);           
+        },  
+        budgetSelectionChange () {
+            var self = this;
+
+            if(self.budget_selected === ''){
+                //reset variables
+                self.resetVariables();            
+            }
+            else { //otherwise get information
+
+            }
+
             
-            /**
-             * ---------------------------------------------------------------------------------
-             * To be honest, though, in cases like yours, I have often used a container div to wrap my canvas and, 
-             * whenever I needed to create a new chart, I placed a new canvas element in this div. I then used this 
-             * newly created canvas for the new chart. If you ever come across strange behavior, possibly related to 
-             * charts occupying the canvas before the current chart, have this approach in mind too.
-             * ---------------------------------------------------------------------------------
-             */
-        },             
-        resetVariables: function(){
+        },
+        resetVariables(){
             var self = this;
 
             //clear list of budgets and total calculations
+            self.budget_start_item = {};  
+
             self.budgets = [];
             self.budget_total.predicted_expences = 0;
             self.budget_total.actual_expences = 0;
+
+            //reset budget dropdown list
+            //self.budget_drpdown = [];
 
 
              // Use new Date() to generate a new Date object containing the current date and time.
@@ -407,7 +427,7 @@ const app = Vue.createApp({
                 planning_name : '',
                 budget_amount : 0,
                 budget_amount_actual : 0,
-                is_start : 0,
+                is_default : 0,
                 is_done : 0,
                 budget_date : yyyy + '-' + mm + '-' + dd,
                 is_new : false
@@ -415,6 +435,14 @@ const app = Vue.createApp({
             
             //reset chart data
             self.chart_data = [];
+
+            //reset totals for current budget
+            self.budget_total= {
+                predicted_expences: 0,
+                actual_expences: 0,
+                predicted_expences_class: "",
+                actual_expences_class: ""
+            };
         }
     }
 });

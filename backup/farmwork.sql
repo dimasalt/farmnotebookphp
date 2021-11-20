@@ -22,18 +22,18 @@ CREATE TABLE IF NOT EXISTS `budget` (
   `is_done` tinyint(4) NOT NULL DEFAULT 0,
   `is_default` tinyint(4) NOT NULL DEFAULT 0,
   `budget_date` datetime NOT NULL DEFAULT current_timestamp(),
-  `budget_done_date` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps financial planning and budgeting records';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps financial planning and budgeting records';
 
--- Dumping data for table farmwork.budget: ~5 rows (approximately)
+-- Dumping data for table farmwork.budget: ~6 rows (approximately)
 /*!40000 ALTER TABLE `budget` DISABLE KEYS */;
-INSERT INTO `budget` (`id`, `parent_id`, `budget_name`, `budget_amount`, `budget_amount_actual`, `is_done`, `is_default`, `budget_date`, `budget_done_date`) VALUES
-	(10, 0, 'Gross budget for year 2022', 0.00, 0.00, 0, 1, '2022-01-01 00:00:00', '2021-10-31 22:40:30'),
-	(11, 10, '60 head of cattle gross after taxes', 54000.00, 0.00, 0, 0, '2023-04-30 00:00:00', '2021-10-31 22:40:30'),
-	(12, 10, 'German Shepherd puppies 8', 8000.00, 0.00, 0, 0, '2022-12-31 00:00:00', '2021-10-31 22:40:30'),
-	(13, 10, 'Dmitri Salary after the tax', 27000.00, 0.00, 0, 0, '2022-12-31 00:00:00', '2021-10-31 22:40:30'),
-	(14, 10, 'Ilana Salary after the tax', 12000.00, 0.00, 0, 0, '2022-12-31 00:00:00', '2021-10-31 22:40:30');
+INSERT INTO `budget` (`id`, `parent_id`, `budget_name`, `budget_amount`, `budget_amount_actual`, `is_done`, `is_default`, `budget_date`) VALUES
+	(10, 0, 'Gross budget for year 2022', 0.00, 0.00, 0, 1, '2022-01-01 00:00:00'),
+	(11, 10, '60 head of cattle gross after taxes', 54000.00, 0.00, 0, 0, '2023-04-30 00:00:00'),
+	(12, 10, 'German Shepherd puppies 8', 8000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
+	(13, 10, 'Dmitri Salary after the tax', 27000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
+	(14, 10, 'Ilana Salary after the tax', 12000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
+	(15, 0, 'test', 0.00, 0.00, 0, 1, '2021-11-11 00:00:00');
 /*!40000 ALTER TABLE `budget` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.budget_bak
@@ -176,8 +176,8 @@ CREATE TABLE IF NOT EXISTS `feed` (
 /*!40000 ALTER TABLE `feed` DISABLE KEYS */;
 INSERT INTO `feed` (`id`, `feed_name`, `feed_desc`, `feed_cp`, `feed_tdn`, `feed_type`, `feed_price`, `feed_price_lb`, `feed_usage`, `is_default`, `feed_date`) VALUES
 	(1, 'Cracked Corn', NULL, 10, 90, 'Grain', 549.00, 2000, 100, 1, '2021-10-26 11:32:41'),
-	(2, 'Hay', NULL, 7, 55, 'Hay', 5.00, 60, 100, 1, '2021-10-26 11:32:44'),
-	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 0.00, 0, 100, 1, '2021-10-26 11:32:48');
+	(2, 'Hay', NULL, 7, 55, 'Hay', 5.00, 60, 100, 1, '2021-11-08 19:48:22'),
+	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 22.00, 60, 100, 1, '2021-11-08 19:48:27');
 /*!40000 ALTER TABLE `feed` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.feed_requirement
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `feed_requirement` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps information on feed requirements for animals in different stages';
 
--- Dumping data for table farmwork.feed_requirement: ~38 rows (approximately)
+-- Dumping data for table farmwork.feed_requirement: ~35 rows (approximately)
 /*!40000 ALTER TABLE `feed_requirement` DISABLE KEYS */;
 INSERT INTO `feed_requirement` (`id`, `weight`, `animal_type`, `adg`, `dm_per_day`, `cp`, `tdn`) VALUES
 	(1, 200, 'steer/heifer', 3.0, 5.4, 22.0, 80),
@@ -323,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `medication` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COMMENT='list of medication';
 
--- Dumping data for table farmwork.medication: ~5 rows (approximately)
+-- Dumping data for table farmwork.medication: ~6 rows (approximately)
 /*!40000 ALTER TABLE `medication` DISABLE KEYS */;
 INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `on_hand_doses`, `created_at`) VALUES
 	(1, 'Tasvax 8', '<p>For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).</p>', '<p>Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.</p>', '/uploads/medication/tasvax-8.jpg', 0.00, 0, '2019-05-09 23:02:13'),
@@ -446,7 +446,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~1 rows (approximately)
+-- Dumping data for table farmwork.user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34');
@@ -529,7 +529,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 184200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -576,18 +576,19 @@ CREATE PROCEDURE `budgetCreate`(
 	IN `budget_amount` DECIMAL(19,2),
 	IN `budget_amount_actual` DECIMAL(19,2),
 	IN `is_done` TINYINT,
-	IN `is_start` TINYINT,
+	IN `is_default` TINYINT,
 	IN `budget_date` DATETIME
 )
     COMMENT 'creates new budget record'
 BEGIN
+
 
 INSERT INTO budget
 (
 	budget.budget_name,
 	budget.budget_amount,
 	budget.budget_amount_actual,
-	budget.is_start,
+	budget.is_default,
 	budget.is_done,
 	budget.budget_date
 )
@@ -596,7 +597,7 @@ VALUES
 	budget_name,
 	budget_amount,
 	budget_amount_actual,
-	is_start,
+	is_default,
 	is_done,
 	budget_date
 );
@@ -636,7 +637,6 @@ BEGIN
 		budget.is_done,
 		budget.is_default,
 		DATE(budget.budget_date) AS budget_date,	
-		DATE(budget.budget_done_date) AS budget_done_date,	
 		(SELECT SUM(budget.budget_amount) FROM budget) AS budget_amount_total,
 		(SELECT SUM(budget.budget_amount_actual) FROM budget) AS budget_amount_actual_total
 	FROM budget
@@ -666,6 +666,28 @@ BEGIN
 		budget.budget_date = budget_date
 	WHERE budget.id = id;
 	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.budgetUpdateDefault
+DELIMITER //
+CREATE PROCEDURE `budgetUpdateDefault`(
+	IN `id` INT,
+	IN `is_default` TINYINT
+)
+BEGIN
+
+	-- reset default status for all budgets
+	UPDATE budget 
+	SET budget.is_default = 0;
+	
+	
+	-- set status to chosen budget item based on item ID
+	UPDATE budget
+	SET 
+		budget.is_default = is_default
+	WHERE 
+		budget.id = id; 
 END//
 DELIMITER ;
 
@@ -701,7 +723,8 @@ BEGIN
 
 	INSERT INTO 
 		contact (`name`, address, phone, email, note, is_vendor)
-	VALUES (contact_name, address, phone, email, note, is_vendor );
+	VALUES 
+		(contact_name, address, phone, email, note, is_vendor );
 
 END//
 DELIMITER ;

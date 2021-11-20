@@ -28,13 +28,20 @@ class BudgetHelper
       /*
     * Adds one item to the project list
     */
-    public function budgetCreateItem($budget_name, $budget_amount, $budget_amount_actual,$is_done, $is_start, $budget_date) : bool
+    public function budgetCreateItem($budget_name, $budget_amount, $budget_amount_actual,$is_done, $is_default, $budget_date) : bool
     {
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
         $stmt = $pdo->prepare('call budgetCreate(?,?,?,?,?,?)');
-        $stmt->execute(array($budget_name, $budget_amount, $budget_amount_actual, $is_done, $is_start, $budget_date));
+        $stmt->execute([
+            $budget_name, 
+            $budget_amount, 
+            $budget_amount_actual, 
+            $is_done, 
+            $is_default, 
+            $budget_date
+        ]);
 
         if($stmt->rowCount() > 0) return true;
         else return false;
@@ -64,7 +71,13 @@ class BudgetHelper
         $db = new DBConnection();
         $pdo = $db->getPDO();
         $stmt = $pdo->prepare('call budgetUpdate(?,?,?,?,?)');
-        $stmt->execute(array($id, $budget_name, $budget_amount, $budget_amount_actual, $budget_date));
+        $stmt->execute([
+            $id, 
+            $budget_name, 
+            $budget_amount, 
+            $budget_amount_actual, 
+            $budget_date
+        ]);
 
         if($stmt->rowCount() > 0) return true;
         else return false;
