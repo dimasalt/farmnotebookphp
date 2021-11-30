@@ -27,12 +27,33 @@ class BudgetController extends BaseController {
     */
     public function budgetGetAll()
     {
+        // Takes raw data from the request
+        $json = file_get_contents('php://input');
+
+        // Converts it into a PHP object
+        $data = json_decode($json);
+
+        $id = $data->id;
+
         $bhelper = new BudgetHelper();
-        $result = $bhelper->budgetGetAll();
+        $result = $bhelper->budgetGetAll($id);
 
         echo json_encode($result);
     }
 
+    /**
+     * --------------------------------------------------------------
+     * Dropdown selections
+     * --------------------------------------------------------------
+     */
+    public function getDropDownSelections(){
+      
+      $bhelper = new BudgetHelper();
+      $result = $bhelper->getDropDownSelections();
+
+      echo json_encode($result);
+
+    }
     /*
     *--------------------------------------------------------
     *       adds one item to the planned project list
@@ -50,6 +71,7 @@ class BudgetController extends BaseController {
          $data = json_decode($json);
 
          if(CSRFToken::isValid($data->csrf)){
+            $parent_id = $data->parent_id;
             $budget_name = $data->budget_name;
             $budget_amount = $data->budget_amount;
             $budget_amount_actual = $data->budget_amount_actual;
@@ -64,7 +86,7 @@ class BudgetController extends BaseController {
           $budget_date = $data->budget_date;
     
           $helper = new BudgetHelper();
-          $result = $helper->budgetCreateItem($budget_name, $budget_amount, $budget_amount_actual, $is_done, $is_default, $budget_date);
+          $result = $helper->budgetCreateItem($parent_id, $budget_name, $budget_amount, $budget_amount_actual, $is_done, $is_default, $budget_date);
    
           echo json_encode($result);
         } 

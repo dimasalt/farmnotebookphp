@@ -1,4 +1,4 @@
-const app = Vue.createApp({
+const budget = {
     data() {
         return {
             budget_start_item: {},
@@ -13,17 +13,13 @@ const app = Vue.createApp({
             chart_data : [], //data for the charts
             myChart : {},
             budget_drpdown : [],
-            budget_selected : ''
+            budget_selected : 0
         }
     },
     created() {
         var self = this;
-
-        //set the planning item
-        //self.resetVariables();
-
-        //get all the budgets
-        self.getBudget();       
+      
+        self.getDropDownSelections();
     },
     methods: {
         getBudget() {
@@ -33,7 +29,7 @@ const app = Vue.createApp({
             //clear all variables
             self.resetVariables();
 
-            var data = {};
+            var data = {id : self.budget_selected};
             data = JSON.stringify(data);
 
             var result = $.post("/bookkeeping/budget/get/all", data);
@@ -43,11 +39,11 @@ const app = Vue.createApp({
 
                     data = JSON.parse(data);
 
-                     // Create USD currency formatter.
-                     var formatter = new Intl.NumberFormat('en-US', {
+                    //Create USD currency formatter.
+                    var formatter = new Intl.NumberFormat('en-US', {
                         style: 'currency',
                         currency: 'USD',
-                    });
+                    });                  
 
                     for (var i = 0; i < data.length; i++) {
 
@@ -55,13 +51,9 @@ const app = Vue.createApp({
                         if (data[i].budget_amount < 0) data[i].class = "text-danger";
                         else if (data[i].budget_amount > 0) data[i].class = "text-success";
 
-                        //convert money to familiar usd format
-                        data[i].budget_amount_formated = formatter.format(data[i].budget_amount);
-                        data[i].budget_amount_actual_formated = formatter.format(data[i].budget_amount_actual);
-
-                        //add to drop down
-                        if(data[i].parent_id == 0)
-                            self.budget_drpdown.push(data[i]);
+                        //convert money to familiar usd format                       
+                        data[i].budget_amount_formated =  formatter.format(data[i].budget_amount); 
+                        data[i].budget_amount_actual_formated = formatter.format(data[i].budget_amount_actual); 
 
                         //check if project is done
                         if(data[i].is_done == 1){
@@ -71,10 +63,8 @@ const app = Vue.createApp({
                         else data[i].checked = false;
 
                         //check for start point
-                        if (data[i].is_default == 1 && data[i].parent_id == 0) {
-                            self.budget_start_item = data[i];       
-                            
-                            self.budget_selected = data[i].budget_name;
+                        if (data[i].is_default == 1 || data[i].parent_id == 0) {
+                            self.budget_start_item = data[i];                                                       
                         }
                         else {
                               //set edit to invisible
@@ -86,12 +76,12 @@ const app = Vue.createApp({
 
                         //calculate predicted and actual expences
                         self.budget_total.predicted_expences = self.budget_total.predicted_expences + parseInt(data[i].budget_amount);
-                        self.budget_total.actual_expences = self.budget_total.actual_expences + parseInt(data[i].budget_amount_actual);                                                                          
+                        self.budget_total.actual_expences = self.budget_total.actual_expences + parseInt(data[i].budget_amount_actual);                                                                                       
                     }                                                                                           
 
                     //format total numbers to usd currency
                     self.budget_total.predicted_expences_formated = formatter.format(self.budget_total.predicted_expences);
-                    self.budget_total.actual_expences_formated = formatter.format(self.budget_total.actual_expences);
+                    self.budget_total.actual_expences_formated = formatter.format(self.budget_total.actual_expences);                   
                 }
                      
 
@@ -102,8 +92,47 @@ const app = Vue.createApp({
 
             result.always(function () { });
         },
-        budgetCreateItem: function (is_default) {
-            //remove one project item
+        getDropDownSelections() {
+            //gets all project items
+            var self = this;     
+
+            //reset dropdown
+            self.budget_drpdown = [];          
+  
+            var data = {};
+            data = JSON.stringify(data);
+  
+            var result = $.post("/bookkeeping/budget/get/getdropdownselections", data);
+  
+            result.done(function (data) {
+                if (data.length > 0) {                  
+  
+                    data = JSON.parse(data);                                         
+  
+                    let is_default = false;
+                    for (var i = 0; i < data.length; i++) {  
+  
+                       //add to drop down                                               
+                        self.budget_drpdown.push(data[i]);       
+                        
+                        if(data[i].is_default == 1 && is_default == false)
+                        {
+                            is_default = true;
+                            self.budget_selected = data[i].id;
+                        }
+                    }
+
+                    //if no default found choose the very first item as default
+                    if(is_default == false) self.budget_selected = data[0].id;
+                    
+                    //get all the rest of the records
+                    self.getBudget();
+                }                                 
+            });
+  
+            result.always(function () { });
+        },
+        budgetCreateItem (is_default) {          
             var self = this;            
 
             //hide new project form
@@ -113,11 +142,14 @@ const app = Vue.createApp({
             if(self.budget_item.budget_amount_actual == '')            
                 self.budget_item.budget_amount_actual = 0;        
 
-            var data = self.budget_item; 
- 
-            if(is_default == 1)
-                data.budget_amount_actual = parseInt(data.budget_amount);                 
-                        
+            //assign parent id
+            if(is_default == 1 || typeof self.budget_start_item.id === 'undefined')
+                self.budget_item.parent_id = 0;
+            else self.budget_item.parent_id = self.budget_start_item.id;
+
+
+            //create data to send to controller
+            var data = self.budget_item;                        
             
             data.is_default = is_default;
             data.csrf = $('#csrf').val();  
@@ -129,33 +161,34 @@ const app = Vue.createApp({
             result.done(function (data) {
                 data = JSON.parse(data);             
 
-                if (data == true) {                    
-                    //reset abd load budgets again                    
+                //if element has been added
+                if (data.id > 0) {                           
+
+                    //get all the budget items from database
                     self.getBudget();
 
                     //Display a success toast, with a title
-                    toastr.success("You have successfully added new project to the list");                
+                    toastr.success("You have successfully added new budget item");                
                 }
-                else if(data == false){
+                else if(data == 0){ //otherwise display error
                     // Display an error toast, with a title
-                    toastr.error("Ops! There appears to be an error and project coudln't be added");
+                    toastr.error("Ops! There appears to be an error and budget item coudln't be added");
                 }            
             });
 
             result.always(function () { });
         },  
-        budgetDeleteModalShow: function (id, budget_name){ 
+        budgetDeleteModalShow: function (budget_item){ 
             //show remove item modal
             var self = this;
-
-            //assing values to the delete item
-            self.budget_item.id = id;
-            self.budget_item.budget_name = budget_name;
+            
+            //assing item to remove
+            self.budget_item = budget_item;
 
             //show the modal
              $('#deleteModal').modal('show');
         },  
-        budgetDelete: function () { 
+        budgetDelete () { 
             //remove one project item
             var self = this;
 
@@ -174,17 +207,14 @@ const app = Vue.createApp({
                 data = JSON.parse(data);             
 
                 if (data == true) {
-                    if(self.budget_start_item.id == self.budget_item.id)
-                        self.budget_start_item = {};
-                    else {
-                        for (var i = 0; i < self.budgets.length; i++) {
-                            if(self.budgets[i].id == self.budget_item.id)
-                                self.budgets.splice(i, 1);                          
-                        }
-                    }                      
+                 
+                    //if main item reload all
+                    if(self.budget_item.parent_id == 0){
 
-                    //reload list of budgets                    
-                    self.getBudget();
+                        //reload dropdown list and budgets
+                        self.getDropDownSelections();
+                    }//otherwise reload just items
+                    else self.getBudget();
 
                     //Display a success toast, with a title
                     toastr.success("You have successfully removed selected item");                
@@ -197,7 +227,7 @@ const app = Vue.createApp({
 
             result.always(function () { });
         },            
-        budgetUpdateFormShow: function(index){ //displays edit forms
+        budgetUpdateFormShow(index){ //displays edit forms
             var self = this;
 
             //close any open edit forms
@@ -210,7 +240,7 @@ const app = Vue.createApp({
             //assing values
             self.budget_item = Object.assign({}, self.budgets[index]);
         },     
-        budgetUpdate: function (index) {
+        budgetUpdate (index) {
             //remove one project item
             var self = this;   
             
@@ -247,7 +277,7 @@ const app = Vue.createApp({
 
             result.always(function () { });
         },
-        budgetUpdateStatus: function (id, index) {
+        budgetUpdateStatus (id, index) {
             //remove one project item
             var self = this;   
             
@@ -286,7 +316,7 @@ const app = Vue.createApp({
 
             result.always(function () { });
         },                
-        chartJSLine : function(){               
+        chartJSLine (){               
             
             var self = this;                          
                 
@@ -390,16 +420,19 @@ const app = Vue.createApp({
         budgetSelectionChange () {
             var self = this;
 
-            if(self.budget_selected === ''){
+            if(self.budget_selected == 0){
                 //reset variables
                 self.resetVariables();            
             }
             else { //otherwise get information
-
-            }
-
-            
-        },
+                self.getBudget();
+            }            
+        },         
+        /**
+         * ------------------------------------------------------
+         * reset most of the current script variables
+         * ------------------------------------------------------
+         */
         resetVariables(){
             var self = this;
 
@@ -424,7 +457,7 @@ const app = Vue.createApp({
 
             self.budget_item = {
                 id : 0,
-                planning_name : '',
+                parent_id : 0,
                 budget_amount : 0,
                 budget_amount_actual : 0,
                 is_default : 0,
@@ -445,6 +478,7 @@ const app = Vue.createApp({
             };
         }
     }
-});
+};
 
-const vm = app.mount('#budget');
+const app = Vue.createApp(budget)
+                .mount('#budget');

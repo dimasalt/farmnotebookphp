@@ -67,6 +67,7 @@ $r->addRoute(['GET', 'POST'], '/bookkeeping/budget/update', 'FarmWork\Controller
 $r->addRoute(['GET', 'POST'], '/bookkeeping/budget/delete', 'FarmWork\Controllers\BudgetController:budgetDelete');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/budget/add', 'FarmWork\Controllers\BudgetController:budgetCreateItem');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/budget/get/all', 'FarmWork\Controllers\BudgetController:budgetGetAll');
+$r->addRoute(['GET', 'POST'], '/bookkeeping/budget/get/getdropdownselections', 'FarmWork\Controllers\BudgetController:getDropDownSelections');
 $r->addRoute(['GET', 'POST'], '/bookkeeping/budget', 'FarmWork\Controllers\BudgetController:index');
 
 

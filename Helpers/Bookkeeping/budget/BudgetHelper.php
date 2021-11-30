@@ -11,12 +11,28 @@ class BudgetHelper
     * get list of all budget items
     * ---------------------------------------------------------------
     */
-    public function budgetGetAll(): array
+    public function budgetGetAll($id): array
     {
-
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call budgetGetAll()');
+        $stmt = $pdo->prepare('call budgetGetAll(?)');
+        $stmt->execute([$id]);
+
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);      
+
+       return $result;
+    }
+
+    /**
+     * --------------------------------------------------------------
+     * Get Dropdown selections
+     * --------------------------------------------------------------
+     */
+    public function getDropDownSelections(): array
+    {  
+        $db = new DBConnection();
+        $pdo = $db->getPDO();
+        $stmt = $pdo->prepare('call budgetGetMainAll()');
         $stmt->execute();
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);      
@@ -28,13 +44,14 @@ class BudgetHelper
       /*
     * Adds one item to the project list
     */
-    public function budgetCreateItem($budget_name, $budget_amount, $budget_amount_actual,$is_done, $is_default, $budget_date) : bool
+    public function budgetCreateItem($parent_id, $budget_name, $budget_amount, $budget_amount_actual,$is_done, $is_default, $budget_date) : array
     {
 
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call budgetCreate(?,?,?,?,?,?)');
+        $stmt = $pdo->prepare('call budgetCreate(?,?,?,?,?,?,?)');
         $stmt->execute([
+            $parent_id,
             $budget_name, 
             $budget_amount, 
             $budget_amount_actual, 
@@ -43,9 +60,15 @@ class BudgetHelper
             $budget_date
         ]);
 
-        if($stmt->rowCount() > 0) return true;
-        else return false;
-    }
+       
+        //get last insert id
+        $result = $stmt->fetch(\PDO::FETCH_COLUMN);
+
+        return ['id' => $result];
+        
+        // if($stmt->rowCount() > 0) return true;
+        // else return false;
+    } 
 
     /*
     * removes one item from the project list

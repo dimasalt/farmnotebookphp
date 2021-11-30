@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-10 border-bottom">
                    <h2 class="text-dark">Budget Planner
-                    <a href="#" v-if='Object.keys(budget_start_item).length > 0' v-on:click="budgetDeleteModalShow(budget_start_item.id, budget_start_item.budget_name)">
+                    <a href="#" v-if='Object.keys(budget_start_item).length > 0' v-on:click="budgetDeleteModalShow(budget_start_item)">
                         <i class="far fa-trash-alt btn-sm text-danger align-middle ms-1"
                             data-toggle="tooltip" data-placement="top" title="remove starting finance point"></i>
                     </a>      
@@ -30,13 +30,15 @@
                     </a>             
                 </h2>                                     
             </div>
+
             <!-- budget list drop down -->
             <div class="col-2 border-bottom">
                 <select class="form-select" aria-label="Budget selection" v-model="budget_selected" v-on:change="budgetSelectionChange">
-                    <option value=""></option>                
-                    <option v-for="item in budget_drpdown" v-bind:value="item.budget_name">{{ '{{ item.budget_name }}' }}</option>                       
+                    <option value="0"></option>                
+                    <option v-for="item in budget_drpdown" v-bind:value="item.id">{{ '{{ item.budget_name }}' }}</option>                       
                 </select>                          
-            </div>          
+            </div>       
+            <!-- //end of budget dropdown -->   
         </div>
         <div class="row" >
             <div class="col-12 mt-2" v-if='Object.keys(budget_start_item).length > 0'>
@@ -130,7 +132,7 @@
                             </td>
                             <td>
                                 {{ '{{item.budget_name}}' }}
-                                <a href="#" v-on:click.stop="budgetDeleteModalShow(item.id, item.budget_name)">
+                                <a href="#" v-on:click.stop="budgetDeleteModalShow(item)">
                                     <i class="far fa-trash-alt btn-sm text-dark align-middle me-1 ps-2 pe-0"
                                         data-toggle="tooltip" data-placement="top" title="remove expence point"></i>
                                 </a>
@@ -226,9 +228,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning" data-dismiss="modal">
-                        <i class="fas fa-times-circle text-small mr-1"></i>Cancel</button>
+                        <i class="fas fa-times-circle text-small me-1"></i>Cancel</button>
                     <button type="button" class="btn btn-danger" v-on:click="budgetDelete()">
-                        <i class="far fa-trash-alt text-small mr-1"></i>Remove</button>
+                        <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
                 </div>
             </div>
         </div>
