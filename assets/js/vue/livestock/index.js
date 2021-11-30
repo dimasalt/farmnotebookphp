@@ -1,4 +1,4 @@
-const app = Vue.createApp({
+const livestock = {
     data() {
         return {     
             start_date : new Date().getFullYear()  + '-01-01', //format yyyy + '-' + mm + '-' + dd;
@@ -14,7 +14,10 @@ const app = Vue.createApp({
         }
     },
     created() {
-        var self = this;        
+        var self = this;       
+        
+        //clear variables
+        self.resetVariables();
 
         //get livestock inventory
         self.getLiveStockInventory();
@@ -23,7 +26,7 @@ const app = Vue.createApp({
         /**
          * gets all livestock based on search and default values
          */
-        getLiveStockInventory: function () {
+        getLiveStockInventory () {
             var self = this;
 
             //prepare data
@@ -64,7 +67,7 @@ const app = Vue.createApp({
          * get livestock types present on the farm
          * ------------------------------------------------------
          */
-        getLiveStockTypes : function () {
+        getLiveStockTypes () {
             var self = this;
 
             var data = {};
@@ -89,7 +92,7 @@ const app = Vue.createApp({
             liveStockInventoryTypes.always(function () {
             });
         },
-        goToPage : function(page_num){
+        goToPage (page_num){
             var self = this;
 
             self.pagination.current_page = page_num;
@@ -101,10 +104,15 @@ const app = Vue.createApp({
          * listens to changes in livestock type selection checkboxes
          * ------------------------------------------------------------------------------
          */
-        updateLiveStockInventory: function (id) {
+        updateLiveStockInventory (id) {
             //alert(id);
+        },
+        resetVariables(){
+
         }
     }
-});
+};
 
-const vm = app.mount('#livestock');
+const app = Vue.createApp(livestock)
+                .mount('#livestock');
+
