@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `budget` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps financial planning and budgeting records';
 
--- Dumping data for table farmwork.budget: ~11 rows (approximately)
+-- Dumping data for table farmwork.budget: ~10 rows (approximately)
 /*!40000 ALTER TABLE `budget` DISABLE KEYS */;
 INSERT INTO `budget` (`id`, `parent_id`, `budget_name`, `budget_amount`, `budget_amount_actual`, `is_done`, `is_default`, `budget_date`) VALUES
 	(10, 0, 'Gross budget for year 2022', 0.00, 0.00, 0, 1, '2022-01-01 00:00:00'),
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `feed_requirement` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps information on feed requirements for animals in different stages';
 
--- Dumping data for table farmwork.feed_requirement: ~38 rows (approximately)
+-- Dumping data for table farmwork.feed_requirement: ~35 rows (approximately)
 /*!40000 ALTER TABLE `feed_requirement` DISABLE KEYS */;
 INSERT INTO `feed_requirement` (`id`, `weight`, `animal_type`, `adg`, `dm_per_day`, `cp`, `tdn`) VALUES
 	(1, 200, 'steer/heifer', 3.0, 5.4, 22.0, 80),
@@ -221,11 +221,11 @@ INSERT INTO `feed_requirement` (`id`, `weight`, `animal_type`, `adg`, `dm_per_da
 CREATE TABLE IF NOT EXISTS `livestock` (
   `id` char(36) NOT NULL DEFAULT uuid(),
   `tag` varchar(50) DEFAULT NULL,
-  `barn_tag` varchar(10) DEFAULT NULL,
   `livestock_type` varchar(50) DEFAULT '',
   `sex` varchar(10) DEFAULT NULL,
   `weight` int(11) DEFAULT NULL,
-  `price` decimal(19,2) DEFAULT NULL,
+  `price` decimal(19,2) NOT NULL DEFAULT 0.00,
+  `sell_price` decimal(19,2) NOT NULL DEFAULT 0.00,
   `is_active` tinyint(4) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
@@ -233,9 +233,9 @@ CREATE TABLE IF NOT EXISTS `livestock` (
 
 -- Dumping data for table farmwork.livestock: ~2 rows (approximately)
 /*!40000 ALTER TABLE `livestock` DISABLE KEYS */;
-INSERT INTO `livestock` (`id`, `tag`, `barn_tag`, `livestock_type`, `sex`, `weight`, `price`, `is_active`, `created_at`) VALUES
-	('3b8a3e14-acef-11eb-81f8-d8cb8ac0caec', '120473774', '858', '1', 'steer', 175, 490.00, 1, '2021-04-12 11:41:25'),
-	('ccc4a7d5-ad0d-11eb-a999-d8cb8ac0caec', '120333154', '390', '1', 'steer', 90, 279.00, 1, '2021-04-09 11:41:25');
+INSERT INTO `livestock` (`id`, `tag`, `livestock_type`, `sex`, `weight`, `price`, `sell_price`, `is_active`, `created_at`) VALUES
+	('3b8a3e14-acef-11eb-81f8-d8cb8ac0caec', '120473774', '1', 'steer', 175, 490.00, 0.00, 1, '2021-04-12 11:41:25'),
+	('ccc4a7d5-ad0d-11eb-a999-d8cb8ac0caec', '120333154', '1', 'steer', 90, 279.00, 0.00, 1, '2021-04-09 11:41:25');
 /*!40000 ALTER TABLE `livestock` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.livestock_category
@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `livestock_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COMMENT='contains animal types present on the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COMMENT='contains animal types present on the farm';
 
 -- Dumping data for table farmwork.livestock_category: ~21 rows (approximately)
 /*!40000 ALTER TABLE `livestock_category` DISABLE KEYS */;
@@ -318,7 +318,7 @@ CREATE TABLE IF NOT EXISTS `medication` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COMMENT='list of medication';
 
--- Dumping data for table farmwork.medication: ~5 rows (approximately)
+-- Dumping data for table farmwork.medication: ~6 rows (approximately)
 /*!40000 ALTER TABLE `medication` DISABLE KEYS */;
 INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `on_hand_doses`, `created_at`) VALUES
 	(1, 'Tasvax 8', '<p>For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).</p>', '<p>Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.</p>', '/uploads/medication/tasvax-8.jpg', 0.00, 0, '2019-05-09 23:02:13'),
@@ -441,7 +441,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~2 rows (approximately)
+-- Dumping data for table farmwork.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34'),
@@ -525,7 +525,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 205200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
@@ -1106,16 +1106,16 @@ BEGIN
 	 
 	SELECT 
 		livestock.id, 
-		livestock.barn_tag, 
 		livestock.tag, 
-		livestock_type.type_name,
+		livestock_category.category_name,
 		livestock.sex,
 		livestock.weight,
 		livestock.price,
+		livestock.sell_price,
 		total_pages
 	FROM 
 		livestock 
-	LEFT JOIN livestock_type ON livestock_type.id = livestock.livestock_type
+	LEFT JOIN livestock_category ON livestock_category.id = livestock.livestock_type
 	WHERE livestock.is_active >= is_active
 	LIMIT offset_rows, records;
 

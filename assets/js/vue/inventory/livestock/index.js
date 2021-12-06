@@ -36,7 +36,7 @@ const livestock = {
             };
             data = JSON.stringify(data); // $.param({ 'id': ticket_id });
 
-            var livestockInventory = $.post( "/inventory/livestock/getall", data);
+            var livestockInventory = $.post( "/inventory/livestock/get/all", data);
 
             livestockInventory.done(function( data ) {
 

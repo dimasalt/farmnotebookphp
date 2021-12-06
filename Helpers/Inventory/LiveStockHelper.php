@@ -40,10 +40,7 @@ class LiveStockHelper
         //get db
         $db = new Libraries\DBConnection();
         $pdo = $db->getPDO();
-
-        //check if user already exists
-//        $sql = 'CALL getFlockTypes()';
-//        $stmt =   $stmt  = $pdo->prepare($sql);
+   
         $stmt =   $stmt  = $pdo->prepare('call sp_getFlockTypes()');
         $stmt->execute();
 
