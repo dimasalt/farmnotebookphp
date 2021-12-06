@@ -238,6 +238,42 @@ INSERT INTO `livestock` (`id`, `tag`, `barn_tag`, `livestock_type`, `sex`, `weig
 	('ccc4a7d5-ad0d-11eb-a999-d8cb8ac0caec', '120333154', '390', '1', 'steer', 90, 279.00, 1, '2021-04-09 11:41:25');
 /*!40000 ALTER TABLE `livestock` ENABLE KEYS */;
 
+-- Dumping structure for table farmwork.livestock_category
+CREATE TABLE IF NOT EXISTS `livestock_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) NOT NULL DEFAULT 0,
+  `category_name` varchar(150) NOT NULL,
+  `category_description` varchar(250) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COMMENT='contains animal types present on the farm';
+
+-- Dumping data for table farmwork.livestock_category: ~21 rows (approximately)
+/*!40000 ALTER TABLE `livestock_category` DISABLE KEYS */;
+INSERT INTO `livestock_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
+	(7, 0, 'Cattle', NULL, '2021-11-30 14:34:43'),
+	(8, 7, 'steer', NULL, '2021-11-30 14:35:10'),
+	(9, 7, 'heifer', NULL, '2021-11-30 14:35:10'),
+	(10, 7, 'bull', NULL, '2021-11-30 14:35:53'),
+	(11, 7, 'cow', NULL, '2021-11-30 14:36:35'),
+	(12, 0, 'Chicken', NULL, '2021-11-30 14:37:42'),
+	(13, 12, 'rooster', NULL, '2021-11-30 14:38:00'),
+	(14, 12, 'chick', NULL, '2021-11-30 14:38:10'),
+	(15, 0, 'Sheep', NULL, '2021-11-30 14:38:36'),
+	(16, 15, 'ram', NULL, '2021-11-30 14:38:49'),
+	(17, 15, 'ewe', NULL, '2021-11-30 14:38:59'),
+	(18, 15, 'lamb', NULL, '2021-11-30 14:39:09'),
+	(19, 0, 'Goat', NULL, '2021-11-30 14:39:28'),
+	(20, 19, 'buck', NULL, '2021-11-30 14:39:38'),
+	(21, 19, 'doe', NULL, '2021-11-30 14:39:52'),
+	(22, 19, 'buckling', NULL, '2021-11-30 14:40:03'),
+	(23, 0, 'Dog', NULL, '2021-11-30 14:40:09'),
+	(24, 23, 'male', NULL, '2021-11-30 14:40:30'),
+	(25, 23, 'female', NULL, '2021-11-30 14:40:39'),
+	(26, 23, 'male puppy', NULL, '2021-11-30 14:40:54'),
+	(27, 23, 'female puppy', NULL, '2021-11-30 14:41:04');
+/*!40000 ALTER TABLE `livestock_category` ENABLE KEYS */;
+
 -- Dumping structure for table farmwork.livestock_group
 CREATE TABLE IF NOT EXISTS `livestock_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -268,29 +304,6 @@ CREATE TABLE IF NOT EXISTS `livestock_to_group` (
 -- Dumping data for table farmwork.livestock_to_group: ~0 rows (approximately)
 /*!40000 ALTER TABLE `livestock_to_group` DISABLE KEYS */;
 /*!40000 ALTER TABLE `livestock_to_group` ENABLE KEYS */;
-
--- Dumping structure for table farmwork.livestock_type
-CREATE TABLE IF NOT EXISTS `livestock_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_name` varchar(50) NOT NULL,
-  `type_desc` varchar(250) DEFAULT NULL,
-  `type_male` varchar(50) NOT NULL,
-  `type_female` varchar(50) NOT NULL,
-  `type_child` varchar(50) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='contains animal types present on the farm';
-
--- Dumping data for table farmwork.livestock_type: ~6 rows (approximately)
-/*!40000 ALTER TABLE `livestock_type` DISABLE KEYS */;
-INSERT INTO `livestock_type` (`id`, `type_name`, `type_desc`, `type_male`, `type_female`, `type_child`, `created_at`) VALUES
-	(1, 'beef', NULL, 'steer', 'heifer', 'calf', '2019-12-26 10:44:09'),
-	(2, 'cattle', NULL, 'bull', 'cow', 'calf', '2019-12-26 10:44:54'),
-	(3, 'chicken', NULL, 'rooster', 'chick', 'chick', '2019-12-26 10:45:49'),
-	(4, 'sheep', NULL, 'ram', 'ewe', 'lamb', '2019-12-26 10:46:18'),
-	(5, 'goat', NULL, 'buck', 'doe', 'buckling', '2019-12-26 10:46:51'),
-	(6, 'dog', NULL, 'male', 'female', 'puppy', '2021-11-30 11:18:36');
-/*!40000 ALTER TABLE `livestock_type` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.medication
 CREATE TABLE IF NOT EXISTS `medication` (
@@ -1018,6 +1031,57 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure farmwork.livestockCatDelete
+DELIMITER //
+CREATE PROCEDURE `livestockCatDelete`(
+	IN `id` INT
+)
+    COMMENT 'removes category or sub category'
+BEGIN
+		
+		-- remove category by id (if main category)
+		DELETE FROM livestock_category 
+		WHERE livestock_category.id = id;
+		
+		-- remove all sub categories
+		DELETE FROM livestock_category 
+		WHERE livestock_category.parent_id = id;
+		
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.livestockCatSave
+DELIMITER //
+CREATE PROCEDURE `livestockCatSave`(
+	IN `id` INT,
+	IN `parent_id` INT,
+	IN `category_name` VARCHAR(150),
+	IN `category_description` VARCHAR(250)
+)
+    COMMENT 'procedure to update, insert or save transaction category or sub category record'
+BEGIN
+
+	-- if new category
+	IF id = 0 THEN
+			
+			INSERT INTO livestock_category(parent_id, category_name, category_description)
+			VALUES (parent_id, category_name, category_description);				
+		
+	-- if update category	
+	ELSEIF id != 0 THEN
+		
+		UPDATE livestock_category
+		SET 
+			livestock_category.parent_id = parent_id, 
+			livestock_category.category_name = category_name, 
+			livestock_category.category_description = category_description
+		WHERE livestock_category.id = id;			
+		
+	END IF;
+
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure farmwork.livestockGetAll
 DELIMITER //
 CREATE PROCEDURE `livestockGetAll`(
@@ -1058,14 +1122,42 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure farmwork.livestockGetSubTypeAll
+DELIMITER //
+CREATE PROCEDURE `livestockGetSubTypeAll`(
+	IN `id` INT
+)
+    COMMENT 'gets sub types based on parent_id parameter'
+BEGIN
+
+	SELECT 
+		livestock_category.id, 
+		livestock_category.parent_id,
+		livestock_category.category_name,
+		livestock_category.category_description
+	FROM 
+		livestock_category 
+	WHERE livestock_category.parent_id = id
+	ORDER BY livestock_category.category_name ASC;
+	
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure farmwork.livestockGetTypeAll
 DELIMITER //
 CREATE PROCEDURE `livestockGetTypeAll`()
-    COMMENT 'get flock types'
+    COMMENT 'get list of main livestock types'
 BEGIN
 
-	SELECT livestock_type.type_id, livestock_type.type_male, livestock_type.type_female, livestock_type.type_name
-	FROM livestock_type;
+	SELECT 
+		livestock_category.id, 
+		livestock_category.parent_id,
+		livestock_category.category_name,
+		livestock_category.category_description
+	FROM 
+		livestock_category 
+	WHERE livestock_category.parent_id = 0
+	ORDER BY livestock_category.category_name ASC;
 
 END//
 DELIMITER ;
@@ -1553,123 +1645,6 @@ DELIMITER ;
 -- Dumping structure for procedure farmwork.transactionsGetAll
 DELIMITER //
 CREATE PROCEDURE `transactionsGetAll`(
-	IN `search_term` VARCHAR(50),
-	IN `category_selected` VARCHAR(150),
-	IN `sub_category_selected` VARCHAR(150),
-	IN `current_page` INT,
-	IN `take_records` INT,
-	IN `start_date` VARCHAR(50),
-	IN `end_date` VARCHAR(50)
-)
-    COMMENT 'selects all transaction records acording to the search term, categories selected and date span '
-BEGIN
-
-	-- set pager variables
-	DECLARE offset_rows INT DEFAULT (current_page -1) * take_records;	
-	
-	DECLARE total_records INT DEFAULT 0;
-	DECLARE total_pages INT DEFAULT 1;
-	
-
-	-- prepare search term
--- 	IF LENGTH(search_term) < 2 THEN
--- 		SET search_term = "%";
--- 	ELSE
--- 		SET search_term = CONCAT('%', search_term, '%') ;
--- 	END IF;
-	
-	SET search_term = CONCAT('%', search_term, '%') ;
-	
-	-- prepare sub category item search
-	-- IF LENGTH(sub_category_selected) = 0 THEN
--- 		SET sub_category_selected = "%";	
--- 	ELSE
--- 		SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;				
--- 	END IF;
-	
-	SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;			
-	
-	
-	-- drop temporary table if exists (sometimes mysql will wait before it drops it automatically
-	-- so we need to force the table dropping
-	DROP TEMPORARY TABLE IF EXISTS transaction_tmp;
-		
-	
-	-- prepare category item search
-	IF LENGTH(category_selected) = 0 THEN
-		SET category_selected = "%";
-					
-		CREATE TEMPORARY TABLE transaction_tmp
-		(
-			SELECT 
-				transaction.id,
-				transaction.trans_desc,
-				transaction.vendor_name,
-				transaction.vendor_address,	
-				transaction.trans_image,
-				transaction.trans_currency,
-				DATE(transaction.trans_date) AS trans_date
-			FROM 
-				transaction
-			WHERE 		
-				(transaction.vendor_name LIKE search_term
-				OR transaction.vendor_address LIKE search_term
-				OR transaction.trans_desc LIKE search_term)
-				AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 													
-			ORDER BY transaction.trans_date DESC
-		);
-	ELSE
-		SET category_selected = CONCAT('%', category_selected, '%') ;
-		
-		CREATE TEMPORARY TABLE transaction_tmp
-		(
-			SELECT 
-				transaction.id,
-				transaction.trans_desc,
-				transaction.vendor_name,
-				transaction.vendor_address,	
-				transaction.trans_image,
-				transaction.trans_currency,
-				DATE(transaction.trans_date) AS trans_date
-			FROM 
-				transaction
-			WHERE 		
-				(transaction.vendor_name LIKE search_term
-				OR transaction.vendor_address LIKE search_term
-				OR transaction.trans_desc LIKE search_term)
-				AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 		
-				AND transaction.id IN (SELECT transaction_item.transaction_id 
-												FROM transaction_item 
-												WHERE transaction_item.item_category LIKE category_selected AND transaction_item.item_subcategory LIKE sub_category_selected) 											
-			ORDER BY transaction.trans_date DESC
-		);
-	END IF;	
-	
-	
-	
-	-- COUNT total NUMBER of records FOR this selection
-	SET total_records = (SELECT COUNT(transaction_tmp.id) FROM transaction_tmp);
-	
-	-- find how many pages there is
-	IF total_records > take_records THEN
-		SET total_pages = (total_records / take_records) + 1;
-	END IF;
-	
-	-- select totals
-	--	SET exprences_total = (SELECT SUM(transaction_tmp.
-	
-	-- select all the records
-	SELECT *, 
-		total_records AS 'total_records',
-		total_pages AS 'total_pages' 
-	FROM transaction_tmp; 
-	
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.transactionsGetAll-bak
-DELIMITER //
-CREATE PROCEDURE `transactionsGetAll-bak`(
 	IN `search_term` VARCHAR(50),
 	IN `category_selected` VARCHAR(150),
 	IN `sub_category_selected` VARCHAR(150),

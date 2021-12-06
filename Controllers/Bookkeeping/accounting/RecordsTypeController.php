@@ -50,7 +50,10 @@ class RecordsTypeController extends BaseController
      * save/add/update transaction category or sub category
      */
     public function transactionCatSave() 
-    {        
+    {      
+        //security     
+        session_regenerate_id();
+
         // Takes raw data from the request
         $json = file_get_contents('php://input');
 
@@ -76,8 +79,12 @@ class RecordsTypeController extends BaseController
     /**
      * add new transaction type
      */
-    public function transactionCatsDelete(){
+    public function transactionCatsDelete()
+    {
         
+        //security     
+        session_regenerate_id();
+
         // Takes raw data from the request
         $json = file_get_contents('php://input');
 

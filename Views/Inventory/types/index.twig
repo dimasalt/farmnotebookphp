@@ -14,7 +14,7 @@
 
 <!-- page content -->
 <div class="container-fluid">
-    <div class="pt-4" id="livestocktypes" v-cloak>      
+    <div class="pt-4" id="inventoryTypes" v-cloak>      
          <!-- csrf protection -->
         <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
 
@@ -32,11 +32,11 @@
         </div>  #}
 
          <div class="row">
-            <div class="col-3 mt-2">
+            <div class="col-3 mt-4">
                 <h5>Categories  <i class="far fa-plus-square btn-sm text-success me-0 pe-0" v-on:click="newCategoryClick()"></i></h5>
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" 
-                        v-for="(category_item, index) in livestock_types" v-bind:key="category_item.id" v-bind:class="{ 'list-group-item-dark': category_item.is_active }" >
+                        v-for="(category_item, index) in inventory_cats" v-bind:key="category_item.id" v-bind:class="{ 'list-group-item-dark': category_item.is_active }" >
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1" v-on:click="selectCategory(index)">{{ '{{ category_item.category_name }}' }}</h5> 
                                 <span>                                   
@@ -48,25 +48,26 @@
                     </a>                  
                 </div>
             </div>
-            {# <div class="col-3 mt-2" v-show="transaction_cats.length > 0">
+            <div class="col-3 mt-4" v-show="inventory_cats.length > 0">
                 <h5>Sub Categories <i class="far fa-plus-square btn-sm text-success me-0 pe-0" v-on:click="newSubCategoryClick()"></i></h5>
-                <div class="list-group" v-show="transaction_subcats.length > 0">
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="category_item in transaction_subcats" v-bind:key="category_item.id" >
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">{{ '{{ category_item.category_name }}' }}</h6> 
-                            <span>                                    
-                                <i class="fa fa-edit btn-sm text-warning pe-0 me-0" v-on:click="editSubCategoryClick(category_item)"></i>          
-                                
-                                <i class="far fa-trash-alt btn-sm text-danger ps-1" v-on:click="deleteCategoryModal(category_item)"></i>         
-                            </span>                                                                 
-                        </div>                          
+                <div class="list-group" v-show="inventory_subcats.length > 0">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="category_item in inventory_subcats" v-bind:key="category_item.id" >
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ '{{ category_item.category_name }}' }}</h6> 
+                                <span>                                    
+                                    <i class="fa fa-edit btn-sm text-warning pe-0 me-0" v-on:click="editSubCategoryClick(category_item)"></i>          
+                                    
+                                    <i class="far fa-trash-alt btn-sm text-danger ps-1" v-on:click="deleteCategoryModal(category_item)"></i>         
+                                </span>                                                                 
+                            </div>
+                            {# <p class="mb-1"><small>{{ '{{ subcategory_item.category_description }}' }}</small></p>                         #}
                     </a>                  
                 </div>
-            </div> #}
+            </div>
 
             
             <!-- new or edit form -->
-            {# <div class="col-3 mt-2" v-show="cat_work_form">
+            <div class="col-3 mt-2" v-show="cat_work_form">
                 <div class="card col-12 bg-dark text-white rounded shadow-sm">
                     <h5 class="mt-3 mb-1 ms-3">New/Edit Category</h5>
                     <hr class="bg-secondary" />
@@ -93,12 +94,12 @@
                         </div>
                     </form>
                 </div>
-            </div>     #}
+            </div>    
         </div>   
         
        
         <!-- Remove category Modal -->
-        {# <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-danger">
@@ -123,7 +124,7 @@
                     </div>
                 </div>
             </div>
-        </div> #}
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -132,7 +133,7 @@
 
     <script src="/assets/components/toastr/toastr.min.js"></script>
 
-    <script type="module" src="/assets/js/vue/livestock/types.js"></script>
+    <script type="module" src="/assets/js/vue/inventory/types/index.js"></script>
 
      <script type="application/javascript">
         $(function () {
