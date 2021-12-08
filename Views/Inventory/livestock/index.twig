@@ -21,11 +21,11 @@
         <div class="row mb-2">
             <div class="col-8 border-bottom">
                 <h1 class="text-dark mb-4">
-                    Livestock
-                     <a href="#" v-on:click="addNewShow()">
+                    Inventory
+                     {# <a href="#" v-on:click="addNewShow()">
                         <i class="far fa-plus-square btn-sm text-success ml-1 align-middle"
                            data-toggle="tooltip" data-placement="top" title="Add project"></i>
-                    </a>
+                    </a> #}
                 </h1>        
             </div>   
             
@@ -47,15 +47,86 @@
 
     <!-- list of livestock -->
     <div class="row">
+       
+            <!-- livestock stats -->
+        <div class="col-3">
+            <ul class="list-group shadow-sm">
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light"><strong>Total Active</strong> </li>                       
+            </ul>
+        </div>       
+        <div class="col-3">
+            <ul class="list-group shadow-sm">
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light"><strong>Total Inactive</strong> </li>                                          
+            </ul>
+        </div>      
+        <div class="col-3">
+            <ul class="list-group shadow-sm">
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light"><strong>Total Spent</strong> </li>
+                
+            </ul>
+        </div>  
+        <div class="col-3">
+            <ul class="list-group shadow-sm">             
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light"><strong>Total Sales</strong> </li>    
+            </ul>
+        </div>                          
+    </div>
+
+    <!-- livestock search and other selections to narrow down search -->
+    <div class="row g-0 mt-5">
+        <div class="col-4">
+            <h4>
+                Livestock
+                    <a href="#" v-on:click="addNewShow()">
+                    <i class="far fa-plus-square btn-sm text-success ml-1 align-middle"
+                        data-toggle="tooltip" data-placement="top" title="Add project"></i>
+                </a>
+            </h4>        
+        </div>
+        <div class="col-2">            
+            <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" aria-label="Select group" v-model="category_selected" v-on:change="categoryChanged()">
+                <option value=""></option>
+                <option v-for="item in livestock_types" v-bind:value="item.category_name">
+                    {{ '{{ item.category_name }}' }}
+                </option>            
+            </select>
+        </div>
+        <div class="col-1">
+            <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" aria-label="Select sub group" v-model="sub_category_selected" v-bind:disabled="sub_category_disabled">
+                <option v-for="item in livestock_subtypes" v-bind:value="item.category_name">
+                    {{ '{{ item.category_name }}' }}
+                </option>            
+            </select>
+        </div>
+        <div class="col-2 pe-2">
+            <div class="has-search rounded-0 w-100">
+                <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" class="form-control w-100 form-control-sm shadow-sm rounded-0"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
+            </div>
+        </div>       
+    </div>
+
+    <!-- if no transactions found display alert about it -->
+    {# <div class="row mt-2" v-if="transactions.length == 0">
+        <div class="col-9">
+            <div class="alert alert-warning shadow-sm" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                No Transactions found.
+            </div>
+        </div>
+    </div> #}
+
+    <!-- livestock list -->
+    <div class="row mt-1">
         <div class="col-9"> 
 
             <table class="table bg-white table-borderless shadow-sm table-hover">                
-                <thead class="thead-dark">
+                <thead class="bg-secondary-light">
                     <tr>                                         
-                        <th scope="col"  class="bg-dark text-white w-70">Tag #</th>                                  
-                        <th scope="col"  class="bg-dark text-white w-10">C$</th>     
-                        <th scope="col"  class="bg-dark text-white w-10">Sell C$</th>     
-                        <th scope="col" class="bg-dark text-white w-10">#</th>                                            
+                        <th scope="col"  class="w-70">Tag #</th>                                  
+                        <th scope="col"  class="w-10">C$</th>     
+                        <th scope="col"  class="w-10">Sell C$</th>     
+                        <th scope="col" class="w-10">#</th>                                            
                     </tr>
                 </thead>
                 <tbody v-for="(item, index) in livestock">
@@ -86,6 +157,114 @@
                 </tbody>
             </table>
         </div>
+
+
+
+        <!-- right side -->
+        <!-- transaction record form/ new or edit -->
+        <div class="col-3 mt-0" >
+            <div class="card col-12 bg-dark text-white rounded shadow-sm">
+                <h5 class="mt-3 ms-3">    
+                    <span v-if="action.new==true">New</span>
+                    <span v-if="action.edit==true">Edit</span>            
+                    Livestock
+                </h5>
+                <hr class="bg-secondary my-2" />
+                <form class="mt-0 mb-3 mx-3">                  
+                     <div class="row">                     
+                        <div class="col">
+                            <label for="vendor_address">Tag</label>
+                            <input type="text" class="form-control form-control-sm bg-secondary text-white border-dark" id="vendor_address" aria-describedby="vendor_address" v-model="livestock_item.tag">
+                            <small id="cat_desc_warrning" class="form-text text-muted float-end">250 characters max</small>
+                        </div>    
+                    </div>                 
+                    <div class="row">         
+                        <div class="col-4">
+                            <label for="txt_weight">Weight (lb)</label>
+                            <input type="text" class="form-control form-control-sm bg-secondary text-white border-dark" id="trans_desc" aria-describedby="txt_weight" v-model="livestock_item.weight">                            
+                        </div>
+                        <div class="col-4">
+                            <label for="txt_price">Price</label>
+                            <input type="text" class="form-control form-control-sm bg-secondary text-white border-dark" id="txt_price" aria-describedby="txt_price" v-model="livestock_item.price">                            
+                        </div>        
+                         <div class="col-4">
+                            <label for="txt_sell_price">Sell Price</label>
+                            <input type="text" class="form-control form-control-sm bg-secondary text-white border-dark" id="txt_sell_price" aria-describedby="txt_sell_price" v-model="livestock_item.weight">                            
+                        </div>    
+                    </div> 
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <label for="category_select">Category</label>
+                            <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" id="category_select" aria-label="Select sub group" v-model="livestock_item.livestock_type" 
+                                v-on:change="livestockItemCategoryChanged()">
+                                <option v-for="item in livestock_item.livestock_types" v-bind:value="item.category_name">
+                                    {{ '{{ item.category_name }}' }}
+                                </option>            
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label for="subcategory_select">Sub Category</label>
+                            <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" id="subcategory_select" aria-label="Select sub group" v-model="livestock_item.sex" 
+                                v-bind:disabled="sub_category_disabled">
+                                <option v-for="item in livestock_item.livestock_subtypes" v-bind:value="item.category_name">
+                                    {{ '{{ item.category_name }}' }}
+                                </option>            
+                            </select>
+                        </div>
+                    </div> 
+                    <div class="row my-3 mb-0">
+                        <hr class="bg-secondary" />                        
+                        <div class="col d-flex justify-content-end">                                   
+                            <a href="#" class="btn btn-warning rounded-0" v-on:click="resetVariables()">
+                                <i class="fas fa-times-circle text-small me-1"></i>
+                                Cancel           
+                            </a>    
+                            <a href="#" class="btn btn-success rounded-0" v-on:click="transactionEdit" v-if="action.edit == true" >
+                                <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                                Update              
+                            </a>                                                     
+                            <a href="#" class="btn btn-success rounded-0" v-on:click="transactionAdd" v-if="action.new == true" >
+                                <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                                Save           
+                            </a>               
+                        </div>
+                    </div>               
+                    {# <div class="row">         
+                        <div class="col">
+                            <label for="trans_date">Transaction Date</label>        
+                            <input class="form-control bg-secondary text-white border-dark" type="date" placeholder="Transaction Date" placeholder="Address" aria-describedby="trans_date" v-model="transaction_record.trans_date" required>
+                        </div>           
+                    </div>
+                    <div class="row align-content-start">                
+                        <div class="col-12 ps-3 mt-4 form-check form-check-inline">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"  v-model="transaction_record.trans_currency" value="C$">
+                                <label class="form-check-label" for="inlineRadio1">Canadian $</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" v-model="transaction_record.trans_currency" value="$">
+                                <label class="form-check-label" for="inlineRadio2">USD $</label>
+                            </div>                                                        
+                        </div>                      
+                    </div>             
+                     <hr class="bg-secondary" />
+                    <div class="col mt-3 d-flex justify-content-end">                                   
+                        <a href="#" class="btn btn-warning rounded-0" v-on:click="resetVariables()">
+                            <i class="fas fa-times-circle text-small me-1"></i>
+                            Cancel           
+                        </a>    
+                        <a href="#" class="btn btn-success rounded-0" v-on:click="transactionEdit" v-if="action.edit==true">
+                            <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                            Update              
+                        </a>                                                     
+                        <a href="#" class="btn btn-success rounded-0" v-on:click="transactionAdd" v-if="action.new == true">
+                            <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                            Save           
+                        </a>               
+                    </div> #}
+                </form>
+            </div> 
+        </div>  
     </div>
 </div>
 

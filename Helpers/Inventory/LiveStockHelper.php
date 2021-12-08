@@ -22,11 +22,7 @@ class LiveStockHelper
         $stmt  = $pdo->prepare('call livestockGetAll(?,?,?)');
         $stmt->execute([$current_page, $records, $is_active]);
 
-        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-        //if user found return true else return false
-        //        if($result == false) return false;
-        //        else return true;
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);      
 
         return $result;       
     }
@@ -36,17 +32,39 @@ class LiveStockHelper
      * get livestock types presented on the farm
      * -------------------------------------------------------
      */
-    public function getLiveStockTypes(){
+    public function getLivestockTypes() {
+
         //get db
         $db = new Libraries\DBConnection();
         $pdo = $db->getPDO();
-   
-        $stmt =   $stmt  = $pdo->prepare('call sp_getFlockTypes()');
+
+        //check if user already exists
+        $stmt  = $pdo->prepare('call livestockGetTypeAll()');
         $stmt->execute();
 
-        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+       $result = $stmt->fetchAll(\PDO::FETCH_ASSOC); 
+        
+       //get sub items
+       for($i = 0; $i < count($result); $i++){           
+           $result[$i]['sub_items'] = $this->getlivestockSubTypes($result[$i]['id']);
+       }
 
         return $result;
-    }
+   }
+
+   public function getlivestockSubTypes($parent_id) {
+
+       //get db
+       $db = new Libraries\DBConnection();
+       $pdo = $db->getPDO();
+
+       //check if user already exists
+       $stmt  = $pdo->prepare('call livestockGetSubTypeAll(?)');
+       $stmt->execute([$parent_id]);
+
+       $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);                    
+
+       return $result;
+  }
 
 }

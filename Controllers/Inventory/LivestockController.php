@@ -42,12 +42,13 @@ class LivestockController extends BaseController
     //  * Get livestock types presented on the farm
     //  * ---------------------------------------------------------------------------------
     //  */
-    // public function getLiveStockTypes(){
-    //     $livestockHelper = new LiveStockHelper();
-    //     $livestockTypes = $livestockHelper->getLiveStockTypes();
+    public function getLiveStockTypes(){
+        
+        $livestockHelper = new LiveStockHelper();
+        $livestockTypes = $livestockHelper->getLiveStockTypes();
 
-    //     return $response->withJson($livestockTypes, 200);
-    // }
+        echo json_encode($livestockTypes);
+    }
 
 
 
