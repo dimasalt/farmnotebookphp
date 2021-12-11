@@ -132,22 +132,39 @@ const livestock = {
          * livestock categories for the livestock existing or new item
          * -------------------------------------------------------------------
         */     
-        // livestockItemCategoryChanged(){
-        //     var self = this;
+        livestockItemCategoryChanged(){
+            var self = this;
 
-        //     if(self.livestock_item.livestock_type.length > 0)
-        //     {
-        //         for(var i = 0; i < self.livestock_item.livestock_types.length; i++)
-        //         {
-        //             if(self.self.livestock_item.livestock_types[i].category_name == self.livestock_item.livestock_type){
-        //                 self.livestock_subtypes = self.livestock_types[i].sub_items;
-        //                 break;
-        //             }
-        //         }
-        //         self.sub_category_disabled = false;
-        //     }
-        //     else self.sub_category_disabled = true;
-        //  },
+            if(self.livestock_item.livestock_types.length > 0)
+            {
+                for(var i = 0; i < self.livestock_item.livestock_types.length; i++)
+                {
+                    if(self.livestock_item.livestock_types[i].category_name == self.livestock_item.livestock_type){
+                        self.livestock_subtypes = self.livestock_types[i].sub_items;
+                        break;
+                    }
+                }
+                self.sub_category_disabled = false;
+            }
+            else self.sub_category_disabled = true;
+        },
+        /**
+         * -------------------------------------------------------------------------
+         * on tags texarea input change
+         * function checks if there is more than one tag inserted, if yes then it will hide some events
+         * --------------------------------------------------------------------------
+         */
+        tagChange (){
+            var self = this;
+
+            //remove white space and split the tags
+            self.livestock_item.tag = self.livestock_item.tag.trim();
+            const tags = self.livestock_item.tag.split(",").filter(Boolean);
+            
+            //check if show events input
+            if(tags.length < 2) self.livestock_item.is_events_visible = true;
+            else self.livestock_item.is_events_visible = false;
+        },
         /**
          * ---------------------------------------------------------------
          * reset all variables
@@ -166,16 +183,16 @@ const livestock = {
             //reset livestock item
             self.livestock_item = {
                 id : 0,
-                tag : '',
+                tag : '',                
                 livestock_type : '',
                 livestock_subtype : '',
-                sex : '',
                 weight : 0,
-                price : 0,
-                sell_price : 0,
+                price : 0,              
                 is_active : 1,
                 livestock_types : [],
-                livestock_subtypes : []
+                livestock_subtypes : [],
+                current_date : new Date(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay()),
+                is_events_visible : true
             };
 
             //action item

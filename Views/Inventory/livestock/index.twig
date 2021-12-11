@@ -173,25 +173,11 @@
                 <form class="mt-0 mb-3 mx-3">                  
                      <div class="row">                     
                         <div class="col">
-                            <label for="vendor_address">Tag</label>
-                            <input type="text" class="form-control form-control-sm bg-secondary text-white border-dark" id="vendor_address" aria-describedby="vendor_address" v-model="livestock_item.tag">
-                            <small id="cat_desc_warrning" class="form-text text-muted float-end">250 characters max</small>
+                            <label for="txt_tag">Tag</label>                            
+                            <textarea class="form-control rounded-0" id="txt_tag" rows="3" v-model="livestock_item.tag" v-on:input="tagChange()"></textarea>
+                            <small id="txt_tag_warrning" class="form-text text-warning float-end">Use (,) character to seperate between tags</small>
                         </div>    
-                    </div>                 
-                    <div class="row">         
-                        <div class="col-4">
-                            <label for="txt_weight">Weight (lb)</label>
-                            <input type="text" class="form-control form-control-sm bg-secondary text-white border-dark" id="trans_desc" aria-describedby="txt_weight" v-model="livestock_item.weight">                            
-                        </div>
-                        <div class="col-4">
-                            <label for="txt_price">Price</label>
-                            <input type="text" class="form-control form-control-sm bg-secondary text-white border-dark" id="txt_price" aria-describedby="txt_price" v-model="livestock_item.price">                            
-                        </div>        
-                         <div class="col-4">
-                            <label for="txt_sell_price">Sell Price</label>
-                            <input type="text" class="form-control form-control-sm bg-secondary text-white border-dark" id="txt_sell_price" aria-describedby="txt_sell_price" v-model="livestock_item.weight">                            
-                        </div>    
-                    </div> 
+                    </div>       
                     <div class="row mt-3">
                         <div class="col-6">
                             <label for="category_select">Category</label>
@@ -204,14 +190,46 @@
                         </div>
                         <div class="col-6">
                             <label for="subcategory_select">Sub Category</label>
-                            <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" id="subcategory_select" aria-label="Select sub group" v-model="livestock_item.sex" 
+                            <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" id="subcategory_select" aria-label="Select sub group" v-model="livestock_item.livestock_subtype" 
                                 v-bind:disabled="sub_category_disabled">
                                 <option v-for="item in livestock_item.livestock_subtypes" v-bind:value="item.category_name">
                                     {{ '{{ item.category_name }}' }}
                                 </option>            
                             </select>
                         </div>
-                    </div> 
+                    </div>
+
+                    <!-- groups -->
+                    <div class="row mt-3">
+                        {# <div class="col-6">
+                            <label for="category_select">Groups</label>
+                            <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" id="category_select" aria-label="Select sub group" v-model="livestock_item.livestock_type" 
+                                v-on:change="livestockItemCategoryChanged()">
+                                <option v-for="item in livestock_item.livestock_types" v-bind:value="item.category_name">
+                                    {{ '{{ item.category_name }}' }}
+                                </option>            
+                            </select>
+                        </div>    #}
+                         <div class="col-6">
+                            <label for="txt_date">Date</label>
+                            <input type="date" class="form-control form-control-sm bg-secondary text-white border-dark" id="txt_date" aria-describedby="txt_date" v-model="livestock_item.current_date">                            
+                        </div>                        
+                    </div>                      
+                                   
+                    <!-- basic events , weight, purchace date, and price -->
+                    <div class="row mt-3">         
+                        <div class="col-6" v-if="livestock_item.is_events_visible == true">
+                            <label for="txt_weight">Weight (lb)</label>
+                            <input type="text" class="form-control form-control-sm bg-secondary text-white border-dark" id="trans_desc" aria-describedby="txt_weight" v-model="livestock_item.weight">                            
+                        </div>
+                        <div class="col-6" v-if="livestock_item.is_events_visible == true">
+                            <label for="txt_price">Purchase Price</label>
+                            <input type="text" class="form-control form-control-sm bg-secondary text-white border-dark" id="txt_price" aria-describedby="txt_price" v-model="livestock_item.price">                            
+                        </div>        
+                        
+                    </div>
+
+                    <!-- action buttons -->                
                     <div class="row my-3 mb-0">
                         <hr class="bg-secondary" />                        
                         <div class="col d-flex justify-content-end">                                   
