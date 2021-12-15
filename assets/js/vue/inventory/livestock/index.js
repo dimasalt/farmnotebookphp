@@ -7,6 +7,7 @@ const livestock = {
             livestock_item : {},
             livestock_types : [],       
             livestock_subtypes : [],
+            livestock_groups : [],
             pagination : {
                 current_page: 1,
                 records: 25,
@@ -16,6 +17,8 @@ const livestock = {
             category_selected : '',
             sub_category_selected : '',
             sub_category_disabled : true,
+
+            group_selected : '',
 
             action : {
                 new : false,
@@ -34,6 +37,9 @@ const livestock = {
 
         //get livestok types
         self.getLiveStockTypes();
+
+        //get livestock groups
+        self.livestockGetGroups();
     },
     methods: {
         /**
@@ -140,13 +146,40 @@ const livestock = {
                 for(var i = 0; i < self.livestock_item.livestock_types.length; i++)
                 {
                     if(self.livestock_item.livestock_types[i].category_name == self.livestock_item.livestock_type){
-                        self.livestock_subtypes = self.livestock_types[i].sub_items;
+                        self.livestock_item.livestock_subtypes = self.livestock_types[i].sub_items;
                         break;
                     }
                 }
                 self.sub_category_disabled = false;
             }
             else self.sub_category_disabled = true;
+        },
+        /**
+         * -------------------------------------------------------------------------
+         * gets livestock groups
+         * -------------------------------------------------------------------------
+         */
+        livestockGetGroups(){
+            var self = this;
+
+            var data = {};
+            data = JSON.stringify(data);
+
+            var liveStockInventoryGroups = $.post("/inventory/groups/get/all" , data);
+
+            liveStockInventoryGroups.done(function (data) {
+                            
+                if(data.length > 0){
+
+                    data = JSON.parse(data);     
+                    self.livestock_groups = data;                  
+
+                    self.group_selected = '';
+                }
+            });
+
+            liveStockInventoryGroups.always(function () {
+            });
         },
         /**
          * -------------------------------------------------------------------------
@@ -173,6 +206,10 @@ const livestock = {
         resetVariables(){
             var self = this;
 
+            //current date
+            const today = new Date();
+
+
             self.start_date = new Date().getFullYear()  + '-01-01'; //format yyyy + '-' + mm + '-' + dd;
             self.end_date =  new Date().getFullYear()  + '-12-31'; //format yyyy + '-' + mm + '-' + dd; 
 
@@ -191,7 +228,7 @@ const livestock = {
                 is_active : 1,
                 livestock_types : [],
                 livestock_subtypes : [],
-                current_date : new Date(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay()),
+                current_date : today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(),
                 is_events_visible : true
             };
 

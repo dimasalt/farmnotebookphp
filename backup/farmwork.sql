@@ -233,8 +233,8 @@ CREATE TABLE IF NOT EXISTS `livestock` (
 -- Dumping data for table farmwork.livestock: ~2 rows (approximately)
 /*!40000 ALTER TABLE `livestock` DISABLE KEYS */;
 INSERT INTO `livestock` (`id`, `tag`, `livestock_type`, `livestock_subtype`, `is_active`, `created_at`) VALUES
-	('3b8a3e14-acef-11eb-81f8-d8cb8ac0caec', '120473774', '', '', 1, '2021-04-12 11:41:25'),
-	('ccc4a7d5-ad0d-11eb-a999-d8cb8ac0caec', '120333154', '', '', 1, '2021-04-09 11:41:25');
+	('3b8a3e14-acef-11eb-81f8-d8cb8ac0caec', '120473774', 'Cattle', 'steer', 1, '2021-04-12 11:41:25'),
+	('ccc4a7d5-ad0d-11eb-a999-d8cb8ac0caec', '120333154', 'Cattle', 'steer', 1, '2021-04-09 11:41:25');
 /*!40000 ALTER TABLE `livestock` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.livestock_category
@@ -278,13 +278,16 @@ CREATE TABLE IF NOT EXISTS `livestock_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(150) NOT NULL,
   `group_desc` varchar(250) DEFAULT NULL,
-  `is_active` tinyint(4) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='contains groups of animals grouped together for the purpose of feeding or breading';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='contains groups of animals grouped together for the purpose of feeding or breading';
 
--- Dumping data for table farmwork.livestock_group: ~0 rows (approximately)
+-- Dumping data for table farmwork.livestock_group: ~3 rows (approximately)
 /*!40000 ALTER TABLE `livestock_group` DISABLE KEYS */;
+INSERT INTO `livestock_group` (`id`, `group_name`, `group_desc`, `created_at`) VALUES
+	(1, 'July Group First', NULL, '2021-12-14 00:13:33'),
+	(2, 'July Group Second', NULL, '2021-12-14 00:14:10'),
+	(3, 'August Group', NULL, '2021-12-14 00:14:19');
 /*!40000 ALTER TABLE `livestock_group` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.livestock_to_group
@@ -1106,12 +1109,12 @@ BEGIN
 	SELECT 
 		livestock.id, 
 		livestock.tag, 
-		livestock_category.category_name,
-		livestock.sex,	
+		livestock.livestock_type,
+		livestock.livestock_subtype,
 		total_pages
 	FROM 
 		livestock 
-	LEFT JOIN livestock_category ON livestock_category.id = livestock.livestock_type
+	-- LEFT JOIN livestock_category ON livestock_category.id = livestock.livestock_type
 	WHERE livestock.is_active >= is_active
 	LIMIT offset_rows, records;
 
@@ -1154,6 +1157,23 @@ BEGIN
 		livestock_category 
 	WHERE livestock_category.parent_id = 0
 	ORDER BY livestock_category.category_name ASC;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.livestockGroupGetAll
+DELIMITER //
+CREATE PROCEDURE `livestockGroupGetAll`()
+    COMMENT 'Gets livestock groups and their description'
+BEGIN
+	
+	 
+	SELECT 
+		livestock_group.id,
+		livestock_group.group_name,
+		livestock_group.group_desc
+	FROM 
+		livestock_group;
 
 END//
 DELIMITER ;

@@ -25,6 +25,8 @@ $r->addRoute(['GET'], '/inventory/types', 'FarmWork\Controllers\LivestockTypesCo
  * ----------------------------------------------------------
  */
 $r->addRoute(['GET'], '/inventory/groups', 'FarmWork\Controllers\LivestockGroupsController:index');
+$r->addRoute(['GET', 'POST'], '/inventory/groups/get/all', 'FarmWork\Controllers\LivestockGroupsController:getGroups');
+
 
 /**
  * -----------------------------------------------------

@@ -74,7 +74,7 @@
 
     <!-- livestock search and other selections to narrow down search -->
     <div class="row g-0 mt-5">
-        <div class="col-4">
+        <div class="col-3">
             <h4>
                 Livestock
                     <a href="#" v-on:click="addNewShow()">
@@ -82,6 +82,14 @@
                         data-toggle="tooltip" data-placement="top" title="Add project"></i>
                 </a>
             </h4>        
+        </div>
+        <div class="col-1">            
+            <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" aria-label="Select group" v-model="group_selected">
+                <option value=""></option>
+                <option v-for="item in livestock_groups" v-bind:value="item.group_name">
+                    {{ '{{ item.group_name }}' }}
+                </option>            
+            </select>
         </div>
         <div class="col-2">            
             <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" aria-label="Select group" v-model="category_selected" v-on:change="categoryChanged()">
@@ -134,9 +142,9 @@
                         <td class="pl-4" v-bind:class="item.class">        
                             <span class="float-start me-2"><input type="checkbox" class="form-check-input" id="exampleCheck1"></span>
                             <span class="float-start me-3">{{ '{{item.tag}}' }}</span>
-                            <span class="badge badge-pill bg-light text-dark float-end shadow-sm me-3">{{ '{{ item.weight }}' }}lb</span>           
-                            <span class="badge badge-pill bg-success me-1 float-end shadow-sm">{{ '{{item.sex}}' }}</span> 
-                            <span class="badge badge-pill bg-secondary me-1 float-end shadow-sm">{{ '{{item.type_name}}' }}</span>                                                                                
+                            {# <span class="badge badge-pill bg-light text-dark float-end shadow-sm me-3">{{ '{{ item.weight }}' }}lb</span>            #}
+                            <span class="badge badge-pill bg-secondary me-1 float-end shadow-sm">{{ '{{item.livestock_subtype}}' }}</span>      
+                            <span class="badge badge-pill bg-success me-1 float-end shadow-sm">{{ '{{item.livestock_type}}' }}</span>                                                                                            
                         </td>                         
                         <td v-bind:class="item.class">${{ '{{item.price}}' }} </td>
                           <td v-bind:class="item.class">${{ '{{item.sell_price}}' }} </td>
@@ -201,7 +209,7 @@
 
                     <!-- groups -->
                     <div class="row mt-3">
-                        {# <div class="col-6">
+                        <div class="col-6">
                             <label for="category_select">Groups</label>
                             <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" id="category_select" aria-label="Select sub group" v-model="livestock_item.livestock_type" 
                                 v-on:change="livestockItemCategoryChanged()">
@@ -209,7 +217,7 @@
                                     {{ '{{ item.category_name }}' }}
                                 </option>            
                             </select>
-                        </div>    #}
+                        </div>   
                          <div class="col-6">
                             <label for="txt_date">Date</label>
                             <input type="date" class="form-control form-control-sm bg-secondary text-white border-dark" id="txt_date" aria-describedby="txt_date" v-model="livestock_item.current_date">                            
