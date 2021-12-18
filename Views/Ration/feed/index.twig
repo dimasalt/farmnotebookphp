@@ -59,8 +59,10 @@
                     <label for="text_adg" class="form-label">Feed Type</label>
                     <select class="form-select rounded-0" v-model="feed_item.feed_type">
                         <option value="Grain">Grain</option>     
-                        <option value="Grain">Hay</option>        
-                        <option value="Grain">Protein</option>                               
+                        <option value="Hay">Hay</option>        
+                        <option value="Protein">Protein</option>           
+                        <option value="Mineral">Mineral</option>                          
+                        <option value="Salt">Salt</option>      
                     </select>                    
                 </div>  
                 <div class="col-1">
@@ -103,6 +105,7 @@
                         <th scope="col" class="bg-dark text-white">CP %</th>
                         <th scope="col" class="bg-dark text-white">TDN %</th>                                    
                         <th scope="col" class="bg-dark text-white">Feed Type</th>
+                        <th scope="col" class="bg-dark text-white">Usage %</th>                           
                         <th scope="col" class="bg-dark text-white">Price</th>                                    
                         <th scope="col" class="bg-dark text-white">Price for quantity C$</th>
                         <th scope="col" class="bg-dark text-white">#</th>
@@ -114,6 +117,7 @@
                         <td class="bg-white">{{ '{{ item.feed_cp }}' }}</td>
                         <td class="bg-white">{{ '{{ item.feed_tdn }}' }}</td>                 
                         <td class="bg-white">{{ '{{ item.feed_type }}' }}</td>
+                          <td class="bg-white">{{ '{{ item.feed_usage }}' }}</td>
                         <td class="bg-white">{{ '{{ item.feed_price }}' }}</td>                 
                         <td class="bg-white">{{ '{{ item.feed_price_lb }}' }}</td>
                         <td class="bg-white">

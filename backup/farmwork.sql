@@ -154,14 +154,15 @@ CREATE TABLE IF NOT EXISTS `feed` (
   `is_default` tinyint(4) NOT NULL DEFAULT 0,
   `feed_date` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COMMENT='Contains feed information such as CP, TDN and prices';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='Contains feed information such as CP, TDN and prices';
 
--- Dumping data for table farmwork.feed: ~3 rows (approximately)
+-- Dumping data for table farmwork.feed: ~4 rows (approximately)
 /*!40000 ALTER TABLE `feed` DISABLE KEYS */;
 INSERT INTO `feed` (`id`, `feed_name`, `feed_desc`, `feed_cp`, `feed_tdn`, `feed_type`, `feed_price`, `feed_price_lb`, `feed_usage`, `is_default`, `feed_date`) VALUES
 	(1, 'Cracked Corn', NULL, 10, 90, 'Grain', 549.00, 2000, 100, 1, '2021-10-26 11:32:41'),
 	(2, 'Hay', NULL, 7, 55, 'Hay', 5.00, 60, 100, 1, '2021-11-08 19:48:22'),
-	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 22.00, 60, 100, 1, '2021-11-08 19:48:27');
+	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 22.00, 60, 100, 1, '2021-11-08 19:48:27'),
+	(16, '40% Beef Supplement', '', 40, 0, 'Mineral', 23.00, 55, 18, 0, '2021-12-18 08:40:16');
 /*!40000 ALTER TABLE `feed` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.feed_requirement
@@ -282,7 +283,7 @@ CREATE TABLE IF NOT EXISTS `livestock_group` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='contains groups of animals grouped together for the purpose of feeding or breading';
 
--- Dumping data for table farmwork.livestock_group: ~3 rows (approximately)
+-- Dumping data for table farmwork.livestock_group: ~2 rows (approximately)
 /*!40000 ALTER TABLE `livestock_group` DISABLE KEYS */;
 INSERT INTO `livestock_group` (`id`, `group_name`, `group_desc`, `created_at`) VALUES
 	(1, 'July Group First', NULL, '2021-12-14 00:13:33'),
