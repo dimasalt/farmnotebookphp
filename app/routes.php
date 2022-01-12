@@ -156,6 +156,14 @@ $r->addRoute(['GET', 'POST'], '/ration/ration_calculator/getfeeds', 'FarmWork\Co
 $r->addRoute(['GET', 'POST'], '/ration/ration_calculator', 'FarmWork\Controllers\RationCalculatorController:index');
 
 /**
+ * -----------------------------------------------------------------------
+ * Feed requirements
+ * ------------------------------------------------------------------------
+ */
+$r->addRoute(['GET', 'POST'], '/ration/feed_requirements/getFeedRequirements', 'FarmWork\Controllers\FeedRequirementController:getFeedRequirementsInformation');
+$r->addRoute(['GET', 'POST'], '/ration/feed_requirements', 'FarmWork\Controllers\FeedRequirementController:index');
+
+/**
  * ----------------------------------------------------------------------
  * feeds
  * ----------------------------------------------------------------------

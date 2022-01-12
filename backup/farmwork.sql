@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `feed` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='Contains feed information such as CP, TDN and prices';
 
--- Dumping data for table farmwork.feed: ~4 rows (approximately)
+-- Dumping data for table farmwork.feed: ~5 rows (approximately)
 /*!40000 ALTER TABLE `feed` DISABLE KEYS */;
 INSERT INTO `feed` (`id`, `feed_name`, `feed_desc`, `feed_cp`, `feed_tdn`, `feed_type`, `feed_price`, `feed_price_lb`, `feed_usage`, `is_default`, `feed_date`) VALUES
 	(1, 'Cracked Corn', NULL, 10, 90, 'Grain', 549.00, 2000, 100, 1, '2021-10-26 11:32:41'),

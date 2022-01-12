@@ -220,7 +220,7 @@ const Ration = {
                     grain_temp = self.feeds[i];
                 else if (self.feeds[i].feed_type == "Protein")
                     protein_temp = self.feeds[i];
-                else 
+                else if (self.feeds[i].feed_type == "Hay")
                     hay_temp = self.feeds[i];
             }
 

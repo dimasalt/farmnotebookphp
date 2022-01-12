@@ -16,26 +16,38 @@
 <div class="container-fluid" id="ration">             
 
     <!-- page name and usage instructions -->
-    <div class="row mt-4">
-        <div class="col-12 border-bottom">          
-            <h2 class="text-dark">Ration Requirements Table</h2>                
-        </div>      
+    <div class="row g-0 mt-5 border-bottom">
+        <div class="col-10">          
+            <h2 class="text-dark">Ration Requirements</h2>                
+        </div>
+        <!-- feed requirements per weight -->      
+        <div class="col-1">
+            <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" aria-label="Select group" v-model="group_selected">
+                <option value=""></option>
+                {# <option v-for="item in livestock_groups" v-bind:value="item.group_name">
+                    {{ '{{ item.group_name }}' }}
+                </option>             #}
+            </select>
+        </div>
+        <!-- animal selection -->
+        <div class="col-1">
+            <select class="form-select w-100 rounded-0 form-select-sm shadow-sm" aria-label="Select group" v-model="group_selected">
+                <option value=""></option>
+                {# <option v-for="item in livestock_groups" v-bind:value="item.group_name">
+                    {{ '{{ item.group_name }}' }}
+                </option>             #}
+            </select>
+        </div>
     </div>           
   
 
+    <!-- table to display information -->
     <div class="row mt-4">
-        <div class="col-12">
-
-            {# <ul>
-                {% for item in requirements %}
-                    <li>{{ item.weight }}</li>
-                {% endfor %}
-            </ul> #}
-
-            <table class="table bg-white">
+        <div class="col-12">          
+            <table class="table table-striped bg-white">
                 <thead>
                     <tr>
-                        <th scope="col">Weight</th>
+                        <th scope="col" >Weight</th>
                         <th scope="col">Animal Type</th>
                         <th scope="col">Average Daily Gain</th>
                         <th scope="col">CP %</th>

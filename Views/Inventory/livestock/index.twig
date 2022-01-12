@@ -132,8 +132,8 @@
                 <thead class="bg-secondary-light">
                     <tr>                                         
                         <th scope="col"  class="w-70">Tag #</th>                                  
-                        <th scope="col"  class="w-10">C$</th>     
-                        <th scope="col"  class="w-10">Sell C$</th>     
+                        <th scope="col"  class="w-10">Group</th>     
+                        <th scope="col"  class="w-10">Price C$</th>     
                         <th scope="col" class="w-10">#</th>                                            
                     </tr>
                 </thead>
@@ -141,13 +141,13 @@
                     <tr class="border">                                           
                         <td class="pl-4" v-bind:class="item.class">        
                             <span class="float-start me-2"><input type="checkbox" class="form-check-input" id="exampleCheck1"></span>
-                            <span class="float-start me-3">{{ '{{item.tag}}' }}</span>
-                            {# <span class="badge badge-pill bg-light text-dark float-end shadow-sm me-3">{{ '{{ item.weight }}' }}lb</span>            #}
+                            <span class="float-start me-3">{{ '{{item.tag}}' }}</span>                            
                             <span class="badge badge-pill bg-secondary me-1 float-end shadow-sm">{{ '{{item.livestock_subtype}}' }}</span>      
                             <span class="badge badge-pill bg-success me-1 float-end shadow-sm">{{ '{{item.livestock_type}}' }}</span>                                                                                            
-                        </td>                         
+                        </td>
+                        <td> </td>                         
                         <td v-bind:class="item.class">${{ '{{item.price}}' }} </td>
-                          <td v-bind:class="item.class">${{ '{{item.sell_price}}' }} </td>
+                          {# <td v-bind:class="item.class">${{ '{{item.sell_price}}' }} </td> #}
                         <td>
                             <a href="#">
                                 <i data-toggle="tooltip" data-placement="top" title="View animal" class="far fa-eye text-small text-info float-left mr-1 mt-1"></i>
