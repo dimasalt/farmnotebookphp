@@ -1,13 +1,16 @@
 const vehiclebooklogs = {
     data() {
         return {
-            odometer : {},
+            odometer : {
+                total_km : 0,
+                total_business_km : 0       
+            },
             odometer_item : {
                 id: 0,
                 year_start_odometer : 0,
                 year_end_odometer : 0,
                 vehicle_desc : '',
-                is_addoredit : false       
+                is_addoredit : false                
             },
             booklogs: [],  
             booklog_item : {
@@ -62,8 +65,13 @@ const vehiclebooklogs = {
                      self.odometer = data;
 
                      //get all records for current odometer year
-                     if(self.odometer != false)
+                     if(self.odometer != false){
                         self.bookLogsGetAll();
+                        self.odometer_item.is_addoredit = false;
+
+                        //calculate total km
+                        self.odometer.total_km = parseInt(self.odometer.year_end_odometer) - parseInt(self.odometer.year_start_odometer);
+                    }
                     else if(self.odometer == false)
                         self.odometer_item.is_addoredit = true;
                  }               
@@ -74,8 +82,9 @@ const vehiclebooklogs = {
         bookLogsGetAll () {           
             var self = this;          
             
-            //reset booklog records
+            //reset booklog records and business distance totals
             self.booklogs = [];
+            self.odometer.total_business_km = 0;
     
             //prepare data
             var data = {odometer_id : self.odometer.id};
@@ -91,6 +100,10 @@ const vehiclebooklogs = {
 
                     //hidde new item form in case new item has just been added
                     self.booklog_item.is_new = false;
+
+                    for(var i = 0; i < self.booklogs.length; i++){
+                        self.odometer.total_business_km = parseInt(self.odometer.total_business_km ) + parseInt(self.booklogs[i].travel_distance);
+                    }
                 }
             });
     

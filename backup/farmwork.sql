@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Keeps contacts for contact book and vendors (for transactions and others)';
 
--- Dumping data for table farmwork.contact: ~13 rows (approximately)
+-- Dumping data for table farmwork.contact: ~12 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`) VALUES
 	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
@@ -339,13 +339,14 @@ CREATE TABLE IF NOT EXISTS `page_settings` (
   `setting_name` varchar(50) NOT NULL,
   `setting_value` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains default page settings';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains default page settings thats are being pulled during page load';
 
 -- Dumping data for table farmwork.page_settings: ~2 rows (approximately)
 /*!40000 ALTER TABLE `page_settings` DISABLE KEYS */;
 INSERT INTO `page_settings` (`id`, `page_name`, `setting_name`, `setting_value`) VALUES
 	(1, 'Accounting Records', 'start_date', '2021-01-01'),
-	(2, 'Accounting Records', 'end_date', '2021-12-31');
+	(2, 'Accounting Records', 'end_date', '2021-12-31'),
+	(3, 'Vehicle Log Book', 'booklog_date', '2021-01-01');
 /*!40000 ALTER TABLE `page_settings` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction
@@ -564,25 +565,13 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   PRIMARY KEY (`id`),
   KEY `FK_vehicle_log_book_item_vehicle_log_book` (`vehicle_log_book_id`),
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
 
--- Dumping data for table farmwork.vehicle_log_book_item: ~14 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book_item: ~2 rows (approximately)
 /*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
-	(1, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-08 00:00:00', '2021-03-08 00:00:00'),
-	(2, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-16 00:00:00', '2021-03-15 00:00:00'),
-	(4, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-22 00:00:00', '2021-03-22 00:00:00'),
-	(5, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-03-29 00:00:00', '2021-03-29 00:00:00'),
-	(6, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-04-05 00:00:00', '2021-04-05 00:00:00'),
-	(17, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-04-13 11:21:45', '2021-04-12 00:00:00'),
-	(18, 1, 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'Cattle feed purchase ', 280, '2021-04-20 10:03:22', '2021-04-19 00:00:00'),
-	(19, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'cattle feed purchase', 26, '2021-04-28 20:55:50', '2021-04-27 00:00:00'),
-	(20, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'cattle feed purchase', 26, '2021-05-04 17:30:01', '2021-05-04 00:00:00'),
-	(21, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-05-16 00:21:08', '2021-05-10 00:00:00'),
-	(22, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'buying cattle feed and bedding supplies', 26, '2021-05-17 12:03:37', '2021-05-17 00:00:00'),
-	(23, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'cattle feed purchase', 26, '2021-05-17 12:04:36', '2021-05-10 00:00:00'),
-	(24, 1, 'Temiskaming Livestock Exchange Ltd', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'Beef calves purchase', 320, '2021-05-18 20:34:40', '2021-05-17 00:00:00'),
-	(25, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'cattle feed purchase', 26, '2021-05-26 13:42:06', '2021-05-25 00:00:00');
+	(27, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'cattle feed purchase', 26, '2022-03-14 12:57:49', '2021-01-02 00:00:00'),
+	(28, 1, 'Ontario Stockyards Inc', '3807 ON-89, Cookstown, ON L0L 1L0', 'selling cattle', 1160, '2022-03-14 12:59:49', '2021-01-14 00:00:00');
 /*!40000 ALTER TABLE `vehicle_log_book_item` ENABLE KEYS */;
 
 -- Dumping structure for procedure farmwork.budgetCreate
