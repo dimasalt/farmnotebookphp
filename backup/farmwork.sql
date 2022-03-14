@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Keeps contacts for contact book and vendors (for transactions and others)';
 
--- Dumping data for table farmwork.contact: ~12 rows (approximately)
+-- Dumping data for table farmwork.contact: ~13 rows (approximately)
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`) VALUES
 	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
@@ -68,7 +68,8 @@ INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_ve
 	('81a78279-a76d-11eb-80d2-d8cb8ac0caec', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', '705-232-6662', NULL, 'Manonite owned feed store, with more or less ok prices', 1, '2020-01-05 07:01:53'),
 	('81a78332-a76d-11eb-80d2-d8cb8ac0caec', 'Samuel M.', 'On, Canada', '705-232-2380', NULL, 'Manonite. Sells lumber and posts for fencing or/and construction.', 1, '2020-04-08 17:19:45'),
 	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln, Val Gagne, On, Canada', '705-232-2039', NULL, 'Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.', 1, '2020-04-08 17:23:04'),
-	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67, Iroquois Falls, On, P0K1G0, Canada', '705-232-7700', NULL, 'Cattle and dog vaccinations', 1, '2020-01-05 12:08:41');
+	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67, Iroquois Falls, On, P0K1G0, Canada', '705-232-7700', NULL, 'Cattle and dog vaccinations', 1, '2020-01-05 12:08:41'),
+	('cd60fe10-976e-11ec-bdb9-d8cb8ac0caec', 'A-Mar Meats', 'Red Deer Rd E, Val Gagné, ON P0K 1W0', '705-232-6328', '', 'A local butcher shop', 1, '2022-02-26 20:43:07');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.event
@@ -330,6 +331,22 @@ INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `
 	(5, 'Ivomec', '<p>IVOMEC Pour-On for Cattle is a clear, blue colored liquid containing 5 mg of ivermectin per mL (0.5% w/v). IVOMEC Pour-On for Cattle is formulated to deliver the recommended dose level of 500 &micro;g of ivermectin per kg of body weight in cattle when applied along the top line from the withers to the tail head at the rate of 1 mL per 10 kg.</p>', '<p>Apply along the top line from the withers to the tail head at the rate of 1 mL per 10 kg (22 lb).</p>', '/uploads/medication/ivomec.jpg', 0.00, 0, '2020-02-27 10:11:31'),
 	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'In accordance with Beef Quality Assurance guidelines, this product should be adminsitered 2 mL subcutaneously in the neck region.', '/uploads/medication/Bovi_Shield_Gold_5.jpg', 0.00, 0, '2020-03-08 21:44:04');
 /*!40000 ALTER TABLE `medication` ENABLE KEYS */;
+
+-- Dumping structure for table farmwork.page_settings
+CREATE TABLE IF NOT EXISTS `page_settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_name` varchar(50) NOT NULL,
+  `setting_name` varchar(50) NOT NULL,
+  `setting_value` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains default page settings';
+
+-- Dumping data for table farmwork.page_settings: ~2 rows (approximately)
+/*!40000 ALTER TABLE `page_settings` DISABLE KEYS */;
+INSERT INTO `page_settings` (`id`, `page_name`, `setting_name`, `setting_value`) VALUES
+	(1, 'Accounting Records', 'start_date', '2021-01-01'),
+	(2, 'Accounting Records', 'end_date', '2021-12-31');
+/*!40000 ALTER TABLE `page_settings` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction
 CREATE TABLE IF NOT EXISTS `transaction` (
@@ -1299,6 +1316,26 @@ BEGIN
 		medication.on_hand_doses = on_hand_doses
 	WHERE medication.id = id;	
 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.pageSettingGet
+DELIMITER //
+CREATE PROCEDURE `pageSettingGet`(
+	IN `page_name` VARCHAR(50)
+)
+BEGIN
+
+	SELECT 
+		page_settings.id,
+		page_settings.page_name,
+		page_settings.setting_name,
+		page_settings.setting_value
+	FROM 
+		page_settings
+	WHERE 
+		page_settings.page_name = page_name;
+	
 END//
 DELIMITER ;
 

@@ -3,11 +3,13 @@
 namespace FarmWork\Libraries;
 
 /**
+ * ------------------------------------------------------
  * Class CSRFToken
- * @package FarmWorks\Libraries
  * Class respobsible for creation and validation of
  * csrf tokens for the input forms
+ * ------------------------------------------------------
  */
+
 class CSRFToken
 {
     private static $csrf_tocken = '';
