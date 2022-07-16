@@ -24,7 +24,9 @@ const vehiclebooklogs = {
             },  
             booklog_del_item_id : 0,       
             booklog_date: '',
-            booklogs_pager: []            
+            booklogs_pager: [],
+            
+            page_name : 'Vehicle Log Book'
         }
     },   
     created () { 
@@ -345,6 +347,47 @@ const vehiclebooklogs = {
 
             //pull new information
             self.getOdometer();
+        },
+        /**
+         * -------------------------------------------------------------
+         * get page default settings
+         * -------------------------------------------------------------
+         */
+        getPageDefaultSettings(){
+            var self = this;
+
+            //self.page_name
+            var data = {page_name : self.page_name};           
+
+            //prepare json
+            data = JSON.stringify(data);
+
+            var odometerDel = $.post("/bookkeeping/vehiclelogbook/del/booklog", data);
+    
+            odometerDel.done(function (data) {
+                if(data.length > 0){
+                    //parse json
+                    data = JSON.parse(data);
+
+                    if(data == true){
+                        //Display a success toast, with a title
+                        toastr.success("You have successfully removed an odometer from the records");                                                
+                    }
+                    else if(data == false){
+                        // Display an error toast, with a title
+                        toastr.error("Ops! There appears to be an error and odometer coudln't be removed");
+                    }    
+                    
+                    //reset delete item id
+                    self.booklog_del_item_id = 0;
+
+                    //update list of displayed book log items
+                    self.bookLogsGetAll();
+                }                              
+            });
+        
+            odometerDel.always(function () { });
+
         },
         /**
          * -------------------------------------------------------------

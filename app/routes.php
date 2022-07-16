@@ -181,6 +181,14 @@ $r->addRoute(['GET', 'POST'], '/ration/feeds', 'FarmWork\Controllers\FeedControl
  */
 $r->addRoute('GET', '/login', 'FarmWork\Controllers\LoginController:index');
 
+/**
+ * -----------------------------------------------------------------------
+ * Page settings
+ * -----------------------------------------------------------------------
+ */
+$r->addRoute('GET', '/page_settings/get/all', 'FarmWork\Controllers\LoginController:index');
+$r->addRoute('GET', '/page_settings/update', 'FarmWork\Controllers\LoginController:index');
+
 
 /**
  * ----------------------------------------------------------------------

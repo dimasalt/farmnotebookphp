@@ -2,12 +2,14 @@
 -- Host:                         localhost
 -- Server version:               10.6.4-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             11.3.0.6295
+-- HeidiSQL Version:             12.0.0.6468
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
@@ -26,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `budget` (
 ) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps financial planning and budgeting records';
 
 -- Dumping data for table farmwork.budget: ~10 rows (approximately)
-/*!40000 ALTER TABLE `budget` DISABLE KEYS */;
 INSERT INTO `budget` (`id`, `parent_id`, `budget_name`, `budget_amount`, `budget_amount_actual`, `is_done`, `is_default`, `budget_date`) VALUES
 	(10, 0, 'Gross budget for year 2022', 0.00, 0.00, 0, 1, '2022-01-01 00:00:00'),
 	(11, 10, '60 head of cattle gross after taxes', 54000.00, 0.00, 0, 0, '2023-04-30 00:00:00'),
@@ -39,13 +40,12 @@ INSERT INTO `budget` (`id`, `parent_id`, `budget_name`, `budget_amount`, `budget
 	(75, 72, 'Grain Bin 10 tone', -3000.00, 0.00, 0, 0, '2021-11-30 00:00:00'),
 	(76, 72, 'Box Blade', -2000.00, 0.00, 0, 0, '2021-11-30 00:00:00'),
 	(77, 72, 'Snow Blower', -2000.00, 0.00, 0, 0, '2021-11-30 00:00:00');
-/*!40000 ALTER TABLE `budget` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.contact
 CREATE TABLE IF NOT EXISTS `contact` (
   `id` char(36) NOT NULL DEFAULT uuid(),
   `name` varchar(100) NOT NULL,
-  `address` varchar(250) DEFAULT NULL,
+  `address` varchar(150) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `note` varchar(250) DEFAULT NULL,
@@ -54,13 +54,13 @@ CREATE TABLE IF NOT EXISTS `contact` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Keeps contacts for contact book and vendors (for transactions and others)';
 
--- Dumping data for table farmwork.contact: ~12 rows (approximately)
-/*!40000 ALTER TABLE `contact` DISABLE KEYS */;
+-- Dumping data for table farmwork.contact: ~14 rows (approximately)
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`) VALUES
 	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
 	('11d2fef9-e813-11eb-8df3-d8cb8ac0caec', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', '705-647-5415', '', 'Livestock Exchange. Barn sale of livestock.', 1, '2021-07-18 17:56:49'),
 	('40233c6c-142e-11ec-808f-d8cb8ac0caec', 'Thornloe Farm Supply Inc', '31 Main St, Thornloe, ON, P0J 1S0', '705-563-2555', '', 'Farm supply store', 1, '2021-09-12 21:01:29'),
 	('42e3cf72-1a10-11ec-9d60-d8cb8ac0caec', 'Ontario Stockyards Inc', '3807 ON-89, Cookstown, ON L0L 1L0', '705-458-4000', '', 'Livestock auction. Barn livestock sales.', 1, '2021-09-20 08:42:46'),
+	('7775b8f5-a8cc-11ec-ac57-d8cb8ac0caec', 'LEIS Landscaping & Country Store', '998063 Hwy 11 North, New Liskeard, Ontario, P0J 1P0', '705-648-1384', 'lw@xplornet.ca', NULL, 1, '2022-03-21 00:07:32'),
 	('797e5e64-e83d-11eb-8df3-d8cb8ac0caec', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', '705-235-4797', '', 'One of the local gas stations', 1, '2021-07-18 23:00:22'),
 	('81a77d42-a76d-11eb-80d2-d8cb8ac0caec', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', '705-268-0822', NULL, 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', 1, '2019-04-29 21:31:35'),
 	('81a77fe9-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', '7052645291', NULL, 'Metal supply company. The only one in Timmins.', 1, '2020-02-18 23:39:43'),
@@ -70,7 +70,6 @@ INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_ve
 	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln, Val Gagne, On, Canada', '705-232-2039', NULL, 'Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.', 1, '2020-04-08 17:23:04'),
 	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67, Iroquois Falls, On, P0K1G0, Canada', '705-232-7700', NULL, 'Cattle and dog vaccinations', 1, '2020-01-05 12:08:41'),
 	('cd60fe10-976e-11ec-bdb9-d8cb8ac0caec', 'A-Mar Meats', 'Red Deer Rd E, Val Gagné, ON P0K 1W0', '705-232-6328', '', 'A local butcher shop', 1, '2022-02-26 20:43:07');
-/*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.event
 CREATE TABLE IF NOT EXISTS `event` (
@@ -89,8 +88,6 @@ CREATE TABLE IF NOT EXISTS `event` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Contains events that occured in the past';
 
 -- Dumping data for table farmwork.event: ~0 rows (approximately)
-/*!40000 ALTER TABLE `event` DISABLE KEYS */;
-/*!40000 ALTER TABLE `event` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.event_type
 CREATE TABLE IF NOT EXISTS `event_type` (
@@ -102,7 +99,6 @@ CREATE TABLE IF NOT EXISTS `event_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
 
 -- Dumping data for table farmwork.event_type: ~7 rows (approximately)
-/*!40000 ALTER TABLE `event_type` DISABLE KEYS */;
 INSERT INTO `event_type` (`id`, `ev_type_name`, `ev_type_desc`, `created_at`) VALUES
 	('006e21ef-acfc-11eb-a999-d8cb8ac0caec', 'Birth Date', 'Used to associate an animal’s birth date with its unique approved tag number.', '2019-05-05 21:00:17'),
 	('0071c376-acfc-11eb-a999-d8cb8ac0caec', 'Weight', 'Used to report the weight of livestock.', '2020-01-04 16:01:31'),
@@ -111,7 +107,6 @@ INSERT INTO `event_type` (`id`, `ev_type_name`, `ev_type_desc`, `created_at`) VA
 	('7cd44d88-5797-11ec-97c9-d8cb8ac0caec', 'Sale', 'Used to report sale price and date', '2021-12-07 14:54:22'),
 	('88f7cc5e-acfb-11eb-a999-d8cb8ac0caec', 'Medicated', 'Used to report medication use on a livestock', '2019-05-05 21:19:43'),
 	('b1d57a36-acfb-11eb-a999-d8cb8ac0caec', 'Hoof Trimming', 'Used to report a hoof trimming performed on the animal', '2019-05-09 23:10:51');
-/*!40000 ALTER TABLE `event_type` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.event_type_bak
 CREATE TABLE IF NOT EXISTS `event_type_bak` (
@@ -125,7 +120,6 @@ CREATE TABLE IF NOT EXISTS `event_type_bak` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
 
 -- Dumping data for table farmwork.event_type_bak: ~12 rows (approximately)
-/*!40000 ALTER TABLE `event_type_bak` DISABLE KEYS */;
 INSERT INTO `event_type_bak` (`ev_type_id`, `ev_type_name`, `ev_type_value`, `ev_type_desc`, `place`, `created_at`) VALUES
 	('09ef9b47-6f9d-11e9-992e-d8cb8ac0caec', 'medicated', 'Medicated', 'Used to report medication use on a livestock', 2, '2019-05-05 21:19:43'),
 	('37a81ef3-72d1-11e9-9f5d-d8cb8ac0caec', 'hoof_trim', 'Hoof Trimming', 'Used to report a hoof trimming performed on the animal', 10, '2019-05-09 23:10:51'),
@@ -139,7 +133,6 @@ INSERT INTO `event_type_bak` (`ev_type_id`, `ev_type_name`, `ev_type_value`, `ev
 	('86db3a93-6f9b-11e9-992e-d8cb8ac0caec', 'retired', 'Retired', 'Used to report the identification of an approved tag applied to an animal that has died or was slaughtered.', 9, '2019-05-05 21:08:58'),
 	('86e328da-6f9b-11e9-992e-d8cb8ac0caec', 'disposed', 'Disposed', 'Used to report the identification of an approved tag applied to an animal, or an animal based on carcass details, that has died and has been disposed of by a producer or dead stock operator.', 12, '2019-05-05 21:08:58'),
 	('f26cb0aa-2f34-11ea-ac21-d8cb8ac0caec', 'castration', 'Castration/Banding', 'Used to report of castration or banding of livestock', 3, '2020-01-04 15:58:24');
-/*!40000 ALTER TABLE `event_type_bak` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.feed
 CREATE TABLE IF NOT EXISTS `feed` (
@@ -158,13 +151,11 @@ CREATE TABLE IF NOT EXISTS `feed` (
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='Contains feed information such as CP, TDN and prices';
 
 -- Dumping data for table farmwork.feed: ~5 rows (approximately)
-/*!40000 ALTER TABLE `feed` DISABLE KEYS */;
 INSERT INTO `feed` (`id`, `feed_name`, `feed_desc`, `feed_cp`, `feed_tdn`, `feed_type`, `feed_price`, `feed_price_lb`, `feed_usage`, `is_default`, `feed_date`) VALUES
 	(1, 'Cracked Corn', NULL, 10, 90, 'Grain', 549.00, 2000, 100, 1, '2021-10-26 11:32:41'),
 	(2, 'Hay', NULL, 7, 55, 'Hay', 5.00, 60, 100, 1, '2021-11-08 19:48:22'),
 	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 22.00, 60, 100, 1, '2021-11-08 19:48:27'),
 	(16, '40% Beef Supplement', '', 40, 0, 'Mineral', 23.00, 55, 18, 0, '2021-12-18 08:40:16');
-/*!40000 ALTER TABLE `feed` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.feed_requirement
 CREATE TABLE IF NOT EXISTS `feed_requirement` (
@@ -179,7 +170,6 @@ CREATE TABLE IF NOT EXISTS `feed_requirement` (
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps information on feed requirements for animals in different stages';
 
 -- Dumping data for table farmwork.feed_requirement: ~35 rows (approximately)
-/*!40000 ALTER TABLE `feed_requirement` DISABLE KEYS */;
 INSERT INTO `feed_requirement` (`id`, `weight`, `animal_type`, `adg`, `dm_per_day`, `cp`, `tdn`) VALUES
 	(1, 200, 'steer/heifer', 3.0, 5.4, 22.0, 80),
 	(2, 300, 'steer/heifer', 1.0, 8.3, 11.5, 58),
@@ -219,7 +209,6 @@ INSERT INTO `feed_requirement` (`id`, `weight`, `animal_type`, `adg`, `dm_per_da
 	(36, 960, 'steer/heifer', 3.0, 23.9, 9.7, 70),
 	(37, 960, 'steer/heifer', 3.8, 22.5, 11.3, 80),
 	(38, 960, 'steer/heifer', 4.3, 20.8, 13.0, 90);
-/*!40000 ALTER TABLE `feed_requirement` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.livestock
 CREATE TABLE IF NOT EXISTS `livestock` (
@@ -233,11 +222,9 @@ CREATE TABLE IF NOT EXISTS `livestock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='flock details';
 
 -- Dumping data for table farmwork.livestock: ~2 rows (approximately)
-/*!40000 ALTER TABLE `livestock` DISABLE KEYS */;
 INSERT INTO `livestock` (`id`, `tag`, `livestock_type`, `livestock_subtype`, `is_active`, `created_at`) VALUES
 	('3b8a3e14-acef-11eb-81f8-d8cb8ac0caec', '120473774', 'Cattle', 'steer', 1, '2021-04-12 11:41:25'),
 	('ccc4a7d5-ad0d-11eb-a999-d8cb8ac0caec', '120333154', 'Cattle', 'steer', 1, '2021-04-09 11:41:25');
-/*!40000 ALTER TABLE `livestock` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.livestock_category
 CREATE TABLE IF NOT EXISTS `livestock_category` (
@@ -250,7 +237,6 @@ CREATE TABLE IF NOT EXISTS `livestock_category` (
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COMMENT='contains animal types present on the farm';
 
 -- Dumping data for table farmwork.livestock_category: ~21 rows (approximately)
-/*!40000 ALTER TABLE `livestock_category` DISABLE KEYS */;
 INSERT INTO `livestock_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(7, 0, 'Cattle', NULL, '2021-11-30 14:34:43'),
 	(8, 7, 'steer', NULL, '2021-11-30 14:35:10'),
@@ -273,7 +259,6 @@ INSERT INTO `livestock_category` (`id`, `parent_id`, `category_name`, `category_
 	(25, 23, 'female', NULL, '2021-11-30 14:40:39'),
 	(26, 23, 'male puppy', NULL, '2021-11-30 14:40:54'),
 	(27, 23, 'female puppy', NULL, '2021-11-30 14:41:04');
-/*!40000 ALTER TABLE `livestock_category` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.livestock_group
 CREATE TABLE IF NOT EXISTS `livestock_group` (
@@ -285,12 +270,10 @@ CREATE TABLE IF NOT EXISTS `livestock_group` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='contains groups of animals grouped together for the purpose of feeding or breading';
 
 -- Dumping data for table farmwork.livestock_group: ~2 rows (approximately)
-/*!40000 ALTER TABLE `livestock_group` DISABLE KEYS */;
 INSERT INTO `livestock_group` (`id`, `group_name`, `group_desc`, `created_at`) VALUES
 	(1, 'July Group First', NULL, '2021-12-14 00:13:33'),
 	(2, 'July Group Second', NULL, '2021-12-14 00:14:10'),
 	(3, 'August Group', NULL, '2021-12-14 00:14:19');
-/*!40000 ALTER TABLE `livestock_group` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.livestock_to_group
 CREATE TABLE IF NOT EXISTS `livestock_to_group` (
@@ -306,8 +289,6 @@ CREATE TABLE IF NOT EXISTS `livestock_to_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='reference table that connects created groups to existing livestock';
 
 -- Dumping data for table farmwork.livestock_to_group: ~0 rows (approximately)
-/*!40000 ALTER TABLE `livestock_to_group` DISABLE KEYS */;
-/*!40000 ALTER TABLE `livestock_to_group` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.medication
 CREATE TABLE IF NOT EXISTS `medication` (
@@ -323,14 +304,12 @@ CREATE TABLE IF NOT EXISTS `medication` (
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COMMENT='list of medication';
 
 -- Dumping data for table farmwork.medication: ~6 rows (approximately)
-/*!40000 ALTER TABLE `medication` DISABLE KEYS */;
 INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `on_hand_doses`, `created_at`) VALUES
 	(1, 'Tasvax 8', '<p>For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).</p>', '<p>Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.</p>', '/uploads/medication/tasvax-8.jpg', 0.00, 0, '2019-05-09 23:02:13'),
 	(2, 'Noromectin', '<p>Each mL contains 0.8 mg of ivermectin. Treated animals must not be slaughtered for use in food for at least 14 days after the latest treatment with this drug.</p>', '<p>Dosage and Administration Noromectin should be given as a single dose treatment. Administer orally at a dose of 2.5 mL of Noromectin per 10 kg of bodyweight, with any standard drenching equipment which provides a consistent dose volume. Repeat treatment may be necessary when re-exposure to parasite infection occurs. Noromectin Drench for Sheep Caution Coughing, which usually lasts for only a few minutes, may occur in a small percentage of sheep immediately after treatment; this passing response is of no consequence.</p>', 'https://images-na.ssl-images-amazon.com/images/I/81cX3tCC0tL._AC_SY879_.jpg', 0.00, 0, '2019-05-09 23:04:31'),
 	(4, 'Tetanus Toxoid', 'Anti-toxing vaccination. Takes 2-3 weeks to take effect.', 'Inject intromascularly 1cc/ml. Repeat vaccination in 3-4 weeks again', 'https://www.valleyvet.com/swatches/40277_L_vvs_000.jpg', 0.00, 0, '2020-01-04 22:52:43'),
 	(5, 'Ivomec', '<p>IVOMEC Pour-On for Cattle is a clear, blue colored liquid containing 5 mg of ivermectin per mL (0.5% w/v). IVOMEC Pour-On for Cattle is formulated to deliver the recommended dose level of 500 &micro;g of ivermectin per kg of body weight in cattle when applied along the top line from the withers to the tail head at the rate of 1 mL per 10 kg.</p>', '<p>Apply along the top line from the withers to the tail head at the rate of 1 mL per 10 kg (22 lb).</p>', '/uploads/medication/ivomec.jpg', 0.00, 0, '2020-02-27 10:11:31'),
 	(6, 'Bovi-Shield Gold 5', 'Bovi-Shield GOLD 5 is for vaccination of healthy cattle as an aid in preventing infectious bovine rhinotracheitis caused by infectious bovine rhinotracheitis (IBR) virus, bovine viral diarrhea caused by bovine virus diarrhea (BVD) virus Types 1 and 2, and disease caused by parainfluenza-3 (PI-3) virus and bovine respiratory syncytial (BRS) virus.', 'In accordance with Beef Quality Assurance guidelines, this product should be adminsitered 2 mL subcutaneously in the neck region.', '/uploads/medication/Bovi_Shield_Gold_5.jpg', 0.00, 0, '2020-03-08 21:44:04');
-/*!40000 ALTER TABLE `medication` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.page_settings
 CREATE TABLE IF NOT EXISTS `page_settings` (
@@ -342,12 +321,10 @@ CREATE TABLE IF NOT EXISTS `page_settings` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains default page settings thats are being pulled during page load';
 
 -- Dumping data for table farmwork.page_settings: ~2 rows (approximately)
-/*!40000 ALTER TABLE `page_settings` DISABLE KEYS */;
 INSERT INTO `page_settings` (`id`, `page_name`, `setting_name`, `setting_value`) VALUES
 	(1, 'Accounting Records', 'start_date', '2021-01-01'),
 	(2, 'Accounting Records', 'end_date', '2021-12-31'),
 	(3, 'Vehicle Log Book', 'booklog_date', '2021-01-01');
-/*!40000 ALTER TABLE `page_settings` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.transaction
 CREATE TABLE IF NOT EXISTS `transaction` (
@@ -363,12 +340,74 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~2 rows (approximately)
-/*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
+-- Dumping data for table farmwork.transaction: ~63 rows (approximately)
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
+	('034c5a18-a7ee-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/05/31/northern_feed_&_supplies-034c5a18-a7ee-11ec-ac57-d8cb8ac0caec.jpeg', '2021-05-31 00:00:00', '2022-03-19 21:35:18', '2022-03-19 21:38:41'),
+	('08c81251-a8ce-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/11/15/temiskaming_livestock_exchange_ltd_1992-08c81251-a8ce-11ec-ac57-d8cb8ac0caec.jpeg', '2021-11-15 00:00:00', '2022-03-21 00:18:45', '2022-03-21 00:19:49'),
+	('0bb3712f-a8cd-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/05/10/temiskaming_livestock_exchange_ltd_1992-0bb3712f-a8cd-11ec-ac57-d8cb8ac0caec.jpeg', '2021-05-10 00:00:00', '2022-03-21 00:11:40', '2022-03-21 00:13:17'),
+	('0e09f154-a8c6-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/04/19/northern_feed_&_supplies-0e09f154-a8c6-11ec-ac57-d8cb8ac0caec.jpeg', '2021-04-19 00:00:00', '2022-03-20 23:21:38', '2022-03-20 23:21:43'),
+	('0e9d5187-a7f1-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/07/12/northern_feed_&_supplies-0e9d5187-a7f1-11ec-ac57-d8cb8ac0caec.jpeg', '2021-07-12 00:00:00', '2022-03-19 21:57:05', '2022-03-19 21:57:52'),
+	('1134c581-a8cb-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/06/21/railside_general_supplies-1134c581-a8cb-11ec-ac57-d8cb8ac0caec.jpeg', '2021-06-21 00:00:00', '2022-03-20 23:57:31', '2022-03-20 23:59:27'),
+	('1385a577-a8c5-11ec-ac57-d8cb8ac0caec', '', 'Thornloe Farm Supply Inc', '31 Main St, Thornloe, ON, P0J 1S0', 'C$', 'uploads/transactions/2021/03/08/thornloe_farm_supply_inc-1385a577-a8c5-11ec-ac57-d8cb8ac0caec.jpeg', '2021-03-08 00:00:00', '2022-03-20 23:14:38', '2022-03-20 23:14:43'),
 	('13866f6e-1a11-11ec-9d60-d8cb8ac0caec', 'livestock feed', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/01/02/railside_general_supplies-13866f6e-1a11-11ec-9d60-d8cb8ac0caec.jpg', '2021-01-02 00:00:00', '2021-09-20 08:48:36', '2021-09-20 08:55:27'),
-	('7b1bb52c-1a10-11ec-9d60-d8cb8ac0caec', 'livestock sale', 'Ontario Stockyards Inc', '3807 ON-89, Cookstown, ON L0L 1L0', 'C$', 'uploads/transactions/2021/01/14/ontario_stockyards_inc-7b1bb52c-1a10-11ec-9d60-d8cb8ac0caec.jpg', '2021-01-14 00:00:00', '2021-09-20 08:44:21', '2021-09-20 08:47:36');
-/*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
+	('15ed7026-a95e-11ec-ac57-d8cb8ac0caec', '', 'Thornloe Farm Supply Inc', '31 Main St, Thornloe, ON, P0J 1S0', 'C$', 'uploads/transactions/2021/04/12/thornloe_farm_supply_inc-15ed7026-a95e-11ec-ac57-d8cb8ac0caec.jpeg', '2021-04-12 00:00:00', '2022-03-21 17:29:49', '2022-03-21 17:31:08'),
+	('17be25fa-a958-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/06/28/temiskaming_livestock_exchange_ltd_1992-17be25fa-a958-11ec-ac57-d8cb8ac0caec.jpeg', '2021-06-28 00:00:00', '2022-03-21 16:46:55', '2022-03-21 16:47:46'),
+	('1f30779f-a957-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/10/26/railside_general_supplies-1f30779f-a957-11ec-ac57-d8cb8ac0caec.jpeg', '2021-10-26 00:00:00', '2022-03-21 16:39:58', '2022-03-21 16:41:14'),
+	('2af1ceb6-a7ed-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/12/21/railside_general_supplies-2af1ceb6-a7ed-11ec-ac57-d8cb8ac0caec.jpeg', '2021-12-23 00:00:00', '2022-03-19 21:29:15', '2022-03-19 21:33:41'),
+	('2d6a855a-a95f-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/05/10/railside_general_supplies-2d6a855a-a95f-11ec-ac57-d8cb8ac0caec.jpeg', '2021-05-10 00:00:00', '2022-03-21 17:37:38', '2022-03-21 17:39:40'),
+	('316a1d4a-a8c7-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/04/05/northern_feed_&_supplies-316a1d4a-a8c7-11ec-ac57-d8cb8ac0caec.jpeg', '2021-04-05 00:00:00', '2022-03-20 23:29:47', '2022-03-20 23:29:54'),
+	('3399c3cd-a7f0-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/07/21/railside_general_supplies-3399c3cd-a7f0-11ec-ac57-d8cb8ac0caec.jpeg', '2021-07-21 00:00:00', '2022-03-19 21:50:58', '2022-03-19 21:51:51'),
+	('3bee6669-a7e4-11ec-ac57-d8cb8ac0caec', '', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', 'C$', 'uploads/transactions/2021/03/30/little_bit_western-3bee6669-a7e4-11ec-ac57-d8cb8ac0caec.jpeg', '2021-03-30 00:00:00', '2022-03-19 20:25:18', '2022-03-19 20:26:03'),
+	('3d0563cf-a8c8-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/12/21/temiskaming_livestock_exchange_ltd_1992-3d0563cf-a8c8-11ec-ac57-d8cb8ac0caec.jpeg', '2021-12-13 00:00:00', '2022-03-20 23:37:16', '2022-03-20 23:54:36'),
+	('4216e532-a95a-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/05/04/railside_general_supplies-4216e532-a95a-11ec-ac57-d8cb8ac0caec.jpeg', '2021-05-04 00:00:00', '2022-03-21 17:02:25', '2022-03-21 17:04:30'),
+	('491c2740-a8c2-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/06/22/northern_feed_&_supplies-491c2740-a8c2-11ec-ac57-d8cb8ac0caec.jpeg', '2021-06-22 00:00:00', '2022-03-20 22:54:39', '2022-03-20 22:56:42'),
+	('4a4b1f54-a8ce-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/11/09/railside_general_supplies-4a4b1f54-a8ce-11ec-ac57-d8cb8ac0caec.jpeg', '2021-11-09 00:00:00', '2022-03-21 00:20:35', '2022-03-21 00:22:27'),
+	('4b5d8657-a8ca-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/05/17/temiskaming_livestock_exchange_ltd_1992-4b5d8657-a8ca-11ec-ac57-d8cb8ac0caec.jpeg', '2021-05-17 00:00:00', '2022-03-20 23:51:59', '2022-03-20 23:53:34'),
+	('4bea62a2-a959-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/09/13/northern_feed_&_supplies-4bea62a2-a959-11ec-ac57-d8cb8ac0caec.jpeg', '2021-09-13 00:00:00', '2022-03-21 16:55:32', '2022-03-21 16:56:06'),
+	('5391b875-a95d-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/04/05/temiskaming_livestock_exchange_ltd_1992-5391b875-a95d-11ec-ac57-d8cb8ac0caec.jpeg', '2021-04-05 00:00:00', '2022-03-21 17:24:23', '2022-03-21 17:29:03'),
+	('609843e2-a8c4-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/07/12/thornloe_farm_supply_inc-609843e2-a8c4-11ec-ac57-d8cb8ac0caec.jpeg', '2021-07-12 00:00:00', '2022-03-20 23:09:37', '2022-03-20 23:10:08'),
+	('6d47200b-a958-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/09/27/temiskaming_livestock_exchange_ltd_1992-6d47200b-a958-11ec-ac57-d8cb8ac0caec.jpeg', '2021-09-27 00:00:00', '2022-03-21 16:49:18', '2022-03-21 16:50:12'),
+	('6dababaf-a95e-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/09/27/railside_general_supplies-6dababaf-a95e-11ec-ac57-d8cb8ac0caec.jpeg', '2021-09-27 00:00:00', '2022-03-21 17:32:16', '2022-03-21 17:32:45'),
+	('6e85c84d-a957-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/10/19/northern_feed_&_supplies-6e85c84d-a957-11ec-ac57-d8cb8ac0caec.jpeg', '2021-10-19 00:00:00', '2022-03-21 16:42:11', '2022-03-21 16:43:29'),
+	('723b280e-a959-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/03/22/temiskaming_livestock_exchange_ltd_1992-723b280e-a959-11ec-ac57-d8cb8ac0caec.jpeg', '2021-03-22 00:00:00', '2022-03-21 16:56:36', '2022-03-21 16:57:48'),
+	('7a266a10-a8cd-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/06/29/railside_general_supplies-7a266a10-a8cd-11ec-ac57-d8cb8ac0caec.jpeg', '2021-06-29 00:00:00', '2022-03-21 00:14:46', '2022-03-21 00:15:12'),
+	('7b1bb52c-1a10-11ec-9d60-d8cb8ac0caec', 'livestock sale', 'Ontario Stockyards Inc', '3807 ON-89, Cookstown, ON L0L 1L0', 'C$', 'uploads/transactions/2021/01/14/ontario_stockyards_inc-7b1bb52c-1a10-11ec-9d60-d8cb8ac0caec.jpg', '2021-01-14 00:00:00', '2021-09-20 08:44:21', '2021-09-20 08:47:36'),
+	('7c7b5d56-a7f0-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/08/05/railside_general_supplies-7c7b5d56-a7f0-11ec-ac57-d8cb8ac0caec.jpeg', '2021-08-05 00:00:00', '2022-03-19 21:53:00', '2022-03-19 21:55:56'),
+	('7d8a7933-a8c5-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/04/03/railside_general_supplies-7d8a7933-a8c5-11ec-ac57-d8cb8ac0caec.jpeg', '2021-04-03 00:00:00', '2022-03-20 23:17:35', '2022-03-20 23:18:34'),
+	('82875753-a7e2-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/12/31/railside_general_supplies-82875753-a7e2-11ec-ac57-d8cb8ac0caec.jpeg', '2021-12-31 00:00:00', '2022-03-19 20:12:57', '2022-03-19 20:18:28'),
+	('83da07a6-a8c3-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/08/17/northern_feed_&_supplies-83da07a6-a8c3-11ec-ac57-d8cb8ac0caec.jpeg', '2021-08-17 00:00:00', '2022-03-20 23:03:27', '2022-03-20 23:04:19'),
+	('852c2393-a8c7-11ec-ac57-d8cb8ac0caec', '', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', 'C$', 'uploads/transactions/2021/12/22/little_bit_western-852c2393-a8c7-11ec-ac57-d8cb8ac0caec.jpeg', '2021-12-22 00:00:00', '2022-03-20 23:32:07', '2022-03-20 23:32:55'),
+	('86e5e6bf-a8c6-11ec-ac57-d8cb8ac0caec', '', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', 'C$', 'uploads/transactions/2021/04/08/little_bit_western-86e5e6bf-a8c6-11ec-ac57-d8cb8ac0caec.jpeg', '2021-04-08 00:00:00', '2022-03-20 23:25:01', '2022-03-20 23:25:08'),
+	('8d949ed7-a7e3-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/12/29/railside_general_supplies-8d949ed7-a7e3-11ec-ac57-d8cb8ac0caec.jpeg', '2021-12-29 00:00:00', '2022-03-19 20:20:25', '2022-03-19 20:21:53'),
+	('920f7e7a-a95e-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/09/20/railside_general_supplies-920f7e7a-a95e-11ec-ac57-d8cb8ac0caec.jpeg', '2021-09-20 00:00:00', '2022-03-21 17:33:17', '2022-03-21 17:33:45'),
+	('9470bd6d-a95f-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/01/02/railside_general_supplies-9470bd6d-a95f-11ec-ac57-d8cb8ac0caec.jpeg', '2021-01-02 00:00:00', '2022-03-21 17:40:30', '2022-03-21 17:41:56'),
+	('9c47eefc-a95c-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/04/12/temiskaming_livestock_exchange_ltd_1992-9c47eefc-a95c-11ec-ac57-d8cb8ac0caec.jpeg', '2021-04-12 00:00:00', '2022-03-21 17:19:15', '2022-03-21 17:23:23'),
+	('9f526005-a7ef-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/08/23/railside_general_supplies-9f526005-a7ef-11ec-ac57-d8cb8ac0caec.jpeg', '2021-08-23 00:00:00', '2022-03-19 21:46:49', '2022-03-19 21:48:06'),
+	('a09f1e4c-a8cd-11ec-ac57-d8cb8ac0caec', '', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', 'C$', 'uploads/transactions/2021/06/17/little_bit_western-a09f1e4c-a8cd-11ec-ac57-d8cb8ac0caec.jpeg', '2021-06-17 00:00:00', '2022-03-21 00:15:50', '2022-03-21 00:16:25'),
+	('a23361fc-a958-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/04/27/railside_general_supplies-a23361fc-a958-11ec-ac57-d8cb8ac0caec.jpeg', '2021-04-27 00:00:00', '2022-03-21 16:50:47', '2022-03-21 16:52:20'),
+	('a2a91f84-a8ce-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/11/01/temiskaming_livestock_exchange_ltd_1992-a2a91f84-a8ce-11ec-ac57-d8cb8ac0caec.jpeg', '2021-11-01 00:00:00', '2022-03-21 00:23:03', '2022-03-21 00:24:42'),
+	('a9959d2e-a7e4-11ec-ac57-d8cb8ac0caec', '', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', 'C$', 'uploads/transactions/2021/03/01/little_bit_western-a9959d2e-a7e4-11ec-ac57-d8cb8ac0caec.jpeg', '2021-03-01 00:00:00', '2022-03-19 20:28:22', '2022-03-19 20:29:18'),
+	('b052e4ba-a959-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/03/08/temiskaming_livestock_exchange_ltd_1992-b052e4ba-a959-11ec-ac57-d8cb8ac0caec.jpeg', '2021-03-08 00:00:00', '2022-03-21 16:58:20', '2022-03-21 16:59:47'),
+	('b2177d4c-a957-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/10/18/railside_general_supplies-b2177d4c-a957-11ec-ac57-d8cb8ac0caec.jpeg', '2021-10-18 00:00:00', '2022-03-21 16:44:04', '2022-03-21 16:44:43'),
+	('b3759a5c-a95e-11ec-ac57-d8cb8ac0caec', '', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', 'C$', 'uploads/transactions/2021/09/24/little_bit_western-b3759a5c-a95e-11ec-ac57-d8cb8ac0caec.jpeg', '2021-09-24 00:00:00', '2022-03-21 17:34:13', '2022-03-21 17:34:45'),
+	('b3898a8c-a8c4-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/08/07/northern_feed_&_supplies-b3898a8c-a8c4-11ec-ac57-d8cb8ac0caec.jpeg', '2021-08-07 00:00:00', '2022-03-20 23:11:57', '2022-03-20 23:12:02'),
+	('b405c0cd-a7ee-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/05/17/railside_general_supplies-b405c0cd-a7ee-11ec-ac57-d8cb8ac0caec.jpeg', '2021-05-17 00:00:00', '2022-03-19 21:40:14', '2022-03-19 21:45:06'),
+	('b9f05c00-a8c5-11ec-ac57-d8cb8ac0caec', '', 'Thornloe Farm Supply Inc', '31 Main St, Thornloe, ON, P0J 1S0', 'C$', 'uploads/transactions/2021/03/22/thornloe_farm_supply_inc-b9f05c00-a8c5-11ec-ac57-d8cb8ac0caec.jpeg', '2021-03-22 00:00:00', '2022-03-20 23:19:17', '2022-03-20 23:20:46'),
+	('bc107127-a8c7-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/11/17/railside_general_supplies-bc107127-a8c7-11ec-ac57-d8cb8ac0caec.jpeg', '2021-11-17 00:00:00', '2022-03-20 23:33:39', '2022-03-20 23:35:27'),
+	('bc3827b2-a8c6-11ec-ac57-d8cb8ac0caec', '', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', 'C$', 'uploads/transactions/2021/03/16/little_bit_western-bc3827b2-a8c6-11ec-ac57-d8cb8ac0caec.jpeg', '2021-03-16 00:00:00', '2022-03-20 23:26:30', '2022-03-20 23:26:35'),
+	('be0943a9-a8cc-11ec-ac57-d8cb8ac0caec', '', 'LEIS Landscaping & Country Store', '998063 Hwy 11 North, New Liskeard, Ontario, P0J 1P0', 'C$', 'uploads/transactions/2021/06/22/leis_landscaping_&_country_store-be0943a9-a8cc-11ec-ac57-d8cb8ac0caec.jpeg', '2021-06-22 00:00:00', '2022-03-21 00:09:30', '2022-03-21 00:10:38'),
+	('cf224c7d-a8ca-11ec-ac57-d8cb8ac0caec', 'No receipt. Paid in cash.', 'Private Buyer', '', 'C$', NULL, '2021-10-16 00:00:00', '2022-03-20 23:55:40', '2022-03-20 23:56:21'),
+	('d2291662-a8cd-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/11/23/northern_feed_&_supplies-d2291662-a8cd-11ec-ac57-d8cb8ac0caec.jpeg', '2021-11-23 00:00:00', '2022-03-21 00:17:13', '2022-03-21 00:18:05'),
+	('d7c49b53-a95e-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/10/12/railside_general_supplies-d7c49b53-a95e-11ec-ac57-d8cb8ac0caec.jpeg', '2021-10-12 00:00:00', '2022-03-21 17:35:14', '2022-03-21 17:35:42'),
+	('df3b38e9-a957-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/10/04/railside_general_supplies-df3b38e9-a957-11ec-ac57-d8cb8ac0caec.jpeg', '2021-10-04 00:00:00', '2022-03-21 16:45:20', '2022-03-21 16:46:05'),
+	('e29293e3-a7ef-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/08/30/railside_general_supplies-e29293e3-a7ef-11ec-ac57-d8cb8ac0caec.jpeg', '2021-08-30 00:00:00', '2022-03-19 21:48:42', '2022-03-19 21:49:40'),
+	('e6cdaa64-a8c8-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/03/29/temiskaming_livestock_exchange_ltd_1992-e6cdaa64-a8c8-11ec-ac57-d8cb8ac0caec.jpeg', '2021-03-29 00:00:00', '2022-03-20 23:42:01', '2022-03-20 23:44:38'),
+	('e80add8c-a8c3-11ec-ac57-d8cb8ac0caec', '', 'Thornloe Farm Supply Inc', '31 Main St, Thornloe, ON, P0J 1S0', 'C$', 'uploads/transactions/2021/03/15/thornloe_farm_supply_inc-e80add8c-a8c3-11ec-ac57-d8cb8ac0caec.jpeg', '2021-03-15 00:00:00', '2022-03-20 23:06:15', '2022-03-20 23:07:02'),
+	('ee16c2e2-a958-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/05/25/railside_general_supplies-ee16c2e2-a958-11ec-ac57-d8cb8ac0caec.jpeg', '2021-05-25 00:00:00', '2022-03-21 16:52:54', '2022-03-21 16:54:53'),
+	('f3b423fc-a7e3-11ec-ac57-d8cb8ac0caec', '', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', 'C$', 'uploads/transactions/2021/03/25/little_bit_western-f3b423fc-a7e3-11ec-ac57-d8cb8ac0caec.jpeg', '2021-03-25 00:00:00', '2022-03-19 20:23:17', '2022-03-19 20:24:14'),
+	('fa48549c-a959-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/03/15/temiskaming_livestock_exchange_ltd_1992-fa48549c-a959-11ec-ac57-d8cb8ac0caec.jpeg', '2021-03-15 00:00:00', '2022-03-21 17:00:24', '2022-03-21 17:01:36'),
+	('fbc10d97-a7e4-11ec-ac57-d8cb8ac0caec', '', 'Railside General Supplies', '3272 Monahan Rd, Val Gagne, On, P0K 1W0, Canada', 'C$', 'uploads/transactions/2021/12/27/railside_general_supplies-fbc10d97-a7e4-11ec-ac57-d8cb8ac0caec.jpeg', '2021-12-27 00:00:00', '2022-03-19 20:30:40', '2022-03-19 20:31:12'),
+	('fd563265-a95e-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/09/29/northern_feed_&_supplies-fd563265-a95e-11ec-ac57-d8cb8ac0caec.jpeg', '2021-09-29 00:00:00', '2022-03-21 17:36:17', '2022-03-21 17:36:48');
 
 -- Dumping structure for table farmwork.transaction_category
 CREATE TABLE IF NOT EXISTS `transaction_category` (
@@ -378,10 +417,9 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
 
 -- Dumping data for table farmwork.transaction_category: ~38 rows (approximately)
-/*!40000 ALTER TABLE `transaction_category` DISABLE KEYS */;
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
 	(5, 0, 'Livestock', 'Livestock types (cattle, chicken, horse, sheep, goats etc...)', '2019-05-03 09:30:51'),
@@ -420,8 +458,8 @@ INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `categor
 	(52, 1, 'Straw', '', '2021-07-18 20:31:19'),
 	(53, 26, 'Office Supplies', '', '2021-07-18 21:15:57'),
 	(55, 9, 'Tube Feeder', '', '2021-09-12 21:17:49'),
-	(56, 1, 'Soybean meal', 'Protein supplement for a feed.', '2021-09-20 08:50:46');
-/*!40000 ALTER TABLE `transaction_category` ENABLE KEYS */;
+	(56, 1, 'Soybean meal', 'Protein supplement for a feed.', '2021-09-20 08:50:46'),
+	(57, 1, 'Feed Mix', '', '2022-03-20 23:07:48');
 
 -- Dumping structure for table farmwork.transaction_item
 CREATE TABLE IF NOT EXISTS `transaction_item` (
@@ -442,14 +480,143 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~4 rows (approximately)
-/*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
+-- Dumping data for table farmwork.transaction_item: ~132 rows (approximately)
 INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
+	('052158d8-a7e3-11ec-ac57-d8cb8ac0caec', '82875753-a7e2-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1bg', '', 'Feed', 'Mineral Mix', -18.00, 0.00, 0.00, 0.00, 1, '2022-03-19 20:16:36'),
+	('06d1af10-a95a-11ec-ac57-d8cb8ac0caec', 'fa48549c-a959-11ec-ac57-d8cb8ac0caec', 'Black Calf - 90 lb', '', 'Livestock', 'Cattle', -279.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:00:45'),
+	('0821f768-a95d-11ec-ac57-d8cb8ac0caec', '9c47eefc-a95c-11ec-ac57-d8cb8ac0caec', 'Black Calf - 110 lb', '', 'Livestock', 'Cattle', -385.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:22:16'),
+	('0af8dcc7-a7e5-11ec-ac57-d8cb8ac0caec', 'fbc10d97-a7e4-11ec-ac57-d8cb8ac0caec', 'Hay - 8 bales', '', 'Feed', 'Hay', -40.00, 0.00, 0.00, 0.00, 1, '2022-03-19 20:31:05'),
+	('0c6e08fe-a95f-11ec-ac57-d8cb8ac0caec', 'fd563265-a95e-11ec-ac57-d8cb8ac0caec', ' Soy and Corn Mix - 1 tone', '', 'Feed', 'Feed Mix', -586.07, 0.00, 0.00, 0.00, 1, '2022-03-21 17:36:42'),
+	('0e4b601d-a7ef-11ec-ac57-d8cb8ac0caec', 'b405c0cd-a7ee-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 3bgs', '', 'Feed', 'Calf Starter', -63.00, 0.00, 0.00, 0.00, 1, '2022-03-19 21:42:46'),
+	('0e81d063-a959-11ec-ac57-d8cb8ac0caec', 'ee16c2e2-a958-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 3 bgs', '', 'Feed', 'Calf Starter', -67.50, 0.00, 0.00, 0.00, 1, '2022-03-21 16:53:49'),
+	('1108e58c-a8c9-11ec-ac57-d8cb8ac0caec', 'e6cdaa64-a8c8-11ec-ac57-d8cb8ac0caec', 'Black Calf - 85 lb', '', 'Livestock', 'Cattle', -289.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:43:11'),
+	('12138814-a7e4-11ec-ac57-d8cb8ac0caec', 'f3b423fc-a7e3-11ec-ac57-d8cb8ac0caec', 'Straw - 2 bales', '', 'Feed', 'Straw', -23.50, 0.00, 0.00, 0.00, 1, '2022-03-19 20:24:08'),
+	('156b89c5-a95a-11ec-ac57-d8cb8ac0caec', 'fa48549c-a959-11ec-ac57-d8cb8ac0caec', 'Black Calf - 100 lb', '', 'Livestock', 'Cattle', -330.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:01:10'),
+	('1945a88c-a95d-11ec-ac57-d8cb8ac0caec', '9c47eefc-a95c-11ec-ac57-d8cb8ac0caec', 'Black Calf - 125 lb', '', 'Livestock', 'Cattle', -475.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:22:45'),
+	('1ece34ba-a8cb-11ec-ac57-d8cb8ac0caec', '1134c581-a8cb-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 1 bg', '', 'Feed', 'Milk Replacer', -77.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:57:53'),
+	('20aed2ad-a7e3-11ec-ac57-d8cb8ac0caec', '82875753-a7e2-11ec-ac57-d8cb8ac0caec', 'Soybean Meal - 1bg', '', 'Feed', 'Soybean meal', -20.00, 0.00, 0.00, 0.00, 1, '2022-03-19 20:17:23'),
+	('20d7b67b-a8ce-11ec-ac57-d8cb8ac0caec', '08c81251-a8ce-11ec-ac57-d8cb8ac0caec', 'Calves - 2 heads', '', 'Livestock', 'Cattle', 1464.69, 0.00, 0.00, 0.00, 0, '2022-03-21 00:19:25'),
+	('21cceefc-a95a-11ec-ac57-d8cb8ac0caec', 'fa48549c-a959-11ec-ac57-d8cb8ac0caec', 'Black Calf - 90 lb', '', 'Livestock', 'Cattle', -315.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:01:31'),
+	('22b4a324-a959-11ec-ac57-d8cb8ac0caec', 'ee16c2e2-a958-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1 bg', '', 'Feed', 'Mineral Mix', -19.60, 0.00, 0.00, 0.00, 1, '2022-03-21 16:54:23'),
+	('248cd457-a7f1-11ec-ac57-d8cb8ac0caec', '0e9d5187-a7f1-11ec-ac57-d8cb8ac0caec', 'Wood Shavings - 2bgs', '', 'Feed', 'Wood Shavings', -9.90, 0.00, 0.00, 0.00, 1, '2022-03-19 21:57:42'),
+	('258f9417-a8cd-11ec-ac57-d8cb8ac0caec', '0bb3712f-a8cd-11ec-ac57-d8cb8ac0caec', 'Black Calf - 115 lb', '', 'Livestock', 'Cattle', -460.00, 0.00, 0.00, 0.00, 1, '2022-03-21 00:12:24'),
 	('287936b1-1a11-11ec-9d60-d8cb8ac0caec', '13866f6e-1a11-11ec-9d60-d8cb8ac0caec', 'Cracked Corn 8 bgs', '', 'Feed', 'Cracked Corn', -124.00, 0.00, 0.00, 0.00, 1, '2021-09-20 08:49:11'),
+	('2a9651fe-a7ef-11ec-ac57-d8cb8ac0caec', 'b405c0cd-a7ee-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1bg', '', 'Feed', 'Mineral Mix', -19.60, 0.00, 0.00, 0.00, 1, '2022-03-19 21:43:33'),
+	('2ad6d5c0-a95d-11ec-ac57-d8cb8ac0caec', '9c47eefc-a95c-11ec-ac57-d8cb8ac0caec', 'Black Calf - 105 lb', '', 'Livestock', 'Cattle', -409.50, 0.00, 0.00, 0.00, 1, '2022-03-21 17:23:14'),
+	('2af3eec7-a7ee-11ec-ac57-d8cb8ac0caec', '034c5a18-a7ee-11ec-ac57-d8cb8ac0caec', 'AVL Ivermectin Pour On - 1 litre', '', 'Veterinary', '', -58.99, 0.00, 0.00, 0.00, 1, '2022-03-19 21:36:24'),
+	('2d57b567-a95e-11ec-ac57-d8cb8ac0caec', '15ed7026-a95e-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 3 bgs', '', 'Feed', 'Calf Starter', -71.85, 0.00, 0.00, 0.00, 1, '2022-03-21 17:30:28'),
+	('2d670892-a8c5-11ec-ac57-d8cb8ac0caec', '1385a577-a8c5-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 2bgs', '', 'Feed', 'Milk Replacer', -180.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:15:21'),
+	('2daedd0c-a959-11ec-ac57-d8cb8ac0caec', 'ee16c2e2-a958-11ec-ac57-d8cb8ac0caec', 'Straw - 3 bales', '', 'Feed', 'Straw', -12.00, 0.00, 0.00, 0.00, 1, '2022-03-21 16:54:41'),
+	('2fa750b0-a7e3-11ec-ac57-d8cb8ac0caec', '82875753-a7e2-11ec-ac57-d8cb8ac0caec', 'Hay - 4 bales', '', 'Feed', 'Hay', -20.00, 0.00, 0.00, 0.00, 1, '2022-03-19 20:17:48'),
+	('302eeb0f-a8c9-11ec-ac57-d8cb8ac0caec', 'e6cdaa64-a8c8-11ec-ac57-d8cb8ac0caec', 'Black Calf - 80 lb', '', 'Livestock', 'Cattle', -296.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:44:04'),
+	('320750f4-a958-11ec-ac57-d8cb8ac0caec', '17be25fa-a958-11ec-ac57-d8cb8ac0caec', 'Black Calf - 520 lb', '', 'Livestock', 'Cattle', 770.08, 0.00, 0.00, 0.00, 0, '2022-03-21 16:47:39'),
+	('32757948-a8cb-11ec-ac57-d8cb8ac0caec', '1134c581-a8cb-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 2 bgs', '', 'Feed', 'Mineral Mix', -39.20, 0.00, 0.00, 0.00, 1, '2022-03-20 23:58:26'),
+	('32cd4c21-a8cd-11ec-ac57-d8cb8ac0caec', '0bb3712f-a8cd-11ec-ac57-d8cb8ac0caec', 'Black Calf - 125 lb', '', 'Livestock', 'Cattle', -475.00, 0.00, 0.00, 0.00, 1, '2022-03-21 00:12:46'),
+	('355a64b5-a8c6-11ec-ac57-d8cb8ac0caec', '0e09f154-a8c6-11ec-ac57-d8cb8ac0caec', 'Soy and Corn Mix - 2 tones', '', 'Feed', 'Feed Mix', -1151.40, 0.00, 0.00, 0.00, 1, '2022-03-20 23:22:44'),
+	('3f3a2fe5-a8c9-11ec-ac57-d8cb8ac0caec', 'e6cdaa64-a8c8-11ec-ac57-d8cb8ac0caec', 'Black Calf - 80 lb', '', 'Livestock', 'Cattle', -288.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:44:29'),
+	('41e9ffd2-a95e-11ec-ac57-d8cb8ac0caec', '15ed7026-a95e-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 4 bgs', '', 'Feed', 'Milk Replacer', -354.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:31:02'),
+	('42518f34-a8cd-11ec-ac57-d8cb8ac0caec', '0bb3712f-a8cd-11ec-ac57-d8cb8ac0caec', 'Black Calf - 110 lb', '', 'Livestock', 'Cattle', -418.00, 0.00, 0.00, 0.00, 1, '2022-03-21 00:13:12'),
+	('42e32235-a8c5-11ec-ac57-d8cb8ac0caec', '1385a577-a8c5-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 1bg', '', 'Feed', 'Calf Starter', -22.42, 0.00, 0.00, 0.00, 1, '2022-03-20 23:15:57'),
+	('44252fba-a8cb-11ec-ac57-d8cb8ac0caec', '1134c581-a8cb-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 3 bgs', '', 'Feed', 'Calf Starter', -67.50, 0.00, 0.00, 0.00, 1, '2022-03-20 23:58:56'),
+	('45e13a6a-a7ed-11ec-ac57-d8cb8ac0caec', '2af1ceb6-a7ed-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1 bg', '', 'Feed', 'Mineral Mix', -18.00, 0.00, 0.00, 0.00, 1, '2022-03-19 21:30:00'),
+	('474bb4b9-a7f0-11ec-ac57-d8cb8ac0caec', '3399c3cd-a7f0-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 4bgs', '', 'Feed', 'Mineral Mix', -78.40, 0.00, 0.00, 0.00, 1, '2022-03-19 21:51:31'),
+	('498323e0-a957-11ec-ac57-d8cb8ac0caec', '1f30779f-a957-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 4 bgs', '', 'Feed', 'Mineral Mix', -74.40, 0.00, 0.00, 0.00, 1, '2022-03-21 16:41:09'),
+	('4be1e34e-a7ef-11ec-ac57-d8cb8ac0caec', 'b405c0cd-a7ee-11ec-ac57-d8cb8ac0caec', 'Straw - 2 bales', '', 'Feed', 'Straw', -8.00, 0.00, 0.00, 0.00, 1, '2022-03-19 21:44:29'),
+	('4c77c0b4-a8c6-11ec-ac57-d8cb8ac0caec', '0e09f154-a8c6-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 3bgs', '', 'Feed', 'Calf Starter', -70.40, 0.00, 0.00, 0.00, 1, '2022-03-20 23:23:23'),
+	('4c821428-a7ee-11ec-ac57-d8cb8ac0caec', '034c5a18-a7ee-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 3bg', '', 'Feed', 'Milk Replacer', -238.42, 0.00, 0.00, 0.00, 1, '2022-03-19 21:37:21'),
+	('4f592eb3-a7e4-11ec-ac57-d8cb8ac0caec', '3bee6669-a7e4-11ec-ac57-d8cb8ac0caec', 'Straw - 2 bales', '', 'Feed', 'Straw', -23.50, 0.00, 0.00, 0.00, 1, '2022-03-19 20:25:50'),
+	('501dd31a-a8c7-11ec-ac57-d8cb8ac0caec', '316a1d4a-a8c7-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 2 bgs', '', 'Feed', 'Milk Replacer', -158.95, 0.00, 0.00, 0.00, 1, '2022-03-20 23:30:38'),
+	('51fa0712-a8cb-11ec-ac57-d8cb8ac0caec', '1134c581-a8cb-11ec-ac57-d8cb8ac0caec', 'Straw - 3 bales', '', 'Feed', 'Straw', -12.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:59:19'),
+	('57a9d911-a95a-11ec-ac57-d8cb8ac0caec', '4216e532-a95a-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 2 bgs', '', 'Feed', 'Milk Replacer', -146.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:03:01'),
+	('59a76889-a95f-11ec-ac57-d8cb8ac0caec', '2d6a855a-a95f-11ec-ac57-d8cb8ac0caec', 'Hay - 5 bales', '', 'Feed', 'Hay', -20.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:38:52'),
+	('5a5edf8f-a7ef-11ec-ac57-d8cb8ac0caec', 'b405c0cd-a7ee-11ec-ac57-d8cb8ac0caec', 'Shavings - 2bgs', '', 'Feed', 'Wood Shavings', -12.00, 0.00, 0.00, 0.00, 1, '2022-03-19 21:44:53'),
+	('5a7730d7-a8ce-11ec-ac57-d8cb8ac0caec', '4a4b1f54-a8ce-11ec-ac57-d8cb8ac0caec', 'Cracked Corn - 9 bgs', '', 'Feed', 'Cracked Corn', -139.50, 0.00, 0.00, 0.00, 1, '2022-03-21 00:21:02'),
+	('5b7b35ad-a959-11ec-ac57-d8cb8ac0caec', '4bea62a2-a959-11ec-ac57-d8cb8ac0caec', 'Soy and Corn Mix - 1 tone', '', 'Feed', 'Feed Mix', -606.90, 0.00, 0.00, 0.00, 1, '2022-03-21 16:55:58'),
+	('5cf39821-a8ca-11ec-ac57-d8cb8ac0caec', '4b5d8657-a8ca-11ec-ac57-d8cb8ac0caec', 'Black Calf - 100 lb', '', 'Livestock', 'Cattle', -350.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:52:28'),
+	('6245de85-a95d-11ec-ac57-d8cb8ac0caec', '5391b875-a95d-11ec-ac57-d8cb8ac0caec', 'Black Calf - 80 lb', '', 'Livestock', 'Cattle', -288.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:24:47'),
+	('635e7c2c-a8c6-11ec-ac57-d8cb8ac0caec', '0e09f154-a8c6-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 4bgs', '', 'Feed', 'Milk Replacer', -317.89, 0.00, 0.00, 0.00, 1, '2022-03-20 23:24:01'),
+	('64d9fac8-a95f-11ec-ac57-d8cb8ac0caec', '2d6a855a-a95f-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 1 bg', '', 'Feed', 'Calf Starter', -21.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:39:11'),
+	('67b3926d-a7ed-11ec-ac57-d8cb8ac0caec', '2af1ceb6-a7ed-11ec-ac57-d8cb8ac0caec', 'Soybean Meal -1bg', '', 'Feed', 'Soybean meal', -22.00, 0.00, 0.00, 0.00, 1, '2022-03-19 21:30:57'),
+	('6965433f-a8c7-11ec-ac57-d8cb8ac0caec', '316a1d4a-a8c7-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 2 bgs', '', 'Feed', 'Calf Starter', -58.25, 0.00, 0.00, 0.00, 1, '2022-03-20 23:31:21'),
+	('6a291ddd-a8ce-11ec-ac57-d8cb8ac0caec', '4a4b1f54-a8ce-11ec-ac57-d8cb8ac0caec', 'Soybean Meal - 2 bgs', '', 'Feed', 'Soybean meal', -44.00, 0.00, 0.00, 0.00, 1, '2022-03-21 00:21:28'),
+	('6a2aa548-a7ee-11ec-ac57-d8cb8ac0caec', '034c5a18-a7ee-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 2bgs', '', 'Feed', 'Calf Starter', -46.33, 0.00, 0.00, 0.00, 1, '2022-03-19 21:38:10'),
+	('6a5da928-a95a-11ec-ac57-d8cb8ac0caec', '4216e532-a95a-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 1 bg', '', 'Feed', 'Calf Starter', -22.50, 0.00, 0.00, 0.00, 1, '2022-03-21 17:03:32'),
+	('6e9f9d86-a8c2-11ec-ac57-d8cb8ac0caec', '491c2740-a8c2-11ec-ac57-d8cb8ac0caec', 'Soy and Corn Mix - 1 tone', '', 'Feed', 'Feed Mix', -574.20, 0.00, 0.00, 0.00, 1, '2022-03-20 22:55:42'),
+	('712280fc-a8ca-11ec-ac57-d8cb8ac0caec', '4b5d8657-a8ca-11ec-ac57-d8cb8ac0caec', 'Black Calf - 110 lb', '', 'Livestock', 'Cattle', -418.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:53:02'),
+	('721f561f-a95d-11ec-ac57-d8cb8ac0caec', '5391b875-a95d-11ec-ac57-d8cb8ac0caec', 'Black Calf - 90 lb', '', 'Livestock', 'Cattle', -333.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:25:14'),
+	('72fcbf6d-a95f-11ec-ac57-d8cb8ac0caec', '2d6a855a-a95f-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 3 bgs', '', 'Feed', 'Milk Replacer', -216.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:39:34'),
 	('782013e0-1a11-11ec-9d60-d8cb8ac0caec', '13866f6e-1a11-11ec-9d60-d8cb8ac0caec', 'Soybean meal 2 bgs', '', 'Feed', 'Soybean meal', -52.00, 0.00, 0.00, 0.00, 1, '2021-09-20 08:51:25'),
+	('7a09cc1c-a95e-11ec-ac57-d8cb8ac0caec', '6dababaf-a95e-11ec-ac57-d8cb8ac0caec', 'Hay - 36 bales', '', 'Feed', 'Hay', -180.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:32:37'),
+	('7aa373ad-a95a-11ec-ac57-d8cb8ac0caec', '4216e532-a95a-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1 bg', '', 'Feed', 'Mineral Mix', -19.60, 0.00, 0.00, 0.00, 1, '2022-03-21 17:04:00'),
+	('7b7da2b1-a8ce-11ec-ac57-d8cb8ac0caec', '4a4b1f54-a8ce-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1 bg', '', 'Feed', 'Mineral Mix', -18.00, 0.00, 0.00, 0.00, 1, '2022-03-21 00:21:57'),
+	('7eae6fdc-a958-11ec-ac57-d8cb8ac0caec', '6d47200b-a958-11ec-ac57-d8cb8ac0caec', 'Black Calf - 675 lb', '', 'Livestock', 'Cattle', 1021.77, 0.00, 0.00, 0.00, 0, '2022-03-21 16:49:47'),
+	('7f49958d-a8ca-11ec-ac57-d8cb8ac0caec', '4b5d8657-a8ca-11ec-ac57-d8cb8ac0caec', 'Black Calf - 105 lb', '', 'Livestock', 'Cattle', -388.50, 0.00, 0.00, 0.00, 1, '2022-03-20 23:53:26'),
+	('8414704d-a95d-11ec-ac57-d8cb8ac0caec', '5391b875-a95d-11ec-ac57-d8cb8ac0caec', 'Black Calf - 110 lb', '', 'Livestock', 'Cattle', -396.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:25:44'),
+	('850fd7f9-a8c2-11ec-ac57-d8cb8ac0caec', '491c2740-a8c2-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1bg', '', 'Feed', 'Mineral Mix', -21.47, 0.00, 0.00, 0.00, 1, '2022-03-20 22:56:20'),
+	('85d976c4-a8cd-11ec-ac57-d8cb8ac0caec', '7a266a10-a8cd-11ec-ac57-d8cb8ac0caec', 'Beef Supplement', '', 'Feed', 'Mineral Mix', -98.00, 0.00, 0.00, 0.00, 1, '2022-03-21 00:15:05'),
+	('867d2edc-a957-11ec-ac57-d8cb8ac0caec', '6e85c84d-a957-11ec-ac57-d8cb8ac0caec', 'Soy and Corn Mix - 1 tone', '', 'Feed', 'Feed Mix', -548.05, 0.00, 0.00, 0.00, 1, '2022-03-21 16:42:51'),
+	('89156511-a8ce-11ec-ac57-d8cb8ac0caec', '4a4b1f54-a8ce-11ec-ac57-d8cb8ac0caec', 'Hay - 60 bales', '', 'Feed', 'Hay', -300.00, 0.00, 0.00, 0.00, 1, '2022-03-21 00:22:20'),
+	('897e5b3f-a95a-11ec-ac57-d8cb8ac0caec', '4216e532-a95a-11ec-ac57-d8cb8ac0caec', 'Straw - 3 bales', '', 'Feed', 'Straw', -12.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:04:25'),
+	('8b2354a2-a959-11ec-ac57-d8cb8ac0caec', '723b280e-a959-11ec-ac57-d8cb8ac0caec', 'Black Calf - 105 lb', '', 'Livestock', 'Cattle', -367.50, 0.00, 0.00, 0.00, 1, '2022-03-21 16:57:18'),
+	('8b2710f2-a8c4-11ec-ac57-d8cb8ac0caec', '609843e2-a8c4-11ec-ac57-d8cb8ac0caec', 'Soy and Corn Mix - 1 tone', '', 'Feed', 'Feed Mix', -566.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:10:49'),
+	('8fc007da-a7f0-11ec-ac57-d8cb8ac0caec', '7c7b5d56-a7f0-11ec-ac57-d8cb8ac0caec', 'Cracked Corn - 2bgs', '', 'Feed', 'Cracked Corn', -34.00, 0.00, 0.00, 0.00, 1, '2022-03-19 21:53:32'),
+	('99097b9c-a957-11ec-ac57-d8cb8ac0caec', '6e85c84d-a957-11ec-ac57-d8cb8ac0caec', 'Salt', '', 'Feed', 'Salt', -9.24, 0.00, 0.00, 0.00, 1, '2022-03-21 16:43:22'),
+	('9a2500ca-a959-11ec-ac57-d8cb8ac0caec', '723b280e-a959-11ec-ac57-d8cb8ac0caec', 'Black Calf - 100 lb', '', 'Livestock', 'Cattle', -340.00, 0.00, 0.00, 0.00, 1, '2022-03-21 16:57:43'),
+	('9a60623c-a7ed-11ec-ac57-d8cb8ac0caec', '2af1ceb6-a7ed-11ec-ac57-d8cb8ac0caec', 'Cracked Corn - 5bg', '', 'Feed', 'Cracked Corn', -77.50, 0.00, 0.00, 0.00, 1, '2022-03-19 21:32:22'),
+	('9a93bc60-a8c3-11ec-ac57-d8cb8ac0caec', '83da07a6-a8c3-11ec-ac57-d8cb8ac0caec', 'Soy and Corn Mix - 1 tone', '', 'Feed', 'Feed Mix', -606.90, 0.00, 0.00, 0.00, 1, '2022-03-20 23:04:05'),
+	('9c429f0d-a8c5-11ec-ac57-d8cb8ac0caec', '7d8a7933-a8c5-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 1bg', '', 'Feed', 'Calf Starter', -22.50, 0.00, 0.00, 0.00, 1, '2022-03-20 23:18:27'),
+	('9e87d5ef-a8c7-11ec-ac57-d8cb8ac0caec', '852c2393-a8c7-11ec-ac57-d8cb8ac0caec', 'Cracked Corn - 1 bg', '', 'Feed', 'Cracked Corn', -21.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:32:50'),
+	('9fd9873d-a95e-11ec-ac57-d8cb8ac0caec', '920f7e7a-a95e-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 5 bgs', '', 'Feed', 'Mineral Mix', -98.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:33:40'),
+	('a149d193-a95d-11ec-ac57-d8cb8ac0caec', '5391b875-a95d-11ec-ac57-d8cb8ac0caec', 'Black Calf - 130 lb', '', 'Livestock', 'Cattle', -442.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:26:33'),
+	('a1ac704a-a8c6-11ec-ac57-d8cb8ac0caec', '86e5e6bf-a8c6-11ec-ac57-d8cb8ac0caec', 'Straw - 3 bales', '', 'Feed', 'Straw', -35.25, 0.00, 0.00, 0.00, 1, '2022-03-20 23:25:46'),
+	('a3400c67-a95f-11ec-ac57-d8cb8ac0caec', '9470bd6d-a95f-11ec-ac57-d8cb8ac0caec', 'Cracked Corn - 8 bgs', '', 'Feed', 'Cracked Corn', -124.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:40:55'),
+	('a3535f3a-a7f0-11ec-ac57-d8cb8ac0caec', '7c7b5d56-a7f0-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 3bgs', '', 'Feed', 'Mineral Mix', -58.80, 0.00, 0.00, 0.00, 1, '2022-03-19 21:54:05'),
+	('a4f7a712-a7e3-11ec-ac57-d8cb8ac0caec', '8d949ed7-a7e3-11ec-ac57-d8cb8ac0caec', 'Cracked Corn - 2bg', '', 'Feed', 'Cracked Corn', -31.00, 0.00, 0.00, 0.00, 1, '2022-03-19 20:21:05'),
+	('acfc3237-a95c-11ec-ac57-d8cb8ac0caec', '9c47eefc-a95c-11ec-ac57-d8cb8ac0caec', 'Black Calf - 185 lb', '', 'Livestock', 'Cattle', -564.25, 0.00, 0.00, 0.00, 1, '2022-03-21 17:19:43'),
 	('ad6de632-1a10-11ec-9d60-d8cb8ac0caec', '7b1bb52c-1a10-11ec-9d60-d8cb8ac0caec', '2 Steers and 2 Heifers. Average weight 614 lb', '', 'Livestock', 'Cattle', 3882.24, 0.00, 0.00, 0.00, 0, '2021-09-20 08:45:45'),
-	('b46a94f2-1a11-11ec-9d60-d8cb8ac0caec', '13866f6e-1a11-11ec-9d60-d8cb8ac0caec', '40% Beef Supplement - 1bg ', '', 'Feed', 'Mineral Mix', -18.00, 0.00, 0.00, 0.00, 1, '2021-09-20 08:53:06');
-/*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
+	('afe6a32b-a958-11ec-ac57-d8cb8ac0caec', 'a23361fc-a958-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 3 bgs', '', 'Feed', 'Milk Replacer', -219.00, 0.00, 0.00, 0.00, 1, '2022-03-21 16:51:10'),
+	('b01d7f9c-a8cd-11ec-ac57-d8cb8ac0caec', 'a09f1e4c-a8cd-11ec-ac57-d8cb8ac0caec', 'Straw - 2 bales', '', 'Feed', 'Straw', -23.50, 0.00, 0.00, 0.00, 1, '2022-03-21 00:16:16'),
+	('b2a3b3d6-a8c8-11ec-ac57-d8cb8ac0caec', '3d0563cf-a8c8-11ec-ac57-d8cb8ac0caec', 'Calves - 4 heads', '', 'Livestock', 'Cattle', 1236.54, 0.00, 0.00, 0.00, 0, '2022-03-20 23:40:33'),
+	('b46a94f2-1a11-11ec-9d60-d8cb8ac0caec', '13866f6e-1a11-11ec-9d60-d8cb8ac0caec', '40% Beef Supplement - 1bg ', '', 'Feed', 'Mineral Mix', -18.00, 0.00, 0.00, 0.00, 1, '2021-09-20 08:53:06'),
+	('b58fbda9-a95f-11ec-ac57-d8cb8ac0caec', '9470bd6d-a95f-11ec-ac57-d8cb8ac0caec', 'Soybean Meal - 2 bgs', '', 'Feed', 'Soybean meal', -52.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:41:26'),
+	('b8f195cc-a95d-11ec-ac57-d8cb8ac0caec', '5391b875-a95d-11ec-ac57-d8cb8ac0caec', 'Black Calf - 95 lb', '', 'Livestock', 'Cattle', -332.50, 0.00, 0.00, 0.00, 1, '2022-03-21 17:27:13'),
+	('bafd9a98-a7ef-11ec-ac57-d8cb8ac0caec', '9f526005-a7ef-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1bg', '', 'Feed', 'Mineral Mix', -19.60, 0.00, 0.00, 0.00, 1, '2022-03-19 21:47:36'),
+	('bd943db3-a7e3-11ec-ac57-d8cb8ac0caec', '8d949ed7-a7e3-11ec-ac57-d8cb8ac0caec', 'Soybean Meal - 1bg', '', 'Feed', 'Soybean meal', -22.00, 0.00, 0.00, 0.00, 1, '2022-03-19 20:21:46'),
+	('bdb27136-a95c-11ec-ac57-d8cb8ac0caec', '9c47eefc-a95c-11ec-ac57-d8cb8ac0caec', 'Black Calf - 255 lb', '', 'Livestock', 'Cattle', -484.50, 0.00, 0.00, 0.00, 1, '2022-03-21 17:20:11'),
+	('bde4a5ba-a7e4-11ec-ac57-d8cb8ac0caec', 'a9959d2e-a7e4-11ec-ac57-d8cb8ac0caec', 'Straw - 2 bales', '', 'Feed', 'Straw', -23.50, 0.00, 0.00, 0.00, 1, '2022-03-19 20:28:56'),
+	('bfe2d6e8-a957-11ec-ac57-d8cb8ac0caec', 'b2177d4c-a957-11ec-ac57-d8cb8ac0caec', 'Cracked Corn - 2 bgs', '', 'Feed', 'Cracked Corn', -32.00, 0.00, 0.00, 0.00, 1, '2022-03-21 16:44:27'),
+	('c05bd9d4-a959-11ec-ac57-d8cb8ac0caec', 'b052e4ba-a959-11ec-ac57-d8cb8ac0caec', 'Black Calf - 115 lb', '', 'Livestock', 'Cattle', -264.50, 0.00, 0.00, 0.00, 1, '2022-03-21 16:58:47'),
+	('c2045363-a95e-11ec-ac57-d8cb8ac0caec', 'b3759a5c-a95e-11ec-ac57-d8cb8ac0caec', 'Hay - 3 bales', '', 'Feed', 'Hay', -33.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:34:37'),
+	('c4f75c8c-a95f-11ec-ac57-d8cb8ac0caec', '9470bd6d-a95f-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1 bg', '', 'Feed', 'Mineral Mix', -18.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:41:52'),
+	('c6ddff7e-a958-11ec-ac57-d8cb8ac0caec', 'a23361fc-a958-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1 bg', '', 'Feed', 'Mineral Mix', -19.60, 0.00, 0.00, 0.00, 1, '2022-03-21 16:51:49'),
+	('ca6c51c4-a95d-11ec-ac57-d8cb8ac0caec', '5391b875-a95d-11ec-ac57-d8cb8ac0caec', 'Black Calf - 135 lb', '', 'Livestock', 'Cattle', -513.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:27:42'),
+	('cbf56002-a7ee-11ec-ac57-d8cb8ac0caec', 'b405c0cd-a7ee-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 3bgs', '', 'Feed', 'Milk Replacer', -216.00, 0.00, 0.00, 0.00, 1, '2022-03-19 21:40:54'),
+	('ccd22873-a8c7-11ec-ac57-d8cb8ac0caec', 'bc107127-a8c7-11ec-ac57-d8cb8ac0caec', 'SoyBean Meal - 3 bgs', '', 'Feed', 'Soybean meal', -66.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:34:07'),
+	('cce47276-a8c4-11ec-ac57-d8cb8ac0caec', 'b3898a8c-a8c4-11ec-ac57-d8cb8ac0caec', ' Soy and Corn Mix - 1 tone', '', 'Feed', 'Feed Mix', -559.35, 0.00, 0.00, 0.00, 1, '2022-03-20 23:12:39'),
+	('d00e04e6-a8cc-11ec-ac57-d8cb8ac0caec', 'be0943a9-a8cc-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1 bg', '', 'Feed', 'Mineral Mix', -26.99, 0.00, 0.00, 0.00, 1, '2022-03-21 00:10:00'),
+	('d087fcf7-a959-11ec-ac57-d8cb8ac0caec', 'b052e4ba-a959-11ec-ac57-d8cb8ac0caec', 'Black Calf - 100 lb', '', 'Livestock', 'Cattle', -270.00, 0.00, 0.00, 0.00, 1, '2022-03-21 16:59:14'),
+	('d1a5f12b-a95c-11ec-ac57-d8cb8ac0caec', '9c47eefc-a95c-11ec-ac57-d8cb8ac0caec', 'Black Calf - 95 lb', '', 'Livestock', 'Cattle', -351.50, 0.00, 0.00, 0.00, 1, '2022-03-21 17:20:45'),
+	('d22fcbe3-a8c6-11ec-ac57-d8cb8ac0caec', 'bc3827b2-a8c6-11ec-ac57-d8cb8ac0caec', 'Straw - 3 bales', '', 'Feed', 'Straw', -35.25, 0.00, 0.00, 0.00, 1, '2022-03-20 23:27:07'),
+	('d23e2a68-a8c5-11ec-ac57-d8cb8ac0caec', 'b9f05c00-a8c5-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 2bgs', '', 'Feed', 'Milk Replacer', -180.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:19:58'),
+	('d657eb72-a958-11ec-ac57-d8cb8ac0caec', 'a23361fc-a958-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 2 bgs', '', 'Feed', 'Calf Starter', -45.00, 0.00, 0.00, 0.00, 1, '2022-03-21 16:52:14'),
+	('d856f454-a8ce-11ec-ac57-d8cb8ac0caec', 'a2a91f84-a8ce-11ec-ac57-d8cb8ac0caec', 'Black Calf - 2 heads ', '', 'Livestock', 'Cattle', 1556.85, 0.00, 0.00, 0.00, 0, '2022-03-21 00:24:33'),
+	('dd06bcc6-a959-11ec-ac57-d8cb8ac0caec', 'b052e4ba-a959-11ec-ac57-d8cb8ac0caec', 'Black Calf - 220 lb', '', 'Livestock', 'Cattle', -374.00, 0.00, 0.00, 0.00, 1, '2022-03-21 16:59:35'),
+	('ddc43963-a8ca-11ec-ac57-d8cb8ac0caec', 'cf224c7d-a8ca-11ec-ac57-d8cb8ac0caec', 'Black Calf - 520 lb', '', 'Livestock', 'Cattle', 970.00, 0.00, 0.00, 0.00, 0, '2022-03-20 23:56:04'),
+	('df9ba1ca-a8cc-11ec-ac57-d8cb8ac0caec', 'be0943a9-a8cc-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 1 bg', '', 'Feed', 'Calf Starter', -24.50, 0.00, 0.00, 0.00, 1, '2022-03-21 00:10:26'),
+	('e177e867-a95c-11ec-ac57-d8cb8ac0caec', '9c47eefc-a95c-11ec-ac57-d8cb8ac0caec', 'Black Calf - 105 lb', '', 'Livestock', 'Cattle', -409.50, 0.00, 0.00, 0.00, 1, '2022-03-21 17:21:11'),
+	('e2861e6f-a95d-11ec-ac57-d8cb8ac0caec', '5391b875-a95d-11ec-ac57-d8cb8ac0caec', 'Black Calf - 130 lb', '', 'Livestock', 'Cattle', -494.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:28:22'),
+	('e491fb24-a95e-11ec-ac57-d8cb8ac0caec', 'd7c49b53-a95e-11ec-ac57-d8cb8ac0caec', 'Hay - 50 bales', '', 'Feed', 'Hay', -250.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:35:35'),
+	('ea6752e6-a8c7-11ec-ac57-d8cb8ac0caec', 'bc107127-a8c7-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 2 bgs', '', 'Feed', 'Mineral Mix', -36.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:34:57'),
+	('eba37a2c-a8c5-11ec-ac57-d8cb8ac0caec', 'b9f05c00-a8c5-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 1bg', '', 'Feed', 'Calf Starter', -23.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:20:40'),
+	('ecf1c73a-a8cd-11ec-ac57-d8cb8ac0caec', 'd2291662-a8cd-11ec-ac57-d8cb8ac0caec', 'Soy and Corn Mix - 1 tone', '', 'Feed', 'Feed Mix', -576.30, 0.00, 0.00, 0.00, 1, '2022-03-21 00:17:58'),
+	('ee6f7db6-a7e2-11ec-ac57-d8cb8ac0caec', '82875753-a7e2-11ec-ac57-d8cb8ac0caec', 'Cracked Corn 4bg', '', 'Feed', 'Cracked Corn', -62.00, 0.00, 0.00, 0.00, 1, '2022-03-19 20:15:58'),
+	('f47b34a5-a95d-11ec-ac57-d8cb8ac0caec', '5391b875-a95d-11ec-ac57-d8cb8ac0caec', 'Black Calf - 120 lb', '', 'Livestock', 'Cattle', -468.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:28:53'),
+	('f5622a6c-a95c-11ec-ac57-d8cb8ac0caec', '9c47eefc-a95c-11ec-ac57-d8cb8ac0caec', 'Black Calf - 175 lb', '', 'Livestock', 'Cattle', -490.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:21:45'),
+	('f5c25200-a957-11ec-ac57-d8cb8ac0caec', 'df3b38e9-a957-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 3 bgs', '', 'Feed', 'Mineral Mix', -58.80, 0.00, 0.00, 0.00, 1, '2022-03-21 16:45:58'),
+	('f8f019f9-a8c7-11ec-ac57-d8cb8ac0caec', 'bc107127-a8c7-11ec-ac57-d8cb8ac0caec', 'Cracked Corn - 8 bgs', '', 'Feed', 'Cracked Corn', -124.00, 0.00, 0.00, 0.00, 1, '2022-03-20 23:35:21'),
+	('fbe0100e-a958-11ec-ac57-d8cb8ac0caec', 'ee16c2e2-a958-11ec-ac57-d8cb8ac0caec', 'Milk Replacer - 2 bgs', '', 'Feed', 'Milk Replacer', -144.00, 0.00, 0.00, 0.00, 1, '2022-03-21 16:53:17'),
+	('ff9be58f-a8c3-11ec-ac57-d8cb8ac0caec', 'e80add8c-a8c3-11ec-ac57-d8cb8ac0caec', 'Calf Starter - 2bgs', '', 'Feed', 'Calf Starter', -44.84, 0.00, 0.00, 0.00, 1, '2022-03-20 23:06:55'),
+	('ffcf0446-a7ef-11ec-ac57-d8cb8ac0caec', 'e29293e3-a7ef-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 4 bgs', '', 'Feed', 'Mineral Mix', -78.40, 0.00, 0.00, 0.00, 1, '2022-03-19 21:49:31');
 
 -- Dumping structure for table farmwork.user
 CREATE TABLE IF NOT EXISTS `user` (
@@ -463,11 +630,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
 
 -- Dumping data for table farmwork.user: ~1 rows (approximately)
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34'),
 	('861020da-512d-11ec-8ab6-d8cb8ac0caec', 'dmitri', '2345', 'dimasalt@yahoo.com', 1, '2021-11-29 10:59:21');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.user_detail
 CREATE TABLE IF NOT EXISTS `user_detail` (
@@ -482,8 +647,6 @@ CREATE TABLE IF NOT EXISTS `user_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table farmwork.user_detail: ~0 rows (approximately)
-/*!40000 ALTER TABLE `user_detail` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_detail` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.user_logins
 CREATE TABLE IF NOT EXISTS `user_logins` (
@@ -500,8 +663,6 @@ CREATE TABLE IF NOT EXISTS `user_logins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='contains user login information';
 
 -- Dumping data for table farmwork.user_logins: ~0 rows (approximately)
-/*!40000 ALTER TABLE `user_logins` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_logins` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.user_role
 CREATE TABLE IF NOT EXISTS `user_role` (
@@ -513,11 +674,9 @@ CREATE TABLE IF NOT EXISTS `user_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='member roles in the cattle management system.';
 
 -- Dumping data for table farmwork.user_role: ~2 rows (approximately)
-/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
 INSERT INTO `user_role` (`id`, `role`, `role_desc`, `created_at`) VALUES
 	('98534618084409345', 'admin', NULL, '2020-01-04 15:24:44'),
 	('98534618084409346', 'user', NULL, '2020-01-04 15:24:53');
-/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.user_to_role
 CREATE TABLE IF NOT EXISTS `user_to_role` (
@@ -533,8 +692,6 @@ CREATE TABLE IF NOT EXISTS `user_to_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Cattle Management system users and their role connections';
 
 -- Dumping data for table farmwork.user_to_role: ~0 rows (approximately)
-/*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.vehicle_log_book
 CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
@@ -547,10 +704,8 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book records.';
 
 -- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
-/*!40000 ALTER TABLE `vehicle_log_book` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 205200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
-/*!40000 ALTER TABLE `vehicle_log_book` ENABLE KEYS */;
 
 -- Dumping structure for table farmwork.vehicle_log_book_item
 CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
@@ -568,11 +723,9 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
 
 -- Dumping data for table farmwork.vehicle_log_book_item: ~2 rows (approximately)
-/*!40000 ALTER TABLE `vehicle_log_book_item` DISABLE KEYS */;
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
 	(27, 1, 'Railside General Supplies', '3272 Monahan Rd, Val Gagne , On, Canada, P0K 1W0', 'cattle feed purchase', 26, '2022-03-14 12:57:49', '2021-01-02 00:00:00'),
 	(28, 1, 'Ontario Stockyards Inc', '3807 ON-89, Cookstown, ON L0L 1L0', 'selling cattle', 1160, '2022-03-14 12:59:49', '2021-01-14 00:00:00');
-/*!40000 ALTER TABLE `vehicle_log_book_item` ENABLE KEYS */;
 
 -- Dumping structure for procedure farmwork.budgetCreate
 DELIMITER //
@@ -750,8 +903,8 @@ DELIMITER ;
 -- Dumping structure for procedure farmwork.contactAdd
 DELIMITER //
 CREATE PROCEDURE `contactAdd`(
-	IN `contact_name` VARCHAR(50),
-	IN `address` VARCHAR(50),
+	IN `contact_name` VARCHAR(100),
+	IN `address` VARCHAR(150),
 	IN `phone` VARCHAR(50),
 	IN `email` VARCHAR(50),
 	IN `note` VARCHAR(250),
@@ -1751,7 +1904,8 @@ BEGIN
 				OR transaction.vendor_address LIKE search_term
 				OR transaction.trans_desc LIKE search_term)
 				AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 													
-			ORDER BY transaction.trans_date DESC
+--			ORDER BY transaction.trans_date DESC
+			ORDER BY transaction.created_at DESC
 		);
 	ELSE
 		SET category_selected = CONCAT('%', category_selected, '%') ;
@@ -1798,6 +1952,125 @@ BEGIN
 		total_records AS 'total_records',
 		total_pages AS 'total_pages' 
 	FROM transaction_tmp; 
+	
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure farmwork.transactionsGetAll_2
+DELIMITER //
+CREATE PROCEDURE `transactionsGetAll_2`(
+	IN `search_term` VARCHAR(50),
+	IN `category_selected` VARCHAR(150),
+	IN `sub_category_selected` VARCHAR(150),
+	IN `current_page` INT,
+	IN `take_records` INT,
+	IN `start_date` VARCHAR(50),
+	IN `end_date` VARCHAR(50)
+)
+    COMMENT 'selects all transaction records acording to the search term, categories selected and date span '
+BEGIN
+
+	-- set pager variables
+	DECLARE offset_rows INT DEFAULT (current_page -1) * take_records;	
+	
+	DECLARE total_records INT DEFAULT 0;
+	DECLARE total_pages INT DEFAULT 1;
+	
+
+	-- prepare search term
+-- 	IF LENGTH(search_term) < 2 THEN
+-- 		SET search_term = "%";
+-- 	ELSE
+-- 		SET search_term = CONCAT('%', search_term, '%') ;
+-- 	END IF;
+	
+	SET search_term = CONCAT('%', search_term, '%') ;
+	
+	-- prepare sub category item search
+	-- IF LENGTH(sub_category_selected) = 0 THEN
+-- 		SET sub_category_selected = "%";	
+-- 	ELSE
+-- 		SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;				
+-- 	END IF;
+	
+	SET sub_category_selected = CONCAT('%', sub_category_selected, '%') ;			
+	
+	
+	-- drop temporary table if exists (sometimes mysql will wait before it drops it automatically
+	-- so we need to force the table dropping
+	DROP TEMPORARY TABLE IF EXISTS transaction_tmp;
+		
+	
+	-- prepare category item search
+	IF LENGTH(category_selected) = 0 THEN
+		SET category_selected = "%";
+					
+		CREATE TEMPORARY TABLE transaction_tmp
+		(
+			SELECT 
+				transaction.id,
+				transaction.trans_desc,
+				transaction.vendor_name,
+				transaction.vendor_address,	
+				transaction.trans_image,
+				transaction.trans_currency,
+				DATE(transaction.trans_date) AS trans_date
+			FROM 
+				transaction
+			WHERE 		
+				(transaction.vendor_name LIKE search_term
+				OR transaction.vendor_address LIKE search_term
+				OR transaction.trans_desc LIKE search_term)
+				AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 													
+--			ORDER BY transaction.trans_date DESC
+			ORDER BY transaction.created_at DESC
+		);
+	ELSE
+		SET category_selected = CONCAT('%', category_selected, '%') ;
+		
+		CREATE TEMPORARY TABLE transaction_tmp
+		(
+			SELECT 
+				transaction.id,
+				transaction.trans_desc,
+				transaction.vendor_name,
+				transaction.vendor_address,	
+				transaction.trans_image,
+				transaction.trans_currency,
+				DATE(transaction.trans_date) AS trans_date
+			FROM 
+				transaction
+			WHERE 		
+				(transaction.vendor_name LIKE search_term
+				OR transaction.vendor_address LIKE search_term
+				OR transaction.trans_desc LIKE search_term)
+				AND (transaction.trans_date >= start_date AND transaction.trans_date <= end_date) 		
+				AND transaction.id IN (SELECT transaction_item.transaction_id 
+												FROM transaction_item 
+												WHERE transaction_item.item_category LIKE category_selected AND transaction_item.item_subcategory LIKE sub_category_selected) 											
+			ORDER BY transaction.trans_date DESC
+		);
+	END IF;	
+	
+	
+	
+	-- COUNT total NUMBER of records FOR this selection
+	SET total_records = (SELECT COUNT(transaction_tmp.id) FROM transaction_tmp);
+	
+	-- find how many pages there is
+	IF total_records > take_records THEN
+		SET total_pages = (total_records / take_records) + 1;
+	END IF;
+	
+	-- select totals
+	--	SET exprences_total = (SELECT SUM(transaction_tmp.
+	
+	-- select all the records
+	SELECT *, 
+		total_records AS 'total_records',
+		total_pages AS 'total_pages' 
+	FROM transaction_tmp
+		LIMIT take_records OFFSET offset_rows;
 	
 END//
 DELIMITER ;
@@ -2011,6 +2284,7 @@ ORDER BY vehicle_log_book_item.travel_date DESC;
 END//
 DELIMITER ;
 
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
