@@ -79,10 +79,16 @@
          <div class="col-2 px-0">
              <input type="text" class="form-control rounded-0 mx-0" placeholder="note" aria-label="Vendor" v-model="contact_item.note" required>
         </div>
-         <div class="col-1">
+        <div class="col-1 px-0">
+             <select class="form-select w-100 rounded-0" aria-label="Select sub group" v-model="contact_add_selected">
+                <option value="-1"></option>            
+                <option v-for="item in contact_select" v-bind:value="item.is_vendor">{{ '{{ item.name }}' }}</option>                
+            </select>
+        </div>
+        {# <div class="col-1">
             <input class="form-check-input me-1 mt-2" type="checkbox" id="is_expence" v-model="contact_item.is_vendor">
             <label class="form-check-label text-white mt-1 ms-1" for="is_expence">Is Vendor</label>
-        </div>
+        </div> #}
         <div class="col-2 mt-0 d-flex justify-content-end">                                   
             <a href="#" class="btn btn-warning rounded-0" v-on:click="action = ''">
                 <i class="fas fa-times-circle text-small me-1"></i>
