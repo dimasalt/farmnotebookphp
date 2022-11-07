@@ -68,16 +68,16 @@
              <input type="text" class="form-control rounded-0 mx-0" placeholder="contact name" aria-label="Vendor" v-model="contact_item.name" required>
         </div>
             <div class="col-2 px-0">
-             <input type="text" class="form-control rounded-0 mx-0" placeholder="contact address" aria-label="Vendor" v-model="contact_item.address" required>
+             <input type="text" class="form-control rounded-0 mx-0" placeholder="address" aria-label="Vendor" v-model="contact_item.address" required>
         </div>
             <div class="col-1 px-0">
-             <input type="text" class="form-control rounded-0 mx-0" placeholder="contact phone" aria-label="Vendor" v-model="contact_item.phone" required>
-        </div>
+             <input type="text" class="form-control rounded-0 mx-0" placeholder="phone" aria-label="Vendor" v-model="contact_item.phone" required>
+        </div>       
         <div class="col-2 px-0">
-             <input type="text" class="form-control rounded-0 mx-0" placeholder="contact note" aria-label="Vendor" v-model="contact_item.note" required>
+             <input type="text" class="form-control rounded-0 mx-0" placeholder="email" aria-label="Vendor" v-model="contact_item.email" required>
         </div>
-        <div class="col-2 px-0">
-             <input type="text" class="form-control rounded-0 mx-0" placeholder="contact email" aria-label="Vendor" v-model="contact_item.email" required>
+         <div class="col-2 px-0">
+             <input type="text" class="form-control rounded-0 mx-0" placeholder="note" aria-label="Vendor" v-model="contact_item.note" required>
         </div>
          <div class="col-1">
             <input class="form-check-input me-1 mt-2" type="checkbox" id="is_expence" v-model="contact_item.is_vendor">
@@ -133,37 +133,6 @@
         </div>
     </div>
 
-    {# <div class="row" style="display:none">
-        <div class="col-sm-2 mt-3" v-for="(item, index) in contacts">               
-            <!-- contact cards -->
-            <div class="card h-100 w-100 text-white bg-secondary mb-3 shadow-sm">
-                <div class="card-body">
-                    <b class="card-title text-small" style="font-size: 15px;">{{ "{{ item.name }}" }}</b>                     
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-white bg-secondary"></li>
-                        <li class="list-group-item text-white bg-secondary">
-                            <a v-bind:href="item.link" target="_blank" style="color: #ffffff;">                                
-                                {{ '{{ item.address }}' }}
-                            </a>
-                        </li>
-                        <li class="list-group-item text-white bg-secondary">{{ "{{ item.phone }}" }}</li>                                                                         
-                    </ul>
-                    <div class="d-flex  justify-content-end mt-3">                                               
-                        <a v-bind:href="'/contacts/view/' + item.id">
-                            <i class="far fa-eye text-small text-info me-2" data-toggle="tooltip" data-placement="top" title="View information"></i>
-                        </a>                      
-                        <a v-bind:href="'/contacts/update/' + item.id">
-                            <i class="far fa-edit text-small text-warning me-2" data-toggle="tooltip" data-placement="top" title="Edit contact"></i>
-                        </a>                                           
-                        <a href="#">
-                            <i class="far fa-trash-alt text-small text-danger me-2" data-toggle="tooltip" data-placement="top" title="Remove contact"
-                            v-on:click="deleteContacModalShow(index)"></i>
-                        </a>                
-                    </div>                       
-                </div>
-            </div>
-        </div>
-    </div> #}
 
     <!-- Remove contact Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

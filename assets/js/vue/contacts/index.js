@@ -15,8 +15,9 @@ const contacts = {
 
         //set select for contacts or vendors
         self.contact_select = [
-            {is_vendor : 0, name : 'contacts'},
-            {is_vendor : 1, name : 'vendor' }
+            {is_vendor : 1, name : 'vendor' },
+            {is_vendor : 2, name : 'customer' },
+            {is_vendor : 3, name : 'contacts'},
         ];
 
         //reset/set all the variables
