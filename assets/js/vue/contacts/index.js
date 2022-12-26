@@ -3,7 +3,7 @@ const contacts = {
         return {
             contacts : [],
             contact_item : {},
-            contact_select : [],
+            contact_type : [],
             contact_selected : -1,
             contact_type_selected : -1,
             search_term: '',
@@ -15,10 +15,10 @@ const contacts = {
         var self = this;
 
         //set select for contacts or vendors
-        self.contact_select = [
-            {is_vendor : 1, name : 'vendor' },
-            {is_vendor : 2, name : 'customer' },
-            {is_vendor : 3, name : 'contacts'},
+        self.contact_type = [
+            {contact_type : 1, name : 'vendor' },
+            {contact_type : 2, name : 'customer' },
+            {contact_type : 3, name : 'contacts'},
         ];
 
         //reset/set all the variables
@@ -31,7 +31,7 @@ const contacts = {
         contactsGetAll(){
             var self = this;
 
-            var data = {search_term: self.search_term, is_vendor: self.contact_selected};
+            var data = {search_term: self.search_term, contact_type: self.contact_selected};
             data = JSON.stringify(data);
 
             var contList = $.post("/contacts/get/all", data);

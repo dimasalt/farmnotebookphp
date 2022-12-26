@@ -953,14 +953,14 @@ CREATE PROCEDURE `contactAdd`(
 	IN `phone` VARCHAR(50),
 	IN `email` VARCHAR(50),
 	IN `note` VARCHAR(250),
-	IN `is_vendor` TINYINT
+	IN `contact_type` TINYINT
 )
 BEGIN
 
 	INSERT INTO 
-		contact (`name`, address, phone, email, note, is_vendor)
+		contact (`name`, address, phone, email, note, `type`)
 	VALUES 
-		(contact_name, address, phone, email, note, is_vendor );
+		(contact_name, address, phone, email, note, contact_type );
 
 END//
 DELIMITER ;
@@ -1007,7 +1007,7 @@ BEGIN
 			contact.phone, 
 			contact.email, 
 			contact.note,
-			contact.is_vendor
+			contact.`type`
 		FROM contact
 		WHERE contact.name LIKE search_term OR contact.address LIKE search_term
 		ORDER BY contact.name ASC;
@@ -1018,54 +1018,9 @@ BEGIN
 			contact.phone, 
 			contact.email, 
 			contact.note,
-			contact.is_vendor
+			contact.`type`
 		FROM contact
 		WHERE (contact.name LIKE search_term OR contact.address LIKE search_term) AND contact.`type` = contact_type
-		ORDER BY contact.name ASC;
-	END IF;
-		
-END//
-DELIMITER ;
-
--- Dumping structure for procedure farmwork.contactsGetAll.bak
-DROP PROCEDURE IF EXISTS `contactsGetAll.bak`;
-DELIMITER //
-CREATE PROCEDURE `contactsGetAll.bak`(
-	IN `search_term` VARCHAR(50),
-	IN `is_vendor` TINYINT
-)
-    COMMENT 'get various contacts information'
-BEGIN
-
-	-- prepare search term
-	IF LENGTH(search_term) < 2 THEN
-		SET search_term = "%";
-	ELSE
-		SET search_term = CONCAT('%', search_term, '%') ;
-	END IF;
-
-	-- execute search based on vendor and search parameter
-	IF is_vendor = -1 THEN
-		select contact.id, 
-			contact.name, 
-			contact.address, 		
-			contact.phone, 
-			contact.email, 
-			contact.note,
-			contact.is_vendor
-		FROM contact
-		WHERE contact.name LIKE search_term OR contact.address LIKE search_term
-		ORDER BY contact.name ASC;
-	ELSE 
-		select contact.id, 
-			contact.name, 
-			contact.address, 		
-			contact.phone, 
-			contact.email, 
-			contact.note,
-			contact.is_vendor
-		FROM contact
-		WHERE (contact.name LIKE search_term OR contact.address LIKE search_term) AND contact.is_vendor = is_vendor
 		ORDER BY contact.name ASC;
 	END IF;
 		
@@ -1082,7 +1037,7 @@ CREATE PROCEDURE `contactUpdate`(
 	IN `phone` VARCHAR(50),
 	IN `email` VARCHAR(50),
 	IN `note` VARCHAR(250),
-	IN `is_vendor` TINYINT
+	IN `contact_type` TINYINT
 )
 BEGIN
 
@@ -1092,7 +1047,7 @@ BEGIN
 		 contact.phone = phone,
 		 contact.email = email,
 		 contact.note = note,
-		 contact.is_vendor = is_vendor
+		 contact.`type` = contact_type
 	WHERE contact.id = id;
 	
 END//
@@ -1108,9 +1063,9 @@ select contact.id,
 			contact.phone, 
 			contact.email, 
 			contact.note,
-			contact.is_vendor
+			contact.`type`
 	FROM contact
-	WHERE contact.is_vendor = 1
+	WHERE contact.`type` = 1 OR contact.`type` = 2
 	ORDER BY contact.name ASC//
 DELIMITER ;
 

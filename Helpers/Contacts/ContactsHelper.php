@@ -13,7 +13,7 @@ class ContactsHelper
         $stmt = $pdo->prepare('call contactsGetAll(?, ?)');
         $stmt->execute([
             $data->search_term,
-            $data->is_vendor
+            $data->contact_type
         ]);
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
