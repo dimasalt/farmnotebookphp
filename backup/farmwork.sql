@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         localhost
--- Server version:               10.9.3-MariaDB - mariadb.org binary distribution
+-- Server version:               10.10.2-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.1.0.6537
+-- HeidiSQL Version:             12.3.0.6589
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,9 +26,9 @@ CREATE TABLE IF NOT EXISTS `budget` (
   `is_default` tinyint(4) NOT NULL DEFAULT 0,
   `budget_date` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps financial planning and budgeting records';
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Keeps financial planning and budgeting records';
 
--- Dumping data for table farmwork.budget: ~11 rows (approximately)
+-- Dumping data for table farmwork.budget: ~10 rows (approximately)
 INSERT INTO `budget` (`id`, `parent_id`, `budget_name`, `budget_amount`, `budget_amount_actual`, `is_done`, `is_default`, `budget_date`) VALUES
 	(10, 0, 'Gross budget for year 2022', 0.00, 0.00, 0, 1, '2022-01-01 00:00:00'),
 	(11, 10, '60 head of cattle gross after taxes', 54000.00, 0.00, 0, 0, '2023-04-30 00:00:00'),
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `type` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Keeps contacts for contact book and vendors (for transactions and others)\r\n0 - normal contact\r\n1 - vendor\r\n2 - customer';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Keeps contacts for contact book and vendors (for transactions and others)\r\n0 - normal contact\r\n1 - vendor\r\n2 - customer';
 
 -- Dumping data for table farmwork.contact: ~14 rows (approximately)
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_vendor`, `created_at`, `type`) VALUES
@@ -72,7 +72,8 @@ INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `is_ve
 	('81a78332-a76d-11eb-80d2-d8cb8ac0caec', 'Samuel M.', 'On, Canada', '705-232-2380', NULL, 'Manonite. Sells lumber and posts for fencing or/and construction.', 1, '2020-04-08 17:19:45', 1),
 	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln, Val Gagne, On, Canada', '705-232-2039', NULL, 'Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.', 1, '2020-04-08 17:23:04', 1),
 	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67, Iroquois Falls, On, P0K1G0, Canada', '705-232-7700', NULL, 'Cattle and dog vaccinations', 1, '2020-01-05 12:08:41', 1),
-	('cd60fe10-976e-11ec-bdb9-d8cb8ac0caec', 'A-Mar Meats', 'Red Deer Rd E, Val Gagné, ON P0K 1W0', '705-232-6328', '', 'A local butcher shop', 1, '2022-02-26 20:43:07', 1);
+	('cd60fe10-976e-11ec-bdb9-d8cb8ac0caec', 'A-Mar Meats', 'Red Deer Rd E, Val Gagné, ON P0K 1W0', '705-232-6328', '', 'A local butcher shop', 1, '2022-02-26 20:43:07', 1),
+	('e8426c32-5eb3-11ed-be42-d8cb8ac0caec', 'test', '', '', '', NULL, 0, '2022-11-07 10:49:34', 2);
 
 -- Dumping structure for table farmwork.event
 DROP TABLE IF EXISTS `event`;
@@ -89,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `event` (
   KEY `FK_event_livestock` (`livestock_id`),
   CONSTRAINT `FK_event_event_type` FOREIGN KEY (`ev_type_id`) REFERENCES `event_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_event_livestock` FOREIGN KEY (`livestock_id`) REFERENCES `livestock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Contains events that occured in the past';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Contains events that occured in the past';
 
 -- Dumping data for table farmwork.event: ~0 rows (approximately)
 
@@ -101,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `event_type` (
   `ev_type_desc` varchar(300) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
 
 -- Dumping data for table farmwork.event_type: ~7 rows (approximately)
 INSERT INTO `event_type` (`id`, `ev_type_name`, `ev_type_desc`, `created_at`) VALUES
@@ -123,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `event_type_bak` (
   `place` tinyint(4) NOT NULL DEFAULT 100,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`ev_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Types of events for a farm livestock. Space column used selection order when displayed in the list on website.';
 
 -- Dumping data for table farmwork.event_type_bak: ~12 rows (approximately)
 INSERT INTO `event_type_bak` (`ev_type_id`, `ev_type_name`, `ev_type_value`, `ev_type_desc`, `place`, `created_at`) VALUES
@@ -155,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `feed` (
   `is_default` tinyint(4) NOT NULL DEFAULT 0,
   `feed_date` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='Contains feed information such as CP, TDN and prices';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Contains feed information such as CP, TDN and prices';
 
 -- Dumping data for table farmwork.feed: ~5 rows (approximately)
 INSERT INTO `feed` (`id`, `feed_name`, `feed_desc`, `feed_cp`, `feed_tdn`, `feed_type`, `feed_price`, `feed_price_lb`, `feed_usage`, `is_default`, `feed_date`) VALUES
@@ -175,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `feed_requirement` (
   `cp` decimal(19,1) NOT NULL DEFAULT 0.0,
   `tdn` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='Keeps information on feed requirements for animals in different stages';
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Keeps information on feed requirements for animals in different stages';
 
 -- Dumping data for table farmwork.feed_requirement: ~35 rows (approximately)
 INSERT INTO `feed_requirement` (`id`, `weight`, `animal_type`, `adg`, `dm_per_day`, `cp`, `tdn`) VALUES
@@ -228,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `livestock` (
   `is_active` tinyint(4) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='flock details';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='flock details';
 
 -- Dumping data for table farmwork.livestock: ~2 rows (approximately)
 INSERT INTO `livestock` (`id`, `tag`, `livestock_type`, `livestock_subtype`, `is_active`, `created_at`) VALUES
@@ -244,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `livestock_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COMMENT='contains animal types present on the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='contains animal types present on the farm';
 
 -- Dumping data for table farmwork.livestock_category: ~21 rows (approximately)
 INSERT INTO `livestock_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
@@ -278,7 +279,7 @@ CREATE TABLE IF NOT EXISTS `livestock_group` (
   `group_desc` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='contains groups of animals grouped together for the purpose of feeding or breading';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='contains groups of animals grouped together for the purpose of feeding or breading';
 
 -- Dumping data for table farmwork.livestock_group: ~2 rows (approximately)
 INSERT INTO `livestock_group` (`id`, `group_name`, `group_desc`, `created_at`) VALUES
@@ -298,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `livestock_to_group` (
   KEY `FK_livestock_to_group_livestock_group` (`group_id`),
   CONSTRAINT `FK_livestock_to_group_livestock` FOREIGN KEY (`livestock_id`) REFERENCES `livestock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_livestock_to_group_livestock_group` FOREIGN KEY (`group_id`) REFERENCES `livestock_group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='reference table that connects created groups to existing livestock';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='reference table that connects created groups to existing livestock';
 
 -- Dumping data for table farmwork.livestock_to_group: ~0 rows (approximately)
 
@@ -314,7 +315,7 @@ CREATE TABLE IF NOT EXISTS `medication` (
   `on_hand_doses` int(11) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COMMENT='list of medication';
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='list of medication';
 
 -- Dumping data for table farmwork.medication: ~6 rows (approximately)
 INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `on_hand_doses`, `created_at`) VALUES
@@ -332,7 +333,7 @@ CREATE TABLE IF NOT EXISTS `page_settings` (
   `setting_name` varchar(50) NOT NULL,
   `setting_value` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains default page settings thats are being pulled during page load';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table contains default page settings thats are being pulled during page load';
 
 -- Dumping data for table farmwork.page_settings: ~2 rows (approximately)
 INSERT INTO `page_settings` (`id`, `page_name`, `setting_name`, `setting_value`) VALUES
@@ -353,7 +354,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='record of all transactions';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='record of all transactions';
 
 -- Dumping data for table farmwork.transaction: ~63 rows (approximately)
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
@@ -433,7 +434,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   `category_description` varchar(250) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COMMENT='Table contains all income and expence types of the farm';
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table contains all income and expence types of the farm';
 
 -- Dumping data for table farmwork.transaction_category: ~38 rows (approximately)
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
@@ -495,7 +496,7 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   PRIMARY KEY (`id`),
   KEY `FK_transaction_item_transaction` (`transaction_id`) USING BTREE,
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A table that holds all transaction items.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='A table that holds all transaction items.';
 
 -- Dumping data for table farmwork.transaction_item: ~132 rows (approximately)
 INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
@@ -645,7 +646,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `is_active` tinyint(4) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='cattle management members.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='cattle management members.';
 
 -- Dumping data for table farmwork.user: ~1 rows (approximately)
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
@@ -663,7 +664,7 @@ CREATE TABLE IF NOT EXISTS `user_detail` (
   PRIMARY KEY (`id`),
   KEY `FK_user_detail_user` (`user_id`),
   CONSTRAINT `FK_user_detail_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table farmwork.user_detail: ~0 rows (approximately)
 
@@ -680,7 +681,7 @@ CREATE TABLE IF NOT EXISTS `user_logins` (
   PRIMARY KEY (`id`),
   KEY `FK_user_logins_user` (`user_id`),
   CONSTRAINT `FK_user_logins_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='contains user login information';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='contains user login information';
 
 -- Dumping data for table farmwork.user_logins: ~0 rows (approximately)
 
@@ -692,7 +693,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   `role_desc` varchar(150) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='member roles in the cattle management system.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='member roles in the cattle management system.';
 
 -- Dumping data for table farmwork.user_role: ~2 rows (approximately)
 INSERT INTO `user_role` (`id`, `role`, `role_desc`, `created_at`) VALUES
@@ -711,7 +712,7 @@ CREATE TABLE IF NOT EXISTS `user_to_role` (
   KEY `FK_user_to_role_user_role` (`role_id`),
   CONSTRAINT `FK_user_to_role_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_user_to_role_user_role` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Cattle Management system users and their role connections';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Cattle Management system users and their role connections';
 
 -- Dumping data for table farmwork.user_to_role: ~0 rows (approximately)
 
@@ -724,7 +725,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   `vehicle_desc` varchar(150) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book records.';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='vehicle log book records.';
 
 -- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
@@ -744,7 +745,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   PRIMARY KEY (`id`),
   KEY `FK_vehicle_log_book_item_vehicle_log_book` (`vehicle_log_book_id`),
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COMMENT='vehicle log book to keep track on a business related travel';
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='vehicle log book to keep track on a business related travel';
 
 -- Dumping data for table farmwork.vehicle_log_book_item: ~2 rows (approximately)
 INSERT INTO `vehicle_log_book_item` (`id`, `vehicle_log_book_id`, `destination`, `address`, `purpose`, `travel_distance`, `created_at`, `travel_date`) VALUES
@@ -757,7 +758,7 @@ CREATE TABLE IF NOT EXISTS `vendor_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table farmwork.vendor_type: ~2 rows (approximately)
 INSERT INTO `vendor_type` (`id`, `type`) VALUES

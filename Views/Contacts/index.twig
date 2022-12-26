@@ -80,7 +80,7 @@
              <input type="text" class="form-control rounded-0 mx-0" placeholder="note" aria-label="Vendor" v-model="contact_item.note" required>
         </div>
         <div class="col-1 px-0">
-             <select class="form-select w-100 rounded-0" aria-label="Select sub group" v-model="contact_add_selected">
+             <select class="form-select w-100 rounded-0" aria-label="Select sub group" v-model="contact_type_selected">
                 <option value="-1"></option>            
                 <option v-for="item in contact_select" v-bind:value="item.is_vendor">{{ '{{ item.name }}' }}</option>                
             </select>

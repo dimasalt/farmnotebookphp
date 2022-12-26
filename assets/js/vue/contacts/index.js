@@ -5,7 +5,7 @@ const contacts = {
             contact_item : {},
             contact_select : [],
             contact_selected : -1,
-            contact_add_selected : -1,
+            contact_type_selected : -1,
             search_term: '',
             contact_delete : {},
             action : ''
