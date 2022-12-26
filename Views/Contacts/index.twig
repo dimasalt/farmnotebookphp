@@ -35,6 +35,8 @@
                 <option v-for="item in contact_select" v-bind:value="item.is_vendor">{{ '{{ item.name }}' }}</option>                
             </select>
         </div>
+
+        <!-- search panel -->
         <div class="col-2 ps-0">                     
             <div class="has-search rounded-0 w-100">
                 <span class="fa fa-search form-control-feedback"></span>
@@ -44,6 +46,7 @@
         </div>           
     </div>  
 
+    <!-- information popup -->
     <div class="row">           
         <div class="col-12 mt-4">
             <div class="alert alert-dark shadow-sm">                                
@@ -79,6 +82,8 @@
          <div class="col-2 px-0">
              <input type="text" class="form-control rounded-0 mx-0" placeholder="note" aria-label="Vendor" v-model="contact_item.note" required>
         </div>
+        
+        <!-- contact type -->
         <div class="col-1 px-0">
              <select class="form-select w-100 rounded-0" aria-label="Select sub group" v-model="contact_type_selected">
                 <option value="-1"></option>            
