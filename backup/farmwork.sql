@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `budget` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Keeps financial planning and budgeting records';
 
--- Dumping data for table farmwork.budget: ~10 rows (approximately)
+-- Dumping data for table farmwork.budget: ~11 rows (approximately)
 INSERT INTO `budget` (`id`, `parent_id`, `budget_name`, `budget_amount`, `budget_amount_actual`, `is_done`, `is_default`, `budget_date`) VALUES
 	(10, 0, 'Gross budget for year 2022', 0.00, 0.00, 0, 1, '2022-01-01 00:00:00'),
 	(11, 10, '60 head of cattle gross after taxes', 54000.00, 0.00, 0, 0, '2023-04-30 00:00:00'),
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `contact_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table farmwork.contact_type: ~2 rows (approximately)
+-- Dumping data for table farmwork.contact_type: ~3 rows (approximately)
 INSERT INTO `contact_type` (`id`, `type`) VALUES
 	(1, 'vendor'),
 	(2, 'customer'),
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `feed` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Contains feed information such as CP, TDN and prices';
 
--- Dumping data for table farmwork.feed: ~5 rows (approximately)
+-- Dumping data for table farmwork.feed: ~4 rows (approximately)
 INSERT INTO `feed` (`id`, `feed_name`, `feed_desc`, `feed_cp`, `feed_tdn`, `feed_type`, `feed_price`, `feed_price_lb`, `feed_usage`, `is_default`, `feed_date`) VALUES
 	(1, 'Cracked Corn', NULL, 10, 90, 'Grain', 549.00, 2000, 100, 1, '2021-10-26 11:32:41'),
 	(2, 'Hay', NULL, 7, 55, 'Hay', 5.00, 60, 100, 1, '2021-11-08 19:48:22'),
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `feed_requirement` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Keeps information on feed requirements for animals in different stages';
 
--- Dumping data for table farmwork.feed_requirement: ~35 rows (approximately)
+-- Dumping data for table farmwork.feed_requirement: ~38 rows (approximately)
 INSERT INTO `feed_requirement` (`id`, `weight`, `animal_type`, `adg`, `dm_per_day`, `cp`, `tdn`) VALUES
 	(1, 200, 'steer/heifer', 3.0, 5.4, 22.0, 80),
 	(2, 300, 'steer/heifer', 1.0, 8.3, 11.5, 58),
@@ -293,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `livestock_group` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='contains groups of animals grouped together for the purpose of feeding or breading';
 
--- Dumping data for table farmwork.livestock_group: ~2 rows (approximately)
+-- Dumping data for table farmwork.livestock_group: ~3 rows (approximately)
 INSERT INTO `livestock_group` (`id`, `group_name`, `group_desc`, `created_at`) VALUES
 	(1, 'July Group First', NULL, '2021-12-14 00:13:33'),
 	(2, 'July Group Second', NULL, '2021-12-14 00:14:10'),
@@ -329,7 +329,7 @@ CREATE TABLE IF NOT EXISTS `medication` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='list of medication';
 
--- Dumping data for table farmwork.medication: ~6 rows (approximately)
+-- Dumping data for table farmwork.medication: ~5 rows (approximately)
 INSERT INTO `medication` (`id`, `name`, `desc`, `instruction`, `img`, `price`, `on_hand_doses`, `created_at`) VALUES
 	(1, 'Tasvax 8', '<p>For the vaccination of cattle and sheep against diseases caused by Cl. chauvoei (black leg), Cl. haemolyticum (bacillary hemoglobinuria), Cl. novyi Type B (black disease or infectious necrotic hepatitis), Cl. perfringens Type B (lamb dysentery), Type C (hemorrhagic enterotoxemia), type D (pulpy kidney), Cl. septicum (malignant edema) and Cl. tetani (tetanus).</p>', '<p>Cattle: In order that a balanced response to vaccination is obtained, a primary course of two injections of 4 mL each should be given with an interval of 6 weeks between injections. To maintain a constant high level of immunity, booster injections should be administered at intervals of 6 months, or when outbreaks are seasonal, at least 2 weeks before the anticipated outbreak. Calves vaccinated under 3 months of age should be revaccinated at 4-6 months of age. Calves vaccinated at 3 months of age or older should be revaccinated 6 weeks later. Inject subcutaneously with strict aseptic precautions.</p>', '/uploads/medication/tasvax-8.jpg', 0.00, 0, '2019-05-09 23:02:13'),
 	(2, 'Noromectin', '<p>Each mL contains 0.8 mg of ivermectin. Treated animals must not be slaughtered for use in food for at least 14 days after the latest treatment with this drug.</p>', '<p>Dosage and Administration Noromectin should be given as a single dose treatment. Administer orally at a dose of 2.5 mL of Noromectin per 10 kg of bodyweight, with any standard drenching equipment which provides a consistent dose volume. Repeat treatment may be necessary when re-exposure to parasite infection occurs. Noromectin Drench for Sheep Caution Coughing, which usually lasts for only a few minutes, may occur in a small percentage of sheep immediately after treatment; this passing response is of no consequence.</p>', 'https://images-na.ssl-images-amazon.com/images/I/81cX3tCC0tL._AC_SY879_.jpg', 0.00, 0, '2019-05-09 23:04:31'),
@@ -347,7 +347,7 @@ CREATE TABLE IF NOT EXISTS `page_settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table contains default page settings thats are being pulled during page load';
 
--- Dumping data for table farmwork.page_settings: ~2 rows (approximately)
+-- Dumping data for table farmwork.page_settings: ~3 rows (approximately)
 INSERT INTO `page_settings` (`id`, `page_name`, `setting_name`, `setting_value`) VALUES
 	(1, 'Accounting Records', 'start_date', '2021-01-01'),
 	(2, 'Accounting Records', 'end_date', '2021-12-31'),
@@ -368,7 +368,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='record of all transactions';
 
--- Dumping data for table farmwork.transaction: ~63 rows (approximately)
+-- Dumping data for table farmwork.transaction: ~66 rows (approximately)
 INSERT INTO `transaction` (`id`, `trans_desc`, `vendor_name`, `vendor_address`, `trans_currency`, `trans_image`, `trans_date`, `created_at`, `updated_at`) VALUES
 	('034c5a18-a7ee-11ec-ac57-d8cb8ac0caec', '', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', 'C$', 'uploads/transactions/2021/05/31/northern_feed_&_supplies-034c5a18-a7ee-11ec-ac57-d8cb8ac0caec.jpeg', '2021-05-31 00:00:00', '2022-03-19 21:35:18', '2022-03-19 21:38:41'),
 	('08c81251-a8ce-11ec-ac57-d8cb8ac0caec', '', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', 'C$', 'uploads/transactions/2021/11/15/temiskaming_livestock_exchange_ltd_1992-08c81251-a8ce-11ec-ac57-d8cb8ac0caec.jpeg', '2021-11-15 00:00:00', '2022-03-21 00:18:45', '2022-03-21 00:19:49'),
@@ -448,7 +448,7 @@ CREATE TABLE IF NOT EXISTS `transaction_category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table contains all income and expence types of the farm';
 
--- Dumping data for table farmwork.transaction_category: ~38 rows (approximately)
+-- Dumping data for table farmwork.transaction_category: ~39 rows (approximately)
 INSERT INTO `transaction_category` (`id`, `parent_id`, `category_name`, `category_description`, `created_at`) VALUES
 	(1, 0, 'Feed', 'Feed, supplements, straw, and bedding', '2019-04-29 21:32:30'),
 	(5, 0, 'Livestock', 'Livestock types (cattle, chicken, horse, sheep, goats etc...)', '2019-05-03 09:30:51'),
@@ -510,7 +510,7 @@ CREATE TABLE IF NOT EXISTS `transaction_item` (
   CONSTRAINT `FK_transaction_item_transaction` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='A table that holds all transaction items.';
 
--- Dumping data for table farmwork.transaction_item: ~132 rows (approximately)
+-- Dumping data for table farmwork.transaction_item: ~135 rows (approximately)
 INSERT INTO `transaction_item` (`id`, `transaction_id`, `item_name`, `item_desc`, `item_category`, `item_subcategory`, `amount`, `hst_tax`, `gst_tax`, `pst_tax`, `is_expence`, `created_at`) VALUES
 	('052158d8-a7e3-11ec-ac57-d8cb8ac0caec', '82875753-a7e2-11ec-ac57-d8cb8ac0caec', 'Beef Supplement - 1bg', '', 'Feed', 'Mineral Mix', -18.00, 0.00, 0.00, 0.00, 1, '2022-03-19 20:16:36'),
 	('06d1af10-a95a-11ec-ac57-d8cb8ac0caec', 'fa48549c-a959-11ec-ac57-d8cb8ac0caec', 'Black Calf - 90 lb', '', 'Livestock', 'Cattle', -279.00, 0.00, 0.00, 0.00, 1, '2022-03-21 17:00:45'),
@@ -660,7 +660,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='cattle management members.';
 
--- Dumping data for table farmwork.user: ~1 rows (approximately)
+-- Dumping data for table farmwork.user: ~2 rows (approximately)
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `is_active`, `created_at`) VALUES
 	('5e0d0d6c10096', 'farmer', '$2y$10$YxQsfaEVGMokSlb9QuKkUOkYxyLEOpM9XiuMFhrJifnTzjv9lnmze', 'dimasalt@gmail.com', 1, '2020-01-01 16:30:34'),
 	('861020da-512d-11ec-8ab6-d8cb8ac0caec', 'dmitri', '2345', 'dimasalt@yahoo.com', 1, '2021-11-29 10:59:21');
@@ -739,7 +739,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='vehicle log book records.';
 
--- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
+-- Dumping data for table farmwork.vehicle_log_book: ~1 rows (approximately)
 INSERT INTO `vehicle_log_book` (`id`, `year_start_odometer`, `year_end_odometer`, `vehicle_desc`, `created_at`) VALUES
 	(1, 175153, 205200, '2013 Chevroler Silverado 1500', '2021-01-01 10:57:35');
 

@@ -51,8 +51,9 @@
         <div class="col-12 mt-4">
             <div class="alert alert-dark shadow-sm">                                
                 <i class="fas fa-info-circle fa-2x me-2 align-middle text-success"></i>
-                Contact information of people and organization for quick access. (<i class="fas fa-asterisk text-success mx-1" style="font-size:14px;"></i>) 
-                Means contact is a vendor.
+                Contact information of people and organization for quick access. (<i class="fas fa-asterisk text-warning mx-1" style="font-size:14px;"></i>) 
+                Means contact is a vendor.  (<i class="fas fa-asterisk text-success mx-1" style="font-size:14px;"></i>) 
+                Means contact is a customer.
             </div>
         </div>
     </div>
@@ -115,7 +116,8 @@
                         <td class="ps-4 w-30">
                             <div> 
                                 <strong>{{ '{{item.name}}' }}</strong>
-                                <i class="fas fa-asterisk text-success ms-2" style="font-size:10px " v-if="item.is_vendor == 1"></i>
+                                <i class="fas fa-asterisk text-warning ms-2" style="font-size:10px " v-if="item.type == 1"></i>
+                                <i class="fas fa-asterisk text-success ms-2" style="font-size:10px " v-if="item.type == 2"></i>
                                 <a v-bind:href="'https://www.google.com/maps/place/' + item.address" class="text-dark" target="_blank">
                                     <small class="fw-light ms-3">{{ '{{item.address}}' }}</small>                      
                                 </a>
