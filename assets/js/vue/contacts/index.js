@@ -112,9 +112,8 @@ const contacts = {
             //copy object for editing
             self.contact_item = Object.assign({}, self.contacts[index] );
 
-            //change the vendor variable to reflect vendor checkbox on edit form
-            if(self.contact_item.is_vendor == 1) self.contact_item.is_vendor = true;
-            else self.contact_item.is_vendor = false;
+            //assign value for select box
+            self.contact_type_selected = self.contact_item.type;
 
             //set action
             self.action = 'edit';
