@@ -85,7 +85,7 @@
         <div class="col-5">
              <h3>Transactions
                 <a href="#" v-on:click="setAction('new', -1)">
-                    <i class="far fa-plus-square btn-sm text-success align-middle"
+                    <i class="far fa-plus-square text-success align-middle fs-4"
                         data-bs-toggle="tooltip" data-bs-placement="top" title="Add transaction"></i>
                 </a>                 
             </h3>
@@ -141,22 +141,22 @@
                         </td>                                                                              
                         <td class="pt-1 w-15">    <!-- action buttons -->
                              <a href="#" v-on:click="setAction('new_item', index)" v-if="action.new == false ">
-                                <i class="far fa-plus-square btn-sm text-success align-middle"
+                                <i class="far fa-plus-square text-success align-middle fs-6 me-1"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Add transaction item"></i>
                             </a>                                    
                             <a href="#" v-on:click.prevent="delTransactionShow(index)">
-                                <i class="far fa-trash-alt btn-sm text-danger align-middle float-right" 
+                                <i class="far fa-trash-alt text-danger align-middle float-right fs-6 me-1" 
                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Remove transaction"></i>
                             </a>
                                 <a href="#" v-on:click="setAction('edit', index)">
-                                <i class="fa fa-edit btn-sm text-warning align-middle pe-0 float-right"
+                                <i class="fa fa-edit text-warning align-middle pe-0 float-right fs-6 me-1"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Edit transaction"></i>
                             </a>
                              <a href="#" v-on:click="setAction('image', index)">
-                                <i class="fa fa-upload btn-sm text-secondary pe-0 float-right" data-bs-toggle="tooltip" data-bs-placement="top" title="upload transaction image" aria-hidden="true"></i>
+                                <i class="fa fa-upload text-secondary pe-0 fs-6 float-right" data-bs-toggle="tooltip" data-bs-placement="top" title="upload transaction image" aria-hidden="true"></i>
                             </a>                         
                             <a href="#" v-on:click="setAction('image_view', index)" v-if="record.trans_image">                                
-                                <i data-bs-toggle="tooltip" data-bs-placement="top" title="View transaction image" class="fas fa-image text-small text-info float-right ms-2"></i>
+                                <i data-bs-toggle="tooltip" data-bs-placement="top" title="View transaction image" class="fas fa-image text-info float-right fs-6 ms-1"></i>
                             </a>                           
                         </td>
                     </tr>    
@@ -166,7 +166,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-start small border-0 py-0" v-for="item in record.items">                                    
                                     <div class="col-3 border-bottom">
                                         <a href="#" v-on:click.prevent="delTransactionItemShow(item.id, item.item_name)">
-                                            <i class="far fa-trash-alt btn-sm text-danger align-middle float-right" 
+                                            <i class="far fa-trash-alt text-danger align-middle float-right fs-6" 
                                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Remove transaction item"></i>
                                         </a>
                                         {{ '{{ item.item_name }}' }}  
