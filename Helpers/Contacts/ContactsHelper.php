@@ -55,7 +55,7 @@ class ContactsHelper
             $contact->phone,
             $contact->email,
             $contact->note,
-            $contact->is_vendor
+            $contact->contact_type
         ));
 
         if($stmt->rowCount() > 0) return true;
@@ -81,7 +81,7 @@ class ContactsHelper
             $contact->phone,
             $contact->email,
             $contact->note,
-            $contact->is_vendor
+            $contact->contact_type
         ));        
 
         //return $stmt->errorCode();

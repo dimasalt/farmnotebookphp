@@ -2,6 +2,10 @@
 
 ---
 
+### Transaction page
+ 
+ - Replace Chart JS with ECharts from https://echarts.apache.org/en/index.html
+ 
 
 ### Transaction page
 

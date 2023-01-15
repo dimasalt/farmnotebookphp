@@ -64,7 +64,7 @@ const contacts = {
                 phone: self.contact_item.phone,
                 email: self.contact_item.email,
                 note: self.contact_item.note,
-                is_vendor : self.contact_item.is_vendor ? 1 : 0,
+                contact_type : self.contact_type_selected,               
                 csrf : $('#csrf').val()
             };
 
