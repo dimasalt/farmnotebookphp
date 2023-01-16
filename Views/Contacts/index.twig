@@ -100,19 +100,26 @@
                 Cancel           
             </a>   
             <a href="#" class="btn btn-success rounded-0" v-on:click="contactAddOrEdit()">
-                <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                <i class="far fa-plus-square btn-sm text-white pe-1" title="Add starting finance point"></i>
                 Save           
             </a>               
         </div>
     </div>
 
-    <!-- new contact design table -->
+    <!-- contact list // need to add pagination // -->
+    <div class="row">
+        <div class="col-12 d-flex justify-content-end">
+            <button type="button" class="btn btn btn-success">
+                Contacts <span class="badge text-bg-warning ms-2">{{ '{{ contacts_count }}' }}</span>
+            </button>
+        </div>
+    </div>
      <div class="row mt-4">       
         <div class="col-12">                    
             <table class="table bg-white table-borderless shadow-sm w-100">                               
                 <tbody v-for="(item, index) in contacts">
                     <tr class="border">                     
-                        <td class="ps-4 w-30">
+                        <td class="ps-4 w-25">
                             <div> 
                                 <strong>{{ '{{item.name}}' }}</strong>
                                 <i class="fas fa-asterisk text-warning ms-2" style="font-size:10px " v-if="item.type == 1"></i>
@@ -122,7 +129,7 @@
                                 </a>
                             </div>                                         
                         </td>    
-                        <td class="w-10">
+                        <td class="w-15">
                            {{ '{{item.phone}}' }}                           
                         </td>                                            
                         <td class="w-10">

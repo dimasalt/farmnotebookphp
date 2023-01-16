@@ -2,6 +2,7 @@ const contacts = {
     data(){
         return {
             contacts : [],
+            contacts_count : 0,
             contact_item : {},
             contact_type : [],
             contact_selected : -1,
@@ -31,6 +32,8 @@ const contacts = {
         contactsGetAll(){
             var self = this;
 
+            self.contacts_count = 0;
+
             var data = {search_term: self.search_term, contact_type: self.contact_selected};
             data = JSON.stringify(data);
 
@@ -43,6 +46,9 @@ const contacts = {
                     for(var i = 0; i< self.contacts.length; i++){
                         var link = self.contacts[i].address;
                         self.contacts[i].link = 'http://maps.google.com/maps?q=' + encodeURIComponent(link);
+
+                        //add count
+                        self.contacts_count ++;
                     }                   
                 }
             });
@@ -72,7 +78,8 @@ const contacts = {
             data = JSON.stringify(data);
 
             //check if it's new item or update
-            if(self.contact_item.id.length == 0){
+            if (typeof self.contact_item.id == "undefined" || self.contact_item.id.length == 0 ) {
+            // if(self.contact_item.id.length == 0){
                  //submit data and add new contact
                 var result = $.post('/contacts/add', data);
             }
