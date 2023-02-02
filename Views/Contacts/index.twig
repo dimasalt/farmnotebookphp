@@ -90,10 +90,7 @@
                 <option v-for="item in contact_type" v-bind:value="item.contact_type">{{ '{{ item.name }}' }}</option>                
             </select>
         </div>
-        {# <div class="col-1">
-            <input class="form-check-input me-1 mt-2" type="checkbox" id="is_expence" v-model="contact_item.is_vendor">
-            <label class="form-check-label text-white mt-1 ms-1" for="is_expence">Is Vendor</label>
-        </div> #}
+      
         <div class="col-2 mt-0 d-flex justify-content-end">                                   
             <a href="#" class="btn btn-warning rounded-0" v-on:click="action = ''">
                 <i class="fas fa-times-circle text-small me-1"></i>
@@ -108,9 +105,13 @@
 
     <!-- contact list // need to add pagination // -->
     <div class="row">
-        <div class="col-12 d-flex justify-content-end">
-            <button type="button" class="btn btn btn-success">
-                Contacts <span class="badge text-bg-warning ms-2">{{ '{{ contacts_count }}' }}</span>
+        <div class="col-12 d-flex justify-content-end">            
+            <button type="button" class="btn btn-success position-relative me-2">
+                Contacts
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-black">
+                    {{ '{{ contacts_count }}' }}
+                    <span class="visually-hidden">people</span>
+                </span>
             </button>
         </div>
     </div>

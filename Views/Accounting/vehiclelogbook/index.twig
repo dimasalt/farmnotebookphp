@@ -38,18 +38,18 @@
          <div class="col-12">         
             <h3 class="mt-5">
                 Odometer Readings      
-                <a href="#" v-on:click.prevent="showOdometerForm()">
-                    <i class="fa fa-edit btn-sm text-warning pe-0 me-0" data-toggle="tooltip" data-placement="top" title="edit Odometer"></i>
+                <a href="#" v-on:click.prevent="showOdometerForm()" v-if="odometer != false">
+                    <i class="fa fa-edit text-warning me-1 ms-1 fs-4" data-toggle="tooltip" data-placement="top" title="edit Odometer"></i>
                 </a>       
                 <a href="#" v-on:click.prevent="odometerDelModalShow()" v-if="odometer != false">
-                    <i class="far fa-trash-alt btn-sm text-danger align-middle"
+                    <i class="far fa-trash-alt text-danger align-middle fs-4"
                         data-toggle="tooltip" data-placement="top" title="remove Odometer"></i>
                 </a>                                 
             </h3>
         </div>
 
         <!-- alert in case there is no odometer reading for a selected year -->
-        <div class="col-9 alert alert-warning ms-3" role="alert" v-if="odometer == false">
+        <div class="col-9 alert alert-warning ms-3 my-3" role="alert" v-if="odometer == false">
             <i class="fas fa-exclamation-triangle me-2"></i>
             Sorry but there is no odometer reading for the selected year.
         </div>

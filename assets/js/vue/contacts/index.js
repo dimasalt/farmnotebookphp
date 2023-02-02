@@ -15,6 +15,9 @@ const contacts = {
     created() {
         var self = this;
 
+        //checking vue js version
+        //console.log(Vue.version);
+
         //set select for contacts or vendors
         self.contact_type = [
             {contact_type : 1, name : 'vendor' },

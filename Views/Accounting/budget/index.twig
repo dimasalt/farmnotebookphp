@@ -22,11 +22,11 @@
             <div class="col-10 border-bottom">
                    <h2 class="text-dark">Budget Planner
                     <a href="#" v-if='Object.keys(budget_start_item).length > 0' v-on:click="budgetDeleteModalShow(budget_start_item)">
-                        <i class="far fa-trash-alt btn-sm text-danger align-middle ms-1"
+                        <i class="far fa-trash-alt text-danger align-middle ms-1 me-2 fs-4"
                             data-toggle="tooltip" data-placement="top" title="remove starting finance point"></i>
                     </a>      
                     <a href="#" v-if='Object.keys(budget_start_item).length > 0'>
-                        <i class="fas fa-check btn-sm text-success align-middle px-0"></i>
+                        <i class="fas fa-check fs-4 text-success align-middle px-0"></i>
                     </a>             
                 </h2>                                     
             </div>
@@ -72,7 +72,7 @@
             </div>           
             <div class="col-1 px-0" id="button-addon4">                       
                 <button class="btn btn-success rounded-0 shadow-sm" type="button" v-on:click="budgetCreateItem(1)">
-                    <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                    <i class="far fa-plus-square text-white me-1 fs-6" title="Add starting finance point"></i>
                     Add           
                 </button>                        
             </div>
@@ -85,7 +85,7 @@
             <div class="col-6">
                 <h4>Milestones
                      <a href="#" v-on:click="budget_item.is_new = true">
-                        <i class="far fa-plus-square btn-sm text-success ml-1 align-middle"
+                        <i class="far fa-plus-square text-success ms-1 align-middle fs-4"
                            data-toggle="tooltip" data-placement="top" title="Add budget item"></i>
                     </a>
                 </h4>
