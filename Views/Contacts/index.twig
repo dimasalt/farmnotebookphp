@@ -18,7 +18,7 @@
     <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
 
     <div class="row border-bottom pt-4">
-        <div class="col-8">
+        <div class="col-7">
             <h1 class="text-dark mb-2">
                 Contacts
                 <a href="#" v-on:click="action = 'new'; contact_item = {}">
@@ -34,6 +34,16 @@
                 <option v-for="item in contact_type" v-bind:value="item.contact_type">{{ '{{ item.name }}' }}</option>                
             </select>
         </div>
+        
+
+        <!-- order by control -->
+        <div class="col-1 px-0">
+            <select class="form-select w-100 rounded-0 form-select-sm" aria-label="Select sub group" v-model="order_by_selected" v-on:change="contactsGetAll()">
+                <option value=""></option>            
+                <option v-for="item in order_by" v-bind:value="item.type">{{ '{{ item.type }}' }}</option>                
+            </select>
+        </div>
+
 
         <!-- search panel -->
         <div class="col-2 ps-0">                     

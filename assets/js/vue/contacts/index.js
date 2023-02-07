@@ -9,7 +9,9 @@ const contacts = {
             contact_type_selected : -1,
             search_term: '',
             contact_delete : {},
-            action : ''
+            action : '',
+            order_by : {},
+            order_by_selected : ''
         }
     },
     created() {
@@ -25,6 +27,14 @@ const contacts = {
             {contact_type : 3, name : 'contacts'},
         ];
 
+        self.order_by = [
+            { type : 'name' },
+            { type : 'date' }
+        ];
+
+        self.order_by_selected = self.order_by[1].type;
+
+
         //reset/set all the variables
         self.resetContact();
 
@@ -37,7 +47,7 @@ const contacts = {
 
             self.contacts_count = 0;
 
-            var data = {search_term: self.search_term, contact_type: self.contact_selected};
+            var data = {search_term: self.search_term, contact_type: self.contact_selected, contact_order_by : self.order_by_selected};
             data = JSON.stringify(data);
 
             var contList = $.post("/contacts/get/all", data);
