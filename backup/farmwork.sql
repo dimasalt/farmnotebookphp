@@ -26,21 +26,21 @@ CREATE TABLE IF NOT EXISTS `budget` (
   `is_default` tinyint(4) NOT NULL DEFAULT 0,
   `budget_date` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Keeps financial planning and budgeting records';
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Keeps financial planning and budgeting records';
 
--- Dumping data for table farmwork.budget: ~10 rows (approximately)
+-- Dumping data for table farmwork.budget: ~11 rows (approximately)
 INSERT INTO `budget` (`id`, `parent_id`, `budget_name`, `budget_amount`, `budget_amount_actual`, `is_done`, `is_default`, `budget_date`) VALUES
-	(10, 0, 'Gross budget for year 2022', 0.00, 0.00, 0, 1, '2022-01-01 00:00:00'),
-	(11, 10, '60 head of cattle gross after taxes', 54000.00, 0.00, 0, 0, '2023-04-30 00:00:00'),
-	(12, 10, 'German Shepherd puppies 8', 8000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
-	(13, 10, 'Dmitri Salary after the tax', 27000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
-	(14, 10, 'Ilana Salary after the tax', 12000.00, 0.00, 0, 0, '2022-12-31 00:00:00'),
 	(72, 0, 'Equipment expences', 0.00, 0.00, 0, 0, '2022-02-01 00:00:00'),
 	(73, 72, 'Bush Hog', -2500.00, 0.00, 0, 0, '2021-11-30 00:00:00'),
 	(74, 72, 'Tractor Tiller', -3000.00, 0.00, 0, 0, '2021-11-30 00:00:00'),
 	(75, 72, 'Grain Bin 10 tone', -3000.00, 0.00, 0, 0, '2021-11-30 00:00:00'),
 	(76, 72, 'Box Blade', -2000.00, 0.00, 0, 0, '2021-11-30 00:00:00'),
-	(77, 72, 'Snow Blower', -2000.00, 0.00, 0, 0, '2021-11-30 00:00:00');
+	(77, 72, 'Snow Blower', -2000.00, 0.00, 0, 0, '2021-11-30 00:00:00'),
+	(78, 0, 'End Work This Year', 0.00, 0.00, 0, 1, '2023-02-07 00:00:00'),
+	(80, 78, 'German Shepherd Puppies', 2000.00, 0.00, 0, 0, '2023-03-31 00:00:00'),
+	(81, 78, 'Beef Sales', 3000.00, 0.00, 0, 0, '2023-03-07 00:00:00'),
+	(82, 78, 'Cattle', -2800.00, 0.00, 0, 0, '2023-02-28 00:00:00'),
+	(83, 78, 'Butcher Fees', -650.00, 0.00, 0, 0, '2023-03-28 00:00:00');
 
 -- Dumping structure for table farmwork.contact
 DROP TABLE IF EXISTS `contact`;
@@ -1013,31 +1013,53 @@ BEGIN
 		SET search_term = CONCAT('%', search_term, '%') ;
 	END IF;
 	
+	
+	-- drop temporary table if exists (sometimes mysql will wait before it drops it automatically
+	-- so we need to force the table dropping
+	DROP TEMPORARY TABLE IF EXISTS contact_tmp;
+	
 
 	-- execute search based on vendor and search parameter
 	IF contact_type = -1 THEN
-		select contact.id, 
-			contact.name, 
-			contact.address, 		
-			contact.phone, 
-			contact.email, 
-			contact.note,
-			contact.`type`
-		FROM contact
-		WHERE contact.name LIKE search_term OR contact.address LIKE search_term
-		ORDER BY contact.name ASC;
-	ELSE 
-		select contact.id, 
-			contact.name, 
-			contact.address, 		
-			contact.phone, 
-			contact.email, 
-			contact.note,
-			contact.`type`
-		FROM contact
-		WHERE (contact.name LIKE search_term OR contact.address LIKE search_term) AND contact.`type` = contact_type
-		ORDER BY contact.name ASC;
+		CREATE TEMPORARY TABLE contact_tmp
+		(
+			select contact.id, 
+				contact.name, 
+				contact.address, 		
+				contact.phone, 
+				contact.email, 
+				contact.note,
+				contact.`type`,
+				contact.created_at
+			FROM contact
+			WHERE contact.name LIKE search_term OR contact.address LIKE search_term			
+		);
+	ELSE	
+		CREATE TEMPORARY TABLE contact_tmp		
+		(
+			select contact.id, 
+				contact.name,  
+				contact.address, 		
+				contact.phone, 
+				contact.email, 
+				contact.note,
+				contact.`type`,
+				contact.created_at
+			FROM contact
+			WHERE (contact.name LIKE search_term OR contact.address LIKE search_term) AND contact.`type` = contact_type		
+		);
+					
 	END IF;
+	
+	IF contact_order_by LIKE 'name' THEN
+		SELECT * FROM contact_tmp ORDER BY contact_tmp.name ASC;
+	ELSEIF contact_order_by LIKE 'date' THEN
+		SELECT * FROM contact_tmp ORDER BY contact_tmp.created_at ASC;
+	END IF;
+	
+
+	
+	
 		
 END//
 DELIMITER ;
@@ -2038,8 +2060,6 @@ BEGIN
 		SET total_pages = (total_records / take_records) + 1;
 	END IF;
 	
-	-- select totals
-	--	SET exprences_total = (SELECT SUM(transaction_tmp.
 	
 	-- select all the records
 	SELECT *, 

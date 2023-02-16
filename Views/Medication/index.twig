@@ -46,12 +46,12 @@
                     <h5 class="card-header  bg-dark text-white">
                         <i class="fas fa-pills me-2"></i>
                         {{ "{{ item.name }}" }}                                  
-                        <a href="#" class="float-right btn-sm text-small pe-1">
-                            <i class="far fa-trash-alt text-danger" data-toggle="tooltip" data-placement="top" title="Remove medication"
+                        <a href="#" class="float-right pe-1 ms-2">
+                            <i class="far fa-trash-alt text-small text-danger" data-toggle="tooltip" data-placement="top" title="Remove medication"
                                 v-on:click="deleteMedicationModal(index)"></i>
                         </a>                               
-                        <a v-bind:href="'/medication/update/' + item.id" class="float-right btn-sm text-small ps-0">
-                            <i class="far fa-edit text-warning" data-toggle="tooltip" data-placement="top" title="Edit medication"></i>
+                        <a v-bind:href="'/medication/update/' + item.id" class="float-right ps-0">
+                            <i class="far fa-edit text-small text-warning" data-toggle="tooltip" data-placement="top" title="Edit medication"></i>
                         </a>                                   
                     </h5>
                     <div class="card-body">

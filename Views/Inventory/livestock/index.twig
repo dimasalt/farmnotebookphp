@@ -20,15 +20,8 @@
 
         <div class="row mb-2">
             <div class="col-8 border-bottom">
-                <h1 class="text-dark mb-4">
-                    Inventory
-                     {# <a href="#" v-on:click="addNewShow()">
-                        <i class="far fa-plus-square btn-sm text-success ml-1 align-middle"
-                           data-toggle="tooltip" data-placement="top" title="Add project"></i>
-                    </a> #}
-                </h1>        
-            </div>   
-            
+                <h1 class="text-dark mb-4">Inventory</h1>        
+            </div>               
              
 
             <!-- date selection -->
@@ -114,15 +107,6 @@
         </div>       
     </div>
 
-    <!-- if no transactions found display alert about it -->
-    {# <div class="row mt-2" v-if="transactions.length == 0">
-        <div class="col-9">
-            <div class="alert alert-warning shadow-sm" role="alert">
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                No Transactions found.
-            </div>
-        </div>
-    </div> #}
 
     <!-- livestock list -->
     <div class="row mt-1">
@@ -149,14 +133,14 @@
                         <td v-bind:class="item.class">${{ '{{item.price}}' }} </td>                  
                         <td>
                             <a href="#">
-                                <i data-toggle="tooltip" data-placement="top" title="View animal" class="far fa-eye text-small text-info float-left mr-1 mt-1"></i>
+                                <i data-toggle="tooltip" data-placement="top" title="View animal" class="far fa-eye text-small text-info float-left mx-1 pt-1"></i>
                             </a>                             
                             <a href="#" v-on:click="editShow(index)">
-                                <i class="fa fa-edit btn-sm text-warning align-middle pr-0 float-left"
+                                <i class="fa fa-edit text-small text-warning align-middle mx-1 float-left"
                                     data-toggle="tooltip" data-placement="top" title="edit animal"></i>
                             </a>
                             <a href="#" v-on:click.prevent="delOneShow(item.id, item.trans_name)">
-                                <i class="far fa-trash-alt btn-sm text-danger align-middle float-left"
+                                <i class="far fa-trash-alt text-small text-danger align-middle float-left"
                                 data-toggle="tooltip" data-placement="top" title="remove animal"></i>
                             </a>
                         </td>                      
@@ -245,48 +229,15 @@
                                 Cancel           
                             </a>    
                             <a href="#" class="btn btn-success rounded-0" v-on:click="transactionEdit" v-if="action.edit == true" >
-                                <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                                <i class="far fa-plus-square text-small text-white me-1" title="Add starting finance point"></i>
                                 Update              
                             </a>                                                     
                             <a href="#" class="btn btn-success rounded-0" v-on:click="transactionAdd" v-if="action.new == true" >
-                                <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                                <i class="far fa-plus-square text-small text-white me-1" title="Add starting finance point"></i>
                                 Save           
                             </a>               
                         </div>
-                    </div>               
-                    {# <div class="row">         
-                        <div class="col">
-                            <label for="trans_date">Transaction Date</label>        
-                            <input class="form-control bg-secondary text-white border-dark" type="date" placeholder="Transaction Date" placeholder="Address" aria-describedby="trans_date" v-model="transaction_record.trans_date" required>
-                        </div>           
-                    </div>
-                    <div class="row align-content-start">                
-                        <div class="col-12 ps-3 mt-4 form-check form-check-inline">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"  v-model="transaction_record.trans_currency" value="C$">
-                                <label class="form-check-label" for="inlineRadio1">Canadian $</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" v-model="transaction_record.trans_currency" value="$">
-                                <label class="form-check-label" for="inlineRadio2">USD $</label>
-                            </div>                                                        
-                        </div>                      
-                    </div>             
-                     <hr class="bg-secondary" />
-                    <div class="col mt-3 d-flex justify-content-end">                                   
-                        <a href="#" class="btn btn-warning rounded-0" v-on:click="resetVariables()">
-                            <i class="fas fa-times-circle text-small me-1"></i>
-                            Cancel           
-                        </a>    
-                        <a href="#" class="btn btn-success rounded-0" v-on:click="transactionEdit" v-if="action.edit==true">
-                            <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
-                            Update              
-                        </a>                                                     
-                        <a href="#" class="btn btn-success rounded-0" v-on:click="transactionAdd" v-if="action.new == true">
-                            <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
-                            Save           
-                        </a>               
-                    </div> #}
+                    </div>                                
                 </form>
             </div> 
         </div>  
