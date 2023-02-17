@@ -5,7 +5,7 @@ const contacts = {
             contacts_count : 0,
             contact_item : {},
             contact_type : [],
-            contact_selected : -1,
+            contact_type_default : -1,
             contact_type_selected : -1,
             search_term: '',
             contact_delete : {},
@@ -22,14 +22,14 @@ const contacts = {
 
         //set select for contacts or vendors
         self.contact_type = [
-            {contact_type : 1, name : 'vendor' },
-            {contact_type : 2, name : 'customer' },
-            {contact_type : 3, name : 'contacts'},
+            {contact_type : 1, name : 'Vendor' },
+            {contact_type : 2, name : 'Customer' },
+            {contact_type : 3, name : 'Contacts' },
         ];
 
         self.order_by = [
-            { type : 'name' },
-            { type : 'date' }
+            { name: 'Name', type : 'name' },
+            { name: 'Date', type : 'date' }
         ];
 
         self.order_by_selected = self.order_by[1].type;
@@ -47,7 +47,7 @@ const contacts = {
 
             self.contacts_count = 0;
 
-            var data = {search_term: self.search_term, contact_type: self.contact_selected, contact_order_by : self.order_by_selected};
+            var data = {search_term: self.search_term, contact_type: self.contact_type_default, contact_order_by : self.order_by_selected};
             data = JSON.stringify(data);
 
             var contList = $.post("/contacts/get/all", data);
@@ -59,6 +59,7 @@ const contacts = {
                     for(var i = 0; i< self.contacts.length; i++){
                         var link = self.contacts[i].address;
                         self.contacts[i].link = 'http://maps.google.com/maps?q=' + encodeURIComponent(link);
+                        //self.contacts[i].checked = false;
 
                         //add count
                         self.contacts_count ++;

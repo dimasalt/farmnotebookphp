@@ -68,7 +68,7 @@ INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `type`
 	('40233c6c-142e-11ec-808f-d8cb8ac0caec', 'Thornloe Farm Supply Inc', '31 Main St, Thornloe, ON, P0J 1S0', '705-563-2555', '', 'Farm supply store', 1, '2021-09-12 21:01:29'),
 	('42e3cf72-1a10-11ec-9d60-d8cb8ac0caec', 'Ontario Stockyards Inc', '3807 ON-89, Cookstown, ON L0L 1L0', '705-458-4000', '', 'Livestock auction. Barn livestock sales.', 1, '2021-09-20 08:42:46'),
 	('51021095-952d-11ed-8ff1-d8cb8ac0caec', 'Peter + Elena', '8345 Kamiskotia Rd, Timmins', '705-365-2131', NULL, 'Buys package once a month, likes soup bones', 2, '2023-01-15 18:35:38'),
-	('5b839dbe-a703-11ed-92a1-d8cb8ac0caec', 'Deneen Ross-Babin ', '108 Maple St South, Timmins', '705-274-1607 ', NULL, 'Older lady from Timmins, found me trough facebook', 2, '2023-02-07 11:20:30'),
+	('5b839dbe-a703-11ed-92a1-d8cb8ac0caec', 'Deneen Ross-Babin ', '108 Maple St South, Timmins', '705-274-1607 ', NULL, 'Older lady from Timmins, found me trough facebook. Loves our meat a lot and left amazing comment on Matheson facebook group.', 2, '2023-02-07 11:20:30'),
 	('66723273-952e-11ed-8ff1-d8cb8ac0caec', 'Curtis', '130 Camille St, Timmins', '705-262-7763', NULL, 'Wants 15 lb of ground beef in package', 2, '2023-01-15 18:43:23'),
 	('6fab9fc6-952d-11ed-8ff1-d8cb8ac0caec', 'Jerry', '51 Lincoln ave, Timmins', '705-360-3671', NULL, 'Buys a package once every 2 months. Likes roast and doesn\'t like ground beef.', 2, '2023-01-15 18:36:29'),
 	('7775b8f5-a8cc-11ec-ac57-d8cb8ac0caec', 'LEIS Landscaping & Country Store', '998063 Hwy 11 North, New Liskeard, Ontario, P0J 1P0', '705-648-1384', 'lw@xplornet.ca', NULL, 1, '2022-03-21 00:07:32'),
@@ -1051,6 +1051,8 @@ BEGIN
 					
 	END IF;
 	
+	
+	-- order selection by name or date
 	IF contact_order_by LIKE 'name' THEN
 		SELECT * FROM contact_tmp ORDER BY contact_tmp.name ASC;
 	ELSEIF contact_order_by LIKE 'date' THEN
@@ -1058,7 +1060,9 @@ BEGIN
 	END IF;
 	
 
-	
+	-- drop temporary table if exists (sometimes mysql will wait before it drops it automatically
+	-- so we need to force the table dropping
+	DROP TEMPORARY TABLE IF EXISTS contact_tmp;
 	
 		
 END//
@@ -1838,6 +1842,10 @@ BEGIN
 			 IFNULL(total_equipment, 0) AS total_equipment,
 			 IFNULL(total_profit, 0) AS total_profit;
 			 
+			 
+	-- drop temporary table if exists
+	DROP TEMPORARY TABLE IF EXISTS transaction_totals_tmp;
+
 			 
 END//
 DELIMITER ;
