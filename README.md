@@ -40,3 +40,8 @@ rather than one like it's right now.
 ### Reports Page 
 
 Just display with good search functionlity but without ability to add or modify anything
+
+
+### Contact Page 
+
+Add pagination to the contact page. 

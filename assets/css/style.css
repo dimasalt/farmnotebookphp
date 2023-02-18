@@ -158,3 +158,25 @@ input[type=date] {
     pointer-events: none;
     color: #aaa;
 }
+
+/*********** Pagination **************/
+.active>.page-link, .page-link.active {
+    z-index: 3;
+    color: #ffffff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+
+li a.page-link, li span.page-link {
+    color: #000;
+}
+
+li a.page-link:hover, li span.page-link:hover  {
+    color: #000;
+    background-color: #d3d3d4;
+}
+
+.active>.page-link:hover, .page-link.active:hover {
+    background-color: #0e4f30;
+}

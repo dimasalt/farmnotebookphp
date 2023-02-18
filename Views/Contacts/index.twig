@@ -21,8 +21,8 @@
         <div class="col-7">
             <h1 class="text-dark mb-2">
                 Contacts
-                <a href="#" v-on:click="action = 'new'; contact_item = {}">
-                    <i class="far fa-plus-square text-success align-middle ms-2 fs-4"
+                <a href="#" v-on:click="action = 'new'; contact_item = {}">                   
+                    <i class="bi bi-plus-square text-success align-middle ms-2 fs-4"
                         data-toggle="tooltip" data-placement="top" title="Add contact"></i>
                 </a>
             </h1>   
@@ -48,7 +48,7 @@
         <!-- search panel -->
         <div class="col-2 ps-0">                     
             <div class="has-search rounded-0 w-100">
-                <span class="fa fa-search form-control-feedback"></span>
+                <span class="bi bi-search form-control-feedback"></span>
                 <input type="text" class="form-control w-100 form-control-sm rounded-0"  placeholder="Search" v-model="search_term" v-on:keyup="contactsGetAll()">
             </div>
               
@@ -59,9 +59,9 @@
     <div class="row">           
         <div class="col-12 mt-4">
             <div class="alert alert-dark shadow-sm">                                
-                <i class="fas fa-info-circle fa-2x me-2 align-middle text-success"></i>
-                Contact information of people and organization for quick access. (<i class="fas fa-asterisk text-warning mx-1" style="font-size:14px;"></i>) 
-                Means contact is a vendor.  (<i class="fas fa-asterisk text-success mx-1" style="font-size:14px;"></i>) 
+                <i class="bi bi-info-circle-fill fs-3 me-2 align-middle text-success"></i>
+                Contact information of people and organization for quick access. (<i class="bi bi-asterisk text-warning mx-1" style="font-size:14px;"></i>) 
+                Means contact is a vendor.  (<i class="bi bi-asterisk text-success mx-1" style="font-size:14px;"></i>) 
                 Means contact is a customer.
             </div>
         </div>
@@ -70,7 +70,7 @@
     <!-- alert if no contacts found either initially or through the search -->
     <div class="col-12 mt-4" v-if="contacts.length == 0">
         <div class="alert alert-warning shadow-sm" role="alert">
-            <i class="fas fa-exclamation-triangle me-3"></i>
+            <i class="bi bi-exclamation-triangle-fill me-3"></i>
             <b>Sorry but no contacts has been found.</b>
         </div>
     </div>
@@ -103,11 +103,11 @@
       
         <div class="col-2 mt-0 d-flex justify-content-end">                                   
             <a href="#" class="btn btn-warning rounded-0" v-on:click="action = ''">
-                <i class="fas fa-times-circle text-small me-1"></i>
+                <i class="fas bi bi-x-circle-fill me-1"></i>
                 Cancel           
             </a>   
             <a href="#" class="btn btn-success rounded-0" v-on:click="contactAddOrEdit()">
-                <i class="far fa-plus-square btn-sm text-white pe-1" title="Add starting finance point"></i>
+                <i class="bi bi-plus-square text-white pe-1" title="Add Contact"></i>
                 Save           
             </a>               
         </div>
@@ -152,17 +152,37 @@
                         <td class="">
                            <small>{{ '{{item.note}}' }}</small>
                         </td>                                                                
-                        <td class="pt-1 w-5">                               
-                             <a href="#" class="float-end" v-on:click="deleteContacModalShow(index)">
-                                <i class="far fa-trash-alt text-small text-danger me-2" data-toggle="tooltip" data-placement="top" title="Remove contact"></i>
-                            </a>                                                            
+                        <td class="pt-1 w-10">                                                          
+                            <a href="#" class="float-end" v-on:click="deleteContacModalShow(index)">
+                                <i class="bi bi-trash3 text-danger" data-toggle="tooltip" data-placement="top" title="Remove contact"></i>
+                            </a>                      
                             <a href="#" class="float-end" v-on:click="contactEditFormShow(index)">
-                                <i class="far fa-edit text-small text-warning me-2" data-toggle="tooltip" data-placement="top" title="Edit contact"></i>
-                            </a>                                                               
+                                <i class="bi bi-pencil-square text-warning me-2" data-toggle="tooltip" data-placement="top" title="Edit contact"></i>
+                            </a>
+                            <a href="#" class="float-end" v-on:click="contactEditFormShow(index)">
+                                <i class="bi bi-calendar4-week text-info me-2" data-toggle="tooltip" data-placement="top" title="Last contact"></i>
+                            </a>                        
                         </td>
                     </tr>                       
                 </tbody>
             </table>         
+        </div>
+        <div class="col-12">
+            <nav aria-label="..." class="d-flex flex-row-reverse">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <span class="page-link">&laquo;</span>
+                    </li>
+                    <li class="page-item active"><a class="page-link" aria-current="page" href="#">1</a></li>
+                    <li class="page-item">
+                        <span class="page-link">2</span>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 
@@ -173,20 +193,20 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger">
                     <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
                         Remove contact "<b> {{ '{{ contact_delete.name }}' }} </b>"</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    {# <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
+                    </button> #}
                 </div>
                 <div class="modal-body">
                     Are you sure you want to remove contact named <b>"{{ '{{ contact_delete.name }}' }}"</b> ?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning" data-dismiss="modal" v-on:click="deleteContacModalHide()">
-                        <i class="fas fa-times-circle text-small me-1"></i>Cancel</button>
+                        <i class="bi bi-x-circle-fill text-small me-1"></i>Cancel</button>
                     <button type="button" class="btn btn-danger" v-on:click="deleteContact()">
-                        <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
+                        <i class="bi bi-trash3 text-small me-1"></i>Remove</button>
                 </div>
             </div>
         </div>
