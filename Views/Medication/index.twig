@@ -24,7 +24,7 @@
             <div class="col-10">
                 <h2 class="text-dark mb-1">Medication               
                      <a href="/medication/add">
-                        <i class="far fa-plus-square btn-sm text-success align-middle"
+                        <i class="bi bi-plus-square fs-4 text-success align-middle"
                            data-toggle="tooltip" data-placement="top" title="Add medication"></i>
                     </a>                 
                 </h2>            
@@ -32,7 +32,7 @@
 
             <!-- Search box -->
             <div class="form-group has-search col-2 float-right">
-                <span class="fa fa-search form-control-feedback"></span>
+                <span class="bi bi-search form-control-feedback"></span>
                 <input type="search" class="form-control"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
             </div>          
         </div>               
@@ -44,14 +44,14 @@
             <div class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-xs-12 m-2 p-0" v-for="(item, index) in meds">            
                 <div class="card h-100 w-100">
                     <h5 class="card-header  bg-dark text-white">
-                        <i class="fas fa-pills me-2"></i>
+                        <i class="bi bi-capsule-pill me-2"></i>
                         {{ "{{ item.name }}" }}                                  
                         <a href="#" class="float-right pe-1 ms-2">
-                            <i class="far fa-trash-alt text-small text-danger" data-toggle="tooltip" data-placement="top" title="Remove medication"
+                            <i class="far bi bi-trash3 text-danger" data-toggle="tooltip" data-placement="top" title="Remove medication"
                                 v-on:click="deleteMedicationModal(index)"></i>
                         </a>                               
                         <a v-bind:href="'/medication/update/' + item.id" class="float-right ps-0">
-                            <i class="far fa-edit text-small text-warning" data-toggle="tooltip" data-placement="top" title="Edit medication"></i>
+                            <i class="bi bi-pencil-square text-warning" data-toggle="tooltip" data-placement="top" title="Edit medication"></i>
                         </a>                                   
                     </h5>
                     <div class="card-body">
@@ -82,20 +82,20 @@
                 <div class="modal-content">
                     <div class="modal-header bg-danger">
                         <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
                             Remove "<b> {{ '{{ medication.name }}' }} </b>" Medication</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-on:click="deleteMedicationModalHide">
+                        {# <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-on:click="deleteMedicationModalHide">
                             <span aria-hidden="true">&times;</span>
-                        </button>
+                        </button> #}
                     </div>
                     <div class="modal-body">
                         Are you sure you want to remove medication named <b>"{{ '{{ medication.name }}' }}"</b> ?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-dismiss="modal" v-on:click="deleteMedicationModalHide">
-                            <i class="fas fa-times-circle text-small me-1"></i>Cancel</button>
+                            <i class="bi bi-x-circle-fill me-1"></i>Cancel</button>
                         <button type="button" class="btn btn-danger" v-on:click="deleteMedication()">
-                            <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
+                            <i class="bi bi-trash3 me-1"></i>Remove</button>
                     </div>
                 </div>
             </div>

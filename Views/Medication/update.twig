@@ -27,7 +27,7 @@
 
             <div class="col-12 mb-3">
                 <div class="alert alert-warning shadow-sm mt-3">
-                    <i class="fas fa-exclamation-triangle me-1"></i>
+                    <i class="bi bi-exclamation-triangle-fill fs-4 me-1"></i>
                     This page contains medication information and usage instructions.
                 </div>                          
             </div>                       
@@ -36,7 +36,7 @@
         <!-- name, price and quantity -->
         <div class="row">    
             <div class="col bg-dark text-white py-2 mx-3">
-                <i class="fas fa-file-medical me-1"></i>
+                <i class="bi bi-file-earmark-medical me-1"></i>
                 <input type="text" name="med_name" class="col-5 ms-2" id="imputname" placeholder="name" v-model="medication.name">     
                 <input type="text" name="med_on_hand" class="col-3 ms-2" id="imputname" placeholder="on hand doses" v-model="medication.on_hand_doses">            
                 <input type="text" name="med_price" class="col-2 ms-2" id="imputname" placeholder="price" v-model="medication.price">         
@@ -60,11 +60,11 @@
         <div class="row  bg-white py-2 mx-2 ps-0">
             <div class="col-12 d-flex justify-content-end">
                 <a href="/medication"  class="btn btn-warning rounded-0">
-                    <i class="fas fa-times-circle text-small"></i>
+                    <i class="bi bi-x-circle-fill"></i>
                     Cancel/Back
                 </a>
                 <a href="#" class="btn btn-success rounded-0 me-2" v-on:click="updateMed()">
-                    <i class="fas fa-check text-small"></i>
+                    <i class="bi bi-check2-circle"></i>
                     Update
                 </a>               
             </div>           
