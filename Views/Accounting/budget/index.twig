@@ -22,12 +22,9 @@
             <div class="col-10 border-bottom">
                    <h2 class="text-dark">Budget Planner
                     <a href="#" v-if='Object.keys(budget_start_item).length > 0' v-on:click="budgetDeleteModalShow(budget_start_item)">
-                        <i class="far fa-trash-alt text-danger align-middle ms-1 me-2 fs-4"
+                        <i class="bi bi-trash3 text-danger ms-1 me-2 fs-4"
                             data-toggle="tooltip" data-placement="top" title="remove starting finance point"></i>
-                    </a>      
-                    <a href="#" v-if='Object.keys(budget_start_item).length > 0'>
-                        <i class="fas fa-check fs-4 text-success align-middle px-0"></i>
-                    </a>             
+                    </a>                       
                 </h2>                                     
             </div>
 
@@ -54,7 +51,7 @@
 
             <div class="col-12 mb-3" v-if='Object.keys(budget_start_item).length === 0'>
                 <div class="alert alert-warning shadow-sm mt-2">
-                    <i class="fas fa-exclamation-triangle me-1"></i>
+                    <i class="bi bi-exclamation-triangle-fill me-1 fs-4"></i>
                     Please add starting budget point.
                 </div>                          
             </div>                       
@@ -72,7 +69,7 @@
             </div>           
             <div class="col-1 px-0" id="button-addon4">                       
                 <button class="btn btn-success rounded-0 shadow-sm" type="button" v-on:click="budgetCreateItem(1)">
-                    <i class="far fa-plus-square text-white me-1 fs-6" title="Add starting finance point"></i>
+                    <i class="bi bi-check2-circle text-white me-1 fs-6" title="Add starting finance point"></i>
                     Add           
                 </button>                        
             </div>
@@ -85,7 +82,7 @@
             <div class="col-6">
                 <h4>Milestones
                      <a href="#" v-on:click="budget_item.is_new = true">
-                        <i class="far fa-plus-square text-success ms-1 align-middle fs-4"
+                        <i class="bi bi-plus-square text-success ms-1 align-middle fs-4"
                            data-toggle="tooltip" data-placement="top" title="Add budget item"></i>
                     </a>
                 </h4>
@@ -101,11 +98,11 @@
                     <input type="date" class="form-control col-2  rounded-0 shadow-sm" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="budget_item.budget_date">
                     <div class="input-group-append" id="button-addon4">     
                          <button class="btn btn-warning  rounded-0 shadow-sm" type="button" v-on:click="budget_item.is_new = false">
-                             <i class="fas fa-times-circle text-small me-1"></i>
+                             <i class="bi bi-x-circle-fill me-1"></i>
                             Cancel           
                         </button>                  
                         <button class="btn btn-success  rounded-0 shadow-sm" type="button" v-on:click="budgetCreateItem(0)">
-                            <i class="far fa-plus-square btn-sm text-white ps-0" title="Add budget item"></i>
+                            <i class="bi bi-check2-circle btn-sm text-white ps-0" title="Add budget item"></i>
                             Add           
                         </button>                       
                     </div>
@@ -114,8 +111,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xl-8 col-lg-12 mt-2" id="budgets_table">
-                {# <table class="table bg-white table-borderless rounded-0 shadow-sm" >             #}
+            <div class="col-xl-8 col-lg-12 mt-2" id="budgets_table">              
                 <table class="table bg-white table-borderless rounded-0 shadow-sm" >              
                     <thead>
                         <tr>
@@ -133,11 +129,11 @@
                             <td>
                                 {{ '{{item.budget_name}}' }}
                                 <a href="#" v-on:click.stop="budgetDeleteModalShow(item)">
-                                    <i class="far fa-trash-alt btn-sm text-dark align-middle me-1 ps-2 pe-0"
+                                    <i class="bi bi-trash3 text-dark align-middle me-1 ps-2 pe-0"
                                         data-toggle="tooltip" data-placement="top" title="remove expence point"></i>
                                 </a>
                                  <a href="#" v-on:click="budgetUpdateFormShow(index)">
-                                    <i class="fa fa-edit btn-sm text-warning align-middle ps-1"
+                                    <i class="bi bi-pencil-square text-warning align-middle ps-1"
                                         data-toggle="tooltip" data-placement="top" title="edit expence point"></i>
                                 </a>
                             </td>                                   
@@ -154,11 +150,11 @@
                                     <input type="date" class="form-control col-2" placeholder="date yyyy-mm-dd" aria-label="Start date" aria-describedby="button-addon4" v-model="budget_item.budget_date">
                                     <div class="input-group-append" id="button-addon4">     
                                         <a href="#" class="btn btn-warning rounded-0" v-on:click="budgets[index].is_edit = false">
-                                            <i class="fas fa-times-circle text-small mr-1"></i>
+                                            <i class="bi bi-x-circle-fill mr-1"></i>
                                             Cancel           
                                         </a>                  
                                         <a href="#" class="btn btn-success rounded-0" v-on:click="budgetUpdate()">
-                                            <i class="fas fa-check btn-sm text-white pl-0" title="Save item update"></i>
+                                            <i class="bi bi-check2-circle text-white pl-0" title="Save item update"></i>
                                             Save           
                                         </a>                       
                                     </div>
@@ -217,20 +213,18 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger">
                     <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                        Remove item</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <i class="bi bi-exclamation-triangle-fill mr-2"></i>
+                        Remove item
+                    </h5>                
                 </div>
                 <div class="modal-body">
                     Are you sure you want to remove project named <b>"{{ '{{ budget_item.budget_name }}' }}"</b> ?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">
-                        <i class="fas fa-times-circle text-small me-1"></i>Cancel</button>
+                  <button type="button" class="btn btn-warning" data-dismiss="modal" v-on:click="deleteBudgetModalHide()">
+                        <i class="bi bi-x-circle-fill me-1"></i>Cancel</button>
                     <button type="button" class="btn btn-danger" v-on:click="budgetDelete()">
-                        <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
+                        <i class="bi bi-trash3 me-1"></i>Remove</button>
                 </div>
             </div>
         </div>
