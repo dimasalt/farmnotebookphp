@@ -25,23 +25,18 @@
             </div>           
         </div>                    
 
-        <!-- Actual search box -->
-        {# <div class="form-group has-search col-3 float-right">
-            <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" class="form-control"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
-        </div>  #}
-
+        <!-- Actual search box -->        
          <div class="row">
             <div class="col-3 mt-2">
-                <h5>Categories  <i class="far fa-plus-square btn-sm text-success me-0 pe-0" v-on:click="newCategoryClick()"></i></h5>
+                <h5>Categories  <i class="bi bi-plus-square text-success ms-1 pe-0 fs-5" v-on:click="newCategoryClick()"></i></h5>
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" 
                         v-for="(category_item, index) in transaction_cats" v-bind:key="category_item.id" v-bind:class="{ 'list-group-item-dark': category_item.is_active }" >
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1" v-on:click="selectCategory(index)">{{ '{{ category_item.category_name }}' }}</h5> 
                                 <span>                                   
-                                    <i class="fa fa-edit btn-sm text-warning pe-0 me-0" v-on:click="editCategoryClick(index)"></i>          
-                                    <i class="far fa-trash-alt btn-sm text-danger ps-1" v-on:click="deleteCategoryModal(category_item)"></i>         
+                                    <i class="bi bi-pencil-square text-warning pe-0 me-0" v-on:click="editCategoryClick(index)"></i>          
+                                    <i class="bi bi-trash3 text-danger ps-1" v-on:click="deleteCategoryModal(category_item)"></i>         
                                 </span>                                                                 
                             </div>
                             <p class="mb-1" v-on:click="selectCategory(index)">{{ '{{ category_item.category_description }}' }}</p>                        
@@ -49,15 +44,15 @@
                 </div>
             </div>
             <div class="col-3 mt-2" v-show="transaction_cats.length > 0">
-                <h5>Sub Categories <i class="far fa-plus-square btn-sm text-success me-0 pe-0" v-on:click="newSubCategoryClick()"></i></h5>
+                <h5>Sub Categories <i class="bi bi-plus-square text-success ms-1 pe-0 fs-5" v-on:click="newSubCategoryClick()"></i></h5>
                 <div class="list-group" v-show="transaction_subcats.length > 0">
                     <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="category_item in transaction_subcats" v-bind:key="category_item.id" >
                             <div class="d-flex w-100 justify-content-between">
                                 <h6 class="mb-1">{{ '{{ category_item.category_name }}' }}</h6> 
                                 <span>                                    
-                                    <i class="fa fa-edit btn-sm text-warning pe-0 me-0" v-on:click="editSubCategoryClick(category_item)"></i>          
+                                    <i class="bi bi-pencil-square text-warning pe-0 me-0" v-on:click="editSubCategoryClick(category_item)"></i>          
                                     
-                                    <i class="far fa-trash-alt btn-sm text-danger ps-1" v-on:click="deleteCategoryModal(category_item)"></i>         
+                                    <i class="bi bi-trash3 text-danger ps-1" v-on:click="deleteCategoryModal(category_item)"></i>         
                                 </span>                                                                 
                             </div>
                             {# <p class="mb-1"><small>{{ '{{ subcategory_item.category_description }}' }}</small></p>                         #}
@@ -121,7 +116,7 @@
                         <button type="button" class="btn btn-warning" data-dismiss="modal">
                             <i class="fas fa-times-circle text-small me-1"></i>Cancel</button>
                         <button type="button" class="btn btn-danger" v-on:click="deleteCategory(work_item.id)">
-                            <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
+                            <i class="bi bi-trash3 me-1"></i>Remove</button>
                     </div>
                 </div>
             </div>

@@ -22,19 +22,11 @@
             <h2 class="text-dark">
                 Feeds Inventory
                 <a href="#" v-on:click="action.new = true">
-                    <i class="far fa-plus-square btn-sm text-success align-middle ps-1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Add Feeed" aria-label="Add Feed"></i>
+                    <i class="bi bi-plus-square text-success align-middle ps-1 fs-4" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Add Feeed" aria-label="Add Feed"></i>
                 </a>
             </h2>                
         </div>      
-    </div>
-
-    {# <div class="row mt-4">
-        <div class="col-12">
-            <div class="alert alert-warning shadow-sm">
-                <i class="fas fa-info-circle fa-2x me-2 align-middle text-success"></i>
-            </div>
-        </div>
-    </div> #}
+    </div>  
 
     <div class="row mt-4 mx-2" v-if="action.edit == true || action.new == true">
         <div class="col-12 ps-1 pb-2 bg-white shadow-sm border border-secondary">
@@ -79,15 +71,15 @@
                 </div>      
                 <div class="col-2 d-flex justify-content-end pt-4">                    
                     <a href="#" class="btn btn-success rounded-0 shadow-sm form-control mt-2" v-on:click="feedCreate()" v-if="action.new == true">                                   
-                        <i class="far fa-plus-square btn-sm text-white ps-0"></i>
+                        <i class="bi bi-check2-circle text-white ps-0"></i>
                         Add
                     </a>
                     <a href="#" class="btn btn-success rounded-0 form-control shadow-sm mt-2" v-on:click="feedUpdate()" v-if="action.edit == true">                                   
-                        <i class="far fa-plus-square btn-sm text-white ps-0"></i>
+                        <i class="bi bi-check2-circle text-white ps-0"></i>
                         Update
                     </a>
                     <a href="#" class="btn btn-warning rounded-0 form-control mt-2 shadow-sm" v-on:click="clearForms()">
-                        <i class="fas fa-times-circle text-small me-1"></i>
+                        <i class="bi bi-x-circle-fill me-1"></i>
                         Cancel           
                     </a>  
                 </div>                                            
@@ -121,11 +113,11 @@
                         <td class="bg-white">{{ '{{ item.feed_price }}' }}</td>                 
                         <td class="bg-white">{{ '{{ item.feed_price_lb }}' }}</td>
                         <td class="bg-white">
-                            <a href="#" class="float-right btn-sm text-small ps-0" v-on:click="updateForms(index)">
-                                <i class="far fa-edit text-warning" data-toggle="tooltip" data-placement="top" title="Edit Feed"></i>
+                            <a href="#" class="float-right btn-sm text-small" v-on:click="updateForms(index)">
+                                <i class="bi bi-pencil-square text-warning me-1" data-toggle="tooltip" data-placement="top" title="Edit Feed"></i>
                             </a>
                             <a href="#">
-                                <i class="far fa-trash-alt btn-sm text-danger align-middle float-right" title="Remove from default" v-on:click="showDeleteModal(item.id, item.feed_name)"></i>
+                                <i class="bi bi-trash3 text-danger" title="Remove from default" v-on:click="showDeleteModal(item.id, item.feed_name)"></i>
                             </a>
                         </td>
                     </tr>                 
@@ -140,23 +132,23 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger">
                     <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
                         Remove item
                     </h5>                            
                 </div>
                 <div class="modal-body">
                     Are you sure you want to remove <b>"{{ '{{ feed_item.feed_name }}' }}"</b> feed item?
                     <div class="alert alert-warning mt-2" role="alert">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
                         Please be advised removing feed item is irreversable acton.
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning" data-dismiss="modal" v-on:click.prevent="hideDeleteModal()">
-                        <i class="fas fa-times-circle text-small me-1"></i>Cancel
+                        <i class="bi bi-x-circle-fill me-1"></i>Cancel
                     </button>
                     <button type="button" class="btn btn-danger" v-on:click.prevent="deleteFeed()">
-                        <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
+                        <i class="bi bi-trash3 me-1"></i>Remove</button>
                 </div>
             </div>
         </div>

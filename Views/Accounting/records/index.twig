@@ -85,7 +85,7 @@
         <div class="col-5">
              <h3>Transactions
                 <a href="#" v-on:click="setAction('new', -1)">
-                    <i class="far fa-plus-square text-success align-middle fs-4"
+                    <i class="bi bi-plus-square text-success align-middle fs-4"
                         data-bs-toggle="tooltip" data-bs-placement="top" title="Add transaction"></i>
                 </a>                 
             </h3>
@@ -110,7 +110,7 @@
         </div>
         <div class="col-2 pe-2">
             <div class="has-search rounded-0 w-100">
-                <span class="fa fa-search form-control-feedback"></span>
+                <span class="bi bi-search form-control-feedback"></span>
                 <input type="text" class="form-control w-100 form-control-sm rounded-0"  placeholder="Search" v-model="search_term" v-on:keyup="goSearch()">
             </div>
         </div>       
@@ -120,7 +120,7 @@
     <div class="row mt-2" v-if="transactions.length == 0">
         <div class="col-9">
             <div class="alert alert-warning shadow-sm" role="alert">
-                <i class="fas fa-exclamation-triangle me-2"></i>
+                <i class="bi bi-exclamation-triangle-fill fs-5 me-2"></i>
                 No Transactions found.
             </div>
         </div>
@@ -141,22 +141,22 @@
                         </td>                                                                              
                         <td class="pt-1 w-15">    <!-- action buttons -->
                              <a href="#" v-on:click="setAction('new_item', index)" v-if="action.new == false ">
-                                <i class="far fa-plus-square text-success align-middle fs-6 me-1"
+                                <i class="bi bi-plus-square text-success align-middle fs-6 me-1"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Add transaction item"></i>
                             </a>                                    
                             <a href="#" v-on:click.prevent="delTransactionShow(index)">
-                                <i class="far fa-trash-alt text-danger align-middle float-right fs-6 me-1" 
+                                <i class="bi bi-trash3 text-danger align-middle float-right fs-6 me-1" 
                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Remove transaction"></i>
                             </a>
                                 <a href="#" v-on:click="setAction('edit', index)">
-                                <i class="fa fa-edit text-warning align-middle pe-0 float-right fs-6 me-1"
+                                <i class="bi bi-pencil-square text-warning align-middle pe-0 float-right fs-6 me-1"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Edit transaction"></i>
                             </a>
                              <a href="#" v-on:click="setAction('image', index)">
-                                <i class="fa fa-upload text-secondary pe-0 fs-6 float-right" data-bs-toggle="tooltip" data-bs-placement="top" title="upload transaction image" aria-hidden="true"></i>
+                                <i class="bi bi-upload text-secondary pe-0 fs-6 float-right" data-bs-toggle="tooltip" data-bs-placement="top" title="upload transaction image" aria-hidden="true"></i>
                             </a>                         
                             <a href="#" v-on:click="setAction('image_view', index)" v-if="record.trans_image">                                
-                                <i data-bs-toggle="tooltip" data-bs-placement="top" title="View transaction image" class="fas fa-image text-info float-right fs-6 ms-1"></i>
+                                <i data-bs-toggle="tooltip" data-bs-placement="top" title="View transaction image" class="bi bi-image text-info float-right fs-6 ms-1"></i>
                             </a>                           
                         </td>
                     </tr>    
@@ -166,7 +166,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-start small border-0 py-0" v-for="item in record.items">                                    
                                     <div class="col-3 border-bottom">
                                         <a href="#" v-on:click.prevent="delTransactionItemShow(item.id, item.item_name)">
-                                            <i class="far fa-trash-alt text-danger align-middle float-right fs-6" 
+                                            <i class="bi bi-trash3 text-danger align-middle float-right fs-6" 
                                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Remove transaction item"></i>
                                         </a>
                                         {{ '{{ item.item_name }}' }}  
@@ -220,11 +220,11 @@
                 <hr class="bg-secondary" />  
                 <div class="d-flex justify-content-end py-1">
                      <a href="#" class="btn btn-warning rounded-0" v-on:click="resetVariables()">
-                        <i class="fas fa-times-circle text-small me-1"></i>
+                        <i class="bi bi-x-circle-fill me-1"></i>
                         Close           
                     </a>                                                                    
                     <a href="#" class="btn btn-danger rounded-0 me-2" v-on:click="transactionImageRemove()">
-                        <i class="fas fa-times-circle text-small me-1"></i>
+                        <i class="bi bi-trash3 text-small me-1"></i>
                         Remove           
                     </a>                        
                 </div>      
@@ -241,7 +241,7 @@
                 <hr class="bg-secondary" />  
                 <div class="d-flex justify-content-end py-1">
                      <a href="#" class="btn btn-warning me-2 rounded-0" v-on:click="resetVariables()">
-                        <i class="fas fa-times-circle text-small me-1"></i>
+                        <i class="bi bi-x-circle-fill me-1"></i>
                         Close           
                     </a>                       
                 </div>      
@@ -309,15 +309,15 @@
                      <hr class="bg-secondary" />
                     <div class="col mt-3 d-flex justify-content-end">                                   
                         <a href="#" class="btn btn-warning rounded-0" v-on:click="resetVariables()">
-                            <i class="fas fa-times-circle text-small me-1"></i>
+                            <i class="bi bi-x-circle-fill me-1"></i>
                             Cancel           
                         </a>    
                         <a href="#" class="btn btn-success rounded-0" v-on:click="transactionEdit" v-if="action.edit==true">
-                            <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                            <i class="bi bi-check2-circle text-white ps-0" title="Add starting finance point"></i>
                             Update              
                         </a>                                                     
                         <a href="#" class="btn btn-success rounded-0" v-on:click="transactionAdd" v-if="action.new == true">
-                            <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                            <i class="bi bi-check2-circle text-white ps-0" title="Add starting finance point"></i>
                             Save           
                         </a>               
                     </div>
@@ -387,11 +387,11 @@
                     <hr class="bg-secondary" />            
                     <div class="col mt-2 d-flex justify-content-end">                                   
                         <a href="#" class="btn btn-warning rounded-0" v-on:click="resetVariables()">
-                            <i class="fas fa-times-circle text-small me-1"></i>
+                            <i class="bi bi-x-circle-fill me-1"></i>
                             Cancel           
                         </a>   
                         <a href="#" class="btn btn-success rounded-0" v-on:click="transactionItemAdd()">
-                            <i class="far fa-plus-square btn-sm text-white ps-0" title="Add starting finance point"></i>
+                            <i class="bi bi-check2-circle text-white ps-0" title="Add starting finance point"></i>
                             Save           
                         </a>               
                     </div>
@@ -406,23 +406,23 @@
                 <div class="modal-content">
                     <div class="modal-header bg-danger">
                         <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
                             Remove item
                         </h5>                            
                     </div>
                     <div class="modal-body">
                         Are you sure you want to remove transaction record for <b>"{{ '{{ transaction_record.vendor_name }}' }}"</b> ?
                         <div class="alert alert-warning mt-2" role="alert">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
                             Please be advised removing transaction will remove all it's sub items as well including any saved photocopy.
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-dismiss="modal" v-on:click.prevent="delOneHide()">
-                            <i class="fas fa-times-circle text-small me-1"></i>Cancel
+                            <i class="bi bi-x-circle-fill me-1"></i>Cancel
                         </button>
                         <button type="button" class="btn btn-danger" v-on:click.prevent="delTransactionMain()">
-                            <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
+                            <i class="bi bi-trash3 me-1"></i>Remove</button>
                     </div>
                 </div>
             </div>
@@ -436,23 +436,23 @@
                 <div class="modal-content">
                     <div class="modal-header bg-danger">
                         <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
                             Remove item
                         </h5>                            
                     </div>
                     <div class="modal-body">
                         Are you sure you want to remove transaction item named <b>"{{ '{{ transaction_item.item_name }}' }}"</b> ?
                         <div class="alert alert-warning mt-2" role="alert">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
                             Please be advised removing transaction item is a permament action and cannot be reversed.
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-dismiss="modal" v-on:click.prevent="delTransactionItemHide()">
-                            <i class="fas fa-times-circle text-small me-1"></i>Cancel
+                            <i class="bi bi-x-circle-fill me-1"></i>Cancel
                         </button>
                         <button type="button" class="btn btn-danger" v-on:click.prevent="delTransactionItem()">
-                            <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
+                            <i class="bi bi-trash3 me-1"></i>Remove</button>
                     </div>
                 </div>
             </div>
@@ -466,7 +466,7 @@
                 <div class="modal-content">
                     <div class="modal-header bg-dark text-white">
                         <h5 class="modal-title">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
                             Large view receipt 
                         </h5>
                         <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>

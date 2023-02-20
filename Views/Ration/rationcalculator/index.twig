@@ -38,7 +38,7 @@
             <div class="input-group">                                          
                 <input class="form-control rounded-0 shadow-sm" list="feedList" id="feedListData" placeholder="Type to search feed" v-model="selected_feed">
                 <button class="btn bg-success text-white" type="button" id="button-addon1" v-on:click="setFeedAsDefault(1)" v-bind:disabled="selected_feed.length == 0">
-                    <i class="far fa-check-circle me-2"></i>
+                    <i class="bi bi-check2-circle me-1"></i>
                     Set Default
                 </button>
                 <datalist id="feedList">
@@ -78,7 +78,7 @@
             </div>   
             <div class="mt-2 d-flex justify-content-end" v-if="is_feed_proper==true">
                 <button class="btn bg-dark text-white me-1 rounded-0" type="button" id="button-addon1" v-on:click="getFeedRequirements()">
-                    <i class="fas fa-calculator me-2"></i>
+                    <i class="bi bi-calculator"></i>
                     Calculate Ration
                 </button>
             </div>        
@@ -102,7 +102,7 @@
                         <td class="bg-white">{{ '{{ item.feed_cp }}' }}</td>
                         <td class="bg-white">{{ '{{ item.feed_tdn }}' }}</td>                 
                         <td class="bg-white">{{ '{{ item.feed_type }}' }}</td>
-                        <td class="bg-white"><a href="#"><i class="far fa-trash-alt btn-sm text-danger align-middle float-right" title="Remove from default" v-on:click="selected_feed=item.feed_name; setFeedAsDefault(0)"></i></a></td>
+                        <td class="bg-white"><a href="#"><i class="bi bi-trash3 text-danger align-middle float-right" title="Remove from default" v-on:click="selected_feed=item.feed_name; setFeedAsDefault(0)"></i></a></td>
                     </tr>                 
                 </tbody>
             </table>
@@ -178,56 +178,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center bg-secondary-light">
                     <strong>Hay finish price</strong> C$ {{ '{{ result_totals.hay_finish_price }}' }}
                 </li>
-            </ul>
-
-            {# <table class="table table-sm table-bordered shadow-sm ps-2">               
-                <tbody>
-                    <tr>
-                        <td class=" bg-white w-70">Average Animal Weight</td>
-                        <td class="bg-white">{{ '{{ result_totals.average_weight }}' }}</td>                     
-                    </tr>   
-                     <tr>
-                        <td class="bg-white">Daily Grain Intake</td>
-                        <td class="bg-white">{{ '{{ result_totals.grain_daily }}' }}</td>                     
-                    </tr>  
-                    <tr>
-                        <td class="bg-white">Daily Hay Intake</td>
-                        <td class="bg-white">{{ '{{ result_totals.hay_daily }}' }}</td>                     
-                    </tr>     
-                    <tr>
-                        <td class="bg-white">Twice a day grain intake</td>
-                        <td class="bg-white">{{ '{{ result_totals.grain_twice_day }}' }}</td>                     
-                    </tr>                   
-                    <tr>
-                        <td class="bg-white">Twice a day hay intake</td>
-                        <td class="bg-white">{{ '{{ result_totals.hay_twice_day }}' }}</td>                     
-                    </tr>   
-                     <tr>
-                        <td class="bg-white">Daily grain Scoops</td>
-                        <td class="bg-white">{{ '{{ result_totals.scoops_daily }}' }}</td>                     
-                    </tr>                   
-                    <tr>
-                        <td class="bg-white">Twice a day grain scoops</td>
-                        <td class="bg-white">{{ '{{ result_totals.scoops_twice_day }}' }}</td>                     
-                    </tr>     
-                    <tr>
-                        <td class="bg-white">Grain to finish</td>
-                        <td class="bg-white">{{ '{{ result_totals.grain_finish }}' }}</td>                     
-                    </tr>    
-                    <tr>
-                        <td class="bg-white">Hay to finish</td>
-                        <td class="bg-white">{{ '{{ result_totals.hay_finish }}' }}</td>                     
-                    </tr> 
-                    <tr>
-                        <td class="bg-white">Grain finish price</td>
-                        <td class="bg-white">C$ {{ '{{ result_totals.grain_finish_price }}' }}</td>                     
-                    </tr>   
-                    <tr>
-                        <td class="bg-white">Hay finish price</td>
-                        <td class="bg-white">C$ {{ '{{ result_totals.hay_finish_price }}' }}</td>                     
-                    </tr>                                                                                                                                    
-                </tbody>
-            </table> #}
+            </ul>           
         </div>
     </div>
 </div>

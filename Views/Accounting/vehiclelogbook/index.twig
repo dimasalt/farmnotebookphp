@@ -39,10 +39,10 @@
             <h3 class="mt-5">
                 Odometer Readings      
                 <a href="#" v-on:click.prevent="showOdometerForm()" v-if="odometer != false">
-                    <i class="fa fa-edit text-warning me-1 ms-1 fs-4" data-toggle="tooltip" data-placement="top" title="edit Odometer"></i>
+                    <i class="bi bi-pencil-square text-warning me-2 ms-1 fs-5" data-toggle="tooltip" data-placement="top" title="edit Odometer"></i>
                 </a>       
                 <a href="#" v-on:click.prevent="odometerDelModalShow()" v-if="odometer != false">
-                    <i class="far fa-trash-alt text-danger align-middle fs-4"
+                    <i class="bi bi-trash3 text-danger align-middle fs-5"
                         data-toggle="tooltip" data-placement="top" title="remove Odometer"></i>
                 </a>                                 
             </h3>
@@ -50,7 +50,7 @@
 
         <!-- alert in case there is no odometer reading for a selected year -->
         <div class="col-9 alert alert-warning ms-3 my-3" role="alert" v-if="odometer == false">
-            <i class="fas fa-exclamation-triangle me-2"></i>
+            <i class="bi bi-exclamation-triangle-fill fs-5 me-2"></i>
             Sorry but there is no odometer reading for the selected year.
         </div>
     </div>
@@ -70,15 +70,15 @@
         </div>     
         <div class="col-3 my-0 py-0">
              <button type="submit" class="btn btn-success rounded-0 me-3" v-on:click.prevent="odometerAddOrEdit()" v-if="odometer_item.id == 0">
-                <i class="fas fa-plus me-1"></i>
+                <i class="bi bi-check2-circle me-1"></i>
                 Add Odometer
             </button>
             <button type="submit" class="btn btn-success rounded-0" v-on:click.prevent="odometerAddOrEdit()" v-if="odometer_item.id > 0">
-                    <i class="fa fa-edit me-1"></i>
+                    <i class="bi bi-check2-circle me-1"></i>
                 Edit Odometer
             </button>
             <button type="submit" class="btn btn-warning rounded-0" v-on:click.prevent="hideodometerForm()" v-if="odometer_item.id > 0">
-                    <i class="fas fa-times-circle me-1"></i>
+                    <i class="bi bi-x-circle-fill me-1"></i>
                     Cancel
             </button>
         </div>          
@@ -114,7 +114,7 @@
             <h3 class="mt-5">
                 Miles Records
                 <a href="#" v-on:click="showNewBooklogForm(true)">
-                    <i class="far fa-plus-square btn-sm text-success align-middle"
+                    <i class="bi bi-plus-square text-success align-middle fs-5 ms-1"
                         data-toggle="tooltip" data-placement="top" title="Add Miles"></i>
                 </a>                 
             </h3>
@@ -145,11 +145,11 @@
         
         <div class="col-2 p-0">
             <button type="submit" class="btn btn-success rounded-0" v-on:click.prevent="booklogItemAdd()">
-                <i class="fas fa-plus me-1"></i>
+                <i class="bi bi-check2-circle me-1"></i>
                 Add
             </button>                   
             <button type="submit" class="btn btn-warning rounded-0" v-on:click.prevent="showNewBooklogForm(false)">
-                <i class="fas fa-times-circle text-small me-1"></i>
+                <i class="bi bi-x-circle-fill me-1"></i>
                 Cancel
             </button>                                                                    
         </div>                 
@@ -178,7 +178,7 @@
                     <td>{{ '{{item.travel_date}}' }}</td>
                     <td>
                         <a href="#" v-on:click="booklogItemDelModalShow(item.id)">
-                            <i class="far fa-trash-alt btn-sm text-danger align-middle" data-toggle="tooltip" data-placement="top" title="remove travel log"></i>
+                            <i class="bi bi-trash3 text-danger align-middle" data-toggle="tooltip" data-placement="top" title="remove travel log"></i>
                         </a>
                     </td>
                 </tr>                                      
@@ -210,24 +210,21 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger">
                     <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        Remove item</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        Remove item</h5>                    
                 </div>
                 <div class="modal-body">
                     Are you sure you want to remove odomoter for <b>"{{ '{{ booklog_date }}' }}"</b> year ?
                     <div class="alert alert-warning mt-2" role="alert">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
                         Please be advised removing odometer will remove all travel logs for the selected year.
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning" data-dismiss="modal">
-                        <i class="fas fa-times-circle text-small me-1"></i>Cancel</button>
+                        <i class="bi bi-x-circle-fill me-1"></i>Cancel</button>
                     <button type="button" class="btn btn-danger" v-on:click="odometerDelOne()">
-                        <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
+                        <i class="bi bi-trash3 me-1"></i>Remove</button>
                 </div>
             </div>
         </div>
@@ -240,24 +237,21 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger">
                     <h5 class="modal-title text-white" id="exampleModalCenterTitle">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        Remove Booklog item</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        Remove Booklog item</h5>                   
                 </div>
                 <div class="modal-body">
                     Are you sure you want to remove booklog for <b>"{{ '{{ booklog_date }}' }}"</b> year ?
                     <div class="alert alert-warning mt-2" role="alert">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
                         Please be advised removing is irreversible operation.
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning" data-dismiss="modal">
-                        <i class="fas fa-times-circle text-small me-1"></i>Cancel</button>
+                        <i class="bi bi-x-circle-fill me-1"></i>Cancel</button>
                     <button type="button" class="btn btn-danger" v-on:click="booklogItemDelOne()">
-                        <i class="far fa-trash-alt text-small me-1"></i>Remove</button>
+                        <i class="bi bi-trash3 me-1"></i>Remove</button>
                 </div>
             </div>
         </div>
