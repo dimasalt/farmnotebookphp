@@ -37,10 +37,10 @@ INSERT INTO `budget` (`id`, `parent_id`, `budget_name`, `budget_amount`, `budget
 	(76, 72, 'Box Blade', -2000.00, 0.00, 0, 0, '2021-11-30 00:00:00'),
 	(77, 72, 'Snow Blower', -2000.00, 0.00, 0, 0, '2021-11-30 00:00:00'),
 	(78, 0, 'End Work This Year', 0.00, 0.00, 0, 1, '2023-02-07 00:00:00'),
-	(80, 78, 'German Shepherd Puppies', 2000.00, 0.00, 0, 0, '2023-03-31 00:00:00'),
-	(81, 78, 'Beef Sales', 3000.00, 0.00, 0, 0, '2023-03-07 00:00:00'),
+	(80, 78, 'German Shepherd Puppies', 3000.00, 1000.00, 0, 0, '2023-03-31 00:00:00'),
+	(81, 78, 'Beef Sales', 4800.00, 4000.00, 0, 0, '2023-03-07 00:00:00'),
 	(82, 78, 'Cattle', -2800.00, 0.00, 0, 0, '2023-02-28 00:00:00'),
-	(83, 78, 'Butcher Fees', -650.00, 0.00, 0, 0, '2023-03-28 00:00:00');
+	(83, 78, 'Butcher Fees', -1200.00, 0.00, 0, 0, '2023-03-28 00:00:00');
 
 -- Dumping structure for table farmwork.contact
 DROP TABLE IF EXISTS `contact`;
@@ -56,23 +56,28 @@ CREATE TABLE IF NOT EXISTS `contact` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Keeps contacts for contact book and vendors (for transactions and others)\r\n0 - normal contact\r\n1 - vendor\r\n2 - customer';
 
--- Dumping data for table farmwork.contact: ~33 rows (approximately)
+-- Dumping data for table farmwork.contact: ~42 rows (approximately)
 INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `type`, `created_at`) VALUES
+	('08972545-b264-11ed-9b18-d8cb8ac0caec', 'Kathy Pietrasik', '#130 on Highway 570 Sesenika', '705-642-9180', NULL, 'wanted more ground beef', 2, '2023-02-21 22:49:59'),
 	('08fbabe8-e808-11eb-8df3-d8cb8ac0caec', 'Northern Feed & Supplies', '964027 Development Rd, Thornloe, ON P0J 1S0', '705-647-5365', '', 'supplier for bulk feed and other farm items', 1, '2021-07-18 16:37:50'),
 	('0b09f1ff-952d-11ed-8ff1-d8cb8ac0caec', 'Rita', '1136 Park Ave, Timmins', '705-465-1014', NULL, 'Bought beef only once, buys tounge and ox tail for $8 lb', 2, '2023-01-15 18:33:40'),
 	('0e00ff77-952f-11ed-8ff1-d8cb8ac0caec', 'Richard Dechene', '158 Croatia Ave, Schumacher', '705-360-3629', NULL, 'Older couple. First time buyer. Was buying beef from another farm before.', 2, '2023-01-15 18:48:04'),
 	('0f0f6a0f-952e-11ed-8ff1-d8cb8ac0caec', 'Anthony', '583 Couture Ave, Timmins', '705-268-2540', NULL, 'Brothers, buys package every 3 months', 2, '2023-01-15 18:40:57'),
 	('11d2fef9-e813-11eb-8df3-d8cb8ac0caec', 'Temiskaming Livestock Exchange Ltd 1992', '883006 ON-65 RR 3, New Liskeard, ON P0J 1P0', '705-647-5415', '', 'Livestock Exchange. Barn sale of livestock.', 1, '2021-07-18 17:56:49'),
 	('20b7aa69-a703-11ed-92a1-d8cb8ac0caec', 'Michelle', NULL, '705-288-7432', NULL, 'Works at HomeDepot. Complained about small size of steaks. Said will go to store and check the size of steaks there.', 2, '2023-02-07 11:18:52'),
+	('27a8c054-b264-11ed-9b18-d8cb8ac0caec', 'Renee Brets OC', '105 Charland Rd S, Connaught', '705-232-8828', NULL, NULL, 2, '2023-02-21 22:50:51'),
 	('32db8849-952e-11ed-8ff1-d8cb8ac0caec', 'Dave Cote', '63 Tamarack St, Timmins', '705-363-5225', NULL, 'Buys beef every month. Work Address: Building of Foodland', 2, '2023-01-15 18:41:57'),
 	('40233c6c-142e-11ec-808f-d8cb8ac0caec', 'Thornloe Farm Supply Inc', '31 Main St, Thornloe, ON, P0J 1S0', '705-563-2555', '', 'Farm supply store', 1, '2021-09-12 21:01:29'),
 	('42e3cf72-1a10-11ec-9d60-d8cb8ac0caec', 'Ontario Stockyards Inc', '3807 ON-89, Cookstown, ON L0L 1L0', '705-458-4000', '', 'Livestock auction. Barn livestock sales.', 1, '2021-09-20 08:42:46'),
 	('51021095-952d-11ed-8ff1-d8cb8ac0caec', 'Peter + Elena', '8345 Kamiskotia Rd, Timmins', '705-365-2131', NULL, 'Buys package once a month, likes soup bones', 2, '2023-01-15 18:35:38'),
+	('5790eb4a-b264-11ed-9b18-d8cb8ac0caec', 'Trina Peever', '68 Cecil Ave, South Porcupine', '705-266-6563', 'peevertrina@gmail.com', 'Gave feedback and liked our meat', 2, '2023-02-21 22:52:12'),
 	('5b839dbe-a703-11ed-92a1-d8cb8ac0caec', 'Deneen Ross-Babin ', '108 Maple St South, Timmins', '705-274-1607 ', NULL, 'Older lady from Timmins, found me trough facebook. Loves our meat a lot and left amazing comment on Matheson facebook group.', 2, '2023-02-07 11:20:30'),
+	('60ce3803-b263-11ed-9b18-d8cb8ac0caec', 'Lori-Ann Morin', '138 Lincoln Ave, Timmins', '705-268-6625', NULL, NULL, 2, '2023-02-21 22:45:18'),
 	('66723273-952e-11ed-8ff1-d8cb8ac0caec', 'Curtis', '130 Camille St, Timmins', '705-262-7763', NULL, 'Wants 15 lb of ground beef in package', 2, '2023-01-15 18:43:23'),
 	('6fab9fc6-952d-11ed-8ff1-d8cb8ac0caec', 'Jerry', '51 Lincoln ave, Timmins', '705-360-3671', NULL, 'Buys a package once every 2 months. Likes roast and doesn\'t like ground beef.', 2, '2023-01-15 18:36:29'),
 	('7775b8f5-a8cc-11ec-ac57-d8cb8ac0caec', 'LEIS Landscaping & Country Store', '998063 Hwy 11 North, New Liskeard, Ontario, P0J 1P0', '705-648-1384', 'lw@xplornet.ca', NULL, 1, '2022-03-21 00:07:32'),
 	('797e5e64-e83d-11eb-8df3-d8cb8ac0caec', 'Petro-Canada', '4310 Harold Ave, South Porcupine, ON P0N 1H0', '705-235-4797', '', 'One of the local gas stations', 1, '2021-07-18 23:00:22'),
+	('7df857a4-b264-11ed-9b18-d8cb8ac0caec', 'Thomas Laura', '132 Anson Dr Iroquois Falls, ON P0K 1E0', '705-349-1301', NULL, 'A lady from iroqious falls, doesn\'t have vehicle. Will buy every once in 3-4 months.', 2, '2023-02-21 22:53:16'),
 	('81a77d42-a76d-11eb-80d2-d8cb8ac0caec', 'Little Bit Western', '372 Algonquin Boulevard W, Timmins, On, P4N 2S2, Canada', '705-268-0822', NULL, 'Feed store. A bit on expensive side. Doesn\'t sell much for Cattle. Mostly things for chicken, hogs and horses.', 1, '2019-04-29 21:31:35'),
 	('81a77fe9-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Allied', '352 Railway St, Timmins, On, P4N 2P6, Canada', '7052645291', NULL, 'Metal supply company. The only one in Timmins.', 1, '2020-02-18 23:39:43'),
 	('81a781a5-a76d-11eb-80d2-d8cb8ac0caec', 'Mark', 'Matheson, On, p0k 1n0, Canada', '705-262-3433', NULL, 'Neighbour farmer. Wants to buy cattle. May not keep the word.', 3, '2020-02-27 10:59:32'),
@@ -81,13 +86,17 @@ INSERT INTO `contact` (`id`, `name`, `address`, `phone`, `email`, `note`, `type`
 	('81a783e7-a76d-11eb-80d2-d8cb8ac0caec', 'Cleason Marting', 'Country Ln, Val Gagne, On, Canada', '705-232-2039', NULL, 'Manonite. Sells bolts, pins and other metal hardware. The place is the first house on Hwy 11/Country Ln.', 1, '2020-04-08 17:23:04'),
 	('81a784ae-a76d-11eb-80d2-d8cb8ac0caec', 'Northern Veterinary Hospital', '#741, HWY 67, Iroquois Falls, On, P0K1G0, Canada', '705-232-7700', NULL, 'Cattle and dog vaccinations', 1, '2020-01-05 12:08:41'),
 	('83c3609f-a702-11ed-92a1-d8cb8ac0caec', 'Alicia Cornelsen', '90 Broadway Ave, South Porcupine, P0N 1H0', '705-221-1737', NULL, 'Dave\'s friend', 2, '2023-02-07 11:14:28'),
+	('860dc8f4-b263-11ed-9b18-d8cb8ac0caec', 'Dale Brisson', '56 Strachan Ave, South Porcupine', '705 363 8727 ', NULL, 'contractor. bought small package $100', 2, '2023-02-21 22:46:20'),
 	('8ace6383-952e-11ed-8ff1-d8cb8ac0caec', 'Melanie', '219 Wende Ave, Timmins', '705-262-9620', NULL, 'Dave gf’s friend', 2, '2023-01-15 18:44:24'),
 	('a62e785f-952e-11ed-8ff1-d8cb8ac0caec', 'Rocio', '211 Malette Crescent, Timmins', '705-347-9738', NULL, 'Rita\'s friend', 2, '2023-01-15 18:45:10'),
 	('a6f4ecd8-a702-11ed-92a1-d8cb8ac0caec', 'Michel Blais', '360 Sixth Avenue, Timmins', '705-221-6303', NULL, 'realtor', 2, '2023-02-07 11:15:27'),
+	('ba90d7a7-b264-11ed-9b18-d8cb8ac0caec', 'Jessica Kelso', '7832 Frederickhouse lake road, Connaught', '705-262-3688', NULL, NULL, 2, '2023-02-21 22:54:58'),
 	('c2189152-a702-11ed-92a1-d8cb8ac0caec', 'Patricia B', '162 Government Road South, Timmins', '705-264-5335', NULL, 'Works at HomeDepot', 2, '2023-02-07 11:16:13'),
 	('cd60fe10-976e-11ec-bdb9-d8cb8ac0caec', 'A-Mar Meats', 'Red Deer Rd E, Val Gagné, ON P0K 1W0', '705-232-6328', '', 'A local butcher shop', 1, '2022-02-26 20:43:07'),
+	('d4805f0d-b264-11ed-9b18-d8cb8ac0caec', 'Pat MacCoy', '113 summers ave, South Porcupine', '705-465-0117', NULL, 'on Connaught hill behind porcupine lake', 2, '2023-02-21 22:55:41'),
 	('d5928c25-952e-11ed-8ff1-d8cb8ac0caec', 'Arlene', '407 Shub Ave, Timmins', '416-999-4718', NULL, 'Works in Home Depot, husband did not like some of the beef in package', 2, '2023-01-15 18:46:30'),
-	('da8eb5e7-a702-11ed-92a1-d8cb8ac0caec', 'Dave Morris', '209 Princess St, Porcupine', '705-465-4988', NULL, 'Owns store, works at night', 2, '2023-02-07 11:16:54'),
+	('da8eb5e7-a702-11ed-92a1-d8cb8ac0caec', 'Dave Morris', '209 Princess St, Porcupine', '705-465-4988', NULL, 'Owns store, works at night. Gave feedback liked the meat.', 2, '2023-02-07 11:16:54'),
+	('da9cdf97-b263-11ed-9b18-d8cb8ac0caec', 'Bonnie Ann Gasior ', '335 Little rd, Timmins', '705-235-2419 ', NULL, NULL, 2, '2023-02-21 22:48:42'),
 	('f2ba5e83-952d-11ed-8ff1-d8cb8ac0caec', 'Ernie', '992 Suzane st, Timmins', 'tel 705-268-4137, cel 705-465-3602', NULL, 'Brothers, buys package every 3 months', 2, '2023-01-15 18:40:09'),
 	('f4ee6ed9-a702-11ed-92a1-d8cb8ac0caec', 'Herb', '411 Queen St, Porcupine', '705-235-2336', NULL, NULL, 2, '2023-02-07 11:17:38'),
 	('fbb8e5a9-952e-11ed-8ff1-d8cb8ac0caec', 'Christina', '243 Kellyann Dr, Timmins', '705-221-0934', NULL, 'Ilana\'s native friend. Did not need meat and bought just because they\'re friends.', 2, '2023-01-15 18:47:34');
@@ -193,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `feed` (
 INSERT INTO `feed` (`id`, `feed_name`, `feed_desc`, `feed_cp`, `feed_tdn`, `feed_type`, `feed_price`, `feed_price_lb`, `feed_usage`, `is_default`, `feed_date`) VALUES
 	(1, 'Cracked Corn', NULL, 10, 90, 'Grain', 549.00, 2000, 100, 1, '2021-10-26 11:32:41'),
 	(2, 'Hay', NULL, 7, 55, 'Hay', 5.00, 60, 100, 1, '2021-11-08 19:48:22'),
-	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 22.00, 60, 100, 1, '2021-11-08 19:48:27'),
+	(3, 'Soybean Meal', NULL, 47, 77, 'Protein', 22.00, 60, 100, 1, '2023-02-20 12:55:57'),
 	(16, '40% Beef Supplement', '', 40, 0, 'Mineral', 23.00, 55, 18, 0, '2021-12-18 08:40:16');
 
 -- Dumping structure for table farmwork.feed_requirement
@@ -756,7 +765,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book` (
   `vehicle_desc` varchar(150) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='vehicle log book records.';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='vehicle log book records.';
 
 -- Dumping data for table farmwork.vehicle_log_book: ~0 rows (approximately)
 
@@ -774,7 +783,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_log_book_item` (
   PRIMARY KEY (`id`),
   KEY `FK_vehicle_log_book_item_vehicle_log_book` (`vehicle_log_book_id`),
   CONSTRAINT `FK_vehicle_log_book_item_vehicle_log_book` FOREIGN KEY (`vehicle_log_book_id`) REFERENCES `vehicle_log_book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='vehicle log book to keep track on a business related travel';
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='vehicle log book to keep track on a business related travel';
 
 -- Dumping data for table farmwork.vehicle_log_book_item: ~0 rows (approximately)
 
