@@ -1,8 +1,7 @@
 const contacts = {
     data(){
         return {
-            contacts : [],
-            contacts_count : 0,
+            contacts : [],         
             contact_item : {},
             contact_type : [],
             contact_type_default : -1,
@@ -11,7 +10,13 @@ const contacts = {
             contact_delete : {},
             action : '',
             order_by : {},
-            order_by_selected : ''
+            order_by_selected : '',
+            //paging
+            pager : {
+                current_page: 1,
+                limit : 25,
+                total_records : 0
+            }
         }
     },
     created() {
@@ -45,9 +50,16 @@ const contacts = {
         contactsGetAll(){
             var self = this;
 
-            self.contacts_count = 0;
+            self.pager.total_records = 0;
 
-            var data = {search_term: self.search_term, contact_type: self.contact_type_default, contact_order_by : self.order_by_selected};
+            var data = {
+                search_term: self.search_term, 
+                contact_type: self.contact_type_default, 
+                contact_order_by : self.order_by_selected,
+
+                current_page : self.pager.current_page,
+                limit : self.pager.limit
+            };
             data = JSON.stringify(data);
 
             var contList = $.post("/contacts/get/all", data);
@@ -60,10 +72,10 @@ const contacts = {
                         var link = self.contacts[i].address;
                         self.contacts[i].link = 'http://maps.google.com/maps?q=' + encodeURIComponent(link);
                         //self.contacts[i].checked = false;
-
-                        //add count
-                        self.contacts_count ++;
                     }                   
+
+                    //set total contact count
+                    self.pager.total_records = self.contacts[0].total_contacts;
                 }
             });
 
@@ -92,9 +104,7 @@ const contacts = {
             data = JSON.stringify(data);
 
             //check if it's new item or update
-            if (typeof self.contact_item.id == "undefined" || self.contact_item.id.length == 0 ) {
-            // if(self.contact_item.id.length == 0){
-                 //submit data and add new contact
+            if (typeof self.contact_item.id == "undefined" || self.contact_item.id.length == 0 ) {           
                 var result = $.post('/contacts/add', data);
             }
             else { //otherwise update existing contac
@@ -212,6 +222,13 @@ const contacts = {
             };
 
             self.action = '';
+
+            //reset pager
+            self.pager = {
+                current_page: 1,
+                limit : 25,
+                total_records : 0
+            };
         }        
     }
 };

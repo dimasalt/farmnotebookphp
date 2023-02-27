@@ -10,11 +10,13 @@ class ContactsHelper
     {
         $db = new DBConnection();
         $pdo = $db->getPDO();
-        $stmt = $pdo->prepare('call contactsGetAll(?, ?, ?)');
+        $stmt = $pdo->prepare('call contactsGetAll(?, ?, ?, ?, ?)');
         $stmt->execute([
             $data->search_term,
             $data->contact_type,
-            $data->contact_order_by
+            $data->contact_order_by,
+            $data->current_page,
+            $data->limit
         ]);
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);

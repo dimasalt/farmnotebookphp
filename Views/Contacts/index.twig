@@ -119,7 +119,7 @@
             <button type="button" class="btn btn-success position-relative me-2">
                 Contacts
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-black">
-                    {{ '{{ contacts_count }}' }}
+                    {{ '{{ pager.total_records }}' }}
                     <span class="visually-hidden">people</span>
                 </span>
             </button>
@@ -167,7 +167,7 @@
                 </tbody>
             </table>         
         </div>
-        <div class="col-12">
+        <div class="col-12" v-if="pager.total_records > pager.limit">
             <nav aria-label="..." class="d-flex flex-row-reverse">
                 <ul class="pagination">
                     <li class="page-item">
