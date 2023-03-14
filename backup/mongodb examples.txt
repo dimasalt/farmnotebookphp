@@ -1,4 +1,0 @@
-
-select by year
---------------------------------------------------
-db.vehicle_booklog.find({ "$expr" : {"$eq" : [{"$year" : "$created_at"}, 2020]} })
