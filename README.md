@@ -1,3 +1,5 @@
+<!--
+
 ## Farm Notebook issues and future tasks
 
 ---
@@ -45,3 +47,5 @@ Just display with good search functionlity but without ability to add or modify 
 ### Contact Page 
 
 Add pagination to the contact page. 
+
+-->
