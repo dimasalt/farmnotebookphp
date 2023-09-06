@@ -17,9 +17,9 @@ return [
     "ssl" => true,
     "tls" => false,
     "require_auth" => true,
-    "username" => 'dmitri@better-life-tips.com',
-    "password" => 'Q74V(;7P8;F6xEk',
-    "from" => 'dmitri@better-life-tips.com'
+    "username" => '',
+    "password" => '',
+    "from" => ''
 ],
     "upload_url" => 'uploads/',
     "website_url" => '',
