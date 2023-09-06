@@ -12,8 +12,7 @@ class ContactsController extends BaseController
      * main page
      * -----------------------------------------------------
      */
-    public function index(){
-
+    public function index(){       
         //security
         session_regenerate_id();
 
@@ -37,7 +36,6 @@ class ContactsController extends BaseController
         // Converts it into a PHP object
         $data = json_decode($json);       
 
-
        $contHelper = new ContactsHelper();
        $result = $contHelper->contactsGetAll($data);
 
@@ -58,10 +56,7 @@ class ContactsController extends BaseController
         $json = file_get_contents('php://input');
 
         // Converts it into a PHP object
-        $data = json_decode($json);
-
-        //cast into object
-        //$data = (object)$contact;
+        $data = json_decode($json);    
 
         //check if token is valid and name not empty and update the contact
         if(CSRFToken::isValid($data->csrf)){

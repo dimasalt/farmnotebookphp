@@ -70,8 +70,7 @@ const contacts = {
 
                     for(var i = 0; i< self.contacts.length; i++){
                         var link = self.contacts[i].address;
-                        self.contacts[i].link = 'http://maps.google.com/maps?q=' + encodeURIComponent(link);
-                        //self.contacts[i].checked = false;
+                        self.contacts[i].link = 'http://maps.google.com/maps?q=' + encodeURIComponent(link);               
                     }                   
 
                     //set total contact count
