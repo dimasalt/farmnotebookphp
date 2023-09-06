@@ -3,6 +3,7 @@
 ########### Files ###################
 
 ########### Folders #################
-# backup
+backup
+uploads
 vendor
 .vscode
